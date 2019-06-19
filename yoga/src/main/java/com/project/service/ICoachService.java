@@ -21,13 +21,14 @@ public interface ICoachService {
 	/**
 	 * 教练签约或解约场馆
 	 * @param g_id 场馆id或0
+	 * @param c_id 教练id
 	 * @return 影响行数
 	 */
-	public int signGym(int g_id);
+	public Boolean signGym(String g_id,String c_id);
 	/**
-	 * 
-	 * @param c_id
-	 * @return
+	 * 查询学员
+	 * @param c_id 教练id
+	 * @return 学生集合
 	 */
 	public List<StudentBean> findStu(String c_id);
 }

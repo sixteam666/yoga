@@ -3,7 +3,6 @@ package com.project.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -37,7 +36,8 @@ public interface ICoachDao {
 	public List<CoachBean> findCoachByGymId(String gymId);
 	/**
 	 * 用于签约或者解约教练
-	 * @param coach CoachBean对象
+	 * @g_id 场馆id
+	 * @c_id 教练id
 	 * @return 影响行数
 	 */
 	@Update("update t_coach set c_g_id = #{g_id} where c_id = #{c_id}")
