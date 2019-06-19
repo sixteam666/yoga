@@ -68,13 +68,8 @@ public interface IGymService {
 	 * @param lists
 	 * @return
 	 */
-<<<<<<< HEAD
-	public int addPictrue(List<PictrueBean> lists);
-
-=======
 	public int addPictrue(List<PictrueBean> list);
-	
->>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
+
 	/**
 	 * 教练课程安排
 	 * 
