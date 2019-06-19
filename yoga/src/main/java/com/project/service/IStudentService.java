@@ -5,5 +5,5 @@ import com.project.bean.StudentBean;
 public interface IStudentService {
 	
 	public boolean regist(StudentBean student);
-	public boolean login (String name);
+	public StudentBean login (String name);
 }
