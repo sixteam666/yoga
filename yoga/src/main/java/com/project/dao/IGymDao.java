@@ -21,7 +21,7 @@ public interface IGymDao {
 	 * @param gym
 	 * @return
 	 */
-	@Insert("INSERT INTO t_gym(g_email,g_phone,g_qq) values(#{g_email},#{g_phone},#{g_qq})")
+	@Insert("INSERT INTO t_gym(g_id,g_email,g_phone,g_qq) values(#{id},#{g_email},#{g_phone},#{g_qq})")
 	int addGym(GymBean gym);
 
 	/**
@@ -48,7 +48,7 @@ public interface IGymDao {
 	 * @return 会馆对象
 	 */
 	@Select("SELECT g_id, g_password FROM t_gym WHERE g_email=#{arg} OR g_phone=#{arg}")
-	GymBean findGymByEmail(String arg);
+	GymBean findGymByEmailOrPhone(String arg);
 
 	/**
 	 * 修改会馆密码
