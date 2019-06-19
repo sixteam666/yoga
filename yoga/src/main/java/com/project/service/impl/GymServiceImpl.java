@@ -76,9 +76,10 @@ public class GymServiceImpl implements IGymService {
 	}
 
 	@Override
-	public int endDeal(CoachBean coachBean) {
+	public int updateCoachBean(String g_id, String c_id) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 
 }
