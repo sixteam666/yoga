@@ -6,27 +6,29 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import com.project.bean.CoachBean;
+
 public interface ICoachDao {
 	/**
-	 * Ìí¼Ó½ÌÁ·
-	 * @param coach ½ÓÊÕÒ»¸öCoachBean¶ÔÏó
-	 * @return Ó°ÏìĞĞÊı
+	 * é”Ÿæ–¤æ‹·å’é”Ÿæ–¤æ‹·é”Ÿï¿½
+	 * @param coach é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·ä¸€é”Ÿæ–¤æ‹·CoachBeané”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·
+	 * @return å½±é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·
 	 */
 	@Insert("insert into t_coach(c_name,c_password,c_phone,c_privacy,"
 			+ "c_nickname,c_headimg,c_money,c_address,c_style,c_access,c_price,c_g_id)"
 			+ "values()")
 	public int addCoach(@Param("co")CoachBean coach);
 	/**
-	 * ¸ù¾İÓÃ»§Ãû²éÑ¯½ÌÁ·
-	 * @param userName ½ÓÊÕÓÃ»§Ãû
-	 * @return ½ÌÁ·¶ÔÏó
+	 * é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”ŸçŸ«ä¼™æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·è¯¢é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·
+	 * @param userName é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”ŸçŸ«ä¼™æ‹·é”Ÿæ–¤æ‹·
+	 * @return é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·
 	 */
 	@Select("select * from t_coach where c_name = name")
 	public CoachBean findCoachByName(String name);
 	/**
-	 * ¸ù¾İ³¡¹İid²éÑ¯½ÌÁ·	
-	 * @param gymId ³¡¹İid
-	 * @return ½ÌÁ·¼¯ºÏ
+	 * é”Ÿæ–¤æ‹·é”Ÿæ·ç­¹æ‹·é”Ÿæ–¤æ‹·idé”Ÿæ–¤æ‹·è¯¢é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·	
+	 * @param gymId é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·id
+	 * @return é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·
 	 */
 	@Select("select * from t_coach where c_g_id = gymId")
 	public List<CoachBean> findCoachByGymId(int gymId);
