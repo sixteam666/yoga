@@ -41,44 +41,44 @@ public class GymServiceImpl implements IGymService {
 
 	@Override
 	public List<GymBean> findAllGym() {
-		// TODO Auto-generated method stub
-		return null;
+		List<GymBean> list = gymDao.findAllGym();
+		return list;
 	}
 
 	@Override
 	public GymBean findGymById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		GymBean gymBean = gymDao.findGymById(id);
+		return gymBean;
 	}
 
 	@Override
 	public int updateMessage(GymBean gymBean) {
-		// TODO Auto-generated method stub
-		return 0;
+		int number = gymDao.updateMessage(gymBean);
+		return number;
 	}
 
 	@Override
-	public int addPictrue(List<PictrueBean> lists) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int addPictrue(List<PictrueBean> list) {
+		int number = gymDao.addPictrue(list);
+		return number;
 	}
 
 	@Override
 	public int addLesson(LessonBean lessonBean) {
-		// TODO Auto-generated method stub
-		return 0;
+		int number = gymDao.addLesson(lessonBean);
+		return number;
 	}
 
 	@Override
 	public List<CoachBean> findMyCoach(String g_id) {
-		// TODO Auto-generated method stub
-		return null;
+		List<CoachBean> list = coachDao.findCoachByGymId(g_id);
+		return list;
 	}
 
 	@Override
 	public int endDeal(CoachBean coachBean) {
-		// TODO Auto-generated method stub
-		return 0;
+		int number = coachDao.updateCoach(coachBean);
+		return number;
 	}
 
 }
