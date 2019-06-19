@@ -32,6 +32,6 @@ public interface IGymService {
 	 * @param pwd
 	 * @return 影响行数
 	 */
-	int updatePassword(int id, String pwd);
+	int updatePassword(String id, String pwd);
 
 }
