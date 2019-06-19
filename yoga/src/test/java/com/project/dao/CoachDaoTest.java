@@ -21,4 +21,11 @@ public class CoachDaoTest {
 		coach.setC_password("123456");
 		dao.addCoach(coach);
 	}
+	@Test
+	public void login(){
+		
+		CoachBean coach =null;
+		coach = dao.findCoachByName("root");
+		System.out.println(coach);
+	}
 }
