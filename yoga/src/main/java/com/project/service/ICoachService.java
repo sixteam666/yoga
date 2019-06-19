@@ -10,9 +10,10 @@ public interface ICoachService {
 	 */
 	public Boolean register(CoachBean coach);
 	/**
-	 * 根据用户名查询教练
+	 * 教练登录
 	 * @param name 用户名
 	 * @return 教练对象
 	 */
 	public CoachBean login(String name);
+	
 }
