@@ -1,4 +1,4 @@
-package com.project.run;
+package com.project.dao;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +10,7 @@ import com.project.bean.CoachBean;
 import com.project.dao.ICoachDao;
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TengWeiTest {
+public class CoachDaoTest {
 	@Autowired
 	private ICoachDao dao;
 	@Test
