@@ -13,11 +13,11 @@ import com.project.dao.ICoachDao;
 import com.project.dao.IGymDao;
 import com.project.service.IGymService;
 
-@Service(value="gymService")
+@Service(value = "gymService")
 public class GymServiceImpl implements IGymService {
 	@Autowired
 	private IGymDao gymDao;
-	
+
 	@Autowired
 	private ICoachDao coachDao;
 
@@ -76,9 +76,9 @@ public class GymServiceImpl implements IGymService {
 	}
 
 	@Override
-	public int endDeal(CoachBean coachBean) {
-		int number = coachDao.updateCoach(coachBean);
-		return number;
+	public int updateCoachBean(String g_id, String c_id) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
