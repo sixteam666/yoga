@@ -146,7 +146,8 @@ public class GymController {
 	 * @param c_id
 	 * @return
 	 */
-	public int updateCoachBean(String g_id, String c_id) {
+	@RequestMapping("/updateCoach.do")
+	public int updateCoach(String g_id, String c_id) {
 		int number = gymService.updateCoachBean(g_id, c_id);
 		return number;
 	}
