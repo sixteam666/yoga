@@ -70,77 +70,85 @@ public class GymController {
 	@RequestMapping("/reg.do")
 	public int register(GymBean gym) {
 		gym.setG_id(UUID.randomUUID().toString());
-		
+
 		// 盐值暂时无法确定
-		// Object obj = new SimpleHash("MD5", gym.getG_password(), gym.getG_email(),1024);
+		// Object obj = new SimpleHash("MD5", gym.getG_password(),
+		// gym.getG_email(),1024);
 		// gym.setG_password(obj.toString());
 
 		int result = gymService.register(gym);
 		return result;
 	}
-	
+
 	/**
 	 * 查找所有场馆
+	 * 
 	 * @return
 	 */
 	@RequestMapping("/findAllGym.do")
 	@ResponseBody
-	public List<GymBean> findAllGym(){
+	public List<GymBean> findAllGym() {
 		List<GymBean> list = gymService.findAllGym();
 		return list;
 	}
-	
+
 	/**
 	 * 信息完善
+	 * 
 	 * @param gymBean
 	 */
 	@RequestMapping("/updateMsg.do")
 	@ResponseBody
-	public int updateMessage(GymBean gymBean){
+	public int updateMessage(GymBean gymBean) {
 		int number = gymService.updateMessage(gymBean);
 		return number;
 	}
-	
+
 	/**
 	 * 添加图片
+	 * 
 	 * @param lists
 	 */
 	@RequestMapping("/addPictrue.do")
 	@ResponseBody
-	public int addPictrue(List<PictrueBean> list){
+	public int addPictrue(List<PictrueBean> list) {
 		int number = gymService.addPictrue(list);
 		return number;
 	}
-	
+
 	/**
 	 * 教练课程安排
 	 */
 	@RequestMapping("/addLesson.do")
 	@ResponseBody
-	public int addLesson(LessonBean lessonBean){
+	public int addLesson(LessonBean lessonBean) {
 		int number = gymService.addLesson(lessonBean);
 		return number;
 	}
-	
+
 	/**
 	 * 查看我的签约教练
+	 * 
 	 * @param g_id
 	 * @return
 	 */
 	@RequestMapping("/findMyCoach.do")
 	@ResponseBody
-	public List<CoachBean> findMyCoach(String g_id){
+	public List<CoachBean> findMyCoach(String g_id) {
 		List<CoachBean> list = gymService.findMyCoach(g_id);
 		return list;
 	}
-	
+
 	/**
-	 * 解约签约教练
-	 * @param coachBean
+	 * 签约或解约教练
+	 * 
+	 * @param g_id
+	 * @param c_id
+	 * @return
 	 */
-	public int endDeal(CoachBean coachBean){
-		int number = gymService.endDeal(coachBean);
+	public int updateCoachBean(String g_id, String c_id) {
+		int number = gymService.updateCoachBean(g_id, c_id);
 		return number;
 	}
-	
+
 }
