@@ -23,20 +23,19 @@ public class GymServiceImpl implements IGymService {
 
 	@Override
 	public int register(GymBean gym) {
-		// TODO Auto-generated method stub
-		return 0;
+		return gymDao.addGym(gym);
 	}
 
 	@Override
 	public GymBean login(String arg) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return gymDao.findGymByEmailOrPhone(arg);
 	}
 
 	@Override
 	public int updatePassword(String id, String pwd) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return gymDao.updatePassowrd(id, pwd);
 	}
 
 	@Override
@@ -77,8 +76,8 @@ public class GymServiceImpl implements IGymService {
 
 	@Override
 	public int updateCoachBean(String g_id, String c_id) {
-		// TODO Auto-generated method stub
-		return 0;
+		int number = coachDao.updateCoachGymId(g_id, c_id);
+		return number;
 	}
 
 }
