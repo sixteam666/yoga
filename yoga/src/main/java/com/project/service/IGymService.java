@@ -65,7 +65,7 @@ public interface IGymService {
 	 * @param lists
 	 * @return
 	 */
-	public int addPictrue(List<PictrueBean> lists);
+	public int addPictrue(List<PictrueBean> list);
 	
 	/**
 	 * 教练课程安排
