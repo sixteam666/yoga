@@ -14,6 +14,7 @@ import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 import com.project.service.ICoachService;
 import com.project.service.IGymService;
+import com.project.service.IStudentService;
 
 /**
  * 学员安全数据源
