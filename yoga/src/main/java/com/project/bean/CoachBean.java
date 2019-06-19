@@ -17,6 +17,7 @@ public class CoachBean {
 	private String c_access;
 	private String c_price;
 	private String c_g_id;
+	private GymBean gym;
 	public String getC_id() {
 		return c_id;
 	}
@@ -95,13 +96,19 @@ public class CoachBean {
 	public void setC_g_id(String c_g_id) {
 		this.c_g_id = c_g_id;
 	}
+	
+	public GymBean getGym() {
+		return gym;
+	}
+	public void setGym(GymBean gym) {
+		this.gym = gym;
+	}
 	@Override
 	public String toString() {
 		return "CoachBean [c_id=" + c_id + ", c_name=" + c_name + ", c_password=" + c_password + ", c_phone=" + c_phone
 				+ ", c_privacy=" + c_privacy + ", c_nickname=" + c_nickname + ", c_headimg=" + c_headimg + ", c_money="
 				+ c_money + ", c_address=" + c_address + ", c_style=" + c_style + ", c_access=" + c_access
-				+ ", c_price=" + c_price + ", c_g_id=" + c_g_id + "]";
+				+ ", c_price=" + c_price + ", c_g_id=" + c_g_id + ", gym=" + gym + "]";
 	}
-	
 
 }
