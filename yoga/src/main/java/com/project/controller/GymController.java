@@ -162,9 +162,21 @@ public class GymController {
 	 * @return
 	 */
 	@RequestMapping("/updateCoach.do")
+	@ResponseBody
 	public int updateCoach(String g_id, String c_id) {
 		int number = gymService.updateCoachBean(g_id, c_id);
 		return number;
+	}
+	
+	/**
+	 * 将场馆显示在地图上
+	 * @return
+	 */
+	@RequestMapping("/showGymToMap.do")
+	@ResponseBody
+	public List<GymBean> showGymToMap(){
+		List<GymBean> gymList = gymService.findAllGym();
+		return gymList;
 	}
 
 }
