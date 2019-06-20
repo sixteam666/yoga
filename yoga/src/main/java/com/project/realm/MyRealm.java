@@ -17,7 +17,7 @@ import com.project.service.IGymService;
 import com.project.service.IStudentService;
 
 /**
- * 学员安全数据源
+ * 安全数据源
  * @author Administrator
  *
  */
@@ -47,7 +47,6 @@ public class MyRealm extends AuthorizingRealm {
 		String prefix = tempPrincipal.substring(0,1);
 		//截取实际身份字符串
 		String principal = tempPrincipal.substring(1);
-		
 		//学员身份验证
 		if("s".equals(prefix)) {
 			StudentBean student = studentService.login(principal);
@@ -101,7 +100,6 @@ public class MyRealm extends AuthorizingRealm {
 			return new SimpleAuthenticationInfo(username, gym.getG_password(),this.getName());
 		}
 		return null;
-		
 	}
 
 }
