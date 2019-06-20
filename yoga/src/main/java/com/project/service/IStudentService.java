@@ -1,9 +1,18 @@
 package com.project.service;
 
+import com.project.bean.CoachBean;
 import com.project.bean.StudentBean;
 
 
 public interface IStudentService {
+	
+	/**
+	 * 通过传入学员id查询学员
+	 * @param id
+	 * @return StudentBean对象
+	 */
+	public StudentBean findStudentbyId(String id);
+	
 	/**
 	 * 注册
 	 * @param Student StudentBean 对象
@@ -33,6 +42,12 @@ public interface IStudentService {
 	public boolean resetpassword(String pwd,String id);
 
 	
+	/**
+	 * 通过学员ID查询学员的教练
+	 * @param id
+	 * @return CoachBean
+	 */
+	public CoachBean findCoachbyId(String id);
 	
 	
 }

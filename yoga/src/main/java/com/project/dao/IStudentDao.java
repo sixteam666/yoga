@@ -13,9 +13,13 @@ public interface IStudentDao {
 			+"s_nickname,s_headimg,s_money,s_address)values () ")
 	public int addStudent(StudentBean student);
 	
-	//      查询学生
+	//      根据id查询学生
 	@Select("select *from t_student where s_id = id ")
 	public StudentBean findStudentbyId(String id);
+	
+	//  根据用户名或者电话查询学生
+	@Select("select *from t_student where s_name = name or s_phone=name")
+	public StudentBean findStudentbyName(String name);
 	
 	//      更新学生个人信息
 	@Update("updata t_student set s_privacy=#{s_privacy}, s_nickname=#{s_nickname}"
