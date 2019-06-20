@@ -168,15 +168,4 @@ public class GymController {
 		return number;
 	}
 	
-	/**
-	 * 将场馆显示在地图上
-	 * @return
-	 */
-	@RequestMapping("/showGymToMap.do")
-	@ResponseBody
-	public List<GymBean> showGymToMap(){
-		List<GymBean> gymList = gymService.findAllGym();
-		return gymList;
-	}
-
 }
