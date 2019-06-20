@@ -60,6 +60,15 @@ public interface IStudentDao {
 	public  int addorder(OrderBean order);
 	
 	
+	//    查询订单
+	@Select("select * from t_order where o_s_id = #{id}")
+	public List<OrderBean> findorderbyid(String id);
+	
+	//    修改订单状态(包括确认订单以及取消订单)
+	
+	@Update("update t_order set o_status =#{status} where o_id = #{id}")
+	public int updateorder(String id,int status);
+	
 	//     通过地图查询学生员
 	
 

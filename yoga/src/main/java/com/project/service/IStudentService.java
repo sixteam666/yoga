@@ -3,10 +3,18 @@ package com.project.service;
 import java.util.List;
 
 import com.project.bean.CoachBean;
+import com.project.bean.OrderBean;
 import com.project.bean.StudentBean;
 
 
 public interface IStudentService {
+	
+	/**
+	 * 注册
+	 * @param Student StudentBean 对象
+	 * @return true:注册成功，false:注册失败
+	 */
+	public boolean regist(StudentBean student);
 	
 	/**
 	 * 查询全部学员
@@ -24,11 +32,13 @@ public interface IStudentService {
 	
 	
 	/**
-	 * 注册
-	 * @param Student StudentBean 对象
-	 * @return true:注册成功，false:注册失败
+	 * 通过传入用户名查询学员
+	 * @param id
+	 * @return StudentBean对象
 	 */
-	public boolean regist(StudentBean student);
+	public StudentBean findStudentbyName(String name);
+	
+	
 	/**
 	 * 登陆
 	 * @param arg 邮箱或电话号
@@ -84,4 +94,25 @@ public interface IStudentService {
 	public boolean consume(String id ,double money);
 	
 	
+	/**
+	 * 创建订单
+	 * @param  orderbean对象 
+	 * @return true:订单创建成功，false:创建失败
+	 */
+	public boolean addorder(OrderBean order); 
+	
+	
+	
+	/**
+	 * 查询学生所有的订单
+	 * @param id
+	 * @return
+	 */
+	public List<OrderBean> findorderbyid(String id);
+	
+	/**
+	 * 修改订单状态
+	 * @return
+	 */
+	public boolean updateorderstatus(String id,int status);
 }

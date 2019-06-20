@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.project.bean.CoachBean;
+import com.project.bean.OrderBean;
 import com.project.bean.StudentBean;
 import com.project.dao.IStudentDao;
 import com.project.service.IStudentService;
@@ -99,4 +100,33 @@ public class StudentServiceImpl implements IStudentService{
 		return list;
 	}
 
+	@Override
+	public StudentBean findStudentbyName(String name) {
+		StudentBean stu = dao.findStudentbyName(name);
+		return stu;
+	}
+
+	@Override
+	public boolean addorder(OrderBean order) {
+		int result = dao.addorder(order);
+		if(result!=1){
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public List<OrderBean> findorderbyid(String id) {
+		List<OrderBean> list = dao.findorderbyid(id);
+		return list;
+	}
+
+	@Override
+	public boolean updateorderstatus(String id, int status) {
+			int result = dao.updateorder(id, status);
+			if(result!=1){
+				return false;
+			}
+			return true;
+	}
 }
