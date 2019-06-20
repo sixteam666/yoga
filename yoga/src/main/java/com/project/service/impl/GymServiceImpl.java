@@ -80,4 +80,15 @@ public class GymServiceImpl implements IGymService {
 		return number;
 	}
 
+	@Override
+	public int submitSigingApplication(String g_id, String c_id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int agreeSigingApplication(String g_id, String c_id, String state) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
