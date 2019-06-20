@@ -76,8 +76,13 @@ public interface IGymDao {
 	 * @param list
 	 * @return
 	 */
-	@Insert("insert into t_picture(p_imgname,p_g_id) values(#{p_imgname},#{p_g_id})")
-	public int addPictrue(List<PictrueBean> list);
+	//@Insert("insert into t_picture(p_imgname,p_g_id) values(#{p_imgname},#{p_g_id})")
+	@Insert({"<script> insert into t_picture(p_imgname,p_g_id) values " +
+ 			"<foreach collection='list' item='item' index='index' separator=','>"+
+            "(#{item.p_imgname},#{item.p_g_id})"+
+            "</foreach> </script>"})
+	public int addPictrue(@Param(value="list") List<PictrueBean> list);
+	
 	
 	/**
 	 * 教练课程安排
@@ -85,7 +90,7 @@ public interface IGymDao {
 	 * @return
 	 */
 	@Insert("insert into t_lesson(l_time,l_c_id,l_descirbe,l_size,l_price,l_g_id) "
-			+ "values(#{l_time},#{l_c_id}),#{l_descirbe}),#{l_size}),#{l_price}),#{l_g_id}))")
+			+ "values(#{l_time},#{l_c_id},#{l_descirbe},#{l_size},#{l_price},#{l_g_id})")
 	public int addLesson(LessonBean lessonBean);
 
 }
