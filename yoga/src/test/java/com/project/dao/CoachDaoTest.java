@@ -13,15 +13,16 @@ public class CoachDaoTest extends BaseTest {
 	public void addCoach(){
 		
 		CoachBean coach = new CoachBean();
-		coach.setC_name("admin");
+		coach.setC_name("root");
 		coach.setC_password("123456");
+		coach.setC_phone("12344455566");
 		dao.addCoach(coach);
 	}
 	@Test
 	public void login(){
 		
 		CoachBean coach =null;
-		coach = dao.findCoachByName("root");
+		coach = dao.findCoachByName("12344455566");
 		System.out.println(coach);
 	}
 	

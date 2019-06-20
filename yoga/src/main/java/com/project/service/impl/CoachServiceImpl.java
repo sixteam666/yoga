@@ -6,13 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.bean.CoachBean;
+import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 import com.project.dao.ICoachDao;
+import com.project.dao.IGymDao;
+import com.project.dao.IStudentDao;
 import com.project.service.ICoachService;
 @Service
 public class CoachServiceImpl implements ICoachService {
 	@Autowired
 	private ICoachDao dao;
+	@Autowired
+	private IGymDao gymDao;
+	@Autowired
+	private IStudentDao stuDao;
+	
 	@Override
 	public Boolean register(CoachBean coach) {
 		
@@ -23,12 +31,7 @@ public class CoachServiceImpl implements ICoachService {
 
 	@Override
 	public CoachBean login(String name) {
-		CoachBean coach = null;
-		Object obj = dao.findCoachByName(name);
-		if (obj!=null) {
-			coach = (CoachBean) obj;
-		}
-		return coach;
+		return dao.findCoachByName(name);
 	}
 
 	@Override
@@ -53,6 +56,13 @@ public class CoachServiceImpl implements ICoachService {
 		return dao.findCoachById(id);
 	}
 
-	
+	@Override
+	public List<GymBean> showAllGym() {
+		return gymDao.findAllGym();
+	}
 
+	@Override
+	public List<StudentBean> showAllStu() {
+		return stuDao.findAllStudent();
+	}
 }

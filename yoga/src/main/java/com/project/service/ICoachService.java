@@ -3,6 +3,7 @@ package com.project.service;
 import java.util.List;
 
 import com.project.bean.CoachBean;
+import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 
 public interface ICoachService {
@@ -47,4 +48,14 @@ public interface ICoachService {
 	 * @return 教练实体对象
 	 */
 	CoachBean showCoachDetailInfo(Integer id);
+	/**
+	 * 查看所有场馆
+	 * @return 场馆集合
+	 */
+	List<GymBean> showAllGym();
+	/**
+	 * 显示周围学生
+	 * @return 学生集合
+	 */
+	List<StudentBean> showAllStu();
 }
