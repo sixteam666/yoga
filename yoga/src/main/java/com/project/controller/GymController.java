@@ -68,6 +68,7 @@ public class GymController {
 	 * @return
 	 */
 	@RequestMapping("/reg.do")
+	@ResponseBody
 	public int register(GymBean gym) {
 		gym.setG_id(UUID.randomUUID().toString());
 
