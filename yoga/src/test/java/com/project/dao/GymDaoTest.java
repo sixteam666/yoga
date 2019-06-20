@@ -14,9 +14,10 @@ import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.PictrueBean;
 import com.project.dao.ICoachDao;
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class GymDaoTest {
+import com.project.run.BaseTest;
+
+
+public class GymDaoTest extends BaseTest{
 	@Autowired
 	private IGymDao gymDao;
 	
@@ -53,7 +54,7 @@ public class GymDaoTest {
 	 * 信息完善
 	 */
 	@Test
-	public void overMessage(){
+	public void addMessage(){
 		GymBean gymBean =new GymBean();
 		gymBean.setG_id("1");
 		gymBean.setG_address("高新区");
@@ -69,7 +70,10 @@ public class GymDaoTest {
 		List<PictrueBean> list = new ArrayList<PictrueBean>();
 		PictrueBean bean1 = new PictrueBean();
 		bean1.setP_imgname("瑜伽");
+		PictrueBean bean2 = new PictrueBean();
+		bean2.setP_imgname("瑜伽2");
 		list.add(bean1);
+		list.add(bean2);
 		gymDao.addPictrue(list);
 	}
 	
