@@ -36,26 +36,59 @@ public class StudentServiceImpl implements IStudentService{
 
 	@Override
 	public boolean update(StudentBean student) {
-		// TODO Auto-generated method stub
+		int result = dao.updateStudent(student);
+		if(result>0){
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean resetpassword(String pwd, String id) {
-		// TODO Auto-generated method stub
-		return false;
+		int result = dao.updatePassowrd(id, pwd);
+		if(result!=1){
+			return false;
+		}
+		return true;
 	}
 
 	@Override
 	public StudentBean findStudentbyId(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		StudentBean stu =  dao.findStudentbyId(id);
+		return stu;
 	}
 
 	@Override
-	public CoachBean findCoachbyId(String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public CoachBean findCoachbyStudentId(String id) {
+		CoachBean coach = dao.findCoachbyStudentId(id);
+		return coach;
+	}
+
+	@Override
+	public boolean resetphone(String phone, String id) {
+		int result =dao.updatePhone(id, phone);
+		if(result>0){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean Recharge(String id, double money) {
+		int result = dao.addMoney(id, money);
+		if(result>0){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean consume(String id, double money) {
+		int result = dao.subMoney(id, money);
+		if(result>0){
+			return true;
+		}
+		return false;
 	}
 
 }

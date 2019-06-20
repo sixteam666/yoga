@@ -43,11 +43,35 @@ public interface IStudentService {
 
 	
 	/**
+	 * 手机换绑
+	 * @param pwd id
+	 * @return true:修改成功，false:修改失败
+	 */
+	public boolean resetphone(String phone,String id);
+
+	
+	/**
 	 * 通过学员ID查询学员的教练
 	 * @param id
 	 * @return CoachBean
 	 */
-	public CoachBean findCoachbyId(String id);
+	public CoachBean findCoachbyStudentId(String id);
+	
+	/**
+	 * 充值到钱包
+	 * @param id 学员的id
+	 * @param money 充值的金额
+	 * @return true:充值成功，false:充值失败
+	 */
+	public boolean Recharge(String id ,double money);
+	
+	/**
+	 * 消费扣款
+	 * @param id 学员的id
+	 * @param money 充值的金额
+	 * @return true:充值成功，false:充值失败
+	 */
+	public boolean consume(String id ,double money);
 	
 	
 }
