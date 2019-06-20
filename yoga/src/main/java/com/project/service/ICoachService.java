@@ -31,4 +31,20 @@ public interface ICoachService {
 	 * @return 学生集合
 	 */
 	public List<StudentBean> findStu(String c_id);
+	
+	/**
+	 * 教练信息完善
+	 * @author pan
+	 * @param coach 完善后的教练对象
+	 * @return 数据更新结果
+	 */
+	boolean updateCoachDetailInfo(CoachBean coach);
+	
+	/**
+	 * 显示教练详细信息
+	 * @author pan
+	 * @param id 要展示的教练对象的id
+	 * @return 教练实体对象
+	 */
+	CoachBean showCoachDetailInfo(Integer id);
 }
