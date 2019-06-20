@@ -265,9 +265,7 @@ public class GymController {
 		return gymService.submitSigingApplication(g_id, c_id);
 	}
 	
-<<<<<<< HEAD
 
-=======
 	/**
 	 * 同意或拒绝教练的签约申请
 	 * 
@@ -282,5 +280,5 @@ public class GymController {
 		return gymService.agreeSigingApplication(g_id, c_id, state);
 	}
 	
->>>>>>> faa8c209c6d752bab72b9058888ac1e98509d45c
+
 }
