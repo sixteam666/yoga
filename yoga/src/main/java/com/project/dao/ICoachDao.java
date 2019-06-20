@@ -59,16 +59,19 @@ public interface ICoachDao {
 	
 	/**
 	 * 教练信息完善，包含：动态权限设置、昵称设置、头像设置、地址设置
+	 * 业务：教练资料完善，教练资料更新
+	 * @author pan
 	 * @param coach
 	 * @return
 	 */
 	@Update("update t_coach set c_privacy = #{c_privacy}, c_nickname = #{c_nickname},"
 			+ "c_headimg = #{c_headimg}, c_address = #{c_address}, c_style = #{c_style},"
-			+ "c_access = #{c_access}, c_price = #{c_price} ")
-	public int updateCoachDetailMessage(CoachBean coach);
+			+ "c_access = #{c_access}, c_price = #{c_price} where c_id = #{c_id} ")
+	public int updateCoachDetailInfo(CoachBean coach);
 	
 	/**
-	 * 通过id查找教练，显示教练详细信息
+	 * 通过id查找教练，显示教练详细信息，懒加载查询教练所属场馆信息，场馆需提供findGymById方法
+	 * 业务:教练资料展示
 	 * @param id 教练id
 	 * @return 教练对象
 	 */

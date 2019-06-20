@@ -64,4 +64,28 @@ public class CoachController {
 		if (boo) return "redirect:/login.html";
 		return "redirect:/register.html";
 	}
+	
+	
+	/**
+	 * 教练信息完善，教练信息更新
+	 * @author pan
+	 * @param coach 信息完善或更新完成的教练实体对象
+	 */
+	@RequestMapping("updateInfo.do")
+	public void updateCoachDetailInfo(CoachBean coach) {
+		System.out.println("测试进入详情更新控制层方法>>>>>>>>>>>>>>>>>>>>>>>>");
+		boolean boo = service.updateCoachDetailInfo(coach);
+		//更新后的逻辑...
+	}
+	
+	/**
+	 * 显示教练详情
+	 * @param id 教练id
+	 */
+	@RequestMapping("showCoach.do")
+	public void showCoachInfoByid(Integer id) {
+		System.out.println("测试进入详情展示控制层方法>>>>>>>>>>>>>>>>>>>>>>>>");
+		//id从session域中获取？还是从前台传递？
+		CoachBean coachInfo = service.showCoachDetailInfo(id);
+	}
 }
