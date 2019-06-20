@@ -35,8 +35,8 @@ public class GymController {
 	/**
 	 * 登录
 	 * 
-	 * @param arg
-	 * @param pwd
+	 * @param arg 邮箱或电话号
+	 * @param pwd 登录密码
 	 * @return
 	 */
 	@RequestMapping("/login.do")
@@ -59,6 +59,20 @@ public class GymController {
 			}
 		}
 		return "redirect:/html/main.html";
+	}
+	
+	/**
+	 * 登录或注册前验证用户是否存在
+	 * @param arg 邮箱或电话号
+	 * @return 用户是否存在
+	 */
+	@RequestMapping("/findGym.do")
+	@ResponseBody
+	public Boolean loginTest(String arg) {
+		if(gymService.login(arg) == null) {
+			return false;
+		}
+		return true; 
 	}
 
 	/**
