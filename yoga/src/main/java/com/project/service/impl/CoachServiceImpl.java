@@ -40,8 +40,17 @@ public class CoachServiceImpl implements ICoachService {
 
 	@Override
 	public List<StudentBean> findStu(String c_id) {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean updateCoachDetailInfo(CoachBean coach) {
+		return dao.updateCoachDetailInfo(coach) == 1;
+	}
+
+	@Override
+	public CoachBean showCoachDetailInfo(Integer id) {
+		return dao.findCoachById(id);
 	}
 
 	
