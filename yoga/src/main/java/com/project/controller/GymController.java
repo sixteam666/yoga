@@ -168,4 +168,32 @@ public class GymController {
 		return number;
 	}
 	
+	/**
+	 * 提交签约教练的申请
+	 * 
+	 * @param g_id 提交申请的场馆id
+	 * @param c_id 被申请的教练id
+	 * @return 数据库签约申请表影响行数
+	 */
+	@RequestMapping("/submitSigingApplication.do")
+	@ResponseBody
+	public int submitSigingApplication(String g_id, String c_id) {
+		
+		return gymService.submitSigingApplication(g_id, c_id);
+	}
+	
+	/**
+	 * 同意或拒绝教练的签约申请
+	 * 
+	 * @param g_id 被申请的场馆id
+	 * @param c_id 提交申请的教练id
+	 * @param state 1:同意，2：拒绝
+	 * @return 影响行数
+	 */
+	@RequestMapping("/agreeSigingApplication.do")
+	@ResponseBody
+	public int agreeSigingApplication(String g_id, String c_id,int state) {
+		return gymService.agreeSigingApplication(g_id, c_id, state);
+	}
+	
 }
