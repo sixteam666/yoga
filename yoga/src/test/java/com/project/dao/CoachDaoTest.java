@@ -1,17 +1,12 @@
 package com.project.dao;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.project.bean.CoachBean;
-import com.project.dao.ICoachDao;
+import com.project.run.BaseTest;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class CoachDaoTest {
+public class CoachDaoTest extends BaseTest {
 	@Autowired
 	private ICoachDao dao;
 	@Test
@@ -28,5 +23,14 @@ public class CoachDaoTest {
 		CoachBean coach =null;
 		coach = dao.findCoachByName("root");
 		System.out.println(coach);
+	}
+	
+	@Test
+	public void testUpdateCoachDetailInfo() {
+		CoachBean coach = new CoachBean();
+		coach.setC_id("aaa");
+		coach.setC_nickname("Coach Zhang");
+		int res = dao.updateCoachDetailInfo(coach);
+		System.out.println(res == 1);
 	}
 }
