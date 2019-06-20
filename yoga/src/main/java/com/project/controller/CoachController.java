@@ -99,6 +99,17 @@ public class CoachController {
 		//id从session域中获取？还是从前台传递？
 		CoachBean coachInfo = service.showCoachDetailInfo(id);
 	}
+	
+	/**
+	 * 页面展示所有学生
+	 * @return
+	 */
+	@RequestMapping("/showAllStu.do")
+	@ResponseBody
+	public List<StudentBean> showAllStu(){
+		//返回学生集合，页面地图展示
+		return service.showAllStu();
+	}
 	/**
 	 * 页面显示所有场馆
 	 * @return 返回场馆集合，页面展示
@@ -110,13 +121,26 @@ public class CoachController {
 		return service.showAllGym();
 	}
 	/**
-	 * 页面展示所有学生
-	 * @return
+	 * 教练申请签约场馆
+	 * @param r_reqid 教练id
+	 * @param r_resid 场馆id
+	 * @return 
 	 */
-	@RequestMapping("/showAllStu.do")
-	@ResponseBody
-	public List<StudentBean> showAllStu(){
-		//返回学生集合，页面地图展示
-		return service.showAllStu();
-	}	
+	@RequestMapping("/signGym.do")
+	public Boolean signGym(String r_reqid,String r_resid){
+		Boolean boo = service.addRequest(r_reqid, r_resid);
+		return boo;
+	}
+	/**
+	 * 处理申请
+	 * @param r_reqid 学员或者场馆id
+	 * @param r_resid 教练id
+	 * @param r_state 同意：1；拒绝：2
+	 * @return 
+	 */
+	@RequestMapping("/handleRequest.do")
+	public Boolean handleRequest(String r_reqid,String r_resid,int r_state){
+		Boolean boo = service.updateRequest(r_reqid, r_resid, r_state);
+		return boo;
+	}
 }

@@ -10,6 +10,7 @@ import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 import com.project.dao.ICoachDao;
 import com.project.dao.IGymDao;
+import com.project.dao.IRequestDao;
 import com.project.dao.IStudentDao;
 import com.project.service.ICoachService;
 @Service
@@ -20,6 +21,9 @@ public class CoachServiceImpl implements ICoachService {
 	private IGymDao gymDao;
 	@Autowired
 	private IStudentDao stuDao;
+	//操作申请表的接口
+	@Autowired
+	private IRequestDao reDao;
 	
 	@Override
 	public Boolean register(CoachBean coach) {
@@ -64,5 +68,19 @@ public class CoachServiceImpl implements ICoachService {
 	@Override
 	public List<StudentBean> showAllStu() {
 		return stuDao.findAllStudent();
+	}
+
+	@Override
+	public Boolean addRequest(String r_reqid, String r_resid) {
+		int row = reDao.addRequest(r_reqid, r_resid);
+		if(row>0)return true;
+		return false;
+	}
+
+	@Override
+	public Boolean updateRequest(String r_reqid, String r_resid, int r_state) {
+		int row = reDao.updateRequestState(r_reqid, r_resid, r_state);
+		if(row>0)return true;
+		return false;
 	}
 }
