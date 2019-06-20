@@ -11,6 +11,7 @@ import com.project.bean.LessonBean;
 import com.project.bean.PictrueBean;
 import com.project.dao.ICoachDao;
 import com.project.dao.IGymDao;
+import com.project.dao.IRequestDao;
 import com.project.service.IGymService;
 
 @Service(value = "gymService")
@@ -20,6 +21,9 @@ public class GymServiceImpl implements IGymService {
 
 	@Autowired
 	private ICoachDao coachDao;
+	
+	@Autowired
+	private IRequestDao requestDao;
 
 	@Override
 	public int register(GymBean gym) {
@@ -80,4 +84,13 @@ public class GymServiceImpl implements IGymService {
 		return number;
 	}
 
+	@Override
+	public int submitSigingApplication(String g_id, String c_id) {
+		return requestDao.addRequest(g_id, c_id);
+	}
+
+	@Override
+	public int agreeSigingApplication(String g_id, String c_id, int state) {
+		return requestDao.updateRequestState(c_id, g_id, state);
+	}
 }
