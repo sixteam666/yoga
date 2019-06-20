@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -47,15 +46,6 @@ public interface ICoachDao {
 	 */
 	@Select("select * from t_coach where c_g_id = #{gymId}")
 	public List<CoachBean> findCoachByGymId(String gymId);
-	/**
-	 * 用于解约教练
-	 * 用于签约或者解约教练
-	 * @g_id 场馆id
-	 * @c_id 教练id
-	 * @return 影响行数
-	 */
-	@Select("update t_coach set c_g_id = 0 where c_id = #{coach.id}")
-	public int updateCoach(CoachBean coach);
 	
 	/**
 	 * 教练信息完善，包含：动态权限设置、昵称设置、头像设置、地址设置
@@ -92,7 +82,13 @@ public interface ICoachDao {
 		@Result(property = "gym", column = "c_g_id", 
 			one = @One(select = "com.project.dao.IGymDao.findGymById"))})
 	public CoachBean findCoachById(Integer id);
-	
+	/**
+	 * 用于解约教练
+	 * 用于签约或者解约教练
+	 * @g_id 场馆id
+	 * @c_id 教练id
+	 * @return 影响行数
+	 */
 	@Update("update t_coach set c_g_id = #{g_id} where c_id = #{c_id}")
 	public int updateCoachGymId(String g_id,String c_id);
 }
