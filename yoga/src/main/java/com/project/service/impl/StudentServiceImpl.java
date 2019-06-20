@@ -1,5 +1,7 @@
 package com.project.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.project.bean.CoachBean;
@@ -74,7 +76,7 @@ public class StudentServiceImpl implements IStudentService{
 	}
 
 	@Override
-	public boolean Recharge(String id, double money) {
+	public boolean recharge(String id, double money) {
 		int result = dao.addMoney(id, money);
 		if(result>0){
 			return true;
@@ -89,6 +91,12 @@ public class StudentServiceImpl implements IStudentService{
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public List<StudentBean> findAllStudent() {
+		List<StudentBean> list = dao.findAllStudent();
+		return list;
 	}
 
 }

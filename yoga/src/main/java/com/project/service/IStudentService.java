@@ -1,5 +1,7 @@
 package com.project.service;
 
+import java.util.List;
+
 import com.project.bean.CoachBean;
 import com.project.bean.StudentBean;
 
@@ -7,11 +9,19 @@ import com.project.bean.StudentBean;
 public interface IStudentService {
 	
 	/**
+	 * 查询全部学员
+	 * @return StudentBean对象集合
+	 */
+	public List<StudentBean> findAllStudent();
+	
+	
+	/**
 	 * 通过传入学员id查询学员
 	 * @param id
 	 * @return StudentBean对象
 	 */
 	public StudentBean findStudentbyId(String id);
+	
 	
 	/**
 	 * 注册
@@ -63,7 +73,7 @@ public interface IStudentService {
 	 * @param money 充值的金额
 	 * @return true:充值成功，false:充值失败
 	 */
-	public boolean Recharge(String id ,double money);
+	public boolean recharge(String id ,double money);
 	
 	/**
 	 * 消费扣款
