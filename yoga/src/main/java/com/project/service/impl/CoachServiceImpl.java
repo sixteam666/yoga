@@ -67,7 +67,8 @@ public class CoachServiceImpl implements ICoachService {
 
 	@Override
 	public List<StudentBean> showAllStu() {
-		return stuDao.findAllStudent();
+		//return stuDao.findAllStudent();
+		return null;
 	}
 
 	@Override
