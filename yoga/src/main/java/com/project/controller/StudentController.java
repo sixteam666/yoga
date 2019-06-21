@@ -21,7 +21,7 @@ public class StudentController {
 	@Autowired
 	private IStudentService service;
 	
-	/**
+	/**1111
 	 * 
 	 * @param arg1 用户名或者手机号
 	 * @param pwd 密码
