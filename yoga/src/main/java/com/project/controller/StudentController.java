@@ -1,6 +1,10 @@
 package com.project.controller;
 
+import java.util.List;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -8,7 +12,10 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.bean.CoachBean;
+import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 import com.project.service.IStudentService;
 
@@ -47,9 +54,8 @@ public class StudentController {
 	      }
 		return "redirect:/index.html";
 	}
+	
 	@RequestMapping("/register.do")
-	
-	
 		public String register(StudentBean student){
 			
 			/**
@@ -62,4 +68,70 @@ public class StudentController {
 			if (boo) return "redirect:/login.html";
 			return "redirect:/register.html";
 		}
-	}
+	
+	
+			/**
+			 * 显示学员个人信息
+			 * @param id 学员id
+			 */
+			@RequestMapping("showStudent.do")
+			public String showCoachInfoByid(HttpServletRequest req) {
+				HttpSession session = req.getSession();
+				String id = (String) session.getAttribute("id");
+				StudentBean stu = service.findStudentbyId(id);
+				session.setAttribute("user", stu);
+				return "redirect:/register.html";
+			}
+
+			
+			
+			/**
+			 * 查找所有学员
+			 * 
+			 * @return
+			 */
+			@RequestMapping("/findAllStudent.do")
+			@ResponseBody
+			public List<StudentBean> findAllStudent() {
+				List<StudentBean> list = service.findAllStudent();
+				return list;
+			}
+			
+			
+			/**
+			 * 更新学员信息
+			 * @return
+			 */
+			public String updateStudent( StudentBean stu){
+				
+			boolean boo =  service.update(stu);
+			if (boo) {
+				
+			}
+			// todo ..
+
+				return null;
+			}
+
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
