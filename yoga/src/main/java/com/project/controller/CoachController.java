@@ -83,9 +83,9 @@ public class CoachController {
 	 * @param id 教练id
 	 */
 	@RequestMapping("showCoach.do")
-	public void showCoachInfoByid(Integer id) {
+	public void showCoachInfoByid(String id) {
 		System.out.println("测试进入详情展示控制层方法>>>>>>>>>>>>>>>>>>>>>>>>");
 		//id从session域中获取？还是从前台传递？
-		CoachBean coachInfo = service.showCoachDetailInfo(id);
+		CoachBean coachInfo = service.getCoachDetailInfo(id);
 	}
 }

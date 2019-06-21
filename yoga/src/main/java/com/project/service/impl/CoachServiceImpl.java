@@ -6,13 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.bean.CoachBean;
+import com.project.bean.DynamicBean;
 import com.project.bean.StudentBean;
 import com.project.dao.ICoachDao;
+import com.project.dao.IDynamicDao;
 import com.project.service.ICoachService;
 @Service
 public class CoachServiceImpl implements ICoachService {
 	@Autowired
 	private ICoachDao dao;
+	@Autowired
+	private IDynamicDao dynamicDao;
 	@Override
 	public Boolean register(CoachBean coach) {
 		
@@ -49,10 +53,8 @@ public class CoachServiceImpl implements ICoachService {
 	}
 
 	@Override
-	public CoachBean showCoachDetailInfo(Integer id) {
-		return dao.findCoachById(id);
+	public CoachBean getCoachDetailInfo(String id) {
+		return dao.getCoachById(id);
 	}
-
-	
 
 }
