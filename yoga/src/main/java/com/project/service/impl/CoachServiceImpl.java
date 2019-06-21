@@ -53,10 +53,7 @@ public class CoachServiceImpl implements ICoachService {
 		return false;
 	}
 
-	@Override
-	public List<StudentBean> findStu(String c_id) {
-		return null;
-	}
+	
 
 	@Override
 	public boolean updateCoachDetailInfo(CoachBean coach) {
