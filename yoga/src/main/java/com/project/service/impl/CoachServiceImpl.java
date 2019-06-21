@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.bean.CoachBean;
-import com.project.bean.DynamicBean;
+import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 import com.project.dao.ICoachDao;
 import com.project.dao.IDynamicDao;
+import com.project.dao.IGymDao;
+import com.project.dao.IRequestDao;
+import com.project.dao.IStudentDao;
 import com.project.service.ICoachService;
 @Service
 public class CoachServiceImpl implements ICoachService {
@@ -17,6 +20,14 @@ public class CoachServiceImpl implements ICoachService {
 	private ICoachDao dao;
 	@Autowired
 	private IDynamicDao dynamicDao;
+	@Autowired
+	private IGymDao gymDao;
+	@Autowired
+	private IStudentDao stuDao;
+	//操作申请表的接口
+	@Autowired
+	private IRequestDao reDao;
+	
 	@Override
 	public Boolean register(CoachBean coach) {
 		
@@ -27,12 +38,7 @@ public class CoachServiceImpl implements ICoachService {
 
 	@Override
 	public CoachBean login(String name) {
-		CoachBean coach = null;
-		Object obj = dao.findCoachByName(name);
-		if (obj!=null) {
-			coach = (CoachBean) obj;
-		}
-		return coach;
+		return dao.findCoachByName(name);
 	}
 
 	@Override
@@ -57,4 +63,33 @@ public class CoachServiceImpl implements ICoachService {
 		return dao.getCoachById(id);
 	}
 
+	@Override
+	public List<GymBean> showAllGym() {
+		return gymDao.findAllGym();
+	}
+
+	@Override
+	public List<StudentBean> showAllStu() {
+		//return stuDao.findAllStudent();
+		return null;
+	}
+
+	@Override
+	public Boolean addRequest(String r_reqid, String r_resid) {
+		int row = reDao.addRequest(r_reqid, r_resid);
+		if(row>0)return true;
+		return false;
+	}
+
+	@Override
+	public Boolean updateRequest(String r_reqid, String r_resid, int r_state) {
+		int row = reDao.updateRequestState(r_reqid, r_resid, r_state);
+		if(row>0)return true;
+		return false;
+	}
+
+	@Override
+	public CoachBean showCoachDetailInfo(Integer id) {
+		return null;
+	}
 }

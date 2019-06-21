@@ -3,7 +3,6 @@ package com.project.service;
 import java.util.List;
 
 import com.project.bean.CoachBean;
-import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 
@@ -109,4 +108,30 @@ public interface ICoachService {
 //	 */
 //	List<DynamicBean> listDynamicsById(String id);
 //	//pan---------
+	CoachBean showCoachDetailInfo(Integer id);
+	/**
+	 * 查看所有场馆
+	 * @return 场馆集合
+	 */
+	List<GymBean> showAllGym();
+	/**
+	 * 显示周围学生
+	 * @return 学生集合
+	 */
+	List<StudentBean> showAllStu();
+	/**
+	 * 向场馆申请签约
+	 * @param r_reqid 申请人id
+	 * @param r_resid 被申请人id
+	 * @return true:添加成功；false：添加失败
+	 */
+	Boolean addRequest(String r_reqid,String r_resid);
+	/**
+	 * 处理申请
+	 * @param r_reqid 申请人id
+	 * @param r_resid 被申请人id
+	 * @param state 申请状态
+	 * @return 是否处理成功
+	 */
+	Boolean updateRequest(String r_reqid,String r_resid,int state);
 }

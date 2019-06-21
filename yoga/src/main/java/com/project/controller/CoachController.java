@@ -1,16 +1,23 @@
 package com.project.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.bean.CoachBean;
+import com.project.bean.GymBean;
+import com.project.bean.StudentBean;
 import com.project.service.ICoachService;
 
 @Controller
@@ -41,13 +48,17 @@ public class CoachController {
 	                currentUser.login(token);
 	                System.out.println("认证成功");
 	                return "redirect:/index.html";
-	            } 
-	            // 父异常。认证失败异常
-	            catch (AuthenticationException ae) {
-	                //unexpected condition?  error?
-	            	System.out.println("登录失败");
+	            } catch (UnknownAccountException uae) {
+	            	System.out.println("用户名异常");
 	            	return "redirect:/login.html";
+	            } catch (IncorrectCredentialsException ice) {
+	            	System.out.println("密码异常");
+	            	return "redirect:/login.html";
+	            } catch (LockedAccountException lae) {
+	               System.out.println("被锁定异常");
+	               return "redirect:/login.html";
 	            }
+	            
 	      }
 		return "redirect:/index.html";
 	}
@@ -87,5 +98,49 @@ public class CoachController {
 		System.out.println("测试进入详情展示控制层方法>>>>>>>>>>>>>>>>>>>>>>>>");
 		//id从session域中获取？还是从前台传递？
 		CoachBean coachInfo = service.getCoachDetailInfo(id);
+	}
+	
+	/**
+	 * 页面展示所有学生
+	 * @return
+	 */
+	@RequestMapping("/showAllStu.do")
+	@ResponseBody
+	public List<StudentBean> showAllStu(){
+		//返回学生集合，页面地图展示
+		return service.showAllStu();
+	}
+	/**
+	 * 页面显示所有场馆
+	 * @return 返回场馆集合，页面展示
+	 */
+	@RequestMapping("/showAllGym.do")
+	@ResponseBody
+	public List<GymBean> showAllGym(){
+		//返回场馆集合，页面地图展示
+		return service.showAllGym();
+	}
+	/**
+	 * 教练申请签约场馆
+	 * @param r_reqid 教练id
+	 * @param r_resid 场馆id
+	 * @return 
+	 */
+	@RequestMapping("/signGym.do")
+	public Boolean signGym(String r_reqid,String r_resid){
+		Boolean boo = service.addRequest(r_reqid, r_resid);
+		return boo;
+	}
+	/**
+	 * 处理申请
+	 * @param r_reqid 学员或者场馆id
+	 * @param r_resid 教练id
+	 * @param r_state 同意：1；拒绝：2
+	 * @return 
+	 */
+	@RequestMapping("/handleRequest.do")
+	public Boolean handleRequest(String r_reqid,String r_resid,int r_state){
+		Boolean boo = service.updateRequest(r_reqid, r_resid, r_state);
+		return boo;
 	}
 }
