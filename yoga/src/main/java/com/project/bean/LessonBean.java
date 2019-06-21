@@ -12,6 +12,8 @@ public class LessonBean {
 	private int l_size;
 	private double l_price;
 	private String l_g_id;
+	private int l_weekday;
+	private int l_datetime;
 	public int getL_id() {
 		return l_id;
 	}
@@ -54,11 +56,26 @@ public class LessonBean {
 	public void setL_g_id(String l_g_id) {
 		this.l_g_id = l_g_id;
 	}
+	
+	public int getL_weekday() {
+		return l_weekday;
+	}
+	public void setL_weekday(int l_weekday) {
+		this.l_weekday = l_weekday;
+	}
+	public int getL_datetime() {
+		return l_datetime;
+	}
+	public void setL_datetime(int l_datetime) {
+		this.l_datetime = l_datetime;
+	}
 	@Override
 	public String toString() {
 		return "LessonBean [l_id=" + l_id + ", l_time=" + l_time + ", l_c_id=" + l_c_id + ", l_descirbe=" + l_descirbe
-				+ ", l_size=" + l_size + ", l_price=" + l_price + ", l_g_id=" + l_g_id + "]";
+				+ ", l_size=" + l_size + ", l_price=" + l_price + ", l_g_id=" + l_g_id + ", l_weekday=" + l_weekday
+				+ ", l_datetime=" + l_datetime + "]";
 	}
+	
 	
 
 }

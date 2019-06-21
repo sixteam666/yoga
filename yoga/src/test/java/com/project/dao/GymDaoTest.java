@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
-import com.project.bean.PictrueBean;
+import com.project.bean.PictureBean;
 import com.project.dao.ICoachDao;
 import com.project.run.BaseTest;
 
@@ -62,29 +62,7 @@ public class GymDaoTest extends BaseTest{
 		
 	}
 	
-	/**
-	 * 添加图片
-	 */
-	@Test
-	public void addPictrue(){
-		List<PictrueBean> list = new ArrayList<PictrueBean>();
-		PictrueBean bean1 = new PictrueBean();
-		bean1.setP_imgname("瑜伽");
-		PictrueBean bean2 = new PictrueBean();
-		bean2.setP_imgname("瑜伽2");
-		list.add(bean1);
-		list.add(bean2);
-		gymDao.addPictrue(list);
-	}
 	
-	/**
-	 * 教练课程安排
-	 */
-	@Test
-	public void addLesson(){
-		LessonBean lessonBean = new LessonBean();
-		lessonBean.setL_descirbe("早课");
-		gymDao.addLesson(lessonBean);
-	}
+	
 	
 }
