@@ -43,7 +43,7 @@ public interface IBlogDao {
 	 * @return
 	 */
 	@Select("select * from t_dynamic where * d_userid = #{id}")
-	List<DynamicBean> listAllBlogByUserId(Integer id);
+	List<DynamicBean> listAllBlogByUserId(String id);
 	
 	/**
 	 * 查询好友动态
@@ -55,7 +55,7 @@ public interface IBlogDao {
 			+ "select a_idolid from t_attention where a_myid = #{id})"
 			+ "and a_idolid = #{id})"
 			+ "and order by d_time limit 0,5")
-	List<DynamicBean> listFriendBlog(@Param("id") Integer id);
+	List<DynamicBean> listFriendBlog(@Param("id") String id);
 	
 	/**
 	 * 查询关注人动态
@@ -64,7 +64,7 @@ public interface IBlogDao {
 	@Select("select * from t_dynamic where d_userid in("
 			+ "select a_idolid from t_attention where a_myid = #{id})"
 			+ "and order by d_time limit 0,5")
-	List<DynamicBean> listFollowsBlog(Integer id);
+	List<DynamicBean> listFollowsBlog(String id);
 	
 	/**
 	 * 查询一组用于的所有动态
@@ -72,6 +72,6 @@ public interface IBlogDao {
 	 * @param idSet
 	 * @return
 	 */
-	List<DynamicBean> listBlogByUserIdSet(Set<Integer> idSet);
+	List<DynamicBean> listBlogByUserIdSet(Set<String> idSet);
 }
 

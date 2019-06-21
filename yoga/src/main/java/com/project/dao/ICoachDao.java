@@ -15,11 +15,8 @@ import com.project.bean.StudentBean;
 
 public interface ICoachDao {
 	/**
-	 * 閿熸枻鎷峰拸閿熸枻鎷烽敓锟�
-	 * @param coach 閿熸枻鎷烽敓鏂ゆ嫹涓�閿熸枻鎷稢oachBean閿熸枻鎷烽敓鏂ゆ嫹
-	 * @return 褰遍敓鏂ゆ嫹閿熸枻鎷烽敓鏂ゆ嫹
 	 * 添加教练
-	 * @param coach oachBean对象
+	 * @param coach coachBean对象
 	 * @return 影响行数
 	 */
 	@Insert("insert into t_coach(c_name,c_password,c_phone,c_privacy,"
@@ -29,9 +26,6 @@ public interface ICoachDao {
 			+ "#{c_access},#{c_price},#{c_g_id})")
 	public int addCoach(CoachBean coach);
 	/**
-	 * 閿熸枻鎷烽敓鏂ゆ嫹閿熺煫浼欐嫹閿熸枻鎷烽敓鏂ゆ嫹璇㈤敓鏂ゆ嫹閿熸枻鎷�
-	 * @param userName 閿熸枻鎷烽敓鏂ゆ嫹閿熺煫浼欐嫹閿熸枻鎷�
-	 * @return 閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓鏂ゆ嫹
 	 * 根据用户名或电话号码查询教练
 	 * @param name 用户名或电话号码
 	 * @return 教练对象
@@ -39,9 +33,6 @@ public interface ICoachDao {
 	@Select("select * from t_coach where c_name = #{name} or c_phone = #{name}")
 	public CoachBean findCoachByName(String name);
 	/**
-	 * 閿熸枻鎷烽敓鎹风鎷烽敓鏂ゆ嫹id閿熸枻鎷疯閿熸枻鎷烽敓鏂ゆ嫹	
-	 * @param gymId 閿熸枻鎷烽敓鏂ゆ嫹id
-	 * @return 閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓鏂ゆ嫹
 	 * 通过场馆id查询教练	
 	 * @param gymId 场馆id
 	 * @return 教练集合
@@ -72,7 +63,7 @@ public interface ICoachDao {
 	@Results({
 		@Result(id = true, property = "c_id", column = "c_id"),
 		@Result(property = "c_name", column = "c_name"),
-		@Result(property = "c_password", column = "c_password"),
+		//@Result(property = "c_password", column = "c_password"),密码不展示
 		@Result(property = "c_phone", column = "c_phone"),
 		@Result(property = "c_privacy", column = "c_privacy"),
 		@Result(property = "c_nickname", column = "c_nickname"),
@@ -86,8 +77,16 @@ public interface ICoachDao {
 			one = @One(select = "com.project.dao.IGymDao.findGymById"))})
 	CoachBean getCoachById(String id);
 	
-
-	public CoachBean findCoachById(Integer id);
+	/**
+	 * 密码修改
+	 * @author pan
+	 * @param newPassword 新密码
+	 * @param id 教练id
+	 * @return 修改结果，为 1 则修改成功
+	 */
+	@Update("update t_coach set c_password = #{newPassword} where c_id = #{id}")
+	Integer updatePassword(@Param("newPassword") String newPassword, @Param("id") String id);
+	
 	/**
 	 * 用于解约教练
 	 * 用于签约或者解约教练
@@ -116,7 +115,8 @@ public interface ICoachDao {
 	Double getMoney(String id);
 	
 	/**
-	 * 查询教练所有私教学员
+	 * 查询教练所有私教学员(通过订单表来实现的学员与教练的关系，扯不扯？)
+	 * @autor pan
 	 * @param id 私教id
 	 * @return 学员集合
 	 */

@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.bean.CoachBean;
+import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
+import com.project.dao.IBlogDao;
 import com.project.dao.ICoachDao;
-import com.project.dao.IDynamicDao;
+import com.project.dao.IFollowDao;
 import com.project.dao.IGymDao;
 import com.project.dao.IRequestDao;
 import com.project.dao.IStudentDao;
@@ -19,7 +22,9 @@ public class CoachServiceImpl implements ICoachService {
 	@Autowired
 	private ICoachDao dao;
 	@Autowired
-	private IDynamicDao dynamicDao;
+	private IBlogDao blogDao;
+	@Autowired
+	private IFollowDao followDao;
 	@Autowired
 	private IGymDao gymDao;
 	@Autowired
@@ -91,5 +96,79 @@ public class CoachServiceImpl implements ICoachService {
 	@Override
 	public CoachBean showCoachDetailInfo(Integer id) {
 		return null;
+	}
+
+	@Override
+	public Boolean updatePassword(String id, String newPassword) {
+		return dao.updatePassword(newPassword, id) == 1;
+	}
+
+	@Override
+	@Transactional
+	public Boolean updateMoney(String id, double money) {
+		//查询出钱包余额
+		Double balance = dao.getMoney(id);
+		if(balance < money) {
+			System.out.println(id+"的余额不足还想提现");
+			return false;
+		}
+		return dao.updateMoney(id, money) == 1;
+	}
+
+	@Override
+	public List<StudentBean> listMyStudent(String id) {
+		return dao.listStudentByCoachId(id);
+	}
+
+	
+	//=================关注功能开始了=====================
+	@Override
+	public List<DynamicBean> listFollowDynamic(String id) {
+		return blogDao.listAllBlogByUserId(id);
+	}
+
+	@Override
+	public List<StudentBean> listFollowStudent(String id) {
+		return followDao.listFollowingStudent(id);
+	}
+
+	@Override
+	public List<CoachBean> listFollowCoach(String id) {
+		return followDao.listFollowCoach(id);
+	}
+
+	@Override
+	public List<GymBean> listFollowGym(String id) {
+		return followDao.listFollowGym(id);
+	}
+
+	@Override
+	public List<StudentBean> listStudentFans(String id) {
+		return followDao.listFollowingStudent(id);
+	}
+
+	@Override
+	public List<CoachBean> listCoachFans(String id) {
+		return followDao.listFollowingCoach(id);
+	}
+
+	@Override
+	public Integer countFollow(String id) {
+		return followDao.countFollow(id);
+	}
+
+	@Override
+	public Integer countFollowing(String id) {
+		return followDao.countFollowing(id);
+	}
+
+	@Override
+	public List<DynamicBean> listDynamicsById(String id) {
+		return blogDao.listAllBlogByUserId(id);
+	}
+
+	@Override
+	public List<DynamicBean> listFriendDynamic(String id) {
+		return blogDao.listFriendBlog(id);
 	}
 }
