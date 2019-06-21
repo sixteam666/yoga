@@ -31,7 +31,7 @@ public interface IGymDao {
 	 * 
 	 * @return
 	 */
-	@Select("SELECT * FORM t_gym")
+	@Select("SELECT * FROM t_gym")
 	List<GymBean> findAllGym();
 
 	/**
