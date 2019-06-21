@@ -26,12 +26,7 @@ public interface ICoachService {
 	 * @return 影响行数
 	 */
 	public Boolean signGym(String g_id,String c_id);
-	/**
-	 * 查询学员
-	 * @param c_id 教练id
-	 * @return 学生集合
-	 */
-	public List<StudentBean> findStu(String c_id);
+	
 	
 	/**
 	 * 教练信息完善
