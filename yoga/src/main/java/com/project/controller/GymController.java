@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -87,9 +88,10 @@ public class GymController {
 		gym.setG_id(UUID.randomUUID().toString());
 
 		// 盐值暂时无法确定
-		// Object obj = new SimpleHash("MD5", gym.getG_password(),
-		// gym.getG_email(),1024);
-		// gym.setG_password(obj.toString());
+		/*
+		 * Object obj = new SimpleHash("MD5", gym.getG_password(),1024);
+		 * gym.setG_password(obj.toString());
+		 */
 
 		int result = gymService.register(gym);
 		return result;
