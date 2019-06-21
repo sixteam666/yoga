@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.One;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.project.bean.CoachBean;
+import com.project.bean.StudentBean;
 
 public interface ICoachDao {
 	/**
@@ -57,15 +59,16 @@ public interface ICoachDao {
 	@Update("update t_coach set c_privacy = #{c_privacy}, c_nickname = #{c_nickname},"
 			+ "c_headimg = #{c_headimg}, c_address = #{c_address}, c_style = #{c_style},"
 			+ "c_access = #{c_access}, c_price = #{c_price} where c_id = #{c_id} ")
-	public int updateCoachDetailInfo(CoachBean coach);
+	int updateCoachDetailInfo(CoachBean coach);
 	
 	/**
 	 * 通过id查找教练，显示教练详细信息，懒加载查询教练所属场馆信息，场馆需提供findGymById方法
 	 * 业务:教练资料展示
+	 * @author pan
 	 * @param id 教练id
 	 * @return 教练对象
 	 */
-	@Select("select * from t_coach where id = #{id}")
+	@Select("select * from t_coach where c_id = #{id}")
 	@Results({
 		@Result(id = true, property = "c_id", column = "c_id"),
 		@Result(property = "c_name", column = "c_name"),
@@ -81,6 +84,9 @@ public interface ICoachDao {
 		@Result(property = "c_money", column = "c_money"),
 		@Result(property = "gym", column = "c_g_id", 
 			one = @One(select = "com.project.dao.IGymDao.findGymById"))})
+	CoachBean getCoachById(String id);
+	
+
 	public CoachBean findCoachById(Integer id);
 	/**
 	 * 用于解约教练
@@ -91,4 +97,31 @@ public interface ICoachDao {
 	 */
 	@Update("update t_coach set c_g_id = #{g_id} where c_id = #{c_id}")
 	public int updateCoachGymId(String g_id,String c_id);
+	
+	/**
+	 * 钱包提现功能
+	 * @param id 提现教练id
+	 * @param money	提现金额
+	 * @return 更新结果
+	 */
+	@Update("update t_coach set c_money = c_money - #{money} where c_id = #{id}")
+	Integer updateMoney(@Param("id") String id, @Param("money") Double money);
+	
+	/**
+	 * 钱包余额查询
+	 * @param id
+	 * @return
+	 */
+	@Select("select c_money from t_coach where c_id = #{id}")
+	Double getMoney(String id);
+	
+	/**
+	 * 查询教练所有私教学员
+	 * @param id 私教id
+	 * @return 学员集合
+	 */
+	@Select("select * from t_student where s_id "
+			+ "in(select po_s_id from t_porder where po_c_id = #{cid})")
+	List<StudentBean> listStudentByCoachId(String id);
+	
 }

@@ -1,8 +1,11 @@
 package com.project.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.project.bean.CoachBean;
+import com.project.bean.OrderBean;
 import com.project.bean.StudentBean;
 import com.project.dao.IStudentDao;
 import com.project.service.IStudentService;
@@ -36,26 +39,94 @@ public class StudentServiceImpl implements IStudentService{
 
 	@Override
 	public boolean update(StudentBean student) {
-		// TODO Auto-generated method stub
+		int result = dao.updateStudent(student);
+		if(result>0){
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean resetpassword(String pwd, String id) {
-		// TODO Auto-generated method stub
-		return false;
+		int result = dao.updatePassowrd(id, pwd);
+		if(result!=1){
+			return false;
+		}
+		return true;
 	}
 
 	@Override
 	public StudentBean findStudentbyId(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		StudentBean stu =  dao.findStudentbyId(id);
+		return stu;
 	}
 
 	@Override
-	public CoachBean findCoachbyId(String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public CoachBean findCoachbyStudentId(String id) {
+		CoachBean coach = dao.findCoachbyStudentId(id);
+		return coach;
 	}
 
+	@Override
+	public boolean resetphone(String phone, String id) {
+		int result =dao.updatePhone(id, phone);
+		if(result>0){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean recharge(String id, double money) {
+		int result = dao.addMoney(id, money);
+		if(result>0){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean consume(String id, double money) {
+		int result = dao.subMoney(id, money);
+		if(result>0){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public List<StudentBean> findAllStudent() {
+		List<StudentBean> list = dao.findAllStudent();
+		return list;
+	}
+
+	@Override
+	public StudentBean findStudentbyName(String name) {
+		StudentBean stu = dao.findStudentbyName(name);
+		return stu;
+	}
+
+	@Override
+	public boolean addorder(OrderBean order) {
+		int result = dao.addorder(order);
+		if(result!=1){
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public List<OrderBean> findorderbyid(String id) {
+		List<OrderBean> list = dao.findorderbyid(id);
+		return list;
+	}
+
+	@Override
+	public boolean updateorderstatus(String id, int status) {
+			int result = dao.updateorder(id, status);
+			if(result!=1){
+				return false;
+			}
+			return true;
+	}
 }

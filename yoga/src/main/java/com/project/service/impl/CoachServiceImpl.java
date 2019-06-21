@@ -9,6 +9,7 @@ import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 import com.project.dao.ICoachDao;
+import com.project.dao.IDynamicDao;
 import com.project.dao.IGymDao;
 import com.project.dao.IRequestDao;
 import com.project.dao.IStudentDao;
@@ -17,6 +18,8 @@ import com.project.service.ICoachService;
 public class CoachServiceImpl implements ICoachService {
 	@Autowired
 	private ICoachDao dao;
+	@Autowired
+	private IDynamicDao dynamicDao;
 	@Autowired
 	private IGymDao gymDao;
 	@Autowired
@@ -56,8 +59,8 @@ public class CoachServiceImpl implements ICoachService {
 	}
 
 	@Override
-	public CoachBean showCoachDetailInfo(Integer id) {
-		return dao.findCoachById(id);
+	public CoachBean getCoachDetailInfo(String id) {
+		return dao.getCoachById(id);
 	}
 
 	@Override
@@ -83,5 +86,10 @@ public class CoachServiceImpl implements ICoachService {
 		int row = reDao.updateRequestState(r_reqid, r_resid, r_state);
 		if(row>0)return true;
 		return false;
+	}
+
+	@Override
+	public CoachBean showCoachDetailInfo(Integer id) {
+		return null;
 	}
 }

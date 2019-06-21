@@ -47,6 +47,67 @@ public interface ICoachService {
 	 * @param id 要展示的教练对象的id
 	 * @return 教练实体对象
 	 */
+	CoachBean getCoachDetailInfo(String id);
+	
+	
+	
+//	//pan------
+//	/**
+//	 * 展示当前教练关注对象的所有动态
+//	 * @param id
+//	 * @return
+//	 */
+//	List<DynamicBean> listFollowDynamic(String id);
+//	
+//	/**
+//	 * 显示教练关注的学员
+//	 * @param id
+//	 * @return
+//	 */
+//	List<StudentBean> listFollowStudent(String id);
+//	
+//	/**
+//	 * 显示教练关注的教练
+//	 * @param id
+//	 * @return
+//	 */
+//	List<CoachBean> listFollowCoach(String id);
+//	
+//	/**
+//	 * 显示教练关注的场馆
+//	 * @param id
+//	 * @return
+//	 */
+//	List<GymBean> listFollowGym(String id);
+//	
+//	/**
+//	 * 显示教练学员粉丝
+//	 * @param id
+//	 * @return
+//	 */
+//	List<StudentBean> listFansById(String id);
+//	
+//	/**
+//	 * 当前教练粉丝人数统计
+//	 * @param id
+//	 * @return
+//	 */
+//	Integer countIdolsById(String id);
+//	
+//	/**
+//	 * 当前教练关注人数统计
+//	 * @param id
+//	 * @return
+//	 */
+//	Integer countFansById(String id);
+//	
+//	/**
+//	 * 展示自己的动态所有动态
+//	 * @param id
+//	 * @return
+//	 */
+//	List<DynamicBean> listDynamicsById(String id);
+//	//pan---------
 	CoachBean showCoachDetailInfo(Integer id);
 	/**
 	 * 查看所有场馆

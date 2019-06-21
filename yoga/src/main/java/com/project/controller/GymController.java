@@ -1,14 +1,10 @@
 package com.project.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -16,7 +12,6 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -104,9 +99,10 @@ public class GymController {
 		gym.setG_id(UUID.randomUUID().toString());
 
 		// 盐值暂时无法确定
-		// Object obj = new SimpleHash("MD5", gym.getG_password(),
-		// gym.getG_email(),1024);
-		// gym.setG_password(obj.toString());
+		/*
+		 * Object obj = new SimpleHash("MD5", gym.getG_password(),1024);
+		 * gym.setG_password(obj.toString());
+		 */
 
 		int result = gymService.register(gym);
 		return result;
