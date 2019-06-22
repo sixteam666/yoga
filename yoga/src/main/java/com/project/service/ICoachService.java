@@ -3,6 +3,7 @@ package com.project.service;
 import java.util.List;
 
 import com.project.bean.CoachBean;
+import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 
@@ -26,12 +27,7 @@ public interface ICoachService {
 	 * @return 影响行数
 	 */
 	public Boolean signGym(String g_id,String c_id);
-	/**
-	 * 查询学员
-	 * @param c_id 教练id
-	 * @return 学生集合
-	 */
-	public List<StudentBean> findStu(String c_id);
+	
 	
 	/**
 	 * 教练信息完善
@@ -49,65 +45,103 @@ public interface ICoachService {
 	 */
 	CoachBean getCoachDetailInfo(String id);
 	
+	/**
+	 * 修改密码
+	 * @author pan
+	 * @param id 教练id
+	 * @return 修改结果
+	 */
+	Boolean updatePassword(String id, String newPassword);
 	
+	/**
+	 * 提现
+	 * @author pan
+	 * @param id 教练id
+	 * @param money 提取现金数量
+	 * @return
+	 */
+	Boolean updateMoney(String id, double money);
 	
-//	//pan------
-//	/**
-//	 * 展示当前教练关注对象的所有动态
-//	 * @param id
-//	 * @return
-//	 */
-//	List<DynamicBean> listFollowDynamic(String id);
-//	
-//	/**
-//	 * 显示教练关注的学员
-//	 * @param id
-//	 * @return
-//	 */
-//	List<StudentBean> listFollowStudent(String id);
-//	
-//	/**
-//	 * 显示教练关注的教练
-//	 * @param id
-//	 * @return
-//	 */
-//	List<CoachBean> listFollowCoach(String id);
-//	
-//	/**
-//	 * 显示教练关注的场馆
-//	 * @param id
-//	 * @return
-//	 */
-//	List<GymBean> listFollowGym(String id);
-//	
-//	/**
-//	 * 显示教练学员粉丝
-//	 * @param id
-//	 * @return
-//	 */
-//	List<StudentBean> listFansById(String id);
-//	
-//	/**
-//	 * 当前教练粉丝人数统计
-//	 * @param id
-//	 * @return
-//	 */
-//	Integer countIdolsById(String id);
-//	
-//	/**
-//	 * 当前教练关注人数统计
-//	 * @param id
-//	 * @return
-//	 */
-//	Integer countFansById(String id);
-//	
-//	/**
-//	 * 展示自己的动态所有动态
-//	 * @param id
-//	 * @return
-//	 */
-//	List<DynamicBean> listDynamicsById(String id);
-//	//pan---------
+	/**
+	 * 获得教练所有学员
+	 * @author pan
+	 * @param id 教练id
+	 * @return 学员对象集合
+	 */
+	List<StudentBean> listMyStudent(String id);
+	
+	//pan------
+	/**
+	 * 展示当前教练关注对象的所有动态
+	 * @param id
+	 * @return
+	 */
+	List<DynamicBean> listFollowDynamic(String id);
+	
+	/**
+	 * 展示当前教练好友的所有动态
+	 * @param id
+	 * @return
+	 */
+	List<DynamicBean> listFriendDynamic(String id);
+	
+	/**
+	 * 显示教练关注的学员
+	 * @param id
+	 * @return
+	 */
+	List<StudentBean> listFollowStudent(String id);
+	
+	/**
+	 * 显示教练关注的教练
+	 * @param id
+	 * @return
+	 */
+	List<CoachBean> listFollowCoach(String id);
+	
+	/**
+	 * 显示教练关注的场馆
+	 * @param id
+	 * @return
+	 */
+	List<GymBean> listFollowGym(String id);
+	
+	/**
+	 * 显示教练学员粉丝
+	 * @param id
+	 * @return
+	 */
+	List<StudentBean> listStudentFans(String id);
+	
+	/**
+	 * 显示教练的教练粉丝
+	 * @param id
+	 * @return
+	 */
+	List<CoachBean> listCoachFans(String id);
+	
+	/**
+	 * 当前教练粉丝人数统计
+	 * @param id
+	 * @return
+	 */
+	Integer countFollow(String id);
+	
+	/**
+	 * 当前教练关注人数统计
+	 * @param id
+	 * @return
+	 */
+	Integer countFollowing(String id);
+	
+	/**
+	 * 展示自己的所有动态
+	 * @param id
+	 * @return
+	 */
+	List<DynamicBean> listDynamicsById(String id);
+	//pan---------
+	
 	CoachBean showCoachDetailInfo(Integer id);
 	/**
 	 * 查看所有场馆

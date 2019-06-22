@@ -23,7 +23,7 @@ public interface IGymDao {
 	 * @param gym
 	 * @return
 	 */
-	@Insert("INSERT INTO t_gym(g_id,g_email,g_phone,g_qq) VALUES(#{id},#{g_email},#{g_phone},#{g_qq})")
+	@Insert("INSERT INTO t_gym(g_id,g_email,g_phone,g_qq,g_password) VALUES(#{g_id},#{g_email},#{g_phone},#{g_qq},#{g_password})")
 	int addGym(GymBean gym);
 
 	/**

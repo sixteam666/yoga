@@ -11,7 +11,7 @@ import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 
-public interface IFallowDao {
+public interface IFollowDao {
 	
 	/**
 	 * 添加关注
@@ -38,7 +38,7 @@ public interface IFallowDao {
 	 */
 	@Select("select * from t_student where s_id in("
 			+ "select a_idolid from t_attention where a_myid = #{id})")
-	List<StudentBean> listFallowStudent(Integer id);
+	List<StudentBean> listFollowStudent(String id);
 	
 	/**
 	 * 查询关注的教练
@@ -47,7 +47,7 @@ public interface IFallowDao {
 	 */
 	@Select("select * from t_coach where c_id in("
 			+ "select a_idolid from t_attention where a_myid = #{id})")
-	List<CoachBean> listFallowCoach(Integer id);
+	List<CoachBean> listFollowCoach(String id);
 	
 	/**
 	 * 查询关注的场馆
@@ -56,7 +56,7 @@ public interface IFallowDao {
 	 */
 	@Select("select * from t_gym where g_id in("
 			+ "select a_idolid from t_attention where a_myid = #{id})")
-	List<GymBean> listFallowGym(Integer id);
+	List<GymBean> listFollowGym(String id);
 	
 	
 	/**
@@ -66,7 +66,7 @@ public interface IFallowDao {
 	 */
 	@Select("select * from t_student where s_id in("
 			+ "select a_idolid from t_attention where a_myid = #{id})")
-	List<StudentBean> listFallowingStudent(Integer id);
+	List<StudentBean> listFollowingStudent(String id);
 	
 	/**
 	 * 查询教练粉丝
@@ -75,7 +75,7 @@ public interface IFallowDao {
 	 */
 	@Select("select * from t_coach where c_id in("
 			+ "select a_idolid from t_attention where a_myid = #{id})")
-	List<CoachBean> listFallowingCoach(Integer id);
+	List<CoachBean> listFollowingCoach(String id);
 	
 	/**
 	 * 查询场馆粉丝
@@ -84,7 +84,7 @@ public interface IFallowDao {
 	 */
 	@Select("select * from t_gym where g_id in("
 			+ "select a_myid from t_attention where a_idolid = #{id})")
-	List<GymBean> listFallowingGym(Integer id);
+	List<GymBean> listFollowingGym(String id);
 	
 	/**
 	 * 查询学员好友
@@ -95,10 +95,10 @@ public interface IFallowDao {
 			+ "select a_myid from t_attention where a_myid in("
 			+ "select a_idolid from t_attention where a_myid = #{id})"
 			+ "and a_idolid = #{id})")
-	List<StudentBean> listFriendStudent(Integer id);
+	List<StudentBean> listFriendStudent(String id);
 	
 	/**
-	 * 查询学员教练
+	 * 查询教练好友
 	 * @param id
 	 * @return
 	 */
@@ -106,10 +106,10 @@ public interface IFallowDao {
 			+ "select a_myid from t_attention where a_myid in("
 			+ "select a_idolid from t_attention where a_myid = #{id})"
 			+ "and a_idolid = #{id})")
-	List<StudentBean> listFriendCoach(Integer id);
+	List<StudentBean> listFriendCoach(String id);
 	
 	/**
-	 * 查询学员好友
+	 * 查询场馆好友（没有的功能别在意，peace and love）
 	 * @param id
 	 * @return
 	 */
@@ -117,6 +117,20 @@ public interface IFallowDao {
 			+ "select a_myid from t_attention where a_myid in("
 			+ "select a_idolid from t_attention where a_myid = #{id})"
 			+ "and a_idolid = #{id})")
-	List<StudentBean> listFriendGym(Integer id);
+	List<StudentBean> listFriendGym(String id);
+	
+	/**
+	 * 查询关注数量
+	 * @param id 用户id
+	 * @return 关注数量
+	 */
+	Integer countFollow(String id);
+	
+	/**
+	 * 查询粉丝数量
+	 * @param id 用户id
+	 * @return 粉丝数量
+	 */
+	Integer countFollowing(String id);
 	
 }
