@@ -75,7 +75,7 @@ public class CoachController {
 		Boolean boo = service.register(coach);
 		//注册成功：定向登录界面；失败：定向注册界面
 		if (boo) return "redirect:/html/coach/coachLogin.html";
-		return "redirect:/html/coach/coachReg.html";
+		return "forward:/html/coach/coachReg.html";
 	}
 	
 	
