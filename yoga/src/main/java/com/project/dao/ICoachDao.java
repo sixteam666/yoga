@@ -19,10 +19,10 @@ public interface ICoachDao {
 	 * @param coach coachBean对象
 	 * @return 影响行数
 	 */
-	@Insert("insert into t_coach(c_name,c_password,c_phone,c_privacy,"
+	@Insert("insert into t_coach(c_id,c_name,c_password,c_phone,c_privacy,"
 			+ "c_nickname,c_headimg,c_money,c_address,c_style,c_access,c_price,c_g_id)"
-			+ "values(#{c_name},#{c_password},#{c_phone},#{c_privacy},"
-			+ "#{c_nickname},#{c_headimg},#{c_money},#{c_address},#{c_style},"
+			+ "values(#{c_id},#{c_name},#{c_password},#{c_phone},#{c_privacy},"
+			+ "#{c_name},#{c_headimg},#{c_money},#{c_address},#{c_style},"
 			+ "#{c_access},#{c_price},#{c_g_id})")
 	public int addCoach(CoachBean coach);
 	/**
@@ -30,7 +30,7 @@ public interface ICoachDao {
 	 * @param name 用户名或电话号码
 	 * @return 教练对象
 	 */
-	@Select("select * from t_coach where c_name = #{name} or c_phone = #{name}")
+	@Select("select * from t_coach where c_name = #{name}")
 	public CoachBean findCoachByName(String name);
 	/**
 	 * 通过场馆id查询教练	
