@@ -1,10 +1,9 @@
 <!DOCTYPE HTML>
-
 <html>
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>教练展示</title>
+	<title>课程添加删除</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -40,8 +39,25 @@
 	</head>
 	<style type="text/css">
 		.fon{
-			text-align: center;
 			font-family: "微软雅黑";
+		}
+		
+		table{
+			width: 1000px!important;
+			margin-left: -140px;
+		}
+		th{
+			width: 80px!important;
+			height: 50px!important;
+			align-content: center!important;
+		}
+		.add_lesson{
+			margin-top: 60px;
+			margin-left: 280px;
+		}
+		.coach_select{
+			width: 100px;
+			height: 30px;
 		}
 	</style>
 	<body>
@@ -53,8 +69,8 @@
 	
 	<nav class="gtco-nav" role="navigation">
 		<div class="gtco-container">
-
-			<div class="row" style="background-color: #09C6AB;">
+			
+			<div class="row" style="background-color:#09C6AB ;">
 				<div class="col-sm-4 col-xs-12">
 					<ul>
 						<li><a href="gym.html" class="fon">首页</a></li>
@@ -62,7 +78,7 @@
 						<li><a href="showStudent.html" class="fon">学员</a></li>
 					</ul>
 				</div>
-			<div class="col-xs-8 text-right menu-1">
+				<div class="col-xs-8 text-right menu-1">
 					<ul>
 						<li class="has-dropdown">
 							<span style="color: white;">欢迎您，用户名</span>
@@ -85,61 +101,109 @@
 		</div>
 	</nav>
 	
-<div class="gtco-section">
+		<div class="gtco-section">
 		<div class="gtco-container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>我的签约教练</h2>
+					<h2>课程展示</h2>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<span class="fh5co-card-item">
-						<figure style="text-align: center;top:50px">
-							<img src="../../images/imgs/21.jpg" alt="Image">
-						</figure>
-						<div class="fh5co-text">
-							<h2>瑜伽教练：a</h2>
-							<h2>流派：a</h2>
-							<h2>课时费标准：200元/节</h2>
-							<h2>电话：1111</h2>
-							<button class="btn btn-primary">解约</button>
-						</div>
-					</span>
-				</div>
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<span class="fh5co-card-item">
-						<figure style="text-align: center;top:50px">
-							<img src="../../images/imgs/39.jpg" alt="Image">
-						</figure>
-						<div class="fh5co-text">
-							<h2>瑜伽教练：a</h2>
-							<h2>流派：a</h2>
-							<h2>课时费标准：200元/节</h2>
-							<h2>电话：1111</h2>
-							<button class="btn btn-primary">解约</button>
-						</div>
-					</span>
-				</div>
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<span class="fh5co-card-item">
-						<figure style="text-align: center;top:50px">
-							<img src="../../images/imgs/52.jpg" alt="Image">
-						</figure>
-						<div class="fh5co-text">
-							<h2>瑜伽教练：a</h2>
-							<h2>流派：a</h2>
-							<h2>课时费标准：200元/节</h2>
-							<h2>电话：1111</h2>
-							<button class="btn btn-primary">解约</button>
-						</div>
-					</span>
+				<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
+							
+					<table border="1" cellspacing="" cellpadding="">
+						<tr>
+							<th>课程教练</th>
+							<th>课程价格</th>
+							<th>可容纳学员人数</th>
+							<th>已有学员人数</th>
+							<th>课程描述</th>
+							<th>操作</th>
+						</tr>
+						<tr>
+							<td>
+								章教练
+							</td>
+							<td>
+								200￥/节
+							</td>
+							<td>
+								10
+							</td>
+							<td>
+								0
+							</td>
+							<td>
+								瘦身
+							</td>
+							<td>
+								<a  data-toggle="modal" data-target="#myModal">删除</a>
+							</td>
+						</tr>
+						
+					</table>
+					<div class="add_lesson">
+						<button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal2">添加课程</button>
+					</div>	
+					
 				</div>
 			</div>
 		</div>
 	</div>
-				
-				
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
+	    <div class="modal-dialog" role="document">  
+	        <div class="modal-content">  
+	            <div class="modal-header">  
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+	                    <span aria-hidden="true">×</span>  
+	                </button>  
+	                <h4 class="modal-title" id="myModalLabel">删除课程</h4>  
+	            </div>  
+	            <div class="modal-body">  
+	                <p>是否删除课程?</p>  
+	            </div>  
+	            <div class="modal-footer">  
+	                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
+	                <button type="button" class="btn btn-primary">确定</button>  
+	            </div>  
+	        </div>  
+	    </div>  
+	</div>  
+	
+	
+	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
+	    <div class="modal-dialog" role="document">  
+	        <div class="modal-content">  
+	            <div class="modal-header">  
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+	                    <span aria-hidden="true">×</span>  
+	                </button>  
+	                <h4 class="modal-title" id="myModalLabel">添加课程</h4>  
+	            </div>  
+	            <div class="modal-body">
+	            	添加教练：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                <select class="coach_select">
+	                	<option>1</option>
+	                	<option>2</option>
+	                </select> 
+	                <input type="text" /><button>搜索教练</button><br /><br />
+					课程价格(￥/节)：
+					<input type="text" /><br /><br />               
+					可容纳学员人数：
+					<input type="text" /><br /><br />
+					课程描述：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="text" /><br /><br />
+	            </div>  
+	            <div class="modal-footer">  
+	                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
+	                <button type="button" class="btn btn-primary">确定</button>  
+	            </div>  
+	        </div>  
+	    </div>  
+	</div>  
+	
+	
+	
+	
 	<footer id="gtco-footer" role="contentinfo">
 		<div class="gtco-container">
 			<div class="row row-p	b-md">
@@ -147,14 +211,12 @@
 				<div class="col-md-4">
 					<div class="gtco-widget">
 						<h3>关于我们</h3>
-						<p>蜗牛46期第六组，由项目负责人温攀，会长文然，技术负责人黄仁杰，产品经理滕伟，后台管理刘勇，前端张正宇组成</p>
+						<p>蜗牛46期第六组项目，由项目负责人温攀，会长文然，技术负责人黄仁杰，产品经理滕伟，后台管理刘勇，前端张正宇负责</p>
 					</div>
 				</div>
 
 				<div class="col-md-2 col-md-push-1"></div>
 				
-				
-
 				<div class="col-md-3 col-md-push-1">
 					<div class="gtco-widget">
 						<h3>联系方式</h3>
@@ -187,15 +249,12 @@
 
 		</div>
 	</footer>
-	<!-- </div> -->
-
-	</div>
 
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
 	</div>
 	
-	<!-- jQuery -->
+		<!-- jQuery -->
 	<script src="../../js/jquery.min.js"></script>
 	<!-- jQuery Easing -->
 	<script src="../../js/jquery.easing.1.3.js"></script>
@@ -224,5 +283,4 @@
 
 	</body>
 </html>
-
 
