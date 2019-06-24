@@ -104,7 +104,7 @@ public class CoachController {
 		//id从session域中获取？还是从前台传递？
 		CoachBean coachInfo = service.getCoachDetailInfo(id);
 		map.put("coachInfo", coachInfo);
-		return "/html/coach/my.html";
+		return "html/coach/my.html";
 	}
 	
 	/**
