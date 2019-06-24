@@ -12,10 +12,6 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -35,48 +31,35 @@ public class StudentController {
 	 * @param remenber 
 	 * @return
 	 */
+
 	@RequestMapping("/login.do")
-	public String login(String arg1,String pwd,Integer remember){
+	public String login(String arg1,String pwd){
 		//产生一个用户（门面对象）
 		Subject currentUser = SecurityUtils.getSubject();
 		 if (!currentUser.isAuthenticated()) {
 	            UsernamePasswordToken token = new UsernamePasswordToken("s"+arg1,pwd);
 	            try {
-	            	if (remember != null && remember == 1) {
-						token.setRememberMe(true);
-					}
 	            	//调用login进行认证
 	                currentUser.login(token);
 	                System.out.println("认证成功");
-	                return "redirect:/index.html";
 	            } 
-	            // 父异常。认证失败异常
 	            catch (AuthenticationException ae) {
-	                //unexpected condition?  error?
-	            	System.out.println("登录失败");
-	            	return "redirect:/login.html";
+	                // 捕获未知用户名异常
+	                return "redirect:/html/student/studentLogin.html";
 	            }
 	      }
-		return "redirect:/index.html";
+		 
+		StudentBean student = service.findStudentbyName(arg1);
+		currentUser.getSession().setAttribute("stu", student);
+		 return "redirect:/html/student/student.html";
 	}
 	
 	@RequestMapping("/register.do")
 	@ResponseBody
-		public String register(StudentBean student,BindingResult result,ModelMap map,Model model){
+		public String register(StudentBean student){
 			/**
 			 * 未确定加盐值
 			 */
-		model.addAttribute("user",student);
-		if (result.hasErrors()) {
-			System.out.println("有错误");
-			List<FieldError> list = result.getFieldErrors();
-			for (FieldError fieldError : list) {
-				map.put("error_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
-			return "/html/student/studentReg.html";
-		}
-		
-		
 			String id = UUID.randomUUID().toString();
 			student.setS_id(id);
 			Boolean boo = service.regist(student);
