@@ -168,4 +168,10 @@ public class CoachServiceImpl implements ICoachService {
 	public List<DynamicBean> listFriendDynamic(String id) {
 		return blogDao.listFriendBlog(id);
 	}
+
+	@Override
+	public CoachBean getPersonalInfo(String id) {
+		CoachBean personalInfo = dao.getPersonalInfo(id);
+		return personalInfo;
+	}
 }

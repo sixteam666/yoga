@@ -2,46 +2,46 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>个人中心</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
-		<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
-		<meta name="author" content="FreeHTML5.co" />
-	
-		<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
-		
-		<!-- Animate.css -->
-		<link rel="stylesheet" href="../../css/animate.css">
-		<!-- Icomoon Icon Fonts-->
-		<link rel="stylesheet" href="../../css/icomoon.css">
-		<!-- Themify Icons-->
-		<link rel="stylesheet" href="../../css/themify-icons.css">
-		<!-- Bootstrap  -->
-		<link rel="stylesheet" href="../../css/bootstrap.css">
-	
-		<!-- Magnific Popup -->
-		<link rel="stylesheet" href="../../css/magnific-popup.css">
-	
-		<!-- Magnific Popup -->
-		<link rel="stylesheet" href="../../css/bootstrap-datepicker.min.css">
-	
-		<!-- Owl Carousel  -->
-		<link rel="stylesheet" href="../../css/owl.carousel.min.css">
-		<link rel="stylesheet" href="../../css/owl.theme.default.min.css">
-	
-		<!-- Theme style  -->
-		<link rel="stylesheet" href="../../css/style.css">
-	
-		<!-- Modernizr JS -->
-		<script src="../../js/modernizr-2.6.2.min.js"></script>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>个人中心</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
+	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
+	<meta name="author" content="FreeHTML5.co" />
 
-		<style type="text/css">
-			.fon{
-				font-family: "微软雅黑";
-			}
-		</style>
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="../../css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="../../css/icomoon.css">
+	<!-- Themify Icons-->
+	<link rel="stylesheet" href="../../css/themify-icons.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="../../css/bootstrap.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../../css/magnific-popup.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../../css/bootstrap-datepicker.min.css">
+
+	<!-- Owl Carousel  -->
+	<link rel="stylesheet" href="../../css/owl.carousel.min.css">
+	<link rel="stylesheet" href="../../css/owl.theme.default.min.css">
+
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="../../css/style.css">
+
+	<!-- Modernizr JS -->
+	<script src="../../js/modernizr-2.6.2.min.js"></script>
+
+	<style type="text/css">
+		.fon{
+			font-family: "微软雅黑";
+		}
+	</style>
 </head>
 <body>
 	<div class="gtco-loader"></div>
@@ -87,7 +87,7 @@
 				</div>
 				<div class="col-md-8 col-md-offset-2">
 					<div class="col-md-8 text-left">
-						<h3>基本信息<a href="#">编辑</a></h3>
+						<h3>基本信息&nbsp;&nbsp;<a style="font-size:14px" th:href="@{/coach/personalInfo.do?id=}+${coachInfo.c_id}">编辑</a></h3>
 					</div>
 					<table class="table table-bordered">
 						<tr align="center">
@@ -104,56 +104,59 @@
 							<td><span th:text="${coachInfo.c_phone}">未设置</span></td>
 						</tr>
 						<tr align="center">
+							<td>QQ号：</td>
+							<td><span th:text="${coachInfo.c_qq}">未设置</span></td>
+						</tr>
+						<tr align="center">
 							<td>地址：</td>
 							<td><span th:text="${coachInfo.c_address}">未设置</span></td>
 						</tr>
 						<tr align="center">
 							<td>资料是否公开:</td>
 							<td>
-								<select name="power" >
-									<option th:if="${coachInfo.c_privacy == 0}" value="0">保密</option>
-									<option value="1" selected="selected">仅好友可见</option>
-									<option value="2" selected="selected">完全公开</option>
-								</select>
+								<span th:text="${coachInfo.c_privacyStr}">完全公开</span>
 							</td>
 						</tr>
 					</table>
 						
-					<div class="col-md-8 text-left">
-						<h3>课程设置</h3>
+						
+					<div th:if="${coachInfo.authentication == 0}"><p>你还未进行教练认证，赶紧<a>去认证</a>吧</p></div>
+					<div th:if="${coachInfo.authentication != 0}">
+						<div class="col-md-8 text-left">
+							<h3>教练设置<a style="font-size:12px" href="/html/coach/personalInfo.html">编辑</a></h3>
+						</div>
+						<table class="table table-bordered">
+							<tr align="center">
+								<td>流派：</td>
+								<td>
+									<select name="yogaStyle">
+										<option value="null" selected="selected">请选择</option>
+										<option value="王瑜伽" th:if="${coachInfo.c_style == 1}">王瑜伽</option>
+										<option value="业瑜伽">业瑜伽</option>
+										<option value="智瑜伽">智瑜伽</option>
+										<option value="哈达瑜伽">哈达瑜伽</option>
+										<option value="奉爱瑜伽">奉爱瑜伽</option>
+									</select>
+								</td>
+							</tr>
+							<tr align="center">
+								<td>课时费标准：</td>
+								<td><span th:text="${coachInfo.c_price}">0.0</span>元/节</td>
+							</tr>
+							<tr align="center">
+								<td>是否接课：</td>
+								<td>
+									<input type="radio" name="whether" id="radio1" value="0" checked="checked"/>是
+									<input type="radio" name="whether" id="radio2" value="1" />否
+								</td>
+							</tr>
+							<tr align="center">
+								<td>教练认证：</td>
+								<td>未认证&nbsp;&nbsp;&nbsp;<button style="font-size:14px">点击认证</button></td>
+							</tr>
+						</table>
 					</div>
-					<table class="table table-bordered">
-						<tr align="center">
-							<td>流派：</td>
-							<td>
-								<select name="yogaStyle">
-									<option value="null" selected="selected">请选择</option>
-									<option value="王瑜伽" th:if="${coachInfo.c_style == 1}">王瑜伽</option>
-									<option value="业瑜伽">业瑜伽</option>
-									<option value="智瑜伽">智瑜伽</option>
-									<option value="哈达瑜伽">哈达瑜伽</option>
-									<option value="奉爱瑜伽">奉爱瑜伽</option>
-								</select>
-							</td>
-						</tr>
-						<tr align="center">
-							<td>课时费标准：</td>
-							<td><span th:text="${coachInfo.c_price}">0.0</span>元/节</td>
-						</tr>
-						<tr align="center">
-							<td>是否接课：</td>
-							<td>
-								<input type="radio" name="whether" id="radio1" value="0" checked="checked"/>是
-								<input type="radio" name="whether" id="radio2" value="1" />否
-							</td>
-						</tr>
-						<tr align="center">
-							<td>教练认证：</td>
-							<td>未认证&nbsp;&nbsp;&nbsp;<button style="font-size:14px">点击认证</button></td>
-						</tr>
-					</table>
-					
-					<div class="col-md-8 text-left">
+					<!-- <div class="col-md-8 text-left">
 						<h3>钱包管理</h3>
 					</div>
 					<table class="table table-bordered">
@@ -164,17 +167,17 @@
 								<button type="button" style="font-size:14px">提现</button>
 							</td>
 						</tr>
-					</table>
+					</table> -->
 					
-					<div class="col-md-8 text-left">
+					<!-- <div class="col-md-8 text-left">
 						<h3>我的签约</h3>
-					</div>
+					</div>e
 					<table class="table table-bordered">
 						<tr align="center">
 							<td>我的签约场馆：</td>
 							<td th:if="${not #lists.isEmpty(coachInfo.gym)}" th:text="${coachInfo.gym.g_name}">无</td>
 						</tr>
-					</table>
+					</table> -->
 				</div>
 			</div>
 		</div>

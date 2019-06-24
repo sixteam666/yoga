@@ -8,7 +8,12 @@ public class CoachBean {
 	private String c_name;
 	private String c_password;
 	private String c_phone;
+	/**
+	 * 教练QQ号，新添加字段
+	 */
+	private String c_qq;
 	private int c_privacy;
+	private String c_privacyStr;
 	private String c_nickname;
 	private String c_headimg;
 	private double c_money;
@@ -18,6 +23,10 @@ public class CoachBean {
 	private String c_price;
 	private String c_g_id;
 	private GymBean gym;
+	/**
+	 * 教练认证，新添加字段；0-未认证，1-官方认证，2-官方认证、场馆认证
+	 */
+	private Integer authentication;
 	public String getC_id() {
 		return c_id;
 	}
@@ -41,6 +50,12 @@ public class CoachBean {
 	}
 	public void setC_phone(String c_phone) {
 		this.c_phone = c_phone;
+	}
+	public String getC_qq() {
+		return c_qq;
+	}
+	public void setC_qq(String c_qq) {
+		this.c_qq = c_qq;
 	}
 	public int getC_privacy() {
 		return c_privacy;
@@ -103,12 +118,32 @@ public class CoachBean {
 	public void setGym(GymBean gym) {
 		this.gym = gym;
 	}
+	
+	public String getC_privacyStr() {
+		if(c_privacy == 0) {
+			c_privacyStr = "完全公开";
+		}
+		if(c_privacy == 1) {
+			c_privacyStr = "仅好友公开";
+		}
+		if(c_privacy == 2) {
+			c_privacyStr = "保密";
+		}
+		return c_privacyStr;
+	}
+	public Integer getAuthentication() {
+		return authentication;
+	}
+	public void setAuthentication(Integer authentication) {
+		this.authentication = authentication;
+	}
 	@Override
 	public String toString() {
 		return "CoachBean [c_id=" + c_id + ", c_name=" + c_name + ", c_password=" + c_password + ", c_phone=" + c_phone
-				+ ", c_privacy=" + c_privacy + ", c_nickname=" + c_nickname + ", c_headimg=" + c_headimg + ", c_money="
-				+ c_money + ", c_address=" + c_address + ", c_style=" + c_style + ", c_access=" + c_access
-				+ ", c_price=" + c_price + ", c_g_id=" + c_g_id + ", gym=" + gym + "]";
+				+ ", c_qq=" + c_qq + ", c_privacy=" + c_privacy + ", c_privacyStr=" + c_privacyStr + ", c_nickname="
+				+ c_nickname + ", c_headimg=" + c_headimg + ", c_money=" + c_money + ", c_address=" + c_address
+				+ ", c_style=" + c_style + ", c_access=" + c_access + ", c_price=" + c_price + ", c_g_id=" + c_g_id
+				+ ", gym=" + gym + ", authentication=" + authentication + "]";
 	}
 
 }

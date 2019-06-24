@@ -168,4 +168,11 @@ public interface ICoachService {
 	 * @return 是否处理成功
 	 */
 	Boolean updateRequest(String r_reqid,String r_resid,int state);
+	
+	/**
+	 * 获得教练基本信息，用于个人资料基本信息修改
+	 * @param id
+	 * @return
+	 */
+	public CoachBean getPersonalInfo(String id);
 }

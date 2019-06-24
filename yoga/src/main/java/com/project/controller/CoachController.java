@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
@@ -76,7 +77,6 @@ public class CoachController {
 		return "redirect:/register.html";
 	}
 	
-	
 	/**
 	 * 教练信息完善，教练信息更新
 	 * @author pan
@@ -102,7 +102,7 @@ public class CoachController {
 		//id从session域中获取？还是从前台传递？
 		CoachBean coachInfo = service.getCoachDetailInfo(id);
 		map.put("coachInfo", coachInfo);
-		return "html/coach/my.html";
+		return "html/coach/my-pan.html";
 	}
 	
 	/**
@@ -179,5 +179,36 @@ public class CoachController {
 		List<StudentBean> stuList = service.listMyStudent(id);
 		map.put("stuList", stuList);
 		return "/html/coach/showStudent.html";
+	}
+	
+	/**
+	 * 显示String id
+	 * @return
+	 */
+	@RequestMapping("personalInfo.do")
+	public String showPersonalInfo(String id, ModelMap map) {
+		CoachBean personalInfo = service.getPersonalInfo(id);
+		map.put("personalInfo", personalInfo);
+		return "/html/coach/personalInfo.html";
+	}
+	
+	/**
+	 * 更新教练个人详细信息
+	 * @author pan
+	 * @param coach 要更新的数据
+	 * @return 返回个人信息显示页面
+	 */
+	@RequestMapping("updatePersonalInfo.do")
+	public String updatePersonalInfo(CoachBean coach, MultipartFile file) {
+		System.out.println(coach);
+		String uuid = UUID.randomUUID().toString();
+		String filename = file.getOriginalFilename();
+		String ext = filename.substring(filename.lastIndexOf("."));
+		String name = uuid + ext;
+		System.out.println(name);
+		coach.setC_headimg(name);
+		System.out.println(coach);
+		//重定向到个人信息显示页面
+		return "redirect:/coach/showCoach.do";
 	}
 }

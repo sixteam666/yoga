@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymaleaf.org">
+<head>
+<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>基本信息修改</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
+	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
+	<meta name="author" content="FreeHTML5.co" />
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="../../css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="../../css/icomoon.css">
+	<!-- Themify Icons-->
+	<link rel="stylesheet" href="../../css/themify-icons.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="../../css/bootstrap.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../../css/magnific-popup.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../../css/bootstrap-datepicker.min.css">
+
+	<!-- Owl Carousel  -->
+	<link rel="stylesheet" href="../../css/owl.carousel.min.css">
+	<link rel="stylesheet" href="../../css/owl.theme.default.min.css">
+
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="../../css/style.css">
+
+	<!-- Modernizr JS -->
+	<script src="../../js/modernizr-2.6.2.min.js"></script>
+
+	<style type="text/css">
+		.fon{
+			font-family: "微软雅黑";
+		}
+	</style>
+</head>
+<body>
+	<div style="height:50px"></div>
+	<div class="col-md-8 col-md-offset-2 text-left text-center gtco-heading">
+		<h3>基本信息修改</h3>
+	</div>
+	<form action="/coach/updatePersonalInfo.do" method="post" enctype="multipart/form-data">
+		<table class="table table-striped">
+			<tr align="center">
+				<td colspan="2">
+					<img th:src="@{/html/coach/image/headimg/}+${personalInfo.c_headimg}" src="../../images/imgs/1.jpg"/>
+					<input type="file">
+				</td>
+			</tr>
+			<tr>
+				<td align="right">昵称：</td>
+				<td align="left">
+					<input th:value="${personalInfo.c_nickname}" name="c_nickname">
+				</td>
+			</tr>
+			<tr align="center">
+				<td align="right">手机号：</td>
+				<td align="left">
+					<input th:value="${personalInfo.c_phone}" name="c_phone" disabled="disabled">
+					<a href="#">更换</a>
+				</td>
+			</tr>
+			<tr align="center">
+				<td align="right">QQ号：</td>
+				<td align="left">
+					<input th:value="${personalInfo.c_qq}" name="c_qq">
+				</td>
+			</tr>
+			<tr align="center">
+				<td align="right">地址：</td>
+				<td align="left">
+					<input th:value="${personalInfo.c_address}" name="c_address">
+				</td>
+			</tr>
+			<tr align="center">
+				<td align="right">资料是否公开:</td>
+				<td align="left">
+					<select name="c_privacy" >
+						<option value="2">保密</option>
+						<option value="1" selected="selected">仅好友可见</option>
+						<option value="0">完全公开</option>
+					</select>
+				</td>
+			</tr>
+			<tr align="center">
+				<td colspan="2">
+					<input class="btn btn-primary" type="submit" value="保存">
+					<input class="btn btn-primary" type="button" value="返回" onclick="history.back(-1)">
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>
