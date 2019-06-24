@@ -6,12 +6,18 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+<<<<<<< HEAD
 import org.apache.shiro.session.mgt.SessionKey;
+=======
+import org.apache.shiro.crypto.hash.SimpleHash;
+>>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -70,16 +76,15 @@ public class CoachController {
 	}
 	@RequestMapping("/register.do")
 	public String register(CoachBean coach){
-		
 		/**
-		 * 未确定加盐值
+		 * 暂未加盐加密
 		 */
 		String id = UUID.randomUUID().toString();
 		coach.setC_id(id);
 		Boolean boo = service.register(coach);
 		//注册成功：定向登录界面；失败：定向注册界面
-		if (boo) return "redirect:/login.html";
-		return "redirect:/register.html";
+		if (boo) return "redirect:/html/coach/coachLogin.html";
+		return "forward:/html/coach/coachReg.html";
 	}
 	
 	/**

@@ -36,8 +36,12 @@ public class CoachServiceImpl implements ICoachService {
 	@Override
 	public Boolean register(CoachBean coach) {
 		
-		int row = dao.addCoach(coach);
-		if (row>0)return true;
+		//判断是否存在账号
+		Object obj = dao.findCoachByName(coach.getC_name());
+		if (obj==null) {
+			int row = dao.addCoach(coach);
+			if (row>0)return true;
+		}
 		return false;
 	}
 
