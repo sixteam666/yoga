@@ -3,13 +3,13 @@ package com.project.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.regex.Matcher;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.alibaba.druid.sql.ast.statement.SQLForeignKeyImpl.Match;
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
@@ -54,25 +53,29 @@ public class GymController {
 	 * @return
 	 */
 	@RequestMapping("/login.do")
-	public String login(String arg, String pwd) {
+	@ResponseBody
+	public int login(String arg, String g_password) {
+		System.out.println(arg + "==" + g_password);
+		// 盐值暂时无法确定
+		Object obj = new SimpleHash("MD5", g_password,"",1024);
 		// 产生一个用户（门面对象）
 		Subject currentUser = SecurityUtils.getSubject();
 		if (!currentUser.isAuthenticated()) {
-			UsernamePasswordToken token = new UsernamePasswordToken("g" + arg, pwd);
+			UsernamePasswordToken token = new UsernamePasswordToken("g" + arg, obj.toString());
 			try {
 				// 调用login进行认证
 				currentUser.login(token);
 				System.out.println("认证成功");
-				return "redirect:/html/gym/gym.html";
+				return 1;
 			}
 			// 父异常。认证失败异常
 			catch (AuthenticationException ae) {
 				// unexpected condition? error?
 				System.out.println("异常不详：自己解决");
-				return "redirect:/html/gym/gymLogin.html";
+				return 0;
 			}
 		}
-		return "redirect:/html/.html";
+		return -1;
 	}
 	
 	/**
@@ -118,10 +121,9 @@ public class GymController {
 			return -1; // 格式不符合要求
 		}
 		// 盐值暂时无法确定
-		/*
-		 * Object obj = new SimpleHash("MD5", gym.getG_password(),1024);
-		 * gym.setG_password(obj.toString());
-		 */
+		Object obj = new SimpleHash("MD5", gym.getG_password(),"",1024);
+		gym.setG_password(obj.toString());
+		 
 		int result = gymService.register(gym);
 		return result;
 	}

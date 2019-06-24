@@ -174,11 +174,11 @@ function inputFocus(obj){
 // 切换注册方式
 $("#change_reg").click(function(){
 	var str = $("#change_reg").text();
-	if(str === "使用手机号注册"){
+	if(str === ">>使用手机号注册"){
 		$("#form_reg").html(phoneRegForm);
-		$("#change_reg").text("使用邮箱注册");
+		$("#change_reg").text(">>使用邮箱注册");
 	}else{
 		$("#form_reg").html(emailRegForm);
-		$("#change_reg").text("使用手机号注册");
+		$("#change_reg").text(">>使用手机号注册");
 	}
 });
