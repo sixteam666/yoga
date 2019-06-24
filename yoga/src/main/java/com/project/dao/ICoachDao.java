@@ -145,4 +145,36 @@ public interface ICoachDao {
 			+ " c_qq = #{c_qq} where c_id = #{c_id}")
 	int updateCoachPersonalInfo(CoachBean coach);
 	
+	/**
+	 * 教练认证
+	 * @uthor pan
+	 * @param coach
+	 */
+	@Update("update t_coach set authentication = 5 where c_id = #{c_id}")
+	public void updateAuthentication(CoachBean coach);
+	/**
+	 * 教练认证结束
+	 * @uthor pan
+	 * @param coach
+	 */
+	@Update("update t_coach set authentication = 1 where c_id = #{c_id}")
+	public void updateAuthenticationSuccess(CoachBean coach);
+	
+	/**
+	 * 查询教练课程设置
+	 * @author pan
+	 * @param id
+	 * @return
+	 */
+	@Select("select c_id,c_style,c_price,c_access from t_coach where c_id = #{id}")
+	public CoachBean getLessonInfo(String id);
+	
+	/**
+	 * 更新教练课程设置
+	 * @author pan 
+	 * @param coach
+	 */
+	@Update("update t_coach set c_style = #{c_style}, c_price = #{c_price}, c_access = #{c_access} where c_id = #{c_id}")
+	public void updateCoachLessonInfo(CoachBean coach);
+	
 }

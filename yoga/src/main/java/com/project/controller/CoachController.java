@@ -1,10 +1,7 @@
 package com.project.controller;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,11 +10,6 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-<<<<<<< HEAD
-import org.apache.shiro.session.mgt.SessionKey;
-=======
-import org.apache.shiro.crypto.hash.SimpleHash;
->>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -108,9 +100,9 @@ public class CoachController {
 	 */
 	@RequestMapping("showCoach.do")
 	public String showCoachInfoByid(String id, ModelMap map) {
-		System.out.println("测试进入详情展示控制层方法>>>>>>>>>>>>>>>>>>>>>>>>");
 		//id从session域中获取？还是从前台传递？
 		CoachBean coachInfo = service.getCoachDetailInfo(id);
+		System.out.println(coachInfo);
 		map.put("coachInfo", coachInfo);
 		return "html/coach/my-pan.html";
 	}
@@ -185,6 +177,7 @@ public class CoachController {
 	 * @author pan
 	 * @param id 教练id
 	 */
+	@RequestMapping("showMyStudent.do")
 	public String showMyStudent(String id, ModelMap map) {
 		List<StudentBean> stuList = service.listMyStudent(id);
 		map.put("stuList", stuList);
@@ -221,6 +214,47 @@ public class CoachController {
 		coach.setC_id("1");
 		System.out.println(coach);
 		service.updatePersonalInfo(coach);
+		//重定向到个人信息显示页面
+		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
+	}
+	
+	/**
+	 * 教练认证
+	 * @author pan
+	 * @param coach
+	 */
+	@RequestMapping("authentication.do")
+	@ResponseBody
+	public String coachAuthentication(CoachBean coach) {
+		coach.setC_id("1");
+		service.updateAuthentication(coach);
+		return coach.getC_id();
+	}
+	
+	/**
+	 * 显示教练课程信息
+	 * @param id
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("lessonInfo.do")
+	public String showLessonInfo(String id, ModelMap map) {
+		CoachBean lessonInfo = service.getLessonInfo(id);
+		map.put("lessonInfo", lessonInfo);
+		return "/html/coach/lessonInfo.html";
+	}
+	
+	/**
+	 * 更新教练课程信息
+	 * @author pan
+	 * @param coach 要更新的数据
+	 * @return 返回个人信息显示页面
+	 */
+	@RequestMapping("updateLessonInfo.do")
+	public String updateLessonInfo(CoachBean coach) {
+		coach.setC_id("1");
+		System.out.println(coach);
+		service.updateLessonInfo(coach);
 		//重定向到个人信息显示页面
 		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
 	}

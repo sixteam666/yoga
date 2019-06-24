@@ -45,48 +45,34 @@
 <body>
 	<div style="height:50px"></div>
 	<div class="col-md-8 col-md-offset-2 text-left text-center gtco-heading">
-		<h3>基本信息修改</h3>
+		<h3>教练信息修改</h3>
 	</div>
-	<form action="/coach/updatePersonalInfo.do" method="post" enctype="multipart/form-data">
+	<form action="/coach/updateLessonInfo.do" method="post" enctype="multipart/form-data">
 		<table class="table table-striped">
-			<tr align="center">
-				<td colspan="2">
-					<img th:src="@{/html/coach/image/headimg/}+${personalInfo.c_headimg}" src="../../images/imgs/1.jpg"/>
-					<input type="file" name="file">
-				</td>
-			</tr>
 			<tr>
-				<td align="right">昵称：</td>
+				<td align="right">流派：</td>
 				<td align="left">
-					<input th:value="${personalInfo.c_nickname}" name="c_nickname">
-				</td>
-			</tr>
-			<tr align="center">
-				<td align="right">手机号：</td>
-				<td align="left">
-					<input id="c_phone" th:value="${personalInfo.c_phone}" name="c_phone" data-toggle="modal" data-target="#myModal2">
-				</td>
-			</tr>
-			<tr align="center">
-				<td align="right">QQ号：</td>
-				<td align="left">
-					<input th:value="${personalInfo.c_qq}" name="c_qq">
-				</td>
-			</tr>
-			<tr align="center">
-				<td align="right">地址：</td>
-				<td align="left">
-					<input th:value="${personalInfo.c_address}" name="c_address">
-				</td>
-			</tr>
-			<tr align="center">
-				<td align="right">资料是否公开:</td>
-				<td align="left">
-					<select name="c_privacy" >
-						<option value="2" th:selected="${personalInfo.c_privacy == 2}">保密</option>
-						<option value="1" th:selected="${personalInfo.c_privacy == 1}">仅好友可见</option>
-						<option value="0" th:selected="${personalInfo.c_privacy == 0}">完全公开</option>
+					<select name="c_style">
+						<option value="null" th:selected="${lessonInfo.c_style == null}">请选择</option>
+						<option value="王瑜伽" th:selected="${lessonInfo.c_style == '王瑜伽'}">王瑜伽</option>
+						<option value="业瑜伽" th:selected="${lessonInfo.c_style == '业瑜伽'}">业瑜伽</option>
+						<option value="智瑜伽" th:selected="${lessonInfo.c_style == '智瑜伽'}">智瑜伽</option>
+						<option value="哈达瑜伽" th:selected="${lessonInfo.c_style == '哈达瑜伽'}">哈达瑜伽</option>
+						<option value="奉爱瑜伽" th:selected="${lessonInfo.c_style == '奉爱瑜伽'}">奉爱瑜伽</option>
 					</select>
+				</td>
+			</tr>
+			<tr align="center">
+				<td align="right">课时费：</td>
+				<td align="left">
+					<input id="c_phone" th:value="${lessonInfo.c_price}" name="c_price">
+				</td>
+			</tr>
+			<tr align="center">
+				<td align="right">是否接课：</td>
+				<td align="left">
+					<input type="radio" name="c_access" id="radio1" value="1" th:checked="${lessonInfo.c_access == 1}"/>是
+					<input type="radio" name="c_access" id="radio2" value="0" th:checked="${lessonInfo.c_access == 0}"/>否
 				</td>
 			</tr>
 			<tr align="center">
@@ -97,27 +83,6 @@
 			</tr>
 		</table>
 	</form>
-	
-	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
-	    <div class="modal-dialog" role="document">  
-	        <div class="modal-content">  
-	            <div class="modal-header">  
-	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
-	                    <span aria-hidden="true">×</span>  
-	                </button>  
-	                <h4 class="modal-title" id="myModalLabel">更换手机号</h4>  
-	            </div>  
-	            <div class="modal-body">
-	            	<label for="newPhone">新的手机号：</label><input id="newPhone" type="text"><br>
-	            	<label for="phoneCode">请输入验证码</label><input id="phoneCode" type="text" onblur="check()">
-	            </div>  
-	            <div class="modal-footer">  
-	                <button id="aa" type="button" class="btn btn-primary" onclick="changePhone()" >确定</button>  
-	                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
-	            </div>  
-	        </div>  
-	    </div>  
-	</div> 
 	
 	<script src="../../js/jquery.min.js"></script>
 	<!-- jQuery Easing -->
@@ -139,13 +104,5 @@
 	<script src="../../js/bootstrap-datepicker.min.js"></script>
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-	<script>
-		function changePhone() {
-			var newPhone = $("#newPhone").val();	
-			$("#c_phone").val(newPhone);
-			$("#aa").attr("data-dismiss","modal");
-		}
-		
-	</script>
 </body>
 </html>
