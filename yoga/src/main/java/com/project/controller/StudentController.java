@@ -62,7 +62,9 @@ public class StudentController {
 			student.setS_id(id);
 			Boolean boo = service.regist(student);
 			//注册成功：定向登录界面；失败：定向注册界面
-			if (boo) return "redirect:/login.html";
+			if (boo) {
+				return "redirect:/login.html";
+			}
 			return "redirect:/register.html";
 		}
 	
