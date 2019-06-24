@@ -3,6 +3,7 @@ package com.project.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.druid.sql.ast.statement.SQLForeignKeyImpl.Match;
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
@@ -84,7 +86,7 @@ public class GymController {
 		if(gymService.login(arg) == null) {
 			return false;
 		}
-		return true; 
+		return true;
 	}
 	
 	/**
@@ -92,14 +94,21 @@ public class GymController {
 	 * 
 	 * @param regName 注册的登录名（邮箱或电话号）
 	 * @param g_password 注册的密码
-	 * @return 注册状态 1：注册成功，0：注册失败 -1：登录名格式错误
+	 * @return 注册状态 1：注册成功，0：注册失败 -1：登录名格式错误 -2:用户名已存在
 	 */
 	@RequestMapping("/reg.do")
 	@ResponseBody
 	public int register(String regName, String g_password) {
+		String emailTest = "^[0-9a-z]+\\w*@([0-9a-z]+\\.)+[0-9a-z]+$"; // 邮箱正则表达式
+		String phoneTest = "^1[3|4|5|7|8][0-9]\\\\d{4,8}$"; // 电话正则表达式
+		
 		System.out.println("reg.do测试:GymBean:" + regName +"--" + g_password);
+		if(gymService.login(regName) != null) {
+			return -2; // 邮箱或电话已注册
+		}
 		GymBean gym = new GymBean();
 		gym.setG_id(UUID.randomUUID().toString());
+		gym.setG_password(g_password);
 		
 		if(regName.contains("@")) {
 			gym.setG_email(regName);
