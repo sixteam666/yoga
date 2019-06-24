@@ -61,16 +61,16 @@ public class GymController {
 				// 调用login进行认证
 				currentUser.login(token);
 				System.out.println("认证成功");
-				return "redirect:/html/main.html";
+				return "redirect:/html/gym/gym.html";
 			}
 			// 父异常。认证失败异常
 			catch (AuthenticationException ae) {
 				// unexpected condition? error?
 				System.out.println("异常不详：自己解决");
-				return "redirect:/html/login.html";
+				return "redirect:/html/gym/gymLogin.html";
 			}
 		}
-		return "redirect:/html/main.html";
+		return "redirect:/html/.html";
 	}
 	
 	/**
@@ -86,24 +86,33 @@ public class GymController {
 		}
 		return true; 
 	}
-
+	
 	/**
 	 * 注册
 	 * 
-	 * @param gym
-	 * @return
+	 * @param regName 注册的登录名（邮箱或电话号）
+	 * @param g_password 注册的密码
+	 * @return 注册状态 1：注册成功，0：注册失败 -1：登录名格式错误
 	 */
 	@RequestMapping("/reg.do")
 	@ResponseBody
-	public int register(GymBean gym) {
+	public int register(String regName, String g_password) {
+		System.out.println("reg.do测试:GymBean:" + regName +"--" + g_password);
+		GymBean gym = new GymBean();
 		gym.setG_id(UUID.randomUUID().toString());
-
+		
+		if(regName.contains("@")) {
+			gym.setG_email(regName);
+		}else if(regName.length() == 11) {
+			gym.setG_phone(regName);
+		}else {
+			return -1; // 格式不符合要求
+		}
 		// 盐值暂时无法确定
 		/*
 		 * Object obj = new SimpleHash("MD5", gym.getG_password(),1024);
 		 * gym.setG_password(obj.toString());
 		 */
-
 		int result = gymService.register(gym);
 		return result;
 	}
@@ -127,7 +136,8 @@ public class GymController {
 	 */
 	@RequestMapping("/updateMsg.do")
 	@ResponseBody
-	public int updateMessage(Model model,ModelMap map,BindingResult result,@Validated GymBean gymBean) {
+	public String updateMessage(Model model,ModelMap map,@Validated GymBean gymBean,BindingResult result) {
+		System.out.println(gymBean);
 		model.addAttribute("gymBean", gymBean);
 		if (result.hasErrors()) {
 			System.out.println("有错！！！");
@@ -138,8 +148,10 @@ public class GymController {
 			}
 			//return "forward:/";
 		}
+		
 		int number = gymService.updateMessage(gymBean);
-		return number;
+		System.out.println(number);
+		return "ok";
 	}
 
 	/**
@@ -168,10 +180,13 @@ public class GymController {
 	 */
 	@RequestMapping("/addPictrues.do")
 	@ResponseBody
-	public int addPictrues(String gymId,MultipartFile[] files,HttpServletRequest req) {
+	public String addPictrues(MultipartFile[] files,HttpServletRequest req) {
+		System.out.println(files);
 		PictureBean picBean = new PictureBean();
 		List<PictureBean> list = new ArrayList<PictureBean>();
-		picBean.setP_g_id(gymId);
+		
+		//封装gymid
+		picBean.setP_g_id("1");
 		
 		if(files!=null && files.length>0){  
 			//循环获取file数组中得文件  
@@ -188,8 +203,9 @@ public class GymController {
 		    }  
 		}  
 		
-		int number = gymService.addPictrue(list);
-		return 0;
+		//int number = gymService.addPictrue(list);
+		//System.out.println(number);
+		return "ok";
 	}
 	
 

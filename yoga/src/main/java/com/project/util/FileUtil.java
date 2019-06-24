@@ -31,6 +31,7 @@ public class FileUtil {
 		if (!filepath.exists()) {
             filepath.mkdirs();				
 		}
+		
 		//传过来的文件名经过加工防止重复
 		String fileName = changeName(multipartFile.getOriginalFilename());
 		//将文件保存path里面
