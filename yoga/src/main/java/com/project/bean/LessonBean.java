@@ -10,6 +10,7 @@ public class LessonBean {
 	private String l_c_id;
 	private String l_descirbe;
 	private int l_size;
+	private int l_s_number;
 	private double l_price;
 	private String l_g_id;
 	private int l_weekday;
@@ -69,11 +70,18 @@ public class LessonBean {
 	public void setL_datetime(int l_datetime) {
 		this.l_datetime = l_datetime;
 	}
+	
+	public int getL_s_number() {
+		return l_s_number;
+	}
+	public void setL_s_number(int l_s_number) {
+		this.l_s_number = l_s_number;
+	}
 	@Override
 	public String toString() {
 		return "LessonBean [l_id=" + l_id + ", l_time=" + l_time + ", l_c_id=" + l_c_id + ", l_descirbe=" + l_descirbe
-				+ ", l_size=" + l_size + ", l_price=" + l_price + ", l_g_id=" + l_g_id + ", l_weekday=" + l_weekday
-				+ ", l_datetime=" + l_datetime + "]";
+				+ ", l_size=" + l_size + ", l_s_number=" + l_s_number + ", l_price=" + l_price + ", l_g_id=" + l_g_id
+				+ ", l_weekday=" + l_weekday + ", l_datetime=" + l_datetime + "]";
 	}
 	
 	

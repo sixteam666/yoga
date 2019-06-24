@@ -147,7 +147,8 @@ public class GymController {
 	 */
 	@RequestMapping("/updateMsg.do")
 	@ResponseBody
-	public int updateMessage(Model model,ModelMap map,BindingResult result,@Validated GymBean gymBean) {
+	public String updateMessage(Model model,ModelMap map,@Validated GymBean gymBean,BindingResult result) {
+		System.out.println(gymBean);
 		model.addAttribute("gymBean", gymBean);
 		if (result.hasErrors()) {
 			System.out.println("有错！！！");
@@ -158,8 +159,10 @@ public class GymController {
 			}
 			//return "forward:/";
 		}
+		
 		int number = gymService.updateMessage(gymBean);
-		return number;
+		System.out.println(number);
+		return "ok";
 	}
 
 	/**
@@ -188,10 +191,13 @@ public class GymController {
 	 */
 	@RequestMapping("/addPictrues.do")
 	@ResponseBody
-	public int addPictrues(String gymId,MultipartFile[] files,HttpServletRequest req) {
+	public String addPictrues(MultipartFile[] files,HttpServletRequest req) {
+		System.out.println(files);
 		PictureBean picBean = new PictureBean();
 		List<PictureBean> list = new ArrayList<PictureBean>();
-		picBean.setP_g_id(gymId);
+		
+		//封装gymid
+		picBean.setP_g_id("1");
 		
 		if(files!=null && files.length>0){  
 			//循环获取file数组中得文件  
@@ -208,8 +214,9 @@ public class GymController {
 		    }  
 		}  
 		
-		int number = gymService.addPictrue(list);
-		return 0;
+		//int number = gymService.addPictrue(list);
+		//System.out.println(number);
+		return "ok";
 	}
 	
 

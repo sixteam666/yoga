@@ -25,7 +25,9 @@ public class MyRealm extends AuthorizingRealm {
 	
 	@Autowired
 	private IStudentService studentService;
+	@Autowired
 	private ICoachService coachService;
+	@Autowired
 	private IGymService gymService;
 	
 	/**

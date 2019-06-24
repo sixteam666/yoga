@@ -3,6 +3,8 @@ package com.project.controller;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -14,11 +16,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 import com.project.service.ICoachService;
+import com.project.util.FileUtil;
 
 @Controller
 @RequestMapping("/coach")
@@ -64,18 +68,16 @@ public class CoachController {
 	}
 	@RequestMapping("/register.do")
 	public String register(CoachBean coach){
-		
 		/**
-		 * 未确定加盐值
+		 * 暂未加盐加密
 		 */
 		String id = UUID.randomUUID().toString();
 		coach.setC_id(id);
 		Boolean boo = service.register(coach);
 		//注册成功：定向登录界面；失败：定向注册界面
-		if (boo) return "redirect:/login.html";
-		return "redirect:/register.html";
+		if (boo) return "redirect:/html/coach/coachLogin.html";
+		return "forward:/html/coach/coachReg.html";
 	}
-	
 	
 	/**
 	 * 教练信息完善，教练信息更新
@@ -98,11 +100,11 @@ public class CoachController {
 	 */
 	@RequestMapping("showCoach.do")
 	public String showCoachInfoByid(String id, ModelMap map) {
-		System.out.println("测试进入详情展示控制层方法>>>>>>>>>>>>>>>>>>>>>>>>");
 		//id从session域中获取？还是从前台传递？
 		CoachBean coachInfo = service.getCoachDetailInfo(id);
+		System.out.println(coachInfo);
 		map.put("coachInfo", coachInfo);
-		return "html/coach/my.html";
+		return "html/coach/my-pan.html";
 	}
 	
 	/**
@@ -175,9 +177,85 @@ public class CoachController {
 	 * @author pan
 	 * @param id 教练id
 	 */
+	@RequestMapping("showMyStudent.do")
 	public String showMyStudent(String id, ModelMap map) {
 		List<StudentBean> stuList = service.listMyStudent(id);
 		map.put("stuList", stuList);
 		return "/html/coach/showStudent.html";
+	}
+	
+	/**
+	 * 显示教练基本信息
+	 * @param id
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("personalInfo.do")
+	public String showPersonalInfo(String id, ModelMap map) {
+		CoachBean personalInfo = service.getPersonalInfo(id);
+		map.put("personalInfo", personalInfo);
+		return "/html/coach/personalInfo.html";
+	}
+	
+	/**
+	 * 更新教练个人详细信息
+	 * @author pan
+	 * @param coach 要更新的数据
+	 * @return 返回个人信息显示页面
+	 */
+	@RequestMapping("updatePersonalInfo.do")
+	public String updatePersonalInfo(CoachBean coach, MultipartFile file, HttpServletRequest req) {
+		//这里还有点问题，如果用户未重新上传文件情况未处理
+		String headimg = "";//session中取出
+		if(file.getOriginalFilename() != ""){
+			headimg =FileUtil.getFileName(file, req);
+		}
+		coach.setC_headimg(headimg);
+		coach.setC_id("1");
+		System.out.println(coach);
+		service.updatePersonalInfo(coach);
+		//重定向到个人信息显示页面
+		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
+	}
+	
+	/**
+	 * 教练认证
+	 * @author pan
+	 * @param coach
+	 */
+	@RequestMapping("authentication.do")
+	@ResponseBody
+	public String coachAuthentication(CoachBean coach) {
+		coach.setC_id("1");
+		service.updateAuthentication(coach);
+		return coach.getC_id();
+	}
+	
+	/**
+	 * 显示教练课程信息
+	 * @param id
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("lessonInfo.do")
+	public String showLessonInfo(String id, ModelMap map) {
+		CoachBean lessonInfo = service.getLessonInfo(id);
+		map.put("lessonInfo", lessonInfo);
+		return "/html/coach/lessonInfo.html";
+	}
+	
+	/**
+	 * 更新教练课程信息
+	 * @author pan
+	 * @param coach 要更新的数据
+	 * @return 返回个人信息显示页面
+	 */
+	@RequestMapping("updateLessonInfo.do")
+	public String updateLessonInfo(CoachBean coach) {
+		coach.setC_id("1");
+		System.out.println(coach);
+		service.updateLessonInfo(coach);
+		//重定向到个人信息显示页面
+		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
 	}
 }

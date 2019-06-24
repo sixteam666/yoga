@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<style type="text/css">
+			body,
+			html {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				font-family: "微软雅黑";
+			}
+			
+			#allmap {
+				width: 600px;
+				height: 400px;
+			}
+			
+			p {
+				margin-left: 5px;
+				font-size: 14px;
+			}
+			input{
+				width: 300px;
+			}
+		</style>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=IRc5LSbvaY7NSn3IA8McK3oElyqOwY8v"></script>
+		<title>场馆定位</title>
+	</head>
+
+	<body>
+		<h1>场馆信息完善</h1>
+		查找地址：<input type="text" name="" id="find_address" value="" />
+		<button onclick="searchByStationName()">查找</button>
+		
+		<!-- 地图 -->
+		<div id="allmap"></div>
+		
+		<!-- 信息添加 -->
+		<form action="/gym/updateMsg.do">
+			场馆地址：<input type="text" name="g_address" id="gym_address" /><br />
+			场馆名称：<input type="text" name="g_name" /><br />
+			联系电话：<input type="text" name="g_contactphone" /><br />
+			qq：<input type="text" name="g_qq" /><br />
+			<input type="submit" value="提交信息"/>
+		</form>
+		
+		<!-- 添加图片 -->
+		<form action="/gym/addPictrues.do" enctype="multipart/form-data">
+			添加图片：<input type="file" name="files" multiple='multiple'/><br />
+			<input type="submit" value="提交图片"/>
+		</form>
+		
+		<!-- 场馆详情 -->
+		<form action="/gym/updateMsg.do">
+			场馆详情：<input type="text" name="g_message" /><br />
+			<input type="submit" value="提交详情"/>
+		</form>
+		
+		<!-- 添加课程 -->
+		<form action="/gym/addLesson.do">
+			星期几：<input type="text" name="l_weekday" /><br />
+			早中晚：<input type="text" name="l_datetime" /><br />
+			课程描述：<input type="text" name="l_descirbe" /><br />
+			课程费用：<input type="text" name="l_price" /><br />
+			可容纳学员人数：<input type="text" name="l_size" /><br />
+			已有学员人数：<input type="text" name="l_s_number" /><br />
+			选择教练：<select class="form-control" name="l_c_id">
+                        <option>1</option>
+                        <option>2</option>
+                    </select>
+                    <input type="text" /><button>搜索</button><br />
+			<input type="submit" value="提交课程"/>
+		</form>
+		<script type="text/javascript">
+			function findRoom(){
+				$.ajax({
+					type:"get",
+					async:true,
+					url:"/Dormitory/room/notfull/"+r_roomofgender,
+					/* data:"",  */
+					/* dataType:"json", */
+					success:function(mes){
+						console.info(mes);
+						var str ="<select class='form-control' name='s_roomId'>";
+						for(var i=0;i<mes.length;i++){
+							str+="<option value='"+mes[i].r_id+"'>"+mes[i].r_address+"</option>"
+						}
+						str+="</select>";
+						$(".showroom").html(str);
+						
+					}
+				});
+			}
+		</script>
+		
+	</body>
+
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	map.centerAndZoom(new BMap.Point(104.06792346,30.67994285), 14);
+	
+	map.enableScrollWheelZoom(); //启用滚轮放大缩小，默认禁用
+	map.enableContinuousZoom(); //启用地图惯性拖拽，默认禁用
+
+	map.addControl(new BMap.NavigationControl()); //添加默认缩放平移控件
+	map.addControl(new BMap.OverviewMapControl()); //添加默认缩略地图控件
+	//显示小地图
+	map.addControl(new BMap.OverviewMapControl({
+		isOpen: true,
+		anchor: BMAP_ANCHOR_BOTTOM_RIGHT
+	})); //右下角，打开
+	
+		
+	// 添加带有定位的导航控件
+	var navigationControl = new BMap.NavigationControl({
+		// 靠左上角位置
+		anchor: BMAP_ANCHOR_TOP_LEFT,
+		// LARGE类型
+		type: BMAP_NAVIGATION_CONTROL_LARGE,
+		// 启用显示定位
+		enableGeolocation: true
+	});
+	map.addControl(navigationControl);
+	
+	//浏览器定位
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			var mk = new BMap.Marker(r.point);
+			map.addOverlay(mk);
+			map.panTo(r.point);
+			//alert('您的位置：'+r.point.lng+','+r.point.lat);
+		}
+		else {
+			alert('failed'+this.getStatus());
+		}        
+	},{enableHighAccuracy: true})
+	
+	
+	
+	/*// 添加定位控件
+	var geolocationControl = new BMap.GeolocationControl();
+	geolocationControl.addEventListener("locationSuccess", function(e) {
+		// 定位成功事件
+		var address = '';
+		address += e.addressComponent.province;
+		address += e.addressComponent.city;
+		address += e.addressComponent.district;
+		address += e.addressComponent.street;
+		address += e.addressComponent.streetNumber;
+		alert("当前定位地址为：" + address);
+	});
+	geolocationControl.addEventListener("locationError", function(e) {
+		// 定位失败事件
+		alert(e.message);
+	});
+	map.addControl(geolocationControl);*/
+	
+	// 点击查看地址
+	var geoc = new BMap.Geocoder(); 
+	var address = "";
+	var gym_address = document.getElementById("gym_address");
+	map.addEventListener("click", function(e){        
+		var pt = e.point;
+		geoc.getLocation(pt, function(rs){
+			var addComp = rs.addressComponents;
+			address = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+			
+			gym_address.value = address;
+			//alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+		});        
+	});
+	
+	//查询地址
+	var localSearch = new BMap.LocalSearch(map);
+	localSearch.enableAutoViewport(); //允许自动调节窗体大小
+	
+	function searchByStationName() {
+		map.clearOverlays(); //清空原来的标注
+		var keyword = document.getElementById("find_address").value;
+		localSearch.setSearchCompleteCallback(function(searchResult) {
+			var poi = searchResult.getPoi(0);
+			//document.getElementById("result_").value = poi.point.lng + "," + poi.point.lat;
+			
+			map.centerAndZoom(poi.point, 18);
+			var marker = new BMap.Marker(new BMap.Point(poi.point.lng, poi.point.lat)); // 创建标注，为要查询的地方对应的经纬度
+			map.addOverlay(marker);
+			var content = document.getElementById("find_address").value + "<br/><br/>经度：" + poi.point.lng + "<br/>纬度：" + poi.point.lat;
+			var infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + content + "</p>");
+			marker.addEventListener("click", function() {
+				this.openInfoWindow(infoWindow);
+			});
+			// marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+		});
+		localSearch.search(keyword);
+	}
+	
+	
+	gym_address.onblur = function(){
+		
+		if (gym_address.value!=null) {
+			//查询地址
+			var localSearch = new BMap.LocalSearch(map);
+			localSearch.enableAutoViewport(); //允许自动调节窗体大小
+			map.clearOverlays(); //清空原来的标注
+			var keyword = gym_address.value;
+			localSearch.setSearchCompleteCallback(function(searchResult) {
+				var poi = searchResult.getPoi(0);
+				//document.getElementById("result_").value = poi.point.lng + "," + poi.point.lat;
+				
+				map.centerAndZoom(poi.point, 18);
+				var marker = new BMap.Marker(new BMap.Point(poi.point.lng, poi.point.lat)); // 创建标注，为要查询的地方对应的经纬度
+				map.addOverlay(marker);
+				var content = document.getElementById("find_address").value + "<br/><br/>经度：" + poi.point.lng + "<br/>纬度：" + poi.point.lat;
+				var infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + content + "</p>");
+				marker.addEventListener("click", function() {
+					this.openInfoWindow(infoWindow);
+				});
+				// marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+			});
+			localSearch.search(keyword);
+			
+		}
+	}
+</script>
