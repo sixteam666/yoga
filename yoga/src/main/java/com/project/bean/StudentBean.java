@@ -1,5 +1,7 @@
 package com.project.bean;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * 学员
  * @author Administrator
@@ -7,7 +9,9 @@ package com.project.bean;
  */
 public class StudentBean {
 	private String s_id;
+	@NotBlank(message="用户名不能为空")
 	private String s_name;
+	@NotBlank(message="密码不能为空")
 	private String s_password;
 	private String s_phone;
 	private int s_privacy;

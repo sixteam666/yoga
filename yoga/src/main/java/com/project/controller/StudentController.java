@@ -55,7 +55,6 @@ public class StudentController {
 	
 	@RequestMapping("/register.do")
 		public String register(StudentBean student){
-			
 			/**
 			 * 未确定加盐值
 			 */

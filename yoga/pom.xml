@@ -88,6 +88,13 @@
 		    <artifactId>shiro-spring-boot-starter</artifactId>
 		    <version>1.4.1</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.zzy</groupId>
+			<artifactId>alipay</artifactId>
+			<version>20170324180803</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
