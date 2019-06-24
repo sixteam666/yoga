@@ -1,13 +1,17 @@
 package com.project.controller;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.mgt.SessionKey;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +24,7 @@ import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 import com.project.service.ICoachService;
+import com.project.util.FileUtil;
 
 @Controller
 @RequestMapping("/coach")
@@ -182,7 +187,9 @@ public class CoachController {
 	}
 	
 	/**
-	 * 显示String id
+	 * 显示教练基本信息
+	 * @param id
+	 * @param map
 	 * @return
 	 */
 	@RequestMapping("personalInfo.do")
@@ -199,16 +206,17 @@ public class CoachController {
 	 * @return 返回个人信息显示页面
 	 */
 	@RequestMapping("updatePersonalInfo.do")
-	public String updatePersonalInfo(CoachBean coach, MultipartFile file) {
+	public String updatePersonalInfo(CoachBean coach, MultipartFile file, HttpServletRequest req) {
+		//这里还有点问题，如果用户未重新上传文件情况未处理
+		String headimg = "";//session中取出
+		if(file.getOriginalFilename() != ""){
+			headimg =FileUtil.getFileName(file, req);
+		}
+		coach.setC_headimg(headimg);
+		coach.setC_id("1");
 		System.out.println(coach);
-		String uuid = UUID.randomUUID().toString();
-		String filename = file.getOriginalFilename();
-		String ext = filename.substring(filename.lastIndexOf("."));
-		String name = uuid + ext;
-		System.out.println(name);
-		coach.setC_headimg(name);
-		System.out.println(coach);
+		service.updatePersonalInfo(coach);
 		//重定向到个人信息显示页面
-		return "redirect:/coach/showCoach.do";
+		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
 	}
 }

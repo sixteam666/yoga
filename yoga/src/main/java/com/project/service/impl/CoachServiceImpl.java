@@ -174,4 +174,9 @@ public class CoachServiceImpl implements ICoachService {
 		CoachBean personalInfo = dao.getPersonalInfo(id);
 		return personalInfo;
 	}
+
+	@Override
+	public void updatePersonalInfo(CoachBean coach) {
+		dao.updateCoachPersonalInfo(coach);
+	}
 }

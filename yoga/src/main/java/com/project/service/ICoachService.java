@@ -175,4 +175,9 @@ public interface ICoachService {
 	 * @return
 	 */
 	public CoachBean getPersonalInfo(String id);
+	/**
+	 * 更新基本信息
+	 * @param coach
+	 */
+	public void updatePersonalInfo(CoachBean coach);
 }

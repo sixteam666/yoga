@@ -141,7 +141,7 @@ public interface ICoachDao {
 	 * @return
 	 */
 	@Update("update t_coach set c_nickname = #{c_nickname}, c_headimg = #{c_headimg},"
-			+ " c_address = #{c_address}, c_privacy = #{c_privacy}, c_phone = #{c_phone}"
+			+ " c_address = #{c_address}, c_privacy = #{c_privacy}, c_phone = #{c_phone},"
 			+ " c_qq = #{c_qq} where c_id = #{c_id}")
 	int updateCoachPersonalInfo(CoachBean coach);
 	

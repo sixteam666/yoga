@@ -120,7 +120,7 @@
 					</table>
 						
 						
-					<div th:if="${coachInfo.authentication == 0}"><p>你还未进行教练认证，赶紧<a>去认证</a>吧</p></div>
+					<div th:if="${coachInfo.authentication == 0}"><p>你还未进行教练认证，赶紧<a data-toggle="modal" data-target="#myModal2">点击认证</a>吧</p></div>
 					<div th:if="${coachInfo.authentication != 0}">
 						<div class="col-md-8 text-left">
 							<h3>教练设置<a style="font-size:12px" href="/html/coach/personalInfo.html">编辑</a></h3>
@@ -238,6 +238,38 @@
 
 		</div>
 	</footer>
+	
+	
+	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
+	    <div class="modal-dialog" role="document">  
+	        <div class="modal-content">  
+	            <div class="modal-header">  
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+	                    <span aria-hidden="true">×</span>  
+	                </button>  
+	                <h4 class="modal-title" id="myModalLabel">添加课程</h4>  
+	            </div>  
+	            <div class="modal-body">
+	            	添加教练：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                <select class="coach_select">
+	                	<option>1</option>
+	                	<option>2</option>
+	                </select> 
+	                <input type="text" /><button>搜索教练</button><br /><br />
+					课程价格(￥/节)：
+					<input type="text" /><br /><br />               
+					可容纳学员人数：
+					<input type="text" /><br /><br />
+					课程描述：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="text" /><br /><br />
+	            </div>  
+	            <div class="modal-footer">  
+	                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
+	                <button type="button" class="btn btn-primary">确定</button>  
+	            </div>  
+	        </div>  
+	    </div>  
+	</div>
 
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
