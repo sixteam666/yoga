@@ -11,12 +11,19 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.bean.StudentBean;
 import com.project.service.IStudentService;
 
+@Controller
+@RequestMapping("/student")
 public class StudentController {
 	@Autowired
 	private IStudentService service;
@@ -54,18 +61,32 @@ public class StudentController {
 	}
 	
 	@RequestMapping("/register.do")
-		public String register(StudentBean student){
+	@ResponseBody
+		public String register(StudentBean student,BindingResult result,ModelMap map,Model model){
 			/**
 			 * 未确定加盐值
 			 */
+		model.addAttribute("user",student);
+		if (result.hasErrors()) {
+			System.out.println("有错误");
+			List<FieldError> list = result.getFieldErrors();
+			for (FieldError fieldError : list) {
+				map.put("error_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			return "/html/student/studentReg.html";
+		}
+		
+		
 			String id = UUID.randomUUID().toString();
 			student.setS_id(id);
 			Boolean boo = service.regist(student);
 			//注册成功：定向登录界面；失败：定向注册界面
+			System.out.println(boo);
 			if (boo) {
-				return "redirect:/login.html";
-			}
-			return "redirect:/register.html";
+				return "yes";
+			}else {
+				return "no";
+			}	
 		}
 	
 	

@@ -26,7 +26,7 @@ public interface IStudentDao {
 	public StudentBean findStudentbyId(String id);
 	
 	//  根据用户名或者电话查询学员
-	@Select("select *from t_student where s_name = #{name} or s_phone=#{name}")
+	@Select("select *from t_student where s_name = #{name} or s_phone = #{name}")
 	public StudentBean findStudentbyName(String name);
 	
 	//      更新学员个人信息

@@ -61,7 +61,7 @@ public class MyRealm extends AuthorizingRealm {
 			if(username == null) {
 				return null;
 			}
-			return new SimpleAuthenticationInfo(username, student.getS_password(),this.getName());
+			return new SimpleAuthenticationInfo(student, student.getS_password(),this.getName());
 		}
 		
 		//教练身份验证
@@ -78,7 +78,7 @@ public class MyRealm extends AuthorizingRealm {
 			if(username == null) {
 				return null;
 			}
-			return new SimpleAuthenticationInfo(username, coach.getC_password(),this.getName());
+			return new SimpleAuthenticationInfo(coach, coach.getC_password(),this.getName());
 		}
 		
 		//场馆身份验证
@@ -97,7 +97,7 @@ public class MyRealm extends AuthorizingRealm {
 			if(username == null) {
 				return null;
 			}
-			return new SimpleAuthenticationInfo(username, gym.getG_password(),this.getName());
+			return new SimpleAuthenticationInfo(gym, gym.getG_password(),this.getName());
 		}
 		return null;
 	}

@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
-import com.project.bean.PictrueBean;
+import com.project.bean.PictureBean;
 import com.project.dao.ICoachDao;
 import com.project.dao.IGymDao;
+import com.project.dao.ILessonDao;
+import com.project.dao.IPictureDao;
 import com.project.dao.IRequestDao;
 import com.project.service.IGymService;
 
@@ -24,6 +26,13 @@ public class GymServiceImpl implements IGymService {
 	
 	@Autowired
 	private IRequestDao requestDao;
+	
+	@Autowired
+	private IPictureDao pictureDao;
+	
+	@Autowired
+	private ILessonDao lessonDao;
+	
 
 	@Override
 	public int register(GymBean gym) {
@@ -61,18 +70,6 @@ public class GymServiceImpl implements IGymService {
 	}
 
 	@Override
-	public int addPictrue(List<PictrueBean> list) {
-		int number = gymDao.addPictrue(list);
-		return number;
-	}
-
-	@Override
-	public int addLesson(LessonBean lessonBean) {
-		int number = gymDao.addLesson(lessonBean);
-		return number;
-	}
-
-	@Override
 	public List<CoachBean> findMyCoach(String g_id) {
 		List<CoachBean> list = coachDao.findCoachByGymId(g_id);
 		return list;
@@ -92,5 +89,43 @@ public class GymServiceImpl implements IGymService {
 	@Override
 	public int agreeSigingApplication(String g_id, String c_id, int state) {
 		return requestDao.updateRequestState(c_id, g_id, state);
+	}
+	
+	
+
+	@Override
+	public int addPictrue(List<PictureBean> list) {
+		int number = pictureDao.addPicture(list);
+		return number;
+	}
+
+	@Override
+	public List<PictureBean> findAllPic(String gymId) {
+		List<PictureBean> list = pictureDao.findAll(gymId);
+		return list;
+	}
+
+	@Override
+	public int deletePicture(int id) {
+		int number = pictureDao.deletePicture(id);
+		return number;
+	}
+
+	@Override
+	public List<LessonBean> findLesson(LessonBean lessonBean) {
+		List<LessonBean> list = lessonDao.findLesson(lessonBean);
+		return list;
+	}
+	
+	@Override
+	public int addLesson(LessonBean lessonBean) {
+		int number = lessonDao.addLesson(lessonBean);
+		return number;
+	}
+
+	@Override
+	public int deleteLesson(int id) {
+		int number = lessonDao.deleteLesson(id);
+		return number;
 	}
 }

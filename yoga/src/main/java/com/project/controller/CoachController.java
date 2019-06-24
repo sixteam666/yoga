@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -12,6 +11,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -83,21 +83,26 @@ public class CoachController {
 	 * @param coach 信息完善或更新完成的教练实体对象
 	 */
 	@RequestMapping("updateInfo.do")
-	public void updateCoachDetailInfo(CoachBean coach) {
+	public String updateCoachDetailInfo(CoachBean coach) {
 		System.out.println("测试进入详情更新控制层方法>>>>>>>>>>>>>>>>>>>>>>>>");
 		boolean boo = service.updateCoachDetailInfo(coach);
 		//更新后的逻辑...
+		//更新后转发至进行查询业务
+		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
 	}
 	
 	/**
 	 * 显示教练详情
+	 * @author pan
 	 * @param id 教练id
 	 */
 	@RequestMapping("showCoach.do")
-	public void showCoachInfoByid(Integer id) {
+	public String showCoachInfoByid(String id, ModelMap map) {
 		System.out.println("测试进入详情展示控制层方法>>>>>>>>>>>>>>>>>>>>>>>>");
 		//id从session域中获取？还是从前台传递？
-		CoachBean coachInfo = service.showCoachDetailInfo(id);
+		CoachBean coachInfo = service.getCoachDetailInfo(id);
+		map.put("coachInfo", coachInfo);
+		return "html/coach/my.html";
 	}
 	
 	/**
@@ -142,5 +147,37 @@ public class CoachController {
 	public Boolean handleRequest(String r_reqid,String r_resid,int r_state){
 		Boolean boo = service.updateRequest(r_reqid, r_resid, r_state);
 		return boo;
+	}
+	
+	/**
+	 * 更改密码
+	 * @author pan
+	 * @param id 教练id
+	 * @param newPassword 新密码
+	 */
+	@RequestMapping("changePwd.do")
+	public void changePassword(String id, String newPassword) {
+		service.updatePassword(id, newPassword);
+	}
+	
+	/**
+	 * 提现
+	 * @author pan
+	 * @param id 教练id
+	 * @param money 提现金额
+	 */
+	public void withdraw(String id, double money) {
+		service.updateMoney(id, money);
+	}
+	
+	/**
+	 * 显示我的学员
+	 * @author pan
+	 * @param id 教练id
+	 */
+	public String showMyStudent(String id, ModelMap map) {
+		List<StudentBean> stuList = service.listMyStudent(id);
+		map.put("stuList", stuList);
+		return "/html/coach/showStudent.html";
 	}
 }

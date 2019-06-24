@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
-import com.project.bean.PictrueBean;
+import com.project.bean.PictureBean;
 import com.project.service.IGymService;
 import com.project.util.FileUtil;
 
@@ -61,16 +61,16 @@ public class GymController {
 				// 调用login进行认证
 				currentUser.login(token);
 				System.out.println("认证成功");
-				return "redirect:/html/main.html";
+				return "redirect:/html/gym/gym.html";
 			}
 			// 父异常。认证失败异常
 			catch (AuthenticationException ae) {
 				// unexpected condition? error?
 				System.out.println("异常不详：自己解决");
-				return "redirect:/html/login.html";
+				return "redirect:/html/gym/gymLogin.html";
 			}
 		}
-		return "redirect:/html/main.html";
+		return "redirect:/html/.html";
 	}
 	
 	/**
@@ -86,24 +86,33 @@ public class GymController {
 		}
 		return true; 
 	}
-
+	
 	/**
 	 * 注册
 	 * 
-	 * @param gym
-	 * @return
+	 * @param regName 注册的登录名（邮箱或电话号）
+	 * @param g_password 注册的密码
+	 * @return 注册状态 1：注册成功，0：注册失败 -1：登录名格式错误
 	 */
 	@RequestMapping("/reg.do")
 	@ResponseBody
-	public int register(GymBean gym) {
+	public int register(String regName, String g_password) {
+		System.out.println("reg.do测试:GymBean:" + regName +"--" + g_password);
+		GymBean gym = new GymBean();
 		gym.setG_id(UUID.randomUUID().toString());
-
+		
+		if(regName.contains("@")) {
+			gym.setG_email(regName);
+		}else if(regName.length() == 11) {
+			gym.setG_phone(regName);
+		}else {
+			return -1; // 格式不符合要求
+		}
 		// 盐值暂时无法确定
 		/*
 		 * Object obj = new SimpleHash("MD5", gym.getG_password(),1024);
 		 * gym.setG_password(obj.toString());
 		 */
-
 		int result = gymService.register(gym);
 		return result;
 	}
@@ -149,7 +158,7 @@ public class GymController {
 	 */
 	@RequestMapping("/addPictrue.do")
 	@ResponseBody
-	public int addOnePictrue(PictrueBean picBean,MultipartFile file,HttpServletRequest req) {
+	public int addOnePictrue(PictureBean picBean,MultipartFile file,HttpServletRequest req) {
 		//二进制传过来的文件
 		System.out.println(file);
 		//文件名
@@ -169,8 +178,8 @@ public class GymController {
 	@RequestMapping("/addPictrues.do")
 	@ResponseBody
 	public int addPictrues(String gymId,MultipartFile[] files,HttpServletRequest req) {
-		PictrueBean picBean = new PictrueBean();
-		List<PictrueBean> list = new ArrayList<PictrueBean>();
+		PictureBean picBean = new PictureBean();
+		List<PictureBean> list = new ArrayList<PictureBean>();
 		picBean.setP_g_id(gymId);
 		
 		if(files!=null && files.length>0){  
@@ -192,13 +201,6 @@ public class GymController {
 		return 0;
 	}
 	
-	/*
-	 * 更改图片的名字，防止重名
-	 */
-	public String changeName(String name){
-		String newName = name +"_"+ UUID.randomUUID().toString();
-		return newName;
-	}
 
 	/**
 	 * 教练课程安排
@@ -232,6 +234,19 @@ public class GymController {
 		List<CoachBean> list = gymService.findMyCoach(g_id);
 		return list;
 	}
+	
+	/**
+	 * 查看我的粉丝
+	 * @param g_id
+	 * @return
+	 */
+	@RequestMapping("/findMyFans.do")
+	@ResponseBody
+	public List<CoachBean> findMyFans(String g_id) {
+		List<CoachBean> list = gymService.findMyCoach(g_id);
+		return list;
+	}
+	
 
 	/**
 	 * 签约或解约教练

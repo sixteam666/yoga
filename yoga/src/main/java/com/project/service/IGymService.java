@@ -5,7 +5,7 @@ import java.util.List;
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
-import com.project.bean.PictrueBean;
+import com.project.bean.PictureBean;
 
 /**
  * 场馆业务层接口
@@ -62,21 +62,6 @@ public interface IGymService {
 	 */
 	public int updateMessage(GymBean gymBean);
 
-	/**
-	 * 场馆添加图片
-	 * 
-	 * @param lists
-	 * @return
-	 */
-	public int addPictrue(List<PictrueBean> list);
-
-	/**
-	 * 教练课程安排
-	 * 
-	 * @param lessonBean
-	 * @return
-	 */
-	public int addLesson(LessonBean lessonBean);
 
 	/**
 	 * 查看我的签约教练
@@ -113,5 +98,49 @@ public interface IGymService {
 	 * @return 影响行数
 	 */
 	public int agreeSigingApplication(String g_id, String c_id,int state);
+	
+	/**
+	 * 场馆添加图片
+	 * 
+	 * @param lists
+	 * @return
+	 */
+	public int addPictrue(List<PictureBean> list);
+	
+	/**
+	 * 查找图片
+	 * @param gymId
+	 * @return
+	 */
+	public List<PictureBean> findAllPic(String gymId);
+	
+	/**
+	 * 删除图片
+	 * @param id
+	 * @return
+	 */
+	public int deletePicture(int id);
+
+	/**
+	 * 教练课程安排
+	 * 
+	 * @param lessonBean
+	 * @return
+	 */
+	public int addLesson(LessonBean lessonBean);
+	
+	/**
+	 * 查看课程
+	 * @param lessonBean
+	 * @return
+	 */
+	public List<LessonBean> findLesson(LessonBean lessonBean);
+	
+	/**
+	 * 删除课程
+	 * @param id
+	 * @return
+	 */
+	public int deleteLesson(int id);
 
 }

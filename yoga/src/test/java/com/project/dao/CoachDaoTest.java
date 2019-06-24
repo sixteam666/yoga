@@ -38,6 +38,33 @@ public class CoachDaoTest extends BaseTest {
 		int res = dao.updateCoachDetailInfo(coach);
 		System.out.println(res == 1);
 	}
+	
+	@Test
+	public void testGetCoachById() {
+		String id = "aaa";
+		CoachBean coach = dao.getCoachById(id);
+		System.out.println(coach);
+	}
+	
+	@Test
+	public void testUpdateMoney() {
+		String id = "aaa";
+		Double money = 10.00005;
+		System.out.println(dao.updateMoney(id, money));
+	}
+	
+	@Test
+	public void testGetMoney() {
+		String id = "aaa";
+		System.out.println(dao.getMoney(id));
+	}
+	
+	@Test
+	public void testListStudentByCoachId() {
+		String id = "aaa";
+		System.out.println(dao.listStudentByCoachId(id));
+	}
+
 	//测试申请签约场馆
 	@Test
 	public void addRequest(){
@@ -50,4 +77,5 @@ public class CoachDaoTest extends BaseTest {
 		System.out.println(row);
 	}
 	//测试解约
+
 }

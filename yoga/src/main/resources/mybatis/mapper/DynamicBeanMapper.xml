@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.dao.IDynamicDao">
+	<!-- 查找我的动态 -->
+	<select id="findMyDyn" resultMap="map">
+		<bind name="startIndex" value="(page-1)*size"></bind>
+  		select * from t_dynamic where d_userid = #{d_userid} order by d_time desc limit #{startIndex},#{size} 
+	</select>
+	
+	<!-- 查找我关注人的动态 -->
+	<select id="findOtherDyn" resultMap="map">
+		<bind name="startIndex" value="(page-1)*size"></bind>
+		select * from t_dynamic where d_userid in (select a_idolid from t_attention where a_myid = #{d_userid})
+	</select>
+	
+	
+	
+	<resultMap id="map" type="DynamicBean">
+		<id property="d_id" column="d_id"></id>
+		<result property="d_content" column="d_content"></result>
+		<result property="d_time" column="d_time"></result>
+		<result property="d_userid" column="d_userid"></result>
+		
+		<result property="d_img" column="d_img"></result>
+		<result property="d_headimg" column="d_headimg"></result>
+		<result property="d_nickname" column="d_nickname"></result>
+		<result property="d_type" column="d_type"></result>
+	</resultMap>
+	
+</mapper>

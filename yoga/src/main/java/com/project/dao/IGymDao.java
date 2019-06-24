@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
-import com.project.bean.PictrueBean;
+import com.project.bean.PictureBean;
 
 /**
  * 会馆持久层接口
@@ -23,7 +23,7 @@ public interface IGymDao {
 	 * @param gym
 	 * @return
 	 */
-	@Insert("INSERT INTO t_gym(g_id,g_email,g_phone,g_qq) VALUES(#{id},#{g_email},#{g_phone},#{g_qq})")
+	@Insert("INSERT INTO t_gym(g_id,g_email,g_phone,g_qq,g_password) VALUES(#{g_id},#{g_email},#{g_phone},#{g_qq},#{g_password})")
 	int addGym(GymBean gym);
 
 	/**
@@ -71,26 +71,9 @@ public interface IGymDao {
 	@Update("update t_gym set g_address=#{g_address},g_contactphone=#{g_contactphone},g_name=#{g_name},g_headimg=#{g_headimg} where g_id=#{g_id}")
 	public int updateMessage(GymBean gymBean);
 	
-	/**
-	 * 添加图片
-	 * @param list
-	 * @return
-	 */
-	//@Insert("insert into t_picture(p_imgname,p_g_id) values(#{p_imgname},#{p_g_id})")
-	@Insert({"<script> insert into t_picture(p_imgname,p_g_id) values " +
- 			"<foreach collection='list' item='item' index='index' separator=','>"+
-            "(#{item.p_imgname},#{item.p_g_id})"+
-            "</foreach> </script>"})
-	public int addPictrue(@Param(value="list") List<PictrueBean> list);
 	
 	
-	/**
-	 * 教练课程安排
-	 * @param lessonBean
-	 * @return
-	 */
-	@Insert("insert into t_lesson(l_time,l_c_id,l_descirbe,l_size,l_price,l_g_id) "
-			+ "values(#{l_time},#{l_c_id},#{l_descirbe},#{l_size},#{l_price},#{l_g_id})")
-	public int addLesson(LessonBean lessonBean);
+	
+	
 
 }
