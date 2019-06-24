@@ -1,16 +1,104 @@
 package com.project.service;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import java.util.List;
 
-import com.project.bean.CoachBean;
-import com.project.dao.ICoachDao;
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class GymServiceTest {
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
+import com.project.bean.GymBean;
+import com.project.run.BaseTest;
+
+
+public class GymServiceTest extends BaseTest{
+	@Autowired
+	@Qualifier("gymService")
+	private IGymService gymService;
+	
+	@Test
+	public void register(){
+		
+	}
+	
+	@Test
+	public void login(){
+		
+	}
+	
+	@Test
+	public void updatePassword(){
+		
+	}
+	
+	/**
+	 * 查找所有场馆
+	 */
+	@Test
+	public void findAllGym(){
+		List<GymBean> list = gymService.findAllGym();
+		for (GymBean gymBean : list) {
+			System.out.println(gymBean);
+		}
+	}
+	
+	@Test
+	public void findGymById(){
+		System.out.println(gymService.findGymById("1"));
+	}
+	
+	@Test
+	public void updateMessage(){
+		GymBean bean = new GymBean();
+		bean.setG_address("孵化园");
+		bean.setG_id("1");
+		int num = gymService.updateMessage(bean);
+		System.out.println(num);
+	}
+	
+	@Test
+	public void findMyCoach(){
+		
+	}
+	
+	@Test
+	public void updateCoachBean(){
+		
+	}
+	
+	@Test
+	public void submitSigingApplication(){
+		
+	}
 	
 	
+	@Test
+	public void agreeSigingApplication(){
+		
+	}
+	
+	@Test
+	public void addPictrue(){
+		
+	}
+	
+	@Test
+	public void findAllPic(){
+		
+	}
+	
+	@Test
+	public void deletePicture(){
+		
+	}
+	
+	
+	@Test
+	public void addLesson(){
+		
+	}
+	
+	@Test
+	public void findLesson(){
+		
+	}
 }

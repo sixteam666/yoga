@@ -1,19 +1,12 @@
 package com.project.dao;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
-import com.project.bean.LessonBean;
-import com.project.bean.PictrueBean;
-import com.project.dao.ICoachDao;
 import com.project.run.BaseTest;
 
 
@@ -63,28 +56,41 @@ public class GymDaoTest extends BaseTest{
 	}
 	
 	/**
-	 * 添加图片
+	 * 添加一个会馆(注册)
 	 */
 	@Test
-	public void addPictrue(){
-		List<PictrueBean> list = new ArrayList<PictrueBean>();
-		PictrueBean bean1 = new PictrueBean();
-		bean1.setP_imgname("瑜伽");
-		PictrueBean bean2 = new PictrueBean();
-		bean2.setP_imgname("瑜伽2");
-		list.add(bean1);
-		list.add(bean2);
-		gymDao.addPictrue(list);
+	public void addGym() {
+		GymBean gym = new GymBean();
+		gym.setG_id(UUID.randomUUID().toString());
+		gym.setG_password("1234567");
+		gym.setG_email("752998419@qq.com");
+		gym.setG_phone("18515779663");
+		gym.setG_qq("752998419");
+		gymDao.addGym(gym);
+
+	}
+
+	/**
+	 * 修改密码
+	 */
+	@Test
+	public void updatePassword() {
+		String g_id = "620496a4-8401-4e66-a8c8-56fd4834b84f";
+		String g_password = "xg123456";
+		gymDao.updatePassowrd(g_id, g_password);
+
+	}
+
+	/**
+	 * 通过邮箱或电话号查找场馆（登录）
+	 */
+	@Test
+	public void findGymByEmailOrPhone() {
+		// GymBean gymBean = gymDao.findGymByEmailOrPhone("752998419@qq.com");
+		GymBean gymBean = gymDao.findGymByEmailOrPhone("18515779663");
+		System.out.println(gymBean);
 	}
 	
-	/**
-	 * 教练课程安排
-	 */
-	@Test
-	public void addLesson(){
-		LessonBean lessonBean = new LessonBean();
-		lessonBean.setL_descirbe("早课");
-		gymDao.addLesson(lessonBean);
-	}
+	
 	
 }

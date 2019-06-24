@@ -5,7 +5,7 @@ package com.project.bean;
  * @author Administrator
  *
  */
-public class PictrueBean {
+public class PictureBean {
 	private int p_id;
 	private String p_imgname;
 	private String p_g_id;
@@ -29,7 +29,7 @@ public class PictrueBean {
 	}
 	@Override
 	public String toString() {
-		return "PictrueBean [p_id=" + p_id + ", p_imgname=" + p_imgname + ", p_g_id=" + p_g_id + "]";
+		return "PictureBean [p_id=" + p_id + ", p_imgname=" + p_imgname + ", p_g_id=" + p_g_id + "]";
 	}
 	
 
