@@ -79,7 +79,6 @@ public class CoachController {
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession(true);
 		CoachBean coach = (CoachBean) session.getAttribute("coach");
-		System.out.println(coach);
 		return coach;
 	} 
 	

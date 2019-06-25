@@ -60,7 +60,7 @@
 			<div class="col-xs-8 text-right menu-1">
 					<ul>
 						<li class="has-dropdown">
-							<span style="color: white;">欢迎您，<span id="userName"></span></span>
+							<span id="welcome" style="color: white;">欢迎您，</span>
 							<a href="/logout">【注销】</a>
 						</li>
 						<li class="has-dropdown">
@@ -343,11 +343,14 @@
 				url:"/coach/getUser.do",
 				dataType:"json",
 				success:function(mes){
-					var str = ""
-					$("#userName").html(str)
+					var str = mes.c_nickname;
+					alert(str)
+					alert($("#welcome"))
+					$("#welcome").html(str)
 				}
 			})
 		}
+		getUser()
 		//getUser()
 	</script>
 	</body>
