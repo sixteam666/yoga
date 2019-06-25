@@ -10,6 +10,7 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,11 +40,13 @@ public class CoachController {
 	 * @return
 	 */
 	@RequestMapping("/login.do")
-	public String login(String arg1,String pwd,Integer remenber){
+	@ResponseBody
+	public String login(String c_name,String c_password,Integer remenber){
+		System.out.println(c_name);
 		//产生一个用户（门面对象）
 		Subject currentUser = SecurityUtils.getSubject();
 		 if (!currentUser.isAuthenticated()) {
-	            UsernamePasswordToken token = new UsernamePasswordToken("c"+arg1,pwd);
+	            UsernamePasswordToken token = new UsernamePasswordToken("c"+c_name,c_password);
 	            try {
 	            	if (remenber != null && remenber == 1) {
 						token.setRememberMe(true);
@@ -51,32 +54,35 @@ public class CoachController {
 	            	//调用login进行认证
 	                currentUser.login(token);
 	                System.out.println("认证成功");
-	                return "redirect:/index.html";
+	                return "success";
 	            } catch (UnknownAccountException uae) {
 	            	System.out.println("用户名异常");
-	            	return "redirect:/login.html";
+	            	return "name_false";
 	            } catch (IncorrectCredentialsException ice) {
 	            	System.out.println("密码异常");
-	            	return "redirect:/login.html";
+	            	return "password_false";
 	            } catch (LockedAccountException lae) {
 	               System.out.println("被锁定异常");
-	               return "redirect:/login.html";
+	               return "user_lock";
 	            }
-	            
 	      }
-		return "redirect:/index.html";
+		return "success";
 	}
 	@RequestMapping("/register.do")
+	@ResponseBody
 	public String register(CoachBean coach){
-		/**
-		 * 暂未加盐加密
-		 */
 		String id = UUID.randomUUID().toString();
+		/**
+		 * 暂未加盐
+		 */
+		Object obj = new SimpleHash("MD5",coach.getC_password(),"",1024);
+		coach.setC_password(obj.toString());
+		
 		coach.setC_id(id);
 		Boolean boo = service.register(coach);
 		//注册成功：定向登录界面；失败：定向注册界面
-		if (boo) return "redirect:/html/coach/coachLogin.html";
-		return "forward:/html/coach/coachReg.html";
+		if (boo) return "success";
+		return "false";
 	}
 	
 	/**

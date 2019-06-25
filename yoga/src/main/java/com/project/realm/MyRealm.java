@@ -69,6 +69,7 @@ public class MyRealm extends AuthorizingRealm {
 		//教练身份验证
 		if("c".equals(prefix)) {
 			CoachBean coach = coachService.login(principal);
+			System.out.println(coach);
 			//未查找到教练，则不再进行验证，返回验证失败
 			if(coach == null) {
 				return null;
