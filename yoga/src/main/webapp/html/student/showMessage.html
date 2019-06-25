@@ -47,6 +47,39 @@
 	<script src="../../js/modernizr-2.6.2.min.js"></script>
 
 	</head>
+	<style type="text/css">
+		.dialog{ 
+			position: relative;
+            border: solid 2px;
+            border-radius: 15px;
+            padding: 40px;
+            display: inline-block;
+            font-size: 1.5em;
+            color: #09C6AB;
+  			left: 200px;
+  			top: -200px;
+            width: 800px;
+        }
+        .dialog:before{
+            width: 0;
+            height: 0;
+            border-top:32px solid #fff;
+            border-right: 35px solid;
+            margin-left: -81px;
+            margin-top: 32px;
+        }
+        .dialog:after{
+            top: 43px;
+            bottom: 88px;
+            left: -37px;
+            border-top: 44px solid transparent;
+            border-right: 48px solid #ffffff;
+            border-bottom: 0 solid transparent;
+        }
+        #message{
+        	height: 300px;
+        }
+	</style>
 	<body>
 		
 	<div class="gtco-loader"></div>
@@ -61,9 +94,15 @@
 				<div class="col-sm-4 col-xs-12">
 					<ul>
 						<li><a href="student.html" class="fon">首页</a></li>
-						<li><a href="showGym.html" class="fon">场馆</a></li>
-						<li><a href="showCoach.html" class="fon">教练</a></li>
-						<li><a href="showMessage.html" class="fon">动态</a></li>
+						<li><a href="showGym.html" class="fon">所有场馆</a></li>
+						<li><a href="showCoach.html" class="fon">认证教练</a></li>
+						<li class="has-dropdown">
+							<a href="#">动态</a>
+							<ul class="dropdown">
+								<li><a href="showMessage.html">我的关注</a></li>
+								<li><a href="showMessage.html">附近的人</a></li>
+							</ul>
+						</li>
 					</ul>
 				</div>
 			<div class="col-xs-8 text-right menu-1">
@@ -76,6 +115,7 @@
 							<a href="#">个人中心</a>
 							<ul class="dropdown">
 								<li><a href="my.html">个人资料</a></li>
+								<li><a href="className.html">我的课程</a></li>
 								<li><a href="order.html">我的订单</a></li>
 								<li><a href="attention.html">我的关注</a></li>
 								<li><a href="inform.html">我的通知</a></li>
@@ -94,40 +134,30 @@
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
 					<h2>发表动态</h2>
 				</div>
-				<textarea name="message" style="width: 1100px;height: 300px;">说点什么吧！（30字以内）</textarea>
+				<div align="center" style="width:800px;margin: auto;">
+				<textarea name="message" style="width: 800px;height:200px;">说点什么吧！（30字以内）</textarea>
 				<br />
 				<input style="float: right;" type="button" value="发表" />
+				</div>
 				<br /><br /><br />
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
 					<h2>最新动态</h2>
 				</div>
 			</div>
-			<div class="row">
+			<div id="message">
 				<div class="col-md-16">
 						<img src="../../images/imgs/2.jpg"/>
-						<h2>用户名/昵称</h2>
+						<h3>用户名/昵称</h3>
 						<button class="btn btn-primary">关注</button>
-						<h4>动态内容aasdasdasdasdasdsadsadas</h4>
-						<p>发表时间：2019-06-19</p>
-						<hr>
 				</div>
-				<div class="col-md-16">
-						<img src="../../images/imgs/3.jpg"/>
-						<h2>用户名/昵称</h2>
-						<button class="btn btn-primary">关注</button>
-						<h4>动态内容aasdasdasdasdasdsadsadas</h4>
-						<p>发表时间：2019-06-19</p>
-						<hr>
-				</div>
-				<div class="col-md-16">
-						<img src="../../images/imgs/5.jpg"/>
-						<h2>用户名/昵称</h2>
-						<button class="btn btn-primary">关注</button>
-						<h4>动态内容aasdasdasdasdasdsadsadas</h4>
-						<p>发表时间：2019-06-19</p>
-						<hr>
+				<div class="dialog_Box">
+   					<span class="dialog">
+   						动态内容BBBBBBBBBBBBBBBBBBBBBBBB
+   						<p>发表时间：2019-06-19</p>
+   					</span>
 				</div>
 			</div>
+			<hr>
 		</div>
 	</div>
 	

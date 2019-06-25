@@ -1,5 +1,8 @@
 package com.project.config;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -28,7 +31,11 @@ public class ShiroConfig {
 		
 		//注入安全管理器
 		shiroFilter.setSecurityManager(securityManager);
-		
+		Map<String,String> map = new LinkedHashMap<String,String>();
+		map.put("/html/coach/coach.html", "authc");
+		map.put("/logout", "logout");
+		map.put("/**", "anon");
+		shiroFilter.setFilterChainDefinitionMap(map);
 		return shiroFilter;
 	}
 	

@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
-<html>
-	<head>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>个人中心</title>
@@ -36,104 +37,88 @@
 	<!-- Modernizr JS -->
 	<script src="../../js/modernizr-2.6.2.min.js"></script>
 
-	</head>
 	<style type="text/css">
 		.fon{
 			font-family: "微软雅黑";
 		}
 	</style>
-	<body>
-		
+</head>
+<body>
 	<div class="gtco-loader"></div>
-	
-	<div id="page">
-
-	
+	<div id="page"></div>
 	<nav class="gtco-nav" role="navigation">
 		<div class="gtco-container">
-			
 			<div class="row" style="background-color:#09C6AB ;">
 				<div class="col-sm-4 col-xs-12">
 					<ul>
-						<li><a href="student.html" class="fon">首页</a></li>
-						<li><a href="showGym.html" class="fon">所有场馆</a></li>
-						<li><a href="showCoach.html" class="fon">认证教练</a></li>
-						<li class="has-dropdown">
-							<a href="#">动态</a>
-							<ul class="dropdown">
-								<li><a href="showMessage.html">我的关注</a></li>
-								<li><a href="showMessage.html">附近的人</a></li>
-							</ul>
-						</li>
+						<li><a href="coach.html" class="fon">首页</a></li>
+						<li><a href="showGym.html" class="fon">场馆</a></li>
+						<li><a href="showStudent.html" class="fon">学员</a></li>
+						<li><a href="showMessage.html" class="fon">动态</a></li>
 					</ul>
 				</div>
 				<div class="col-xs-8 text-right menu-1">
 					<ul>
 						<li class="has-dropdown">
-							<span style="color: white;">欢迎您，用户名</span>
-							<a href="#">注销</a>
-						</li>
-						<li class="has-dropdown">
-							<a href="#">个人中心</a>
+							<a >欢迎您，用户名</a>
 							<ul class="dropdown">
-								<li><a href="my.html">个人资料</a></li>
-								<li><a href="className.html">我的课程</a></li>
-								<li><a href="order.html">我的订单</a></li>
+								<li><a href="/coach/showCoach.do?id=1">个人资料</a></li>
+								<li><a href="/html/coach/myStudent.html">我的学员</a></li>
+								<li><a href="contract.html">我的签约</a></li>
 								<li><a href="attention.html">我的关注</a></li>
 								<li><a href="inform.html">我的通知</a></li>
+								<li><a href="/coach/showMoney.do?id=1">我的钱包</a></li>
 							</ul>
 						</li>
+						<li class="has-dropdown">
+							<a href="#">注销</a>
+						</li>
 					</ul>	
-			</div>
+				</div>
 			</div>
 			
 		</div>
 	</nav>
-	
-		<div class="gtco-section">
+	<div class="gtco-section border-bottom">
 		<div class="gtco-container">
-			<div class="row" style="border: 5px solid #09C6AB;border-radius: 50px;">
+			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<br />
-					<h2>个人资料</h2>
+					<h2>我的学员</h2>
 				</div>
-				<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
-					<table border="0" cellspacing="0" cellpadding="0" style="width: 700px;height: 500px;">
-						<tr align="center" height="200px">
-							<td width="140">用户名：</td>
-							<td width="140">xxx</td>
-							<td width="100"></td>
-							<td width="300">头像:</td>
-							<td width="100" colspan="2">
-								<img src="../../images/imgs/1.jpg"/>
-							</td>
-						</tr>
-						<tr align="center">
-							<td>昵称：</td>
-							<td>xxxxx</td>
-							<td></td>
-							<td>是否公开资料:</td>
-							<td>完全公开</td>
-						</tr>
-						<tr align="center">
-							<td>手机号：</td>
-							<td>xxxxxxx</td>
-							<td colspan="3"><button class="btn btn-primary" style="float: right;">修改绑定手机</button></td>
-						</tr>
-					</table>
-					<br /><br />
-					<a href="modify.html"><button style="float: right;" class="btn btn-primary">修改资料</button></a>
-					<br /><br />
-					<hr>
-					<span>
-						我的余额：1000元
-					</span>
-					<a href="pay.html"><button style="float: right;" class="btn btn-primary">充值</button></a>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="price-box">
+						<img src="../../images/imgs/13.jpg" />
+						<br /><br /><br />
+						<h2 class="pricing-plan">用户名</h2>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="price-box">
+						<img src="../../images/imgs/7.jpg" />
+						<br /><br /><br />
+						<h2 class="pricing-plan">用户名</h2>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="price-box">
+						<img src="../../images/imgs/19.jpg" />
+						<br /><br /><br />
+						<h2 class="pricing-plan">用户名</h2>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div th:each="myStu : ${myStuList}" class="price-box">
+						<img th:src="@{/images/imgs/}+${myStu.s_headimg}" src="../../images/imgs/19.jpg" />
+						<br /><br /><br />
+						<h2 class="pricing-plan" th:text="${myStu.nickname}">用户名</h2>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-			
+
 	<footer id="gtco-footer" role="contentinfo">
 		<div class="gtco-container">
 			<div class="row row-p	b-md">
@@ -147,6 +132,16 @@
 
 				<div class="col-md-2 col-md-push-1"></div>
 				
+				<div class="col-md-2 col-md-push-1">
+					<div class="gtco-widget">
+						<h3 class="fon">瑜伽平台</h3>
+						<ul class="gtco-footer-links">
+							<li><a href="coachLogin.html" class="fon">成为教练</a></li>
+							<li><a href="gymLogin.html" class="fon">场馆入驻</a></li>
+						</ul>
+					</div>
+				</div>
+
 				<div class="col-md-3 col-md-push-1">
 					<div class="gtco-widget">
 						<h3>联系方式</h3>

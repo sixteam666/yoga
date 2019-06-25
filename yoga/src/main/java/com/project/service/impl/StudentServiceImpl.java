@@ -2,6 +2,7 @@ package com.project.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.bean.CoachBean;
@@ -13,6 +14,7 @@ import com.project.service.IStudentService;
 @Service
 public class StudentServiceImpl implements IStudentService{
 
+	@Autowired
 	private IStudentDao dao;
 	
 	@Override

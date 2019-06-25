@@ -13,16 +13,20 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.session.HttpServletSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.bean.BankCardBean;
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
+import com.project.service.IBankCardService;
 import com.project.service.ICoachService;
 import com.project.util.FileUtil;
 
@@ -32,6 +36,8 @@ public class CoachController {
 	
 	@Autowired
 	private ICoachService service;
+	@Autowired
+	private IBankCardService bankCardService;
 	
 	/**
 	 * 
@@ -54,7 +60,7 @@ public class CoachController {
 	            	//调用login进行认证
 	                currentUser.login(token);
 	                System.out.println("认证成功");
-	                Session session = currentUser.getSession(false);
+	                Session session = currentUser.getSession(true);
 	                session.setAttribute("coach", service.login(c_name));
 	                return "success";
 	            } catch (UnknownAccountException uae) {
@@ -70,6 +76,16 @@ public class CoachController {
 	      }
 		return "success";
 	}
+	@RequestMapping("/getUser.do")
+	@ResponseBody
+	public CoachBean getUser(){
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession(true);
+		CoachBean coach = (CoachBean) session.getAttribute("coach");
+		return coach;
+	} 
+	
 	@RequestMapping("/register.do")
 	@ResponseBody
 	public String register(CoachBean coach){
@@ -175,8 +191,13 @@ public class CoachController {
 	 * @param id 教练id
 	 * @param money 提现金额
 	 */
-	public void withdraw(String id, double money) {
-		service.updateMoney(id, money);
+	@RequestMapping("withdraw.do")
+	@ResponseBody
+	public boolean withdraw(double money, Integer cardId) {
+		//congsession中获取用户id
+		String id = "1";
+		Boolean res = service.updateMoney(id, money, cardId);
+		return res;
 	}
 	
 	/**
@@ -184,11 +205,13 @@ public class CoachController {
 	 * @author pan
 	 * @param id 教练id
 	 */
-	@RequestMapping("showMyStudent.do")
-	public String showMyStudent(String id, ModelMap map) {
+	@RequestMapping("myStudent.do")
+	public String showMyStudent(ModelMap map) {
+		//从session中取出用户id
+		String id = "1";
 		List<StudentBean> stuList = service.listMyStudent(id);
-		map.put("stuList", stuList);
-		return "/html/coach/showStudent.html";
+		map.put("myStuList", stuList);
+		return "html/coach/myStudent.html";
 	}
 	
 	/**
@@ -265,4 +288,23 @@ public class CoachController {
 		//重定向到个人信息显示页面
 		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
 	}
+	
+	/**
+	 * 查看钱包余额
+	 * @author pan
+	 * @param coach 要更新的数据
+	 * @return 返回个人信息显示页面
+	 */
+	@RequestMapping("showMoney.do")
+	public String updateLessonInfo(ModelMap map) {
+		CoachBean coach = getUser();
+		System.out.println("=========="+coach);
+		String id = coach.getC_id();
+		Double money = service.getMoney(id);
+		List<BankCardBean> cardList = bankCardService.listBankCard(id);
+		map.put("cardList", cardList);
+		map.put("money", money);
+		return "/html/coach/money.html";
+	} 
+
 }
