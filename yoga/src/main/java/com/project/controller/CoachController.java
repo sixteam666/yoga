@@ -10,13 +10,8 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-<<<<<<< HEAD
-import org.apache.shiro.session.mgt.SessionKey;
-import org.apache.shiro.crypto.hash.SimpleHash;
-=======
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
->>>>>>> 48704287ff2044355c17fe3e1074539a1160d0d1
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

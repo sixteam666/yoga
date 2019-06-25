@@ -313,16 +313,16 @@ public class GymController {
 	}
 
 	/**
-	 * 查看我的签约教练
+	 * 通过电话号码或者昵称查找我的签约教练
 	 * 
 	 * @param g_id
 	 * @return
 	 */
-	@RequestMapping("/findMyCoach.do")
+	@RequestMapping("/findCoaByNameOrPho.do")
 	@ResponseBody
-	public List<CoachBean> findMyCoach(String l_g_id) {
-		//System.out.println(l_g_id);
-		List<CoachBean> list = gymService.findMyCoach(l_g_id);
+	public List<CoachBean> findCoaByNameOrPho(String g_id,String nameOrPho) {
+		
+		List<CoachBean> list = gymService.findCoaByNameOrPho(g_id, nameOrPho);
 		return list;
 	}
 	
