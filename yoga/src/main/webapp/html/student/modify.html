@@ -41,6 +41,34 @@
 		.fon{
 			font-family: "微软雅黑";
 		}
+		.black_overlay{ 
+            display: none; 
+            position: absolute; 
+            top: 0%; 
+            left: 0%; 
+            width: 100%; 
+            height: 100%; 
+            background-color: black; 
+            z-index:1001; 
+            -moz-opacity: 0.8; 
+            opacity:.80; 
+            filter: alpha(opacity=88); 
+        } 
+        .white_content { 
+            display: none; 
+            position: absolute; 
+            top: 25%; 
+            left: 35%; 
+            width: 600px; 
+            height: 500px; 
+            padding: 20px; 
+            border-radius:20px;
+            border: 5px solid #09C6AB; 
+            background-color: white; 
+            z-index:1002; 
+            overflow: auto; 
+            text-align:center;
+        }
 	</style>
 	<body>
 		
@@ -56,26 +84,34 @@
 				<div class="col-sm-4 col-xs-12">
 					<ul>
 						<li><a href="student.html" class="fon">首页</a></li>
-						<li><a href="showGym.html" class="fon">场馆</a></li>
-						<li><a href="showCoach.html" class="fon">教练</a></li>
-						<li><a href="showMessage.html" class="fon">动态</a></li>
+						<li><a href="showGym.html" class="fon">所有场馆</a></li>
+						<li><a href="showCoach.html" class="fon">认证教练</a></li>
+						<li class="has-dropdown">
+							<a href="#">动态</a>
+							<ul class="dropdown">
+								<li><a href="showMessage.html">我的关注</a></li>
+								<li><a href="showMessage.html">附近的人</a></li>
+							</ul>
+						</li>
 					</ul>
 				</div>
 				<div class="col-xs-8 text-right menu-1">
 					<ul>
 						<li class="has-dropdown">
-							<a href="#">欢迎您：用户名</a>
+							<span style="color: white;">欢迎您，用户名</span>
+							<a href="#">注销</a>
 						</li>
 						<li class="has-dropdown">
 							<a href="#">个人中心</a>
 							<ul class="dropdown">
 								<li><a href="my.html">个人资料</a></li>
+								<li><a href="className.html">我的课程</a></li>
 								<li><a href="order.html">我的订单</a></li>
 								<li><a href="attention.html">我的关注</a></li>
 								<li><a href="inform.html">我的通知</a></li>
 							</ul>
 						</li>
-					</ul>	
+					</ul>		
 			</div>
 			</div>
 			
@@ -89,7 +125,7 @@
 					<h2>修改个人资料</h2>
 				</div>
 				<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
-					<table border="0" cellspacing="0" cellpadding="0" style="width: 700px;height: 200px;">
+					<table border="0" cellspacing="0" cellpadding="0" style="width: 700px;height: 500px;">
 						<tr align="center">
 							<td width="140">用户名：</td>
 							<td width="140">
@@ -115,7 +151,51 @@
 							</td>
 							<td></td>
 						</tr>
+						<tr align="center">
+							<td width="140">地址：</td>
+							<td width="140">
+								<input type="text" onclick = "openDialog()" name="address" id="address" value="地址"/>
+							</td>
+						</tr>
 					</table>
+					
+					
+					<div id="light" class="white_content">
+		<form id="form1" action="/ZzyApartMent/studentById">
+            <div id="add-address">
+				<form action="">
+					<div class="add-form-group inline-block">
+						<label for="province">省份:</label>
+						<select id="sheng" name="province">
+						
+						</select>
+					</div>
+					<div class="add-form-group inline-block">
+						<label for="city">城市:</label>
+						<select id="shi" name="city">
+						
+						</select>
+					</div>
+					<div class="add-form-group inline-block">
+						<label for="county">区县:</label>
+						<select id="xian" name="county">
+						
+						</select>
+					</div>
+					<div class="add-form-group inline-block">
+						<label for="street">街道:</label>
+						<select id="xiang" name="street">
+						
+						</select>
+					</div>
+				</form>
+		</div>
+         </form>
+         	<input type="button" onclick = "" value="保存" class="btn btn-primary">	
+            <input type="button" onclick = "closeDialog()" value="关闭" class="btn btn-primary">
+        </div> 
+					
+					
 					<br /><br />
 					<button class="btn btn-primary btn-block">保存</button>
 				</div>
@@ -196,10 +276,28 @@
 	<!-- Datepicker -->
 	<script src="../../js/bootstrap-datepicker.min.js"></script>
 	
-
+	<!-- 四级联动 -->
+	<script src="../../js/GlobalProvinces_extend.js"></script>
+	<script src="../../js/GlobalProvinces_main.js"></script>
+	<script src="../../js/initLocation.js"></script>
+	<script type="text/javascript">
+	$(function(){initLocation({sheng_val:"请选择",shi_val:"请选择",xian_val:"<?php echo $v['country']?>",xiang_val:"<?php echo $v['street']?>"});})
+	</script>
+	
+	
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-
+	<script type="text/javascript">
+		 function openDialog(){
+	            document.getElementById('light').style.display='block';
+	            document.getElementById('fade').style.display='block';
+	    }
+	    
+	    function closeDialog(){
+	            document.getElementById('light').style.display='none';
+	            document.getElementById('fade').style.display='none';
+	    }
+	</script>
 	</body>
 </html>
 
