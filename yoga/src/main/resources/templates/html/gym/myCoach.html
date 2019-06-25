@@ -92,7 +92,7 @@
 					<h2>我的签约教练</h2>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row myCoach">
 				<div class="col-lg-4 col-md-4 col-sm-6">
 					<span class="fh5co-card-item">
 						<figure style="text-align: center;top:50px">
@@ -138,7 +138,27 @@
 			</div>
 		</div>
 	</div>
-				
+	
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
+	    <div class="modal-dialog" role="document">  
+	        <div class="modal-content">  
+	            <div class="modal-header">  
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+	                    <span aria-hidden="true">×</span>  
+	                </button>  
+	                <h4 class="modal-title" id="myModalLabel">解约教练</h4>  
+	            </div>  
+	            <div class="modal-body">  
+	                <p>是否解约教练?</p>  
+	            </div>  
+	            <div class="modal-footer">  
+	                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
+	                <button type="button" class="btn btn-primary" onclick="delLesson()">确定</button>  
+	            </div>  
+	        </div>  
+	    </div>  
+	</div> 			
 				
 	<footer id="gtco-footer" role="contentinfo">
 		<div class="gtco-container">
@@ -217,10 +237,49 @@
 	
 	<!-- Datepicker -->
 	<script src="../../js/bootstrap-datepicker.min.js"></script>
-	
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
+	
+	<script type="text/javascript">
+		//显示我的签约教练
+		function findMyCoach(){
+			$.ajax({
+				type:"get",
+				async:true,
+				url:"/gym/findMyCoach.do",
+				/* data:"l_g_id="+l_g_id,  */
+				success:function(mes){
+					console.info(mes);
+					var str ="";
+					
+					if(mes.length>0){
+						for(var i=0;i<mes.length;i++){
+							str+="<div class='col-lg-4 col-md-4 col-sm-6'>"+
+								"<span class='fh5co-card-item'>"+
+									"<figure style='text-align: center;top:50px'>"+
+										"<img src='../../images/imgs/"+mes[i].c_headimg+"' alt='Image'>"+
+									"</figure>"+
+									"<div class='fh5co-text'>"+
+										"<h2>瑜伽教练："+mes[i].c_nickname+"</h2>"+
+										"<h2>流派："+mes[i].c_style+"</h2>"+
+										"<h2>课时费标准："+mes[i].c_price+"￥/节</h2>"+
+										"<h2>电话："+mes[i].c_phone+"</h2>"+
+										"<button class='btn btn-primary' data-toggle='modal' data-target='#myModal'>解约</button>"+
+									"</div>"+
+								"</span>"+
+							"</div>"
+						}	
+					}else{
+						str+="<h3>暂无签约教练</h3>"
+					} 
+					
+					$(".myCoach").html(str);
+				}
+			});
+		}
+		findMyCoach()
+	</script>
 
 	</body>
 </html>

@@ -83,7 +83,7 @@ public class CoachDaoTest extends BaseTest {
 	public void findCoachByNick(){
 		CoachBean bean = new CoachBean();
 		bean.setC_g_id("1");
-		bean.setC_nickname("tsto");
+		bean.setC_nickname("");
 		List<CoachBean> list = dao.findCoachByNick(bean);
 		System.out.println(list.size());
 	}
