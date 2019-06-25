@@ -60,7 +60,7 @@ public interface ICoachService {
 	 * @param money 提取现金数量
 	 * @return
 	 */
-	Boolean updateMoney(String id, double money);
+	Boolean updateMoney(String id, double money, Integer cardId);
 	
 	/**
 	 * 获得教练所有学员
@@ -200,4 +200,9 @@ public interface ICoachService {
 	 * @param coach
 	 */
 	public void updateLessonInfo(CoachBean coach);
+	/**
+	 * 查询钱包余额
+	 * @param id
+	 */
+	public Double getMoney(String id);
 }

@@ -168,8 +168,9 @@ public class CoachController {
 	 * @param id 教练id
 	 * @param money 提现金额
 	 */
-	public void withdraw(String id, double money) {
-		service.updateMoney(id, money);
+	@RequestMapping("withdraw.do")
+	public void withdraw(String id, double money, Integer cardId) {
+		service.updateMoney(id, money, cardId);
 	}
 	
 	/**
@@ -258,4 +259,17 @@ public class CoachController {
 		//重定向到个人信息显示页面
 		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
 	}
+	
+	/**
+	 * 查看钱包余额
+	 * @author pan
+	 * @param coach 要更新的数据
+	 * @return 返回个人信息显示页面
+	 */
+	@RequestMapping("showMoney.do")
+	public String updateLessonInfo(String id, ModelMap map) {
+		Double money = service.getMoney(id);
+		map.put("money", money);
+		return "/html/coach/money.html";
+	} 
 }
