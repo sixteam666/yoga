@@ -8,7 +8,11 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,25 +37,34 @@ public class StudentController {
 	 */
 
 	@RequestMapping("/login.do")
-	public String login(String arg1,String pwd){
+	@ResponseBody
+	public String login(String arg1,String pwd,HttpSession session,HttpServletRequest request){
 		//产生一个用户（门面对象）
+		//暂无盐值
+		//Object obj = new SimpleHash("MD5", pwd,"",1024);
 		Subject currentUser = SecurityUtils.getSubject();
 		 if (!currentUser.isAuthenticated()) {
 	            UsernamePasswordToken token = new UsernamePasswordToken("s"+arg1,pwd);
 	            try {
 	            	//调用login进行认证
 	                currentUser.login(token);
-	                System.out.println("认证成功");
-	            } 
-	            catch (AuthenticationException ae) {
-	                // 捕获未知用户名异常
-	                return "redirect:/html/student/studentLogin.html";
+	                System.out.println("认证成功");        		
+	            } catch (UnknownAccountException uae) {
+	            	System.out.println("用户名错误");
+	            	return "no";
+	            } catch (IncorrectCredentialsException ice) {
+	            	System.out.println("密码错误");
+	            	return "no";
+	            } catch (LockedAccountException lae) {
+	               System.out.println("被锁定异常");
+	               return "no";
 	            }
 	      }
 		 
-		StudentBean student = service.findStudentbyName(arg1);
-		currentUser.getSession().setAttribute("stu", student);
-		 return "redirect:/html/student/student.html";
+		 StudentBean student = service.findStudentbyName(arg1);
+         request.getSession().setAttribute("stu", student);
+ 		 System.out.println(session.getAttribute("stu"));	
+		 return "yes";
 	}
 	
 	@RequestMapping("/register.do")

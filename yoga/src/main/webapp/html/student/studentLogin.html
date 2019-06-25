@@ -90,7 +90,6 @@
 										<div class="tab-content">
 											<div class="tab-content-inner active" data-content="signup">
 												<h3><span id="fon">学员登陆</span></h3>
-												<form action="/student/login.do" method="post">
 													<div class="row form-group">
 														<div class="col-md-12">
 															<label for="fullname"><span class="fon">账户</span></label>
@@ -101,18 +100,17 @@
 													<div class="row form-group">
 														<div class="col-md-12">
 															<label for="date-start"><span class="fon">密码</span></label>
-															<input type="password" name="pwd" class="form-control" placeholder="请输入密码">
+															<input type="password" id="password" name="pwd" class="form-control" placeholder="请输入密码">
 														</div>
 													</div>
 	
 													<div class="row form-group">
 														<div class="col-md-12">
-															<input type="submit" class="btn btn-primary btn-block" value="登陆">
+															<input type="button" onclick="login()" class="btn btn-primary btn-block" value="登陆">
 															<a href="studentReg.html"><input type="button" class="btn btn-primary btn-block" value="注册"></a>
 															<a href="forgetPassword.html">忘记密码</a>
 														</div>
 													</div>
-												</form>	
 											</div>
 	
 											
@@ -156,7 +154,21 @@
 	<script src="../../js/main.js"></script>
 	<script type="text/javascript">
 	function login(){
-		
+		var userName = $("#fullname").val();
+		var password = $("#password").val();
+		$.ajax({
+			url:"/student/login.do",
+			type:"post",
+			async:true,
+			data:"arg1="+userName+"&pwd="+password,
+			success:function(mes){
+				if(mes == "yes"){
+					window.location.href = "/html/student/student.html";
+				}else{
+					alert("用户名或密码错误");
+				}
+			}
+		});
 	}
 	</script>
 	</body>
