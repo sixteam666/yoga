@@ -157,12 +157,17 @@
 	<script src="../../js/main.js"></script>
 	<script type="text/javascript">
 		var false_warning = document.getElementsByTagName("false_warning")[0]
+		
+		
 		function login(){
+			var c_name = document.getElementById("fullname").value
+			var c_password = document.getElementById("password").value
+			alert(c_name+":"+c_password)
 			$.ajax({
 				type:"post",
 				url:"/coach/login.do",
 				asycn:true,
-				data:$("#login_form").serialize(),
+				data:"c_name="+c_name+"&c_password="+c_password,
 				success:function(mes){
 					if (mes=="success") {
 						location.href="coach.html"
