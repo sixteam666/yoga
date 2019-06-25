@@ -35,10 +35,10 @@ public class StudentController {
 	 * @param remenber 
 	 * @return
 	 */
-
+	
 	@RequestMapping("/login.do")
 	@ResponseBody
-	public String login(String arg1,String pwd,HttpSession session,HttpServletRequest request){
+	public String login(String arg1,String pwd,HttpServletRequest request){
 		//产生一个用户（门面对象）
 		//暂无盐值
 		//Object obj = new SimpleHash("MD5", pwd,"",1024);
@@ -51,22 +51,27 @@ public class StudentController {
 	                System.out.println("认证成功");        		
 	            } catch (UnknownAccountException uae) {
 	            	System.out.println("用户名错误");
-	            	return "no";
+	            	return "用户名错误";
 	            } catch (IncorrectCredentialsException ice) {
 	            	System.out.println("密码错误");
-	            	return "no";
+	            	return "密码错误";
 	            } catch (LockedAccountException lae) {
 	               System.out.println("被锁定异常");
-	               return "no";
+	               return "被锁定异常";
 	            }
 	      }
-		 
 		 StudentBean student = service.findStudentbyName(arg1);
-         request.getSession().setAttribute("stu", student);
+		 HttpSession session = request.getSession();
+		 session.setAttribute("stu", student);
  		 System.out.println(session.getAttribute("stu"));	
-		 return "yes";
+		 return "认证成功";
 	}
 	
+	@RequestMapping("/stu.do")
+	public String href(String string){
+		return "html/student/student.html";
+	}
+		
 	@RequestMapping("/register.do")
 	@ResponseBody
 		public String register(StudentBean student){
@@ -85,19 +90,19 @@ public class StudentController {
 			}	
 		}
 	
-	
-			/**
-			 * 显示学员个人信息
-			 * @param id 学员id
-			 */
-			@RequestMapping("showStudent.do")
-			public String showCoachInfoByid(HttpServletRequest req) {
-				HttpSession session = req.getSession();
-				String id = (String) session.getAttribute("id");
-				StudentBean stu = service.findStudentbyId(id);
-				session.setAttribute("user", stu);
-				return "redirect:/register.html";
-			}
+	/**
+	 * 注销
+	 * @return
+	 */
+	@RequestMapping("/loginout.do")
+	@ResponseBody
+	public String logout(HttpSession session) {
+		System.out.println("正在注销");
+		Subject currentUser = SecurityUtils.getSubject();
+		currentUser.logout();
+		System.out.println(session.getAttribute("stu"));
+		return "ok";
+	}
 
 			
 			

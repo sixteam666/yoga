@@ -162,12 +162,10 @@
 			async:true,
 			data:"arg1="+userName+"&pwd="+password,
 			success:function(mes){
-				if(mes == "认证成功"){
-					location.href = "/student/stu.do";
-				}if(mes == "用户名错误"){
-					alert("用户名输入错误，请重新输入");
-				}if(mes == "密码错误"){
-					alert("密码输入错误，请重新输入");
+				if(mes == "yes"){
+					window.location.href = "html/student/student.html";
+				}else{
+					alert("用户名或密码错误");
 				}
 			}
 		});

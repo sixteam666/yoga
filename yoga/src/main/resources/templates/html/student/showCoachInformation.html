@@ -3,7 +3,7 @@
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>个人中心</title>
+	<title>资料展示</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -41,33 +41,33 @@
 		.fon{
 			font-family: "微软雅黑";
 		}
-		.black_overlay{ 
-            display: none; 
-            position: absolute; 
-            top: 0%; 
-            left: 0%; 
-            width: 100%; 
-            height: 100%; 
-            background-color: black; 
-            z-index:1001; 
-            -moz-opacity: 0.8; 
-            opacity:.80; 
-            filter: alpha(opacity=88); 
-        } 
-        .white_content { 
-            display: none; 
-            position: absolute; 
-            top: 25%; 
-            left: 35%; 
-            width: 600px; 
-            height: 500px; 
-            padding: 20px; 
-            border-radius:20px;
-            border: 5px solid #09C6AB; 
-            background-color: white; 
-            z-index:1002; 
-            overflow: auto; 
-            text-align:center;
+		.dialog{ 
+			position: relative;
+            border: solid 2px;
+            border-radius: 15px;
+            padding: 40px;
+            display: inline-block;
+            font-size: 1.5em;
+            color: #09C6AB;
+  			left: 200px;
+  			top: -200px;
+            width: 600px;
+        }
+        .dialog:before{
+            width: 0;
+            height: 0;
+            border-top:32px solid #fff;
+            border-right: 35px solid;
+            margin-left: -81px;
+            margin-top: 32px;
+        }
+        .dialog:after{
+            top: 43px;
+            bottom: 88px;
+            left: -37px;
+            border-top: 44px solid transparent;
+            border-right: 48px solid #ffffff;
+            border-bottom: 0 solid transparent;
         }
 	</style>
 	<body>
@@ -111,7 +111,7 @@
 								<li><a href="inform.html">我的通知</a></li>
 							</ul>
 						</li>
-					</ul>		
+					</ul>	
 			</div>
 			</div>
 			
@@ -120,84 +120,63 @@
 	
 		<div class="gtco-section">
 		<div class="gtco-container">
-			<div class="row">
+			<div class="row" style="border: 5px solid #09C6AB;border-radius: 50px;">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>修改个人资料</h2>
+					<br />
+					<h2>教练资料</h2>
 				</div>
 				<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
-					<table border="0" cellspacing="0" cellpadding="0" style="width: 700px;height: 500px;">
-						<tr align="center">
-							<td width="140">用户名：</td>
-							<td width="140">
-								<input type="text" name="userName" id="userName" value="用户名"/>
+					<table border="0" cellspacing="0" cellpadding="0" style="width: 700px;height: 200px;">
+						<tr align="center" height="100px">
+							<td width="100" colspan="2" rowspan="2">
+								<img src="../../images/imgs/1.jpg"/>
 							</td>
-							<td width="140">头像:</td>
-							<td width="140" colspan="2">
-								上传头像
-							</td>
+							<td width="200" colspan="2">有xx人关注了他/她：</td>
+							<td width="200" colspan="2">他/她关注了xx人</td>	
 						</tr>
 						<tr align="center">
-							<td>是否公开资料:</td>
-							<td>
-								<select name="power">
-									<option value="0">保密</option>
-									<option value="1">仅好友可见</option>
-									<option value="2" selected="2">完全公开</option>
-								</select>
-							</td>
-							<td>昵称：</td>
-							<td>
-								<input type="text" name="nickName" id="nickName" value="昵称"/>
-							</td>
-							<td></td>
+							<td width="200" colspan="2">空闲时间：</td>
+							<td width="200" colspan="2">全天</td>	
 						</tr>
 						<tr align="center">
-							<td width="140">地址：</td>
-							<td width="140">
-								<input type="text" onclick = "openDialog()" name="address" id="address" value="地址"/>
+							<td colspan="2">蜗牛蔡徐坤</td>	
+							<td>联系方式：</td>
+							<td>1000000000</td>
+							<td>流派：</td>
+							<td>王瑜伽</td>
+						</tr>
+						<tr align="center">
+							<td colspan="2">
+								<button class="btn btn-primary">关注</button>
+							</td>
+							<td>好评次数：</td>
+							<td>295次</td>
+							<td>差评：</td>
+							<td>25次</td>
+						</tr>
+						<tr align="center">
+							<td colspan="6">
+								<button class="btn btn-primary" style="float: right;">约私教</button>
 							</td>
 						</tr>
 					</table>
-					
-					
-					<div id="light" class="white_content">
-		<form id="form1" action="/ZzyApartMent/studentById">
-            <div id="add-address">
-				<form action="">
-					<div class="add-form-group inline-block">
-						<label for="province">省份:</label>
-						<select id="sheng" name="province">
-						
-						</select>
-					</div>
-					<div class="add-form-group inline-block">
-						<label for="city">城市:</label>
-						<select id="shi" name="city">
-						
-						</select>
-					</div>
-					<div class="add-form-group inline-block">
-						<label for="county">区县:</label>
-						<select id="xian" name="county">
-						
-						</select>
-					</div>
-					<div class="add-form-group inline-block">
-						<label for="street">街道:</label>
-						<select id="xiang" name="street">
-						
-						</select>
-					</div>
-				</form>
-		</div>
-         </form>
-         	<input type="button" onclick = "" value="保存" class="btn btn-primary">	
-            <input type="button" onclick = "closeDialog()" value="关闭" class="btn btn-primary">
-        </div> 
-					
-					
-					<br /><br />
-					<button class="btn btn-primary btn-block">保存</button>
+					<hr>
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<br />
+					<h2>他/她的动态</h2>
+				</div>
+				<div id="message">
+				<div class="col-md-16">
+						<img src="../../images/imgs/1.jpg"/>
+						<h3>用户名/昵称</h3>
+				</div>
+				<div class="dialog_Box">
+   					<span class="dialog">
+   						动态内容BBBBBBBBBBBBB
+   						<p>发表时间：2019-06-19</p>
+   					</span>
+				</div>
+			</div>
 				</div>
 			</div>
 		</div>
@@ -276,28 +255,10 @@
 	<!-- Datepicker -->
 	<script src="../../js/bootstrap-datepicker.min.js"></script>
 	
-	<!-- 四级联动 -->
-	<script src="../../js/GlobalProvinces_extend.js"></script>
-	<script src="../../js/GlobalProvinces_main.js"></script>
-	<script src="../../js/initLocation.js"></script>
-	<script type="text/javascript">
-	$(function(){initLocation({sheng_val:"请选择",shi_val:"请选择",xian_val:"<?php echo $v['country']?>",xiang_val:"<?php echo $v['street']?>"});})
-	</script>
-	
-	
+
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-	<script type="text/javascript">
-		 function openDialog(){
-	            document.getElementById('light').style.display='block';
-	            document.getElementById('fade').style.display='block';
-	    }
-	    
-	    function closeDialog(){
-	            document.getElementById('light').style.display='none';
-	            document.getElementById('fade').style.display='none';
-	    }
-	</script>
+
 	</body>
 </html>
 

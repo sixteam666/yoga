@@ -35,24 +35,12 @@
 
 		<!-- Modernizr JS -->
 		<script src="../../js/modernizr-2.6.2.min.js"></script>
+		<link rel="stylesheet" href="../../css/coach.css">
 	</head>
 	<style type="text/css">
 		.fon {font-family: "微软雅黑";}
 		
-		.code_warning,.false_warning,.phone_warning,.username_warning,.password_warning,.repassword_warning{visibility: hidden;color: red;}
-
-		.phoneReg {text-decoration: underline;}
-
-		.phoneReg:hover {color: black !important;}
-
-		.get_code {font-size: 14px;background-color: lightgrey;}
-
-		.get_code:hover {cursor: pointer;}
-
-		.code_point {background-color: lightgrey !important;color: yellow !important;}
-		.notshow{display: none;}
-		.tologin{display: inline-block;float: right!important;margin-right: 0px!important;width: 150px;height: 100%;text-decoration: underline;color: black!important;font-size: 14px;}
-		.tologin:hover{color: black !important;}
+		
 		/* .form-wrap{opacity:0.5;} */
 	</style>
 	<body>
@@ -97,13 +85,14 @@
 											<div class="tab-content">
 												<div class="tab-content-inner active" data-content="signup">
 													<h3><span id="fon">教练注册</span></h3>
-													<form action="/coach/register.do">
+													<label class="false_warning">&nbsp;&nbsp;*注册失败</label>
+													<form id="reg_form" action="#">
 														<div class="name_pwd">
 															<div class="row form-group">
 																<div class="col-md-12">
 																	<label for="fullname"><span class="fon">用户名</span></label>
-																	<label class="username_warning">&nbsp;&nbsp;*用户名为6~16位字母或数字</label>
-																	<label class="false_warning">&nbsp;&nbsp;*注册失败</label>
+																	<label class="username_warning">&nbsp;&nbsp;*用户名为6~16位非纯数字</label>
+																	
 																	<input type="text" id="fullname" class="form-control" placeholder="请输入用户名" name="c_name">
 																</div>
 															</div>
@@ -126,7 +115,7 @@
 
 															<div class="row form-group">
 																<div class="col-md-12">
-																	<input type="submit" class="btn btn-primary btn-block sumbitbtn" value="注册">
+																	<input type="button" onclick="reg()" class="btn btn-primary btn-block sumbitbtn" value="注册">
 																</div>
 															</div>
 															<div>
@@ -167,7 +156,7 @@
 															</div>
 															<div class="row form-group">
 																<div class="col-md-12">
-																	<input type="submit" class="btn btn-primary btn-block sumbitbtn" value="注册">
+																	<input type="button" onclick="reg()" class="btn btn-primary btn-block sumbitbtn" value="注册">
 																</div>
 															</div>
 															
@@ -219,9 +208,7 @@
 			<!-- Main -->
 			<script src="../../js/main.js"></script>
 			<script src="../../js/coach.js"></script>
-			<script>
-				
-			</script>
+			
 			
 
 	</body>
