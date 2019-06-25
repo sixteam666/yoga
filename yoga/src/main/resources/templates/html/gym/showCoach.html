@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
 
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>场馆资料</title>
+	<title>教练展示</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -40,6 +40,7 @@
 	</head>
 	<style type="text/css">
 		.fon{
+			text-align: center;
 			font-family: "微软雅黑";
 		}
 	</style>
@@ -52,8 +53,8 @@
 	
 	<nav class="gtco-nav" role="navigation">
 		<div class="gtco-container">
-			
-			<div class="row" style="background-color:#09C6AB ;">
+
+			<div class="row" style="background-color: #09C6AB;">
 				<div class="col-sm-4 col-xs-12">
 					<ul>
 						<li><a href="gym.html" class="fon">首页</a></li>
@@ -61,7 +62,7 @@
 						<li><a href="showStudent.html" class="fon">学员</a></li>
 					</ul>
 				</div>
-				<div class="col-xs-8 text-right menu-1">
+			<div class="col-xs-8 text-right menu-1">
 					<ul>
 						<li class="has-dropdown">
 							<span style="color: white;">欢迎您，用户名</span>
@@ -70,10 +71,7 @@
 						<li class="has-dropdown">
 							<a href="#">场馆中心</a>
 							<ul class="dropdown">
-								<li><a href="index.html">场馆展示</a></li>
-								<li><a href="msgShow.html">场馆资料</a></li>
-								<li><a href="lesson.html">课程安排</a></li>
-								<li><a href="wallet.html">我的钱包</a></li>
+								<li><a href="my.html">场馆资料</a></li>
 								<li><a href="myCoach.html">我的签约教练</a></li>
 							</ul>
 						</li>
@@ -84,115 +82,59 @@
 		</div>
 	</nav>
 	
-		<div class="gtco-section">
+<div class="gtco-section">
 		<div class="gtco-container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>场馆资料</h2>
+					<h2>官方认证教练</h2>
+					<p>想让自己变得更加完美，就从瑜伽开始吧.</p>
 				</div>
-				<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
-					<table border="0" cellspacing="0" cellpadding="0" style="width: 750px;height: 500px;">
-						<tr >
-							<td align="center" width="150">场馆名：</td>
-							<td width="140" th:text="${gymBean.g_name}">/</td>
-							<td></td>
-							<td align="center" width="140">头像:</td>
-							<td width="140">
-								<img src="../../images/imgs/1.jpg" th:src="@{../../images/imgs/}+${gymBean.g_headimg}"/>
-							</td>
-						</tr>
-						<tr >
-							<td align="center">联系电话：</td>
-							<td th:text="${gymBean.g_contactphone}">/</td>
-							<td></td>
-							<td align="center">QQ：</td>
-							<td th:text="${gymBean.g_qq}">/</td>
-						</tr>
-						<tr >
-							<td align="center">场馆地址：</td>
-							<td colspan="3" th:text="${gymBean.g_address}">/</td>
-						</tr>
-						
-						<tr >
-							<td align="center">场馆详细信息：</td>
-							<td colspan="3" th:text="${gymBean.g_message}">/</td>
-						</tr>
-					</table>
-					<br /><br />
-					<a href="/gym/showOldMsg.do"><button class="btn btn-primary btn-block">修改资料</button></a>
+			</div>
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<span class="fh5co-card-item">
+						<figure style="text-align: center;top:50px">
+							<img src="../../images/imgs/39.jpg" alt="Image">
+						</figure>
+						<div class="fh5co-text">
+							<h2>瑜伽教练：a</h2>
+							<h2>流派：a</h2>
+							<h2>课时费标准：200元/节</h2>
+							<h2>电话：1111</h2>
+						</div>
+					</span>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<span class="fh5co-card-item">
+						<figure style="text-align: center;top:50px">
+							<img src="../../images/imgs/46.jpg" alt="Image">
+						</figure>
+						<div class="fh5co-text">
+							<h2>瑜伽教练：a</h2>
+							<h2>流派：a</h2>
+							<h2>课时费标准：200元/节</h2>
+							<h2>电话：1111</h2>
+						</div>
+					</span>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<span class="fh5co-card-item">
+						<figure style="text-align: center;top:50px">
+							<img src="../../images/imgs/20.jpg" alt="Image">
+						</figure>
+						<div class="fh5co-text">
+							<h2>瑜伽教练：a</h2>
+							<h2>流派：a</h2>
+							<h2>课时费标准：200元/节</h2>
+							<h2>电话：1111</h2>
+						</div>
+					</span>
 				</div>
 			</div>
 		</div>
 	</div>
-	<hr>
-	<div class="gtco-section">
-		<div class="gtco-container">
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>场馆图片展示</h2>
-				</div>
-			<div class="gtco-section">
-				<div class="gtco-container">
-					<div class="row">
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<a href="../../images/img_1.jpg" class="fh5co-card-item image-popup">
-								<figure>
-									<div class="overlay"><i class="ti-plus"></i></div>
-									<img src="../../images/img_1.jpg" alt="Image" class="img-responsive">
-								</figure>
-							</a>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<a href="../../images/img_2.jpg" class="fh5co-card-item image-popup">
-								<figure>
-									<div class="overlay"><i class="ti-plus"></i></div>
-									<img src="../../images/img_2.jpg" alt="Image" class="img-responsive">
-								</figure>
-							</a>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<a href="../../images/img_3.jpg" class="fh5co-card-item image-popup">
-								<figure>
-									<div class="overlay"><i class="ti-plus"></i></div>
-									<img src="../../images/img_3.jpg" alt="Image" class="img-responsive">
-								</figure>
-							</a>
-						</div>
-		
-		
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<a href="../../images/img_4.jpg" class="fh5co-card-item image-popup">
-								<figure>
-									<div class="overlay"><i class="ti-plus"></i></div>
-									<img src="../../images/img_4.jpg" alt="Image" class="img-responsive">
-								</figure>
-							</a>
-						</div>
-		
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<a href="../../images/img_5.jpg" class="fh5co-card-item image-popup">
-								<figure>
-									<div class="overlay"><i class="ti-plus"></i></div>
-									<img src="../../images/img_5.jpg" alt="Image" class="img-responsive">
-								</figure>
-							</a>
-						</div>
-		
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<a href="../../images/img_6.jpg" class="fh5co-card-item image-popup">
-								<figure>
-									<div class="overlay"><i class="ti-plus"></i></div>
-									<img src="../../images/img_6.jpg" alt="Image" class="img-responsive">
-								</figure>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>	
-			</div>
-		</div>
-	</div>
-	<hr>
+				
+
 	<footer id="gtco-footer" role="contentinfo">
 		<div class="gtco-container">
 			<div class="row row-p	b-md">
@@ -200,21 +142,13 @@
 				<div class="col-md-4">
 					<div class="gtco-widget">
 						<h3>关于我们</h3>
-						<p>蜗牛46期第六组项目，由项目负责人温攀，会长文然，技术负责人黄仁杰，产品经理滕伟，后台管理刘勇，前端张正宇负责</p>
+						<p>蜗牛46期第六组，由项目负责人温攀，会长文然，技术负责人黄仁杰，产品经理滕伟，后台管理刘勇，前端张正宇组成</p>
 					</div>
 				</div>
 
 				<div class="col-md-2 col-md-push-1"></div>
 				
-				<div class="col-md-2 col-md-push-1">
-					<div class="gtco-widget">
-						<h3 class="fon">瑜伽平台</h3>
-						<ul class="gtco-footer-links">
-							<li><a href="coachLogin.html" class="fon">成为教练</a></li>
-							<li><a href="gymLogin.html" class="fon">场馆入驻</a></li>
-						</ul>
-					</div>
-				</div>
+				
 
 				<div class="col-md-3 col-md-push-1">
 					<div class="gtco-widget">
@@ -248,12 +182,15 @@
 
 		</div>
 	</footer>
+	<!-- </div> -->
+
+	</div>
 
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
 	</div>
 	
-		<!-- jQuery -->
+	<!-- jQuery -->
 	<script src="../../js/jquery.min.js"></script>
 	<!-- jQuery Easing -->
 	<script src="../../js/jquery.easing.1.3.js"></script>
@@ -282,4 +219,5 @@
 
 	</body>
 </html>
+
 

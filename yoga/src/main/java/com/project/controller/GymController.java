@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,7 +43,7 @@ public class GymController {
 	@Qualifier("gymService")
 	private IGymService gymService;
 	
-	private FileUtil picUtil = new FileUtil();
+	private FileUtil picUtil ;
 
 	/**
 	 * 登录
@@ -134,11 +135,12 @@ public class GymController {
 	 * 
 	 * @param gymBean
 	 */
-	@RequestMapping("/updateMsg.do")
-	@ResponseBody
-	public String updateMessage(Model model,ModelMap map,@Validated GymBean gymBean,BindingResult result) {
-		System.out.println(gymBean);
+	@RequestMapping(value="/updateMsg.do",method = RequestMethod.POST)
+	//@ResponseBody
+	public String updateMessage(Model model,ModelMap map,@Validated GymBean gymBean,
+			MultipartFile file,HttpServletRequest req,BindingResult result) {
 		model.addAttribute("gymBean", gymBean);
+		System.out.println(file);
 		if (result.hasErrors()) {
 			System.out.println("有错！！！");
 			//获取到所有的校验错误信息
@@ -146,12 +148,46 @@ public class GymController {
 			for (FieldError fieldError : errorList) {
 				map.put("error_"+fieldError.getField(), fieldError.getDefaultMessage());
 			}
-			//return "forward:/";
+			return "forward:/html/gym/msgModify.html";
 		}
+		String gymId = "1";
+		gymBean.setG_id(gymId);
 		
+		
+		String imgName = FileUtil.getFileName(file, req);
+		gymBean.setG_headimg(imgName);
+		System.out.println(gymBean);
 		int number = gymService.updateMessage(gymBean);
 		System.out.println(number);
-		return "ok";
+		return "redirect:/gym/showMessage.do";
+	}
+	
+	/**
+	 * 跳转到修改信息页面
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("/showOldMsg.do")
+	public String showOldMsg(ModelMap map){
+		String gymId = "1";
+		GymBean oldMsg =  gymService.findGymById(gymId);
+		System.out.println(oldMsg);
+		map.put("oldMsg", oldMsg);
+		return "/html/gym/msgModify.html";
+	}
+	
+	/**
+	 * 跳转到展示信息页面
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("/showMessage.do")
+	public String showMessage(ModelMap map){
+		String gymId = "1";
+		GymBean gymBean =  gymService.findGymById(gymId);
+		System.out.println(gymBean);
+		map.put("gymBean", gymBean);
+		return "/html/gym/msgShow.html";
 	}
 
 	/**
@@ -208,6 +244,23 @@ public class GymController {
 		return "ok";
 	}
 	
+	/**
+	 * 展示课程
+	 */
+	@RequestMapping("/showLesson.do")
+	//@ResponseBody
+	public String showLesson(LessonBean lessonBean,ModelMap map){
+		System.out.println(lessonBean);
+		String gymId = "1";
+		lessonBean.setL_g_id(gymId); 
+		List<LessonBean> list = gymService.findLesson(lessonBean);
+		if (list.isEmpty()) {
+			list.add(lessonBean);
+		}
+		map.put("list", list);
+		return "/html/gym/lessonModify.html";
+	}
+	
 
 	/**
 	 * 教练课程安排
@@ -226,6 +279,16 @@ public class GymController {
 			//return "forward:/";
 		}
 		int number = gymService.addLesson(lessonBean);
+		return number;
+	}
+	
+	/**
+	 * 删除课程
+	 */
+	@RequestMapping("/deleteLesson.do")
+	@ResponseBody
+	public int deleteLesson(int id){
+		int number = gymService.deleteLesson(id);
 		return number;
 	}
 

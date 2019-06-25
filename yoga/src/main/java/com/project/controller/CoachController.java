@@ -13,11 +13,8 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-<<<<<<< HEAD
 import org.apache.shiro.session.mgt.SessionKey;
-=======
 import org.apache.shiro.crypto.hash.SimpleHash;
->>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
