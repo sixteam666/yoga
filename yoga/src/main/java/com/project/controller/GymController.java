@@ -56,7 +56,6 @@ public class GymController {
 	@RequestMapping("/login.do")
 	@ResponseBody
 	public int login(String arg, String g_password) {
-		System.out.println(arg + "==" + g_password);
 		// 产生一个用户（门面对象）
 		Subject currentUser = SecurityUtils.getSubject();
 		if (!currentUser.isAuthenticated()) {
@@ -64,6 +63,8 @@ public class GymController {
 			try {
 				// 调用login进行认证
 				currentUser.login(token);
+				Session session = currentUser.getSession(false);
+				session.setAttribute("gym", gymService.login(arg)); // 将gym哟用户放在Session中
 				System.out.println("认证成功");
 				return 1;
 			}

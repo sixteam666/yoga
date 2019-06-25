@@ -18,9 +18,9 @@ public class SmsServiceImpl implements ISmsService {
 	private IGymDao gymDao;
 
 	// 短信应用SDK AppID
-	private int appid = 1400222996; // 1400开头
+	private int appid = 0; // 1400开头
 	// 短信应用SDK AppKey
-	private String appkey = "04248fb812dfba053d95d7c755a4bb46";
+	private String appkey = "";
 
 	// 签名
 	// NOTE: 这里的签名"腾讯云"只是一个示例，
