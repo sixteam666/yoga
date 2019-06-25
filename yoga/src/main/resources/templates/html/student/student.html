@@ -1,0 +1,451 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>瑜伽平台</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
+	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
+	<meta name="author" content="FreeHTML5.co" />
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="../../css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="../../css/icomoon.css">
+	<!-- Themify Icons-->
+	<link rel="stylesheet" href="../../css/themify-icons.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="../../css/bootstrap.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../../css/magnific-popup.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../../css/bootstrap-datepicker.min.css">
+
+	<!-- Owl Carousel  -->
+	<link rel="stylesheet" href="../../css/owl.carousel.min.css">
+	<link rel="stylesheet" href="../../css/owl.theme.default.min.css">
+
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="../../css/style.css">
+
+	<!-- Modernizr JS -->
+	<script src="../../js/modernizr-2.6.2.min.js"></script>
+
+	</head>
+	<style type="text/css">
+		.fon{
+			text-align: center;
+			font-family: "微软雅黑";
+		}
+	</style>
+	<body>
+		
+	<div class="gtco-loader"></div>
+	
+	<div id="page">
+
+	
+	<nav class="gtco-nav" role="navigation">
+		<div class="gtco-container">
+			
+			<div class="row">
+				<div class="col-sm-4 col-xs-12">
+					<ul>
+						<li><a href="student.html" class="fon">首页</a></li>
+						<li><a href="showGym.html" class="fon">所有场馆</a></li>
+						<li><a href="showCoach.html" class="fon">附近教练</a></li>
+						<li class="has-dropdown">
+							<a href="#">动态</a>
+							<ul class="dropdown">
+								<li><a href="showMessage.html">我的关注</a></li>
+								<li><a href="showMessage.html">附近的人</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			<div class="col-xs-8 text-right menu-1">
+					<ul>
+						<li class="has-dropdown">
+							<span style="color: white;">欢迎您：<span th:text></span></span>
+							<a onclick="loginout()">注销</a>
+						</li>
+						<li class="has-dropdown">
+							<a href="#">个人中心</a>
+							<ul class="dropdown">
+								<li><a href="my.html">个人资料</a></li>
+								<li><a href="className.html">我的课程</a></li>
+								<li><a href="order.html">我的订单</a></li>
+								<li><a href="attention.html">我的关注</a></li>
+								<li><a href="inform.html">我的通知</a></li>
+							</ul>
+						</li>
+					</ul>	
+			</div>
+			</div>
+			
+		</div>
+	</nav>
+	
+	<header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url(../../images/img_bg_4.jpg)">
+		<div class="overlay"></div>
+		<div class="gtco-container">
+			<br /><br /><br /><br /><br /><br /><br /><br /><br />
+			<div class="row row-mt-15em">
+				<div id="fon" class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<h1>蜗牛学院瑜伽平台</h1>	
+				</div>
+			</div>
+		</div>
+	</header>
+	
+	<div class="gtco-section">
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<h2>热门场馆</h2>
+					<p>瑜伽是身体的锻炼，是心的旅行，是生活的方式，更是探索生命意义的文化.</p>
+				</div>
+			</div>
+			<div class="row">
+
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<a href="../../images/img_1.jpg" class="fh5co-card-item image-popup">
+						<figure>
+							<div class="overlay"><i class="ti-plus"></i></div>
+							<img src="../../images/img_1.jpg" alt="Image" class="img-responsive">
+						</figure>
+						<div class="fh5co-text">
+							<h2>瑜伽馆</h2>
+							<p>xxxxxxxxxxx</p>
+							<p><span class="btn btn-primary">点击查看大图</span></p>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<a href="../../images/img_2.jpg" class="fh5co-card-item image-popup">
+						<figure>
+							<div class="overlay"><i class="ti-plus"></i></div>
+							<img src="../../images/img_2.jpg" alt="Image" class="img-responsive">
+						</figure>
+						<div class="fh5co-text">
+							<h2>瑜伽馆</h2>
+							<p>xxxxxxxxxxx</p>
+							<p><span class="btn btn-primary">点击查看大图</span></p>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<a href="../../images/img_3.jpg" class="fh5co-card-item image-popup">
+						<figure>
+							<div class="overlay"><i class="ti-plus"></i></div>
+							<img src="../../images/img_3.jpg" alt="Image" class="img-responsive">
+						</figure>
+						<div class="fh5co-text">
+							<h2>瑜伽馆</h2>
+							<p>xxxxxxxxxxx</p>
+							<p><span class="btn btn-primary">点击查看大图</span></p>
+						</div>
+					</a>
+				</div>
+
+
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<a href="../../images/img_4.jpg" class="fh5co-card-item image-popup">
+						<figure>
+							<div class="overlay"><i class="ti-plus"></i></div>
+							<img src="../../images/img_4.jpg" alt="Image" class="img-responsive">
+						</figure>
+						<div class="fh5co-text">
+							<h2>瑜伽馆</h2>
+							<p>xxxxxxxxxxx</p>
+							<p><span class="btn btn-primary">点击查看大图</span></p>
+						</div>
+					</a>
+				</div>
+
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<a href="../../images/img_5.jpg" class="fh5co-card-item image-popup">
+						<figure>
+							<div class="overlay"><i class="ti-plus"></i></div>
+							<img src="../../images/img_5.jpg" alt="Image" class="img-responsive">
+						</figure>
+						<div class="fh5co-text">
+							<h2>瑜伽馆</h2>
+							<p>xxxxxxxxxxx</p>
+							<p><span class="btn btn-primary">点击查看大图</span></p>
+						</div>
+					</a>
+				</div>
+
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<a href="../../images/img_6.jpg" class="fh5co-card-item image-popup">
+						<figure>
+							<div class="overlay"><i class="ti-plus"></i></div>
+							<img src="../../images/img_6.jpg" alt="Image" class="img-responsive">
+						</figure>
+						<div class="fh5co-text">
+							<h2>瑜伽馆</h2>
+							<p>xxxxxxxxxxx</p>
+							<p><span class="btn btn-primary">点击查看大图</span></p>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+<hr>
+	<div class="gtco-section">
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<h2>热门教练</h2>
+					<p>想让自己变得更加完美，就从瑜伽开始吧.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<a href="showCoachInformation.html" class="fh5co-card-item">
+						<figure style="text-align: center;top:50px">
+							<img src="../../images/imgs/39.jpg" alt="Image">
+						</figure>
+						<div class="fh5co-text">
+							<h2>瑜伽教练：a</h2>
+							<h2>流派：a</h2>
+							<h2>课时费标准：200元/节</h2>
+							<h2>电话：1111</h2>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<a href="showCoachInformation.html" class="fh5co-card-item">
+						<figure style="text-align: center;top:50px">
+							<img src="../../images/imgs/46.jpg" alt="Image">
+						</figure>
+						<div class="fh5co-text">
+							<h2>瑜伽教练：a</h2>
+							<h2>流派：a</h2>
+							<h2>课时费标准：200元/节</h2>
+							<h2>电话：1111</h2>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<a href="showCoachInformation.html" class="fh5co-card-item">
+						<figure style="text-align: center;top:50px">
+							<img src="../../images/imgs/20.jpg" alt="Image">
+						</figure>
+						<div class="fh5co-text">
+							<h2>瑜伽教练：a</h2>
+							<h2>流派：a</h2>
+							<h2>课时费标准：200元/节</h2>
+							<h2>电话：1111</h2>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+				
+				
+				
+	<div id="gtco-features">
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading animate-box">
+					<h2>你知道蜗牛学院瑜伽平台吗？</h2>
+					<p>我公司主要提供瑜伽场馆、瑜伽文化研究、特色教练预约等业务，有丰富的瑜伽培训体系.</p>
+					<p>还有独特的社交系统，让你成为朋友圈中最亮的那颗星.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 col-sm-6">
+					<div class="feature-center animate-box" data-animate-effect="fadeIn">
+						<span class="icon">
+							<i>1</i>
+						</span>
+						<h3>我是学员</h3>
+						<p>我希望你有时能驻足于这个令你感到惊叹的世界，体会你从未有过的感觉。我希望你能见到其他与你观点不同的人们。我希望你能有一个值得自豪的人生。如果你想象的生活不一样，我希望你能有勇气重新启程。
+
+ ——《The Curious Case Of Benjamin Button》.</p>
+					</div>
+				</div>
+				<div class="col-md-4 col-sm-6">
+					<div class="feature-center animate-box" data-animate-effect="fadeIn">
+						<span class="icon">
+							<i>2</i>
+						</span>
+						<h3>我是教练</h3>
+						<p>作为一名好的瑜伽老师，首先你必须自己练习好难体式，体会到在做的过程中在哪一个阶段会开始拉伸、疼痛，有了自己的感受之后，在教授学生的过程中才能深切体会到学生的真实感受，充满自信的指导她们应该怎样做，不应该怎样做，怎样做能尽快进步，怎样做才能避免受伤。要知道，瑜伽中受的伤只有通过瑜伽才能调理回来，任何医生都是手足无措的。这在瑜伽古书中已经交代的非常明确了。因此，先做好瑜伽深度练习技巧的准备体式.</p>
+					</div>
+				</div>
+				<div class="col-md-4 col-sm-6">
+					<div class="feature-center animate-box" data-animate-effect="fadeIn">
+						<span class="icon">
+							<i>3</i>
+						</span>
+						<h3>瑜伽场馆</h3>
+						<p>以高档的风格来设计装修瑜伽会馆，满足所有瑜伽馆的各项功能，满足高端客户的需求。面积在200平方米以上。功能区域分为生态瑜伽教室，高温瑜伽教室，休闲聊天区，前台接待区，会员更衣室，独立淋浴房，独立卫生间等。生态瑜伽教室在100平方米以上，高温教室在60-80平方米左右。整体风格取材印度元素，并配合当地瑜伽爱好者的喜好来装饰房间.</p>
+					</div>
+				</div>
+				
+
+			</div>
+		</div>
+	</div>
+
+
+	<div class="gtco-cover gtco-cover-sm" style="background-image: url(../../images/img_bg_1.jpg)"  data-stellar-background-ratio="0.5">
+		<div class="overlay"></div>
+		<div class="gtco-container text-center">
+			<div class="display-t">
+				<div class="display-tc">
+					<h1 style="font-size: 50px;">蜗牛学院瑜伽平台将为你提供最优质的服务!</h1>
+				</div>	
+			</div>
+		</div>
+	</div>
+
+	<div id="gtco-counter" class="gtco-section">
+		<div class="gtco-container">
+
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading animate-box">
+					<h2>Our Success</h2>
+					<p>我们提供的场馆，培训过程中我们始终坚持严谨治学，相信专业才是学习的优先保证，传授学生真正的技术为目标。我们的课程不添加噱头，不堆砌花哨的技术名词，不夸大课程内容，我们只有实实在在的干货。技术不是花哨的显摆，技术是踏实的创造而非刻意的模仿.</p>
+				</div>
+			</div>
+
+			<div class="row">
+				
+				<div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
+					<div class="feature-center">
+						<span class="counter js-counter" data-from="0" data-to="20" data-speed="5000" data-refresh-interval="50">1</span>
+						<span class="counter-label">入驻场馆</span>
+
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
+					<div class="feature-center">
+						<span class="counter js-counter" data-from="0" data-to="60" data-speed="5000" data-refresh-interval="50">1</span>
+						<span class="counter-label">认证教练</span>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
+					<div class="feature-center">
+						<span class="counter js-counter" data-from="0" data-to="4396" data-speed="5000" data-refresh-interval="50">1</span>
+						<span class="counter-label">平台会员</span>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
+					<div class="feature-center">
+						<span class="counter js-counter" data-from="0" data-to="18800" data-speed="5000" data-refresh-interval="50">1</span>
+						<span class="counter-label">好评如潮</span>
+
+					</div>
+				</div>
+					
+			</div>
+		</div>
+	</div>
+
+	<footer id="gtco-footer" role="contentinfo">
+		<div class="gtco-container">
+			<div class="row row-p	b-md">
+
+				<div class="col-md-4">
+					<div class="gtco-widget">
+						<h3>关于我们</h3>
+						<p>蜗牛46期第六组，由项目负责人温攀，会长文然，技术负责人黄仁杰，产品经理滕伟，后台管理刘勇，前端张正宇组成</p>
+					</div>
+				</div>
+
+				<div class="col-md-2 col-md-push-1"></div>
+
+				<div class="col-md-3 col-md-push-1">
+					<div class="gtco-widget">
+						<h3>联系方式</h3>
+						<ul class="gtco-quick-contact">
+							<li><a href="#"><i class="icon-phone"></i> 15002881866</a></li>
+							<li><a href="#"><i class="icon-mail2"></i> shinoda@live.cn</a></li>
+							<li><a href="#"><i class="icon-chat"></i> Zzy19951117</a></li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row copyright">
+				<div class="col-md-12">
+					<p class="pull-left">
+						<small class="block">&copy; 2019 在蜗牛46期写出来的.</small> 
+						<small class="block">模板都是网上找的，描述都是自己瞎BB的</small>
+					</p>
+					<p class="pull-right">
+						<ul class="gtco-social-icons pull-right">
+							<li><a href="#"><i class="icon-twitter"></i></a></li>
+							<li><a href="#"><i class="icon-facebook"></i></a></li>
+							<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							<li><a href="#"><i class="icon-dribbble"></i></a></li>
+						</ul>
+					</p>
+				</div>
+			</div>
+
+		</div>
+	</footer>
+	<!-- </div> -->
+
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+	</div>
+	
+	<!-- jQuery -->
+	<script src="../../js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="../../js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="../../js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="../../js/jquery.waypoints.min.js"></script>
+	<!-- Carousel -->
+	<script src="../../js/owl.carousel.min.js"></script>
+	<!-- countTo -->
+	<script src="../../js/jquery.countTo.js"></script>
+
+	<!-- Stellar Parallax -->
+	<script src="../../js/jquery.stellar.min.js"></script>
+
+	<!-- Magnific Popup -->
+	<script src="../../js/jquery.magnific-popup.min.js"></script>
+	<script src="../../js/magnific-popup-options.js"></script>
+	
+	<!-- Datepicker -->
+	<script src="../../js/bootstrap-datepicker.min.js"></script>
+	
+
+	<!-- Main -->
+	<script src="../../js/main.js"></script>
+	<script type="text/javascript">
+	function loginout(){
+		$.ajax({
+			url:"/student/loginout.do",
+			type:"post",
+			async:true,
+			success:function(mes){
+				window.location.href = "/html/index.html";
+			}
+		});
+	}
+	</script>
+	</body>
+</html>
+
+
