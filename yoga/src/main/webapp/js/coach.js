@@ -1,4 +1,4 @@
-var inpUserName = document.getElementById("fullname")
+				var inpUserName = document.getElementById("fullname")
 				var inpPassWord = document.getElementsByClassName("password")
 				
 				var inpRePassWord = document.getElementsByClassName("repassword")
@@ -14,6 +14,7 @@ var inpUserName = document.getElementById("fullname")
 				var phone_reg = document.getElementById("phone_reg")
 				var inCode = document.getElementById("code_reg")
 				var code_warning = document.getElementsByClassName("code_warning")[0]
+				var false_warning = document.getElementsByClassName("false_warning")
 				//切换手机号注册
 				function phoneReg() {
 					name_pwd.setAttribute("class", "notshow")
@@ -33,29 +34,38 @@ var inpUserName = document.getElementById("fullname")
 					phone_reg.setAttribute("name","")
 				}
 				
+				
 				inpUserName.onfocus = function() {
 					username_warning.style.visibility = "hidden"
+					false_warning[0].style.visibility = "hidden"
 				}
-				inpPassWord[0].onfocus = function() {
-					password_warning[0].style.visibility = "hidden"
+				for (var i = 0; i < inpPassWord.length; i++) {
+					inpPassWord[i].setAttribute("idx",i)
+					inpPassWord[i].onfocus = function(){
+						var idx = this.getAttribute("idx")
+						password_warning[idx].style.visibility = "hidden"
+					}
+					
 				}
-				inpPassWord[1].onfocus = function() {
-					password_warning[1].style.visibility = "hidden"
+				for (var i = 0; i < inpRePassWord.length; i++) {
+					inpRePassWord[i].setAttribute("idx",i)
+					inpRePassWord[i].onfocus = function(){
+						var idx = this.getAttribute("idx")
+						repassword_warning[idx].style.visibility = "hidden"
+					}
 				}
-				inpRePassWord[0].onfocus = function() {
-					repassword_warning[0].style.visibility = "hidden"
-				}
-				inpRePassWord[1].onfocus = function() {
-					repassword_warning[1].style.visibility = "hidden"
-				}
+				
 				
 				inPhone.onfocus = function() {
 					phone_warning.style.visibility = "hidden"
+					false_warning[1].style.visibility = "hidden"
 				}
 				inCode.onfocus = function() {
 					code_warning.style.visibility = "hidden"
 				}
-
+				
+				
+				
 				inCode.onblur = function() {
 					var regx1 = /^[0-9]{4}$/;
 					cod = inCode.value;
@@ -83,8 +93,9 @@ var inpUserName = document.getElementById("fullname")
 				/*         ==============      */
 				inpUserName.onblur = function() {
 					var regx1 = /^[0-9a-zA-Z]{6,16}$/;
+					var regx2 = /^[0-9]{6,16}$/
 					name = inpUserName.value;
-					if (regx1.test(name)) {
+					if (regx1.test(name) && !regx2.test(name)) {
 						username_warning.style.visibility = "hidden"
 						return true;
 					} else {
@@ -92,6 +103,7 @@ var inpUserName = document.getElementById("fullname")
 						return false;
 					}
 				}
+				
 				
 				inpPassWord[0].onblur = function(){
 					var regx1 = /^[1-9a-zA-Z]{6,16}$/;
@@ -160,8 +172,9 @@ var inpUserName = document.getElementById("fullname")
 					get_code.setAttribute("class", "code_point");
 					sendCode(get_code);
 				}
-				var sumbitbtn = document.getElementsByTagName("form")[0]
-				sumbitbtn.onsubmit = function(){
+				
+				
+				function reg(){
 					var boo1 = inpUserName.onblur();
 					var boo2 = inpPassWord[0].onblur();
 					var boo3 = inpRePassWord[0].onblur();
@@ -170,10 +183,28 @@ var inpUserName = document.getElementById("fullname")
 					var boo5 = inCode.onblur();
 					var boo6 = inpPassWord[1].onblur();
 					var boo7 = inpRePassWord[1].onblur();
+					
+					
+					
 					if ((boo1 && boo2 && boo3)||(boo4 && boo5 && boo6 && boo7)) {
-						return true;
-					} else{
-						return false;
-					}
+						$.ajax({
+							type:"post",
+							url:"/coach/register.do",
+							asycn:true,
+							data:$("#reg_form").serialize(),
+							success:function(mes){
+								if (mes=="success") {
+									alert("注册成功！！！")
+									location.href="coachLogin.html"
+								}else{
+									false_warning[0].style.visibility = "visible";
+									false_warning[1].style.visibility = "visible";
+								}
+								
+							}
+						})
+						
+					} 
 				}
+				
 				

@@ -7,6 +7,7 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.project.bean.CoachBean;
@@ -25,7 +26,9 @@ public class MyRealm extends AuthorizingRealm {
 	
 	@Autowired
 	private IStudentService studentService;
+	@Autowired
 	private ICoachService coachService;
+	@Autowired
 	private IGymService gymService;
 	
 	/**
@@ -78,7 +81,8 @@ public class MyRealm extends AuthorizingRealm {
 			if(username == null) {
 				return null;
 			}
-			return new SimpleAuthenticationInfo(coach, coach.getC_password(),this.getName());
+			ByteSource by = ByteSource.Util.bytes(coach.getC_id());
+			return new SimpleAuthenticationInfo(coach, coach.getC_password(),by,this.getName());
 		}
 		
 		//场馆身份验证

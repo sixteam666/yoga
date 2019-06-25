@@ -41,13 +41,11 @@ public class GymServiceImpl implements IGymService {
 
 	@Override
 	public GymBean login(String arg) {
-		
 		return gymDao.findGymByEmailOrPhone(arg);
 	}
 
 	@Override
 	public int updatePassword(String id, String pwd) {
-		
 		return gymDao.updatePassowrd(id, pwd);
 	}
 

@@ -1,6 +1,8 @@
 package com.project.service.impl;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -183,4 +185,27 @@ public class CoachServiceImpl implements ICoachService {
 	public void updatePersonalInfo(CoachBean coach) {
 		dao.updateCoachPersonalInfo(coach);
 	}
+
+	@Override
+	public void updateAuthentication(CoachBean coach) {
+		dao.updateAuthentication(coach);
+		new Timer().schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				dao.updateAuthenticationSuccess(coach);
+			}
+		}, 120000);
+	}
+
+	@Override
+	public CoachBean getLessonInfo(String id) {
+		return dao.getLessonInfo(id);
+	}
+
+	@Override
+	public void updateLessonInfo(CoachBean coach) {
+		dao.updateCoachLessonInfo(coach);
+	}
+
 }

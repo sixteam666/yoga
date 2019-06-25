@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,39 +54,43 @@ public class GymController {
 	 * @return
 	 */
 	@RequestMapping("/login.do")
-	public String login(String arg, String pwd) {
+	@ResponseBody
+	public int login(String arg, String g_password) {
+		System.out.println(arg + "==" + g_password);
+		// 盐值暂时无法确定
+		Object obj = new SimpleHash("MD5", g_password,"",1024);
 		// 产生一个用户（门面对象）
 		Subject currentUser = SecurityUtils.getSubject();
 		if (!currentUser.isAuthenticated()) {
-			UsernamePasswordToken token = new UsernamePasswordToken("g" + arg, pwd);
+			UsernamePasswordToken token = new UsernamePasswordToken("g" + arg, obj.toString());
 			try {
 				// 调用login进行认证
 				currentUser.login(token);
 				System.out.println("认证成功");
-				return "redirect:/html/gym/gym.html";
+				return 1;
 			}
 			// 父异常。认证失败异常
 			catch (AuthenticationException ae) {
 				// unexpected condition? error?
 				System.out.println("异常不详：自己解决");
-				return "redirect:/html/gym/gymLogin.html";
+				return 0;
 			}
 		}
-		return "redirect:/html/.html";
+		return -1;
 	}
 	
 	/**
 	 * 登录或注册前验证用户是否存在
 	 * @param arg 邮箱或电话号
-	 * @return 用户是否存在
+	 * @return 用户存在返回true，用户不存在返回false
 	 */
 	@RequestMapping("/findGym.do")
 	@ResponseBody
 	public Boolean loginTest(String arg) {
 		if(gymService.login(arg) == null) {
-			return false;
+			return false; 
 		}
-		return true; 
+		return true;
 	}
 	
 	/**
@@ -93,14 +98,19 @@ public class GymController {
 	 * 
 	 * @param regName 注册的登录名（邮箱或电话号）
 	 * @param g_password 注册的密码
-	 * @return 注册状态 1：注册成功，0：注册失败 -1：登录名格式错误
+	 * @return 注册状态 1：注册成功，0：注册失败 -1：登录名格式错误 -2:用户名已存在
 	 */
 	@RequestMapping("/reg.do")
 	@ResponseBody
 	public int register(String regName, String g_password) {
-		System.out.println("reg.do测试:GymBean:" + regName +"--" + g_password);
+		String emailTest = "^[0-9a-z]+\\w*@([0-9a-z]+\\.)+[0-9a-z]+$"; // 邮箱正则表达式
+		String phoneTest = "^1[3|4|5|7|8][0-9]\\\\d{4,8}$"; // 电话正则表达式
+		if(gymService.login(regName) != null) {
+			return -2; // 邮箱或电话已注册
+		}
 		GymBean gym = new GymBean();
 		gym.setG_id(UUID.randomUUID().toString());
+		gym.setG_password(g_password);
 		
 		if(regName.contains("@")) {
 			gym.setG_email(regName);
@@ -110,12 +120,22 @@ public class GymController {
 			return -1; // 格式不符合要求
 		}
 		// 盐值暂时无法确定
-		/*
-		 * Object obj = new SimpleHash("MD5", gym.getG_password(),1024);
-		 * gym.setG_password(obj.toString());
-		 */
+		Object obj = new SimpleHash("MD5", gym.getG_password(),"",1024);
+		gym.setG_password(obj.toString());
+		
 		int result = gymService.register(gym);
 		return result;
+	}
+	
+	/**
+	 * 退出登录（注销）
+	 */
+	@RequestMapping("/logout.do")
+	public String logout() {
+		System.out.println("正在注销");
+		Subject currentUser = SecurityUtils.getSubject();
+		currentUser.logout();
+		return "redirect:/html/gym/gymLogin.html";
 	}
 
 	/**

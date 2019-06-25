@@ -1,10 +1,7 @@
 package com.project.controller;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,8 +10,13 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+<<<<<<< HEAD
 import org.apache.shiro.session.mgt.SessionKey;
 import org.apache.shiro.crypto.hash.SimpleHash;
+=======
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.session.Session;
+>>>>>>> 48704287ff2044355c17fe3e1074539a1160d0d1
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,11 +46,12 @@ public class CoachController {
 	 * @return
 	 */
 	@RequestMapping("/login.do")
-	public String login(String arg1,String pwd,Integer remenber){
+	@ResponseBody
+	public String login(String c_name,String c_password,Integer remenber ){
 		//产生一个用户（门面对象）
 		Subject currentUser = SecurityUtils.getSubject();
 		 if (!currentUser.isAuthenticated()) {
-	            UsernamePasswordToken token = new UsernamePasswordToken("c"+arg1,pwd);
+	            UsernamePasswordToken token = new UsernamePasswordToken("c"+c_name,c_password);
 	            try {
 	            	if (remenber != null && remenber == 1) {
 						token.setRememberMe(true);
@@ -56,32 +59,36 @@ public class CoachController {
 	            	//调用login进行认证
 	                currentUser.login(token);
 	                System.out.println("认证成功");
-	                return "redirect:/index.html";
+	                Session session = currentUser.getSession(false);
+	                session.setAttribute("coach", service.login(c_name));
+	                return "success";
 	            } catch (UnknownAccountException uae) {
 	            	System.out.println("用户名异常");
-	            	return "redirect:/login.html";
+	            	return "name_false";
 	            } catch (IncorrectCredentialsException ice) {
 	            	System.out.println("密码异常");
-	            	return "redirect:/login.html";
+	            	return "password_false";
 	            } catch (LockedAccountException lae) {
 	               System.out.println("被锁定异常");
-	               return "redirect:/login.html";
+	               return "user_lock";
 	            }
-	            
 	      }
-		return "redirect:/index.html";
+		return "success";
 	}
 	@RequestMapping("/register.do")
+	@ResponseBody
 	public String register(CoachBean coach){
-		/**
-		 * 暂未加盐加密
-		 */
 		String id = UUID.randomUUID().toString();
+		/**
+		 * 暂未加盐
+		 */
+		Object obj = new SimpleHash("MD5",coach.getC_password(),id,1024);
+		coach.setC_password(obj.toString());
 		coach.setC_id(id);
 		Boolean boo = service.register(coach);
 		//注册成功：定向登录界面；失败：定向注册界面
-		if (boo) return "redirect:/html/coach/coachLogin.html";
-		return "forward:/html/coach/coachReg.html";
+		if (boo) return "success";
+		return "false";
 	}
 	
 	/**
@@ -105,9 +112,9 @@ public class CoachController {
 	 */
 	@RequestMapping("showCoach.do")
 	public String showCoachInfoByid(String id, ModelMap map) {
-		System.out.println("测试进入详情展示控制层方法>>>>>>>>>>>>>>>>>>>>>>>>");
 		//id从session域中获取？还是从前台传递？
 		CoachBean coachInfo = service.getCoachDetailInfo(id);
+		System.out.println(coachInfo);
 		map.put("coachInfo", coachInfo);
 		return "html/coach/my-pan.html";
 	}
@@ -182,6 +189,7 @@ public class CoachController {
 	 * @author pan
 	 * @param id 教练id
 	 */
+	@RequestMapping("showMyStudent.do")
 	public String showMyStudent(String id, ModelMap map) {
 		List<StudentBean> stuList = service.listMyStudent(id);
 		map.put("stuList", stuList);
@@ -218,6 +226,47 @@ public class CoachController {
 		coach.setC_id("1");
 		System.out.println(coach);
 		service.updatePersonalInfo(coach);
+		//重定向到个人信息显示页面
+		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
+	}
+	
+	/**
+	 * 教练认证
+	 * @author pan
+	 * @param coach
+	 */
+	@RequestMapping("authentication.do")
+	@ResponseBody
+	public String coachAuthentication(CoachBean coach) {
+		coach.setC_id("1");
+		service.updateAuthentication(coach);
+		return coach.getC_id();
+	}
+	
+	/**
+	 * 显示教练课程信息
+	 * @param id
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("lessonInfo.do")
+	public String showLessonInfo(String id, ModelMap map) {
+		CoachBean lessonInfo = service.getLessonInfo(id);
+		map.put("lessonInfo", lessonInfo);
+		return "/html/coach/lessonInfo.html";
+	}
+	
+	/**
+	 * 更新教练课程信息
+	 * @author pan
+	 * @param coach 要更新的数据
+	 * @return 返回个人信息显示页面
+	 */
+	@RequestMapping("updateLessonInfo.do")
+	public String updateLessonInfo(CoachBean coach) {
+		coach.setC_id("1");
+		System.out.println(coach);
+		service.updateLessonInfo(coach);
 		//重定向到个人信息显示页面
 		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
 	}
