@@ -64,34 +64,18 @@
 				<td colspan="1" align=right>我的银行卡：</td>
 				<td colspan="2">
 					<table class="table table-bordered">
-						<tr>
-							<td>6220219784455</td>
-							<td>建设银行</td>
-							<td><a href="#">删除</a></td>
-						</tr>
-						<tr>
-							<td>6220219784455</td>
-							<td>建设银行</td>
-							<td><a href="#">删除</a></td>
-						</tr>
-						<tr>
-							<td>6220219784455</td>
-							<td>建设银行</td>
-							<td><a href="#">删除</a></td>
-						</tr>
-						<tr>
-							<td>6220219784455</td>
-							<td>建设银行</td>
-							<td><a href="#">删除</a></td>
+						<tr th:each="card : ${cardList}">
+							<td th:text="${card.b_carid}">6220219784455</td>
+							<td th:text=${card.b_bank}>建设银行</td>
+							<td>
+								<a href="javascript:void(0)" th:value="${card.id}" onclick="removeCard(this)">删除</a>
+							</td>
 						</tr>
 						<tr>
 							<td colspan="3">
 								<button class="btn btn-primary" data-toggle="modal" data-target="#myModal2">添加银行卡</button>
 							</td>
 						</tr>
-						<!-- <tr th:each="bankCard : ${bankCards}">
-							<td><td>
-						</tr> -->
 					</table>
 				</td>
 			</tr>
@@ -108,17 +92,19 @@
 	                <h4 class="modal-title" id="myModalLabel">现金提取</h4>  
 	            </div>  
 	            <div class="modal-body">
-	            	<label>最大提现金额：</label>&nbsp;&nbsp;&nbsp;&nbsp;500.00
+	            	<label>最大提现金额：</label>&nbsp;&nbsp;&nbsp;&nbsp;
+	            	<span id="balance"  th:text="${money}">500.00</span>
 	            	<br><br>
 	            	<label for="cash">请输入提款金额：</label>
-	            	<input id="cash" type="text"><br><br>
+	            	<input id="cash" type="text" onblur="checkBalance()">
+	            	<span id="cashNullError" style="color:red;display:none">请输入提现金额</span>
+	            	<span id="cashError" style="color:red;display:none">余额不足</span><br><br>
 	            	<label for="bankCard">请选择银行卡：</label>&nbsp;&nbsp;&nbsp;&nbsp;
-	            	<select id="bankCard">
-	            		<option>--请选择--</option>
-	            		<option value="0">建设银行:6220219784455</option >
-	            		<option value="1">建设银行:6220219784455</option>
-	            		<option value="2">建设银行:6220219784455</option>
+	            	<select id="bankCard" onblur="checkCard()">
+	            		<option value="0">--请选择--</option>
+	            		<option th:each="card : ${cardList}" th:text="${card.b_bank}+':'+${card.b_carid}" th:value="${card.id}"></option>
 	            	</select>
+	            	<span id="cardError" style="color:red;display:none">请选择银行卡</span>
 	            </div>  
 	            <div class="modal-footer">  
 	                <button id="aa" type="button" class="btn btn-primary" onclick="withdraw()" >提取</button>  
@@ -141,23 +127,41 @@
 	            	<table class="table table-striped table-hover table-condensed">
 	            		<tr>
 	            			<td align="right">
-				            	<label for="newPhone">请输入持卡人姓名：</label>
+				            	<label for="cardCode">请输入卡号：</label>
 	            			</td>
 	            			<td align="left">
-				            	<input id="newPhone" type="text"><br>
+				            	<input id="cardCode" type="text" onblur="checkNumber()">
 	            			</td>
 	            		</tr>
 	            		<tr>
-	            			<td align="right">
-				            	<label for="phoneCode">请输入卡号：</label>
-	            			</td>
-	            			<td align="left">
-				            	<input id="phoneCode" type="text" onblur="check()">
-	            			</td>
+		            		<td align="right">
+		            			<span id="cardError" style="color:red;display:none">卡号格式错误</span>
+		            		</td>
+		            		<td></td>
 	            		</tr>
 	            		<tr>
 	            			<td align="right">
-				                <button id="aa" type="button" class="btn btn-primary" onclick="changePhone()" >确定</button>  
+				            	<label for="bank">选择银行：</label>
+	            			</td>
+	            			<td align="left">
+				            	<select id="bank" onblur="checkBank()">
+				            		<option value="0">--请选择--</option>
+				            		<option value="工商银行">工商银行</option>
+				            		<option value="农业银行">农业银行</option>
+				            		<option value="建设银行">建设银行</option>
+				            		<option value="中国银行"></option>
+				            	</select>
+	            			</td>
+	            		</tr>
+	            		<tr>
+		            		<td align="right">
+				            	<span id="bankError" style="color:red;display:none">请选择一个银行</span>
+		            		</td>
+		            		<td></td>
+	            		</tr>
+	            		<tr>
+	            			<td align="right">
+				                <button id="aa" type="button" class="btn btn-primary" onclick="addCard()" >确定</button>  
 	            			</td>
 	            			<td align="left">
 				                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
@@ -190,15 +194,109 @@
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
 	<script>
+		//提现操作
 		function withdraw() {
+			if(!(checkBalance() && checkCard())) {
+				return false;
+			}
 			var cash = $("#cash").val();
-			
+			var id = $("#bankCard option:selected").attr("value");
 			$.ajax({
 				url: "/coach/withdraw.do",
 				type: "post",
-				data: "",
+				data: "money="+cash+"&cardId="+id,
 				success: function(data) {
-					
+					if(data) {
+						alert("申请已提交，资金将在24小时内到账");
+						window.location.href = "/coach/showMoney.do";
+					}else{
+						alert("余额不足");
+					}
+				},
+				error: function() {
+					alert("网络错误！");
+				}
+			});
+		}
+		//余额校验
+		function checkBalance() {
+			$("#cashError").css("display","none");
+			$("#cashNullError").css("display","none");
+			var balance = parseInt($("#balance").html());
+			var cash = parseInt($("#cash").val());
+			if(cash == "" || cash == null) {
+				$("#cashNullError").css("display","inline");
+				return false;
+			}
+			if((cash < 0) || (cash > balance)) {
+				$("#cashError").css("display","inline");
+				return false;
+			}
+			return true;
+		}
+		//选择银行卡校验
+		function checkCard() {
+			$("#cardError").css("display","none");
+			var bank = $("#bankCard option:selected").val();
+			if(bank == 0) {
+				$("#cardError").css("display","inline");
+				return false;
+			}
+			return true;
+		}
+		
+		//卡号校验
+		function checkNumber() {
+			$("#cardError").css("display","none");
+			var number = $("#cardCode").val();
+			if(/^[0-9]+$/.test(number)) {
+				return true;
+			}
+			$("#cardError").css("display","inline");
+			return false;
+		}
+		//银行校验
+		function checkBank() {
+			$("#bankError").css("display","none");
+			var bank = $("#bank option:selected").val();
+			if(bank == 0) {
+				$("#bankError").css("display","inline");
+				return false;
+			}
+			return true;
+		}
+		
+		//删除银行卡
+		function removeCard(object) {
+			var cardId = $(object).attr("value");
+			if(confirm("确认删除当前银行卡吗？")){
+				$.ajax({
+					url: "/card/removeCard.do",
+					type: "post",
+					data: "id="+cardId,
+					success: function() {
+						window.location.href = "/coach/showMoney.do";
+					}
+				});
+			}
+		}
+		
+		//添加银行卡
+		function addCard() {
+			if(!(checkNumber() && checkBank()))
+				return false;
+			var cardCode = $("#cardCode").val();
+			var bank = $("#bank option:selected").val();
+			$.ajax({
+				url: "/card/addCard.do",
+				type: "post",
+				data: "b_carid="+cardCode+"&b_bank="+bank,
+				dateType: "json",
+				success: function(data) {
+					window.location.href = "/coach/showMoney.do";
+				},
+				error: function() {
+					alert("网络错误！");
 				}
 			});
 		}

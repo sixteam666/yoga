@@ -3,11 +3,13 @@ package com.project.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.project.bean.BankCardBean;
 import com.project.dao.IBankCardDao;
 import com.project.service.IBankCardService;
 
+@Service
 public class BankCardServcieImpl implements IBankCardService {
 
 	@Autowired
@@ -29,7 +31,7 @@ public class BankCardServcieImpl implements IBankCardService {
 	}
 
 	@Override
-	public List<String> listBankCard(String userId) {
+	public List<BankCardBean> listBankCard(String userId) {
 		return bankCardDao.listBankCard(userId);
 	}
 

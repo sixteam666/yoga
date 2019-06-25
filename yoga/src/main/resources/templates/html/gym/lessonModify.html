@@ -63,7 +63,8 @@
 		}
 		
 		.active{
-			font: red;
+			color: red;
+			
 		}
 	</style>
 	
@@ -187,32 +188,34 @@
 	                <h4 class="modal-title" id="myModalLabel">添加课程</h4>  
 	            </div> 
 	            
-	            <div class="modal-body">
-	            	
-	            	<table border="1" cellspacing="0" cellpadding="0" style="width: 500px;">
-						<tr align="center">
-							<td>教练头像</td>
-							<td>教练姓名</td>
-							<td>教练流派</td>
-							<td>电话号码</td>
-						</tr>
-						<tr align="center" >
-							<td><img src="/html/gym/image/1.jpg"/></td>
-							<td>李教练</td>
-							<td>大宗师</td>
-							<td>12343234234</td>
-						</tr>
-					</table>
-	            	
-	            	<br /><br />
-	            	<form action="" method="post" id="myform">
+	            <form action="" method="post" id="myform">
+		            <div class="modal-body">
+		            	
+		            	<table border="1" cellspacing="0" cellpadding="0" style="width: 500px;">
+							<tr align="center">
+								<td>教练头像</td>
+								<td>教练姓名</td>
+								<td>教练流派</td>
+								<td>电话号码</td>
+							</tr>
+							<tbody class="tbody">
+								<tr align="center" >
+									<td><img src="/html/gym/image/1.jpg"/></td>
+									<td>李教练</td>
+									<td>大宗师</td>
+									<td>12343234234</td>
+								</tr>
+							</tbody>
+						</table>
+		            	
+		            	<br /><br />
+		            	
 		            	添加教练：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			            <tbody class="tbody"> 
+			            <label class="label"> 
 			                <select class="coach_select">
-			                	<option>李教练</option>
-			                	<option>汪教练</option>
+			                	<option>暂无签约教练</option>
 			                </select> 
-			            </tbody>    
+			            </label>    
 		                <input type="text" name="" id="input_name" placeholder="输入教练姓名或手机号"/><button>搜索教练</button><br /><br />
 						课程价格(￥/节)：
 						<input type="text" name="" id="input_price" placeholder=""/>
@@ -322,6 +325,7 @@
 		var l_weekday = /*[[${list[0].l_weekday}]]*/0;
 		var l_datetime = /*[[${list[0].l_datetime}]]*/0;
 		
+		//显示我的签约教练
 		function findMyCoach(){
 			$.ajax({
 				type:"get",
@@ -337,32 +341,50 @@
 						str+="<option value='"+mes[i].c_id+"'>"+mes[i].c_nickname+"</option>"
 					}
 					str+="</select>" ;
-					$(".tbody").html(str);
+					$(".label").html(str);
 				}
 			});
 		}
 		
-		//var nameOrPho = ducoment.getElementById("input_name").value;
-		/* function findCoaByNameOrPho(){
+		//通过昵称或者电话号码查找我的教练
+		var nameOrPho = document.getElementById("input_name").value;
+		function findCoaByNameOrPho(){
 			$.ajax({
 				type:"get",
 				async:true,
 				url:"/gym/findCoaByNameOrPho.do",
-				data:"l_g_id="+l_g_id+"&nameOrPho="+nameOrPho, 
+				data:"g_id="+l_g_id+"&nameOrPho="+nameOrPho, 
 				success:function(mes){
 					console.info(mes);
 					var str ="";
-					
-					str+="<select class='coach_select' name='l_c_id'>"
-					for(var i=0;i<mes.list.length;i++){
-						str+="<option value='"+mes[i].c_id+"'>"+mes[i].c_nickname+"</option>"
+					str+="<tr align='center' class='coach active'>"+
+						"<input type='hidden' id='hid_coach' value='"+mes[0].c_id+"'>"+
+						"<td><img src='/html/gym/image/"+mes[0].c_headimg+"'/></td>"+
+						"<td>"+mes[0].c_nickname+"</td>"+
+						"<td>"+mes[0].c_style+"</td>"+
+						"<td>"+mes[0].c_phone+"</td>"+
+					"</tr>"
+					for(var i=1;i<mes.length;i++){
+						str+="<tr align='center' class='coach'>"+
+							"<input type='hidden' id='hid_coach' value='"+mes[i].c_id+"'>"+
+							"<td><img src='/html/gym/image/"+mes[i].c_headimg+"'/></td>"+
+							"<td>"+mes[i].c_nickname+"</td>"+
+							"<td>"+mes[i].c_style+"</td>"+
+							"<td>"+mes[i].c_phone+"</td>"+
+						"</tr>"
 					}
-					str+="</select>" ;
+					c_id = $(".active #hid_coach").val();
+					$(".coach").click(function(){
+						$(this).addClass("active").siblings().removeClass("active");
+						l_id = $(".active #hid_coach").val();
+					}); 
 					$(".tbody").html(str);
 				}
 			});
-		} */
+		} 
 		
+		//删除课程
+		$(".gradeX").eq(0).addClass("active")
 		l_id = $(".active #hid").val();
 		$(".gradeX").click(function(){
 			$(this).addClass("active").siblings().removeClass("active");
@@ -376,7 +398,7 @@
 				data:"l_id="+l_id, 
 				success:function(mes){
 					console.info(mes);
-					
+					window.location.href = "/gym/showLesson.do?l_weekday="+l_weekday+"&l_datetime="+l_datetime;
 				}
 			});
 		}

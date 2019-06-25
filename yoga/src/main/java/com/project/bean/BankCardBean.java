@@ -11,7 +11,7 @@ public class BankCardBean {
 	private String b_carid;
 	private String b_bank;
 	private Double b_balance;
-	private String userId;
+	private String b_userId;
 	public Integer getId() {
 		return id;
 	}
@@ -37,15 +37,15 @@ public class BankCardBean {
 		this.b_balance = b_balance;
 	}
 	public String getUserId() {
-		return userId;
+		return b_userId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserId(String b_userId) {
+		this.b_userId = b_userId;
 	}
 	@Override
 	public String toString() {
 		return "BankCardBean [id=" + id + ", b_carid=" + b_carid + ", b_bank=" + b_bank + ", b_balance=" + b_balance
-				+ ", userId=" + userId + "]";
+				+ ", b_userId=" + b_userId + "]";
 	}
 	
 	

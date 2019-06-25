@@ -70,7 +70,6 @@ public class MyRealm extends AuthorizingRealm {
 		//教练身份验证
 		if("c".equals(prefix)) {
 			CoachBean coach = coachService.login(principal);
-			System.out.println(coach);
 			//未查找到教练，则不再进行验证，返回验证失败
 			if(coach == null) {
 				return null;
@@ -82,7 +81,8 @@ public class MyRealm extends AuthorizingRealm {
 			if(username == null) {
 				return null;
 			}
-			return new SimpleAuthenticationInfo(coach, coach.getC_password(),this.getName());
+			ByteSource by = ByteSource.Util.bytes(coach.getC_id());
+			return new SimpleAuthenticationInfo(coach, coach.getC_password(),by,this.getName());
 		}
 		
 		//场馆身份验证

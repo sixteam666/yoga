@@ -129,7 +129,14 @@ public class GymServiceImpl implements IGymService {
 
 	@Override
 	public List<CoachBean> findCoaByNameOrPho(String g_id, String nameOrPho) {
-		//List<CoachBean> list = coachDao.
-		return null;
+		CoachBean coach = new CoachBean();
+		coach.setC_g_id(g_id);
+		coach.setC_nickname(nameOrPho);
+		List<CoachBean> list = coachDao.findCoachByNick(coach);
+		if (list.isEmpty()) {
+			CoachBean bean = coachDao.findCoachByPhone(nameOrPho);
+			list.add(bean);
+		}
+		return list;
 	}
 }

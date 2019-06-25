@@ -15,6 +15,14 @@ public class StudentBean {
 	private String s_headimg;
 	private double s_money;
 	private String s_address;
+	private String privacy;
+	
+	public String getPrivacy() {
+		return privacy;
+	}
+	public void setPrivacy(String privacy) {
+		this.privacy = privacy;
+	}
 	public String getS_id() {
 		return s_id;
 	}
@@ -73,8 +81,8 @@ public class StudentBean {
 	public String toString() {
 		return "StudentBean [s_id=" + s_id + ", s_name=" + s_name + ", s_password=" + s_password + ", s_phone="
 				+ s_phone + ", s_privacy=" + s_privacy + ", s_nickname=" + s_nickname + ", s_headimg=" + s_headimg
-				+ ", s_money=" + s_money + ", s_address=" + s_address + "]";
+				+ ", s_money=" + s_money + ", s_address=" + s_address + ", privacy=" + privacy + "]";
 	}
-	
+
 
 }

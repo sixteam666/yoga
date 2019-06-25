@@ -6,6 +6,8 @@ import java.util.TimerTask;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.bean.CoachBean;
@@ -109,8 +111,11 @@ public class CoachServiceImpl implements ICoachService {
 		return dao.updatePassword(newPassword, id) == 1;
 	}
 
+	/**
+	 * 事务管理为设置成功
+	 */
 	@Override
-	@Transactional
+	@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
 	public Boolean updateMoney(String id, double money, Integer cardId) {
 		//查询出钱包余额
 		Double balance = dao.getMoney(id);
@@ -118,9 +123,9 @@ public class CoachServiceImpl implements ICoachService {
 			System.out.println(id+"的余额不足还想提现");
 			return false;
 		}
-		dao.updateMoney(id, money);
-		bankDao.updateBankCard(cardId,money);
-		return true;
+		Integer subtractMoney = dao.updateMoney(id, money);
+		Integer addMoney = bankDao.updateBankCard(cardId,money);
+		return subtractMoney == 1 && addMoney == 1;
 	}
 
 	@Override
