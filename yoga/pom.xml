@@ -61,6 +61,7 @@
 			 <version>5.1.27</version><!--$NO-MVN-MAN-VER$-->
 			 <!-- <version>8.0.16</version> -->
 		 </dependency>
+
 		 
 		 <!-- log4j日志 -->
 		 <dependency>
