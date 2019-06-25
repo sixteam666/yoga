@@ -300,8 +300,9 @@ public class GymController {
 	 */
 	@RequestMapping("/findMyCoach.do")
 	@ResponseBody
-	public List<CoachBean> findMyCoach(String g_id) {
-		List<CoachBean> list = gymService.findMyCoach(g_id);
+	public List<CoachBean> findMyCoach(String l_g_id) {
+		//System.out.println(l_g_id);
+		List<CoachBean> list = gymService.findMyCoach(l_g_id);
 		return list;
 	}
 	
