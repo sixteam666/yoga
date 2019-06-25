@@ -101,7 +101,7 @@
 	            	<span id="cashError" style="color:red;display:none">余额不足</span><br><br>
 	            	<label for="bankCard">请选择银行卡：</label>&nbsp;&nbsp;&nbsp;&nbsp;
 	            	<select id="bankCard" onblur="checkCard()">
-	            		<option value="-1">--请选择--</option>
+	            		<option value="0">--请选择--</option>
 	            		<option th:each="card : ${cardList}" th:text="${card.b_bank}+':'+${card.b_carid}" th:value="${card.id}"></option>
 	            	</select>
 	            	<span id="cardError" style="color:red;display:none">请选择银行卡</span>
@@ -145,7 +145,7 @@
 	            			</td>
 	            			<td align="left">
 				            	<select id="bank" onblur="checkBank()">
-				            		<option value="-1">--请选择--</option>
+				            		<option value="0">--请选择--</option>
 				            		<option value="工商银行">工商银行</option>
 				            		<option value="农业银行">农业银行</option>
 				            		<option value="建设银行">建设银行</option>
@@ -196,7 +196,7 @@
 	<script>
 		//提现操作
 		function withdraw() {
-			if(!(checkBalance() && checkNumber())) {
+			if(!(checkBalance() && checkCard())) {
 				return false;
 			}
 			var cash = $("#cash").val();
@@ -222,13 +222,13 @@
 		function checkBalance() {
 			$("#cashError").css("display","none");
 			$("#cashNullError").css("display","none");
-			var balance = $("#balance").html();
-			var cash = $("#cash").val();
+			var balance = parseInt($("#balance").html());
+			var cash = parseInt($("#cash").val());
 			if(cash == "" || cash == null) {
 				$("#cashNullError").css("display","inline");
 				return false;
 			}
-			if(cash < 0 || cash > balance) {
+			if((cash < 0) || (cash > balance)) {
 				$("#cashError").css("display","inline");
 				return false;
 			}
@@ -238,7 +238,7 @@
 		function checkCard() {
 			$("#cardError").css("display","none");
 			var bank = $("#bankCard option:selected").val();
-			if(bank == -1) {
+			if(bank == 0) {
 				$("#cardError").css("display","inline");
 				return false;
 			}
@@ -259,7 +259,7 @@
 		function checkBank() {
 			$("#bankError").css("display","none");
 			var bank = $("#bank option:selected").val();
-			if(bank == -1) {
+			if(bank == 0) {
 				$("#bankError").css("display","inline");
 				return false;
 			}
