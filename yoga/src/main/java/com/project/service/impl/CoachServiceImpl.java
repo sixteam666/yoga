@@ -12,6 +12,7 @@ import com.project.bean.CoachBean;
 import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
+import com.project.dao.IBankCardDao;
 import com.project.dao.IBlogDao;
 import com.project.dao.ICoachDao;
 import com.project.dao.IFollowDao;
@@ -35,7 +36,7 @@ public class CoachServiceImpl implements ICoachService {
 	@Autowired
 	private IRequestDao reDao;
 	@Autowired
-	private BankCardDao bankDao;
+	private IBankCardDao bankDao;
 	
 	@Override
 	public Boolean register(CoachBean coach) {
