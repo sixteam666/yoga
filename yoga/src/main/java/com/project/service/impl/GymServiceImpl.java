@@ -126,4 +126,10 @@ public class GymServiceImpl implements IGymService {
 		int number = lessonDao.deleteLesson(id);
 		return number;
 	}
+
+	@Override
+	public List<CoachBean> findCoaByNameOrPho(String g_id, String nameOrPho) {
+		//List<CoachBean> list = coachDao.
+		return null;
+	}
 }
