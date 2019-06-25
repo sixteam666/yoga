@@ -10,6 +10,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -56,12 +57,10 @@ public class GymController {
 	@ResponseBody
 	public int login(String arg, String g_password) {
 		System.out.println(arg + "==" + g_password);
-		// 盐值暂时无法确定
-		Object obj = new SimpleHash("MD5", g_password,"",1024);
 		// 产生一个用户（门面对象）
 		Subject currentUser = SecurityUtils.getSubject();
 		if (!currentUser.isAuthenticated()) {
-			UsernamePasswordToken token = new UsernamePasswordToken("g" + arg, obj.toString());
+			UsernamePasswordToken token = new UsernamePasswordToken("g" + arg, g_password);
 			try {
 				// 调用login进行认证
 				currentUser.login(token);
@@ -71,7 +70,7 @@ public class GymController {
 			// 父异常。认证失败异常
 			catch (AuthenticationException ae) {
 				// unexpected condition? error?
-				System.out.println("异常不详：自己解决");
+				System.out.println("用户名或密码错误");
 				return 0;
 			}
 		}
@@ -87,7 +86,7 @@ public class GymController {
 	@ResponseBody
 	public Boolean loginTest(String arg) {
 		if(gymService.login(arg) == null) {
-			return false; 
+			return false;
 		}
 		return true;
 	}
@@ -107,8 +106,9 @@ public class GymController {
 		if(gymService.login(regName) != null) {
 			return -2; // 邮箱或电话已注册
 		}
+		String gymUUID = UUID.randomUUID().toString();
 		GymBean gym = new GymBean();
-		gym.setG_id(UUID.randomUUID().toString());
+		gym.setG_id(gymUUID);
 		gym.setG_password(g_password);
 		
 		if(regName.contains("@")) {
@@ -119,7 +119,7 @@ public class GymController {
 			return -1; // 格式不符合要求
 		}
 		// 盐值暂时无法确定
-		Object obj = new SimpleHash("MD5", gym.getG_password(),"",1024);
+		Object obj = new SimpleHash("MD5", gym.getG_password(),gymUUID,1024);
 		gym.setG_password(obj.toString());
 		
 		int result = gymService.register(gym);
@@ -136,6 +136,21 @@ public class GymController {
 		currentUser.logout();
 		return "redirect:/html/gym/gymLogin.html";
 	}
+	
+	/**
+	 * 更新(修改)密码
+	 * 
+	 * @param g_id        场馆id
+	 * @param newPassword 新密码
+	 * @return 影响行数
+	 */
+	@RequestMapping("/updatePassword.do")
+	@ResponseBody
+	public int updatePassword(String g_id, String newPassword) {
+		int num = gymService.updatePassword(g_id, newPassword);
+		return num;
+	}
+	
 
 	/**
 	 * 查找所有场馆
@@ -221,7 +236,7 @@ public class GymController {
 				picBean.setP_imgname(imgName);
 				list.add(picBean);
 		    }  
-		}  
+		}
 		
 		//int number = gymService.addPictrue(list);
 		//System.out.println(number);

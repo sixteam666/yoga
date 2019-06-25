@@ -7,6 +7,7 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.project.bean.CoachBean;
@@ -100,7 +101,8 @@ public class MyRealm extends AuthorizingRealm {
 			if(username == null) {
 				return null;
 			}
-			return new SimpleAuthenticationInfo(gym, gym.getG_password(),this.getName());
+			ByteSource byteSource = ByteSource.Util.bytes(gym.getG_id()); // 以g_id（UUID）作为盐值
+			return new SimpleAuthenticationInfo(gym, gym.getG_password(),byteSource,this.getName());
 		}
 		return null;
 	}
