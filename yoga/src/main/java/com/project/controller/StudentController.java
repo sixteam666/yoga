@@ -12,12 +12,18 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.project.bean.StudentBean;
 import com.project.service.IStudentService;
@@ -35,7 +41,6 @@ public class StudentController {
 	 * @param remenber 
 	 * @return
 	 */
-	
 	@RequestMapping("/login.do")
 	@ResponseBody
 	public String login(String arg1,String pwd,HttpServletRequest request){
@@ -90,10 +95,6 @@ public class StudentController {
 			}	
 		}
 	
-	/**
-	 * 注销
-	 * @return
-	 */
 	@RequestMapping("/loginout.do")
 	@ResponseBody
 	public String logout(HttpSession session) {
@@ -103,7 +104,26 @@ public class StudentController {
 		System.out.println(session.getAttribute("stu"));
 		return "ok";
 	}
-
+	
+			/**
+			 * 显示学员个人信息
+			 * @param id 学员id
+			 */
+			@RequestMapping("/showStudent.do")
+			public String showCoachInfoByid(Model m,HttpSession session) {
+				StudentBean studentBean = (StudentBean) session.getAttribute("stu");
+				String id = studentBean.getS_id();
+				StudentBean stu = service.findStudentbyId(id);
+				/*stu.setS_name("文然");
+				stu.setS_money(8838);
+				stu.setS_phone("4564879");
+				stu.setS_headimg("34.jpg");*/
+				StudentBean stuuuu=service.findStudentbyId(stu.getS_id());
+				//m.addAttribute("stu", stu);
+				session.setAttribute("stu", stuuuu);
+				return "html/student/my.html";
+			}
+			
 			
 			
 			/**
@@ -111,7 +131,7 @@ public class StudentController {
 			 * 
 			 * @return
 			 */
-			@RequestMapping("/findAllStudent.do")
+			@RequestMapping("findAllStudent.do")
 			@ResponseBody
 			public List<StudentBean> findAllStudent() {
 				List<StudentBean> list = service.findAllStudent();
@@ -123,36 +143,22 @@ public class StudentController {
 			 * 更新学员信息
 			 * @return
 			 */
-			public String updateStudent( StudentBean stu){
-				
-			boolean boo =  service.update(stu);
-			if (boo) {
-				
+			@RequestMapping(value ="/modify.do",method = RequestMethod.GET)
+			public String updateStudent(Model m,HttpServletRequest request,ModelMap map){
+				String id = request.getParameter("id");
+				System.out.println(id);
+				StudentBean stu = service.findStudentbyId(id);
+				System.out.println(stu);
+				m.addAttribute("stu", stu);
+				map.addAttribute("stuafter", stu);
+				return "html/student/modify.html";
 			}
-			// todo ..
-
-				return null;
-			}
-
 			
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+			@PostMapping("/update.do")
+			public String update(@ModelAttribute StudentBean stuafter,Model m){
+						System.out.println(stuafter);
+						service.update(stuafter);
+						m.addAttribute("stu", stuafter);
+						return "redirect:/student/showStudent.do";
+			}
 }

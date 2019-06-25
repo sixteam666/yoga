@@ -184,6 +184,7 @@
 				data:"s_name="+userName + "&s_password=" + password1,
 				success:function(mes){
 					if(mes=="yes"){
+						alert("注册成功，即将跳转到登录页面");
 						window.location.href="/html/student/studentLogin.html";
 					}else{
 						alert("该用户已存在,请重新输入");
