@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.bean.BankCardBean;
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
+import com.project.service.IBankCardService;
 import com.project.service.ICoachService;
 import com.project.util.FileUtil;
 
@@ -31,6 +33,8 @@ public class CoachController {
 	
 	@Autowired
 	private ICoachService service;
+	@Autowired
+	private IBankCardService bankCardService;
 	
 	/**
 	 * 
@@ -175,8 +179,12 @@ public class CoachController {
 	 * @param money 提现金额
 	 */
 	@RequestMapping("withdraw.do")
-	public void withdraw(String id, double money, Integer cardId) {
-		service.updateMoney(id, money, cardId);
+	@ResponseBody
+	public boolean withdraw(double money, Integer cardId) {
+		//congsession中获取用户id
+		String id = "1";
+		Boolean res = service.updateMoney(id, money, cardId);
+		return res;
 	}
 	
 	/**
@@ -184,11 +192,13 @@ public class CoachController {
 	 * @author pan
 	 * @param id 教练id
 	 */
-	@RequestMapping("showMyStudent.do")
-	public String showMyStudent(String id, ModelMap map) {
+	@RequestMapping("myStudent.do")
+	public String showMyStudent(ModelMap map) {
+		//从session中取出用户id
+		String id = "1";
 		List<StudentBean> stuList = service.listMyStudent(id);
-		map.put("stuList", stuList);
-		return "/html/coach/showStudent.html";
+		map.put("myStuList", stuList);
+		return "html/coach/myStudent.html";
 	}
 	
 	/**
@@ -274,7 +284,10 @@ public class CoachController {
 	 */
 	@RequestMapping("showMoney.do")
 	public String updateLessonInfo(String id, ModelMap map) {
+		id = "1";
 		Double money = service.getMoney(id);
+		List<BankCardBean> cardList = bankCardService.listBankCard(id);
+		map.put("cardList", cardList);
 		map.put("money", money);
 		return "/html/coach/money.html";
 	} 

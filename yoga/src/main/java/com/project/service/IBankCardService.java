@@ -12,5 +12,5 @@ public interface IBankCardService {
 	
 	Integer removeBankCard(Integer id);
 	
-	List<String> listBankCard(String userId);
+	List<BankCardBean> listBankCard(String userId);
 }
