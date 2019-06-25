@@ -296,8 +296,10 @@ public class CoachController {
 	 * @return 返回个人信息显示页面
 	 */
 	@RequestMapping("showMoney.do")
-	public String updateLessonInfo(String id, ModelMap map) {
-		id = "1";
+	public String updateLessonInfo(ModelMap map) {
+		CoachBean coach = getUser();
+		System.out.println("=========="+coach);
+		String id = coach.getC_id();
 		Double money = service.getMoney(id);
 		List<BankCardBean> cardList = bankCardService.listBankCard(id);
 		map.put("cardList", cardList);
