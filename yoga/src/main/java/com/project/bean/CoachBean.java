@@ -1,11 +1,15 @@
 package com.project.bean;
 
+import javax.validation.constraints.NotBlank;
+
 /*
  * 教练对象
  */
 public class CoachBean {
 	private String c_id;
+	@NotBlank(message="用户名不能为空")
 	private String c_name;
+	@NotBlank(message="密码不能为空")
 	private String c_password;
 	private String c_phone;
 	/**
