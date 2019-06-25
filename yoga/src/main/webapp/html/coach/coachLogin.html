@@ -91,6 +91,7 @@
 										<div class="tab-content">
 											<div class="tab-content-inner active" data-content="signup">
 												<h3><span id="fon">教练登陆</span></h3>
+												<label class="blank_warning">&nbsp;&nbsp;*用户名和密码不能为空</label></br>
 												<label class="false_warning">&nbsp;&nbsp;*登录失败</label>
 												<form action="#">
 													<div class="row form-group">
@@ -156,27 +157,41 @@
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
 	<script type="text/javascript">
-		var false_warning = document.getElementsByTagName("false_warning")[0]
-		
-		
+		var false_warning = document.getElementsByClassName("false_warning")[0]
+		var blank_warning = document.getElementsByClassName("blank_warning")[0]
+		var inpName = document.getElementById("fullname")
+		var inpPwd = document.getElementById("password")
+		inpName.onfocus = function(){
+			false_warning.style.visibility = "hidden"
+			blank_warning.style.visibility = "hidden"
+		}
+		inpPwd.onfocus = function(){
+			false_warning.style.visibility = "hidden"
+			blank_warning.style.visibility = "hidden"
+		}
 		function login(){
 			var c_name = document.getElementById("fullname").value
 			var c_password = document.getElementById("password").value
-			alert(c_name+":"+c_password)
-			$.ajax({
-				type:"post",
-				url:"/coach/login.do",
-				asycn:true,
-				data:"c_name="+c_name+"&c_password="+c_password,
-				success:function(mes){
-					if (mes=="success") {
-						location.href="coach.html"
-					}else{
-						false_warning.style.visibility = "visible";
+			if (c_name == "" || c_password == "") {
+				blank_warning.style.visibility = "visible";
+			}else{
+				$.ajax({
+					type:"post",
+					url:"/coach/login.do",
+					asycn:true,
+					data:"c_name="+c_name+"&c_password="+c_password,
+					success:function(mes){
+						if (mes=="success") {
+							location.href="coach.html"
+						}else{
+							false_warning.style.visibility = "visible";
+						}
+						
 					}
-					
-				}
-			})
+				})
+			}
+			
+			
 		}
 		/* var inpName = document.getElementById("fullname")
 		var inpPwd = document.getElementById("password")
@@ -214,8 +229,8 @@
 			} else {
 				password_warning.style.visibility = "visible"
 			}
-		} */
-		
+		}
+		 */
 	</script>
 	</body>
 </html>
