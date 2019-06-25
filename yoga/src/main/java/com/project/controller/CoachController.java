@@ -13,9 +13,11 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.session.HttpServletSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,7 +60,7 @@ public class CoachController {
 	            	//调用login进行认证
 	                currentUser.login(token);
 	                System.out.println("认证成功");
-	                Session session = currentUser.getSession(false);
+	                Session session = currentUser.getSession(true);
 	                session.setAttribute("coach", service.login(c_name));
 	                return "success";
 	            } catch (UnknownAccountException uae) {
@@ -74,9 +76,19 @@ public class CoachController {
 	      }
 		return "success";
 	}
+	@RequestMapping("/getUser.do")
+	@ResponseBody
+	public CoachBean getUser(){
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession(true);
+		CoachBean coach = (CoachBean) session.getAttribute("coach");
+		return coach;
+	} 
+	
 	@RequestMapping("/register.do")
 	@ResponseBody
-	public String register(CoachBean coach){
+	public String register(@Validated CoachBean coach){
 		String id = UUID.randomUUID().toString();
 		/**
 		 * 暂未加盐
@@ -292,4 +304,5 @@ public class CoachController {
 		map.put("money", money);
 		return "/html/coach/money.html";
 	} 
+
 }
