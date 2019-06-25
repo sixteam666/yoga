@@ -1,16 +1,26 @@
 <!DOCTYPE HTML>
-<html>
+
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>个人中心</title>
+	<title>我的关注</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
 	<meta name="author" content="FreeHTML5.co" />
 
-	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
-	
+  	<!-- Facebook and Twitter integration -->
+	<meta property="og:title" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:description" content=""/>
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:image" content="" />
+	<meta name="twitter:url" content="" />
+	<meta name="twitter:card" content="" />
+
 	<!-- Animate.css -->
 	<link rel="stylesheet" href="../../css/animate.css">
 	<!-- Icomoon Icon Fonts-->
@@ -37,39 +47,6 @@
 	<script src="../../js/modernizr-2.6.2.min.js"></script>
 
 	</head>
-	<style type="text/css">
-		.fon{
-			font-family: "微软雅黑";
-		}
-		.black_overlay{ 
-            display: none; 
-            position: absolute; 
-            top: 0%; 
-            left: 0%; 
-            width: 100%; 
-            height: 100%; 
-            background-color: black; 
-            z-index:1001; 
-            -moz-opacity: 0.8; 
-            opacity:.80; 
-            filter: alpha(opacity=88); 
-        } 
-        .white_content { 
-            display: none; 
-            position: absolute; 
-            top: 25%; 
-            left: 35%; 
-            width: 600px; 
-            height: 500px; 
-            padding: 20px; 
-            border-radius:20px;
-            border: 5px solid #09C6AB; 
-            background-color: white; 
-            z-index:1002; 
-            overflow: auto; 
-            text-align:center;
-        }
-	</style>
 	<body>
 		
 	<div class="gtco-loader"></div>
@@ -111,98 +88,136 @@
 								<li><a href="inform.html">我的通知</a></li>
 							</ul>
 						</li>
-					</ul>		
+					</ul>	
 			</div>
-			</div>
-			
+			</div>		
 		</div>
 	</nav>
-	
-		<div class="gtco-section">
+	<div class="gtco-section border-bottom">
 		<div class="gtco-container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>修改个人资料</h2>
+					<h2>我关注的学员</h2>
 				</div>
-				<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
-					<table border="0" cellspacing="0" cellpadding="0" style="width: 700px;height: 500px;">
-						<tr align="center">
-							<td width="140">用户名：</td>
-							<td width="140">
-								<input type="text" name="userName" id="userName" value="用户名"/>
-							</td>
-							<td width="140">头像:</td>
-							<td width="140" colspan="2">
-								上传头像
-							</td>
-						</tr>
-						<tr align="center">
-							<td>是否公开资料:</td>
-							<td>
-								<select name="power">
-									<option value="0">保密</option>
-									<option value="1">仅好友可见</option>
-									<option value="2" selected="2">完全公开</option>
-								</select>
-							</td>
-							<td>昵称：</td>
-							<td>
-								<input type="text" name="nickName" id="nickName" value="昵称"/>
-							</td>
-							<td></td>
-						</tr>
-						<tr align="center">
-							<td width="140">地址：</td>
-							<td width="140">
-								<input type="text" onclick = "openDialog()" name="address" id="address" value="地址"/>
-							</td>
-						</tr>
-					</table>
-					
-					
-					<div id="light" class="white_content">
-		<form id="form1" action="/ZzyApartMent/studentById">
-            <div id="add-address">
-				<form action="">
-					<div class="add-form-group inline-block">
-						<label for="province">省份:</label>
-						<select id="sheng" name="province">
-						
-						</select>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="price-box">
+						<img src="../../images/imgs/13.jpg" />
+						<br /><br /><br />
+						<h2 class="pricing-plan">用户名</h2>
 					</div>
-					<div class="add-form-group inline-block">
-						<label for="city">城市:</label>
-						<select id="shi" name="city">
-						
-						</select>
+				</div>
+				<div class="col-md-4">
+					<div class="price-box">
+						<img src="../../images/imgs/7.jpg" />
+						<br /><br /><br />
+						<h2 class="pricing-plan">用户名</h2>
 					</div>
-					<div class="add-form-group inline-block">
-						<label for="county">区县:</label>
-						<select id="xian" name="county">
-						
-						</select>
+				</div>
+				<div class="col-md-4">
+					<div class="price-box">
+						<img src="../../images/imgs/19.jpg" />
+						<br /><br /><br />
+						<h2 class="pricing-plan">用户名</h2>
 					</div>
-					<div class="add-form-group inline-block">
-						<label for="street">街道:</label>
-						<select id="xiang" name="street">
-						
-						</select>
-					</div>
-				</form>
+				</div>
+			</div>
 		</div>
-         </form>
-         	<input type="button" onclick = "" value="保存" class="btn btn-primary">	
-            <input type="button" onclick = "closeDialog()" value="关闭" class="btn btn-primary">
-        </div> 
-					
-					
-					<br /><br />
-					<button class="btn btn-primary btn-block">保存</button>
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<h2>我关注的教练</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="price-box">
+						<img src="../../images/imgs/13.jpg" />
+						<br /><br /><br />
+						<h2 class="pricing-plan">用户名</h2>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="price-box">
+						<img src="../../images/imgs/7.jpg" />
+						<br /><br /><br />
+						<h2 class="pricing-plan">用户名</h2>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="price-box">
+						<img src="../../images/imgs/19.jpg" />
+						<br /><br /><br />
+						<h2 class="pricing-plan">用户名</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<h2>我关注的场馆</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="price-box">
+						<img src="../../images/imgs/13.jpg" />
+						<br /><br /><br />
+						<h2 class="pricing-plan">用户名</h2>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="price-box">
+						<img src="../../images/imgs/7.jpg" />
+						<br /><br /><br />
+						<h2 class="pricing-plan">用户名</h2>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="price-box">
+						<img src="../../images/imgs/19.jpg" />
+						<br /><br /><br />
+						<h2 class="pricing-plan">用户名</h2>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-			
+	<div class="gtco-section border-bottom">
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<h2>关注的动态</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-16">
+						<img src="../../images/imgs/2.jpg"/>
+						<h2>用户名/昵称</h2>
+						<h4>动态内容aasdasdasdasdasdsadsadas</h4>
+						<p>发表时间：2019-06-19</p>
+						<hr>
+				</div>
+				<div class="col-md-16">
+						<img src="../../images/imgs/3.jpg"/>
+						<h2>用户名/昵称</h2>
+						<h4>动态内容aasdasdasdasdasdsadsadas</h4>
+						<p>发表时间：2019-06-19</p>
+						<hr>
+				</div>
+				<div class="col-md-16">
+						<img src="../../images/imgs/5.jpg"/>
+						<h2>用户名/昵称</h2>
+						<h4>动态内容aasdasdasdasdasdsadsadas</h4>
+						<p>发表时间：2019-06-19</p>
+						<hr>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<footer id="gtco-footer" role="contentinfo">
 		<div class="gtco-container">
 			<div class="row row-p	b-md">
@@ -276,28 +291,9 @@
 	<!-- Datepicker -->
 	<script src="../../js/bootstrap-datepicker.min.js"></script>
 	
-	<!-- 四级联动 -->
-	<script src="../../js/GlobalProvinces_extend.js"></script>
-	<script src="../../js/GlobalProvinces_main.js"></script>
-	<script src="../../js/initLocation.js"></script>
-	<script type="text/javascript">
-	$(function(){initLocation({sheng_val:"请选择",shi_val:"请选择",xian_val:"<?php echo $v['country']?>",xiang_val:"<?php echo $v['street']?>"});})
-	</script>
-	
-	
+
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-	<script type="text/javascript">
-		 function openDialog(){
-	            document.getElementById('light').style.display='block';
-	            document.getElementById('fade').style.display='block';
-	    }
-	    
-	    function closeDialog(){
-	            document.getElementById('light').style.display='none';
-	            document.getElementById('fade').style.display='none';
-	    }
-	</script>
+
 	</body>
 </html>
-

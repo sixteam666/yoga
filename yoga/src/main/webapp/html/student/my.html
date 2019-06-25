@@ -56,20 +56,28 @@
 				<div class="col-sm-4 col-xs-12">
 					<ul>
 						<li><a href="student.html" class="fon">首页</a></li>
-						<li><a href="showGym.html" class="fon">场馆</a></li>
-						<li><a href="showCoach.html" class="fon">教练</a></li>
-						<li><a href="showMessage.html" class="fon">动态</a></li>
+						<li><a href="showGym.html" class="fon">所有场馆</a></li>
+						<li><a href="showCoach.html" class="fon">认证教练</a></li>
+						<li class="has-dropdown">
+							<a href="#">动态</a>
+							<ul class="dropdown">
+								<li><a href="showMessage.html">我的关注</a></li>
+								<li><a href="showMessage.html">附近的人</a></li>
+							</ul>
+						</li>
 					</ul>
 				</div>
 				<div class="col-xs-8 text-right menu-1">
 					<ul>
 						<li class="has-dropdown">
-							<a href="#">欢迎您：用户名</a>
+							<span style="color: white;">欢迎您，用户名</span>
+							<a href="#">注销</a>
 						</li>
 						<li class="has-dropdown">
 							<a href="#">个人中心</a>
 							<ul class="dropdown">
 								<li><a href="my.html">个人资料</a></li>
+								<li><a href="className.html">我的课程</a></li>
 								<li><a href="order.html">我的订单</a></li>
 								<li><a href="attention.html">我的关注</a></li>
 								<li><a href="inform.html">我的通知</a></li>
@@ -84,37 +92,43 @@
 	
 		<div class="gtco-section">
 		<div class="gtco-container">
-			<div class="row">
+			<div class="row" style="border: 5px solid #09C6AB;border-radius: 50px;">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<br />
 					<h2>个人资料</h2>
 				</div>
 				<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
 					<table border="0" cellspacing="0" cellpadding="0" style="width: 700px;height: 500px;">
-						<tr align="center">
+						<tr align="center" height="200px">
 							<td width="140">用户名：</td>
 							<td width="140">xxx</td>
-							<td width="140">头像:</td>
-							<td width="140" colspan="2">
+							<td width="100"></td>
+							<td width="300">头像:</td>
+							<td width="100" colspan="2">
 								<img src="../../images/imgs/1.jpg"/>
 							</td>
 						</tr>
 						<tr align="center">
 							<td>昵称：</td>
 							<td>xxxxx</td>
-							<td>手机号：</td>
-							<td>xxxxxxx</td>
-							<td><button class="btn btn-primary">修改绑定手机</button></td>
-						</tr>
-						<tr align="center">
+							<td></td>
 							<td>是否公开资料:</td>
 							<td>完全公开</td>
-							<td>余额</td>
-							<td>1000元</td>
-							<td><button class="btn btn-primary">充值</button></td>
+						</tr>
+						<tr align="center">
+							<td>手机号：</td>
+							<td>xxxxxxx</td>
+							<td colspan="3"><button class="btn btn-primary" style="float: right;">修改绑定手机</button></td>
 						</tr>
 					</table>
 					<br /><br />
-					<a href="modify.html"><button class="btn btn-primary btn-block">修改资料</button></a>
+					<a href="modify.html"><button style="float: right;" class="btn btn-primary">修改资料</button></a>
+					<br /><br />
+					<hr>
+					<span>
+						我的余额：1000元
+					</span>
+					<a href="pay.html"><button style="float: right;" class="btn btn-primary">充值</button></a>
 				</div>
 			</div>
 		</div>
