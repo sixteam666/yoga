@@ -88,7 +88,7 @@ public class CoachController {
 	
 	@RequestMapping("/register.do")
 	@ResponseBody
-	public String register(@Validated CoachBean coach){
+	public String register(CoachBean coach){
 		String id = UUID.randomUUID().toString();
 		/**
 		 * 暂未加盐
