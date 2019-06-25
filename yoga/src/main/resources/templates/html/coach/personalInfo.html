@@ -44,11 +44,11 @@
 </head>
 <body>
 	<div style="height:50px"></div>
-	<div class="col-md-8 col-md-offset-2 text-left text-center gtco-heading">
+	<div class="col-md-8 col-md-offset-2 text-left text-center">
 		<h3>基本信息修改</h3>
 	</div>
-	<form action="/coach/updatePersonalInfo.do" method="post" enctype="multipart/form-data">
-		<table class="table table-striped">
+	<form class="col-md-6 col-md-offset-3" action="/coach/updatePersonalInfo.do" method="post" enctype="multipart/form-data">
+		<table class="table table-hover">
 			<tr align="center">
 				<td colspan="2">
 					<img th:src="@{/html/coach/image/headimg/}+${personalInfo.c_headimg}" src="../../images/imgs/1.jpg"/>

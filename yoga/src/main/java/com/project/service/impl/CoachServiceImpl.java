@@ -6,12 +6,15 @@ import java.util.TimerTask;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.bean.CoachBean;
 import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
+import com.project.dao.IBankCardDao;
 import com.project.dao.IBlogDao;
 import com.project.dao.ICoachDao;
 import com.project.dao.IFollowDao;
@@ -34,6 +37,8 @@ public class CoachServiceImpl implements ICoachService {
 	//操作申请表的接口
 	@Autowired
 	private IRequestDao reDao;
+	@Autowired
+	private IBankCardDao bankDao;
 	
 	@Override
 	public Boolean register(CoachBean coach) {
@@ -106,16 +111,21 @@ public class CoachServiceImpl implements ICoachService {
 		return dao.updatePassword(newPassword, id) == 1;
 	}
 
+	/**
+	 * 事务管理为设置成功
+	 */
 	@Override
-	@Transactional
-	public Boolean updateMoney(String id, double money) {
+	@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
+	public Boolean updateMoney(String id, double money, Integer cardId) {
 		//查询出钱包余额
 		Double balance = dao.getMoney(id);
 		if(balance < money) {
 			System.out.println(id+"的余额不足还想提现");
 			return false;
 		}
-		return dao.updateMoney(id, money) == 1;
+		Integer subtractMoney = dao.updateMoney(id, money);
+		Integer addMoney = bankDao.updateBankCard(cardId,money);
+		return subtractMoney == 1 && addMoney == 1;
 	}
 
 	@Override
@@ -206,6 +216,11 @@ public class CoachServiceImpl implements ICoachService {
 	@Override
 	public void updateLessonInfo(CoachBean coach) {
 		dao.updateCoachLessonInfo(coach);
+	}
+
+	@Override
+	public Double getMoney(String id) {
+		return dao.getMoney(id);
 	}
 
 }

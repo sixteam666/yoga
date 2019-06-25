@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.project.bean.LessonBean;
 
@@ -34,5 +35,13 @@ public interface ILessonDao {
 	 */
 	@Delete("delete from t_lesson where l_id=#{l_id}")
 	public int deleteLesson(int id);
+	
+	/**
+	 * 修改课程学员人数
+	 * @param lessonBean
+	 * @return
+	 */
+	@Update("update t_lesson set l_s_number=#{l_s_number} where l_id=#{l_id}")
+	public int updateStuNumber(LessonBean lessonBean);
 
 }

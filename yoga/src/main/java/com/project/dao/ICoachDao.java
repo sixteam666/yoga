@@ -188,7 +188,7 @@ public interface ICoachDao {
 	 * @param nickname
 	 * @return
 	 */
-	@Select("select * from t_coach where c_nickname like concat('%',#{nickname},'%')")
-	public List<CoachBean> findCoachByNick(String nickname);
+	@Select("select * from t_coach where c_g_id=#{c_g_id} and c_nickname like concat('%',#{c_nickname},'%')")
+	public List<CoachBean> findCoachByNick(CoachBean coach);
 	
 }

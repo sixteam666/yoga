@@ -81,7 +81,10 @@ public class CoachDaoTest extends BaseTest {
 	//通过昵称查找教练
 	@Test
 	public void findCoachByNick(){
-		List<CoachBean> list = dao.findCoachByNick("tsto");
+		CoachBean bean = new CoachBean();
+		bean.setC_g_id("1");
+		bean.setC_nickname("tsto");
+		List<CoachBean> list = dao.findCoachByNick(bean);
 		System.out.println(list.size());
 	}
 	//通过手机号查找教练

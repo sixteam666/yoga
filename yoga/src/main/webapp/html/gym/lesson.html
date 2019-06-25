@@ -105,17 +105,17 @@
 				<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
 							
 					<table border="1" cellspacing="" cellpadding="">
-						<tr>
-							<th>课程/TIME</th>
-							<th>周一  MON</th>
-							<th>周二  TUE</th>
-							<th>周三  WED</th>
-							<th>周四  THU</th>
-							<th>周五  FRI</th>
-							<th>周六  SAT</th>
-							<th>周日  SUN</th>
+						<tr align="center" style="font-weight: 700;">
+							<td>课程/TIME</td>
+							<td>周一  MON</td>
+							<td>周二  TUE</td>
+							<td>周三  WED</td>
+							<td>周四  THU</td>
+							<td>周五  FRI</td>
+							<td>周六  SAT</td>
+							<td>周日  SUN</td>
 						</tr>
-						<tr>
+						<tr align="center">
 							<td >
 								<div class="">
 									早课
@@ -125,28 +125,42 @@
 								</div>
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/1.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/2.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/3.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/4.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/5.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/6.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/7.jpg" />
 							</td>
 						</tr>
-						<tr>
+						<tr align="center">
 							<td >
 								<div class="">
 									中课
@@ -156,28 +170,42 @@
 								</div>
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/8.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/9.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/10.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/11.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/12.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/13.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/14.jpg" />
 							</td>
 						</tr>
-						<tr>
+						<tr align="center">
 							<td >
 								<div class="">
 									晚课
@@ -187,24 +215,38 @@
 								</div>
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/15.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/16.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/17.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/18.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/19.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/20.jpg" />
 							</td>
 							<td class="lesson">
+								<input type="hidden" id="hid" class="l_weekday">
+								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/21.jpg" />
 							</td>
 						</tr>
@@ -294,11 +336,26 @@
 	
 	<script>
 		var aLesson = document.getElementsByClassName("lesson");
+		var aL_weekday = document.getElementsByClassName("l_weekday");
+		var aL_datetime = document.getElementsByClassName("l_datetime");
+		//alert(parseInt(3/7))
+		//alert(Math.ceil(3/7))
+		
 		for(var i=0;i<aLesson.length;i++){
+			//aL_weekday[i].index = i;
+			
+			aL_weekday[i].value = i%7+1;
+			aL_datetime[i].value = parseInt(i/7)+1;
+			aLesson[i].setAttribute("idx",i)
 	        aLesson[i].index = i;
 	        aLesson[i].onclick = function(){
-	            window.location.href = "lessonModify.html"
-	        }
+	        	var idx = this.getAttribute("idx")
+	        	
+	        	var l_weekday = idx%7+1;
+				var l_datetime = parseInt(idx/7)+1;
+	        	
+	            window.location.href = "/gym/showLesson.do?l_weekday="+l_weekday+"&l_datetime="+l_datetime;
+	        };
 	    }    
 
 
