@@ -54,6 +54,36 @@
 								<li><a href="showCoach.html" class="fon">教练</a></li>
 								<li><a href="showStudent.html" class="fon">学员</a></li>
 							</ul>
+<<<<<<< HEAD
+=======
+						</li>
+					</ul>	
+			</div>
+			</div>
+			
+		</div>
+	</nav>
+	
+<div class="gtco-section">
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<h2>我的签约教练</h2>
+				</div>
+			</div>
+			<div class="row myCoach">
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<span class="fh5co-card-item">
+						<figure style="text-align: center;top:50px">
+							<img src="../../images/imgs/21.jpg" alt="Image">
+						</figure>
+						<div class="fh5co-text">
+							<h2>瑜伽教练：a</h2>
+							<h2>流派：a</h2>
+							<h2>课时费标准：200元/节</h2>
+							<h2>电话：1111</h2>
+							<button class="btn btn-primary">解约</button>
+>>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 						</div>
 						<div class="col-xs-8 text-right menu-1">
 							<ul>
@@ -78,7 +108,54 @@
 								</li>
 							</ul>
 						</div>
+<<<<<<< HEAD
 					</div>
+=======
+					</span>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<span class="fh5co-card-item">
+						<figure style="text-align: center;top:50px">
+							<img src="../../images/imgs/52.jpg" alt="Image">
+						</figure>
+						<div class="fh5co-text">
+							<h2>瑜伽教练：a</h2>
+							<h2>流派：a</h2>
+							<h2>课时费标准：200元/节</h2>
+							<h2>电话：1111</h2>
+							<button class="btn btn-primary">解约</button>
+						</div>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
+	    <div class="modal-dialog" role="document">  
+	        <div class="modal-content">  
+	            <div class="modal-header">  
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+	                    <span aria-hidden="true">×</span>  
+	                </button>  
+	                <h4 class="modal-title" id="myModalLabel">解约教练</h4>  
+	            </div>  
+	            <div class="modal-body">  
+	                <p>是否解约教练?</p>  
+	            </div>  
+	            <div class="modal-footer">  
+	                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
+	                <button type="button" class="btn btn-primary" onclick="delLesson()">确定</button>  
+	            </div>  
+	        </div>  
+	    </div>  
+	</div> 			
+				
+	<footer id="gtco-footer" role="contentinfo">
+		<div class="gtco-container">
+			<div class="row row-p	b-md">
+>>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 
 				</div>
 			</nav>
@@ -192,6 +269,7 @@
 			<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
 		</div>
 
+<<<<<<< HEAD
 		<!-- jQuery -->
 		<script src="../../js/jquery.min.js"></script>
 		<!-- jQuery Easing -->
@@ -227,5 +305,79 @@
 			}
 			getMyCoach(); */
 		</script>
+=======
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+	</div>
+	
+	<!-- jQuery -->
+	<script src="../../js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="../../js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="../../js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="../../js/jquery.waypoints.min.js"></script>
+	<!-- Carousel -->
+	<script src="../../js/owl.carousel.min.js"></script>
+	<!-- countTo -->
+	<script src="../../js/jquery.countTo.js"></script>
+
+	<!-- Stellar Parallax -->
+	<script src="../../js/jquery.stellar.min.js"></script>
+
+	<!-- Magnific Popup -->
+	<script src="../../js/jquery.magnific-popup.min.js"></script>
+	<script src="../../js/magnific-popup-options.js"></script>
+	
+	<!-- Datepicker -->
+	<script src="../../js/bootstrap-datepicker.min.js"></script>
+
+	<!-- Main -->
+	<script src="../../js/main.js"></script>
+	
+	<script type="text/javascript">
+		//显示我的签约教练
+		function findMyCoach(){
+			$.ajax({
+				type:"get",
+				async:true,
+				url:"/gym/findMyCoach.do",
+				/* data:"l_g_id="+l_g_id,  */
+				success:function(mes){
+					console.info(mes);
+					var str ="";
+					
+					if(mes.length>0){
+						for(var i=0;i<mes.length;i++){
+							str+="<div class='col-lg-4 col-md-4 col-sm-6'>"+
+								"<span class='fh5co-card-item'>"+
+									"<figure style='text-align: center;top:50px'>"+
+										"<img src='../../images/imgs/"+mes[i].c_headimg+"' alt='Image'>"+
+									"</figure>"+
+									"<div class='fh5co-text'>"+
+										"<h2>瑜伽教练："+mes[i].c_nickname+"</h2>"+
+										"<h2>流派："+mes[i].c_style+"</h2>"+
+										"<h2>课时费标准："+mes[i].c_price+"￥/节</h2>"+
+										"<h2>电话："+mes[i].c_phone+"</h2>"+
+										"<button class='btn btn-primary' data-toggle='modal' data-target='#myModal'>解约</button>"+
+									"</div>"+
+								"</span>"+
+							"</div>"
+						}	
+					}else{
+						str+="<h3>暂无签约教练</h3>"
+					} 
+					
+					$(".myCoach").html(str);
+				}
+			});
+		}
+		findMyCoach()
+	</script>
+
+>>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 	</body>
 </html>

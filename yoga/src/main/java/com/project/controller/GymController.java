@@ -314,7 +314,7 @@ public class GymController {
 	@RequestMapping("/showLesson.do")
 	//@ResponseBody
 	public String showLesson(LessonBean lessonBean,ModelMap map){
-		System.out.println(lessonBean);
+		//System.out.println(lessonBean);
 		String gymId = "1";
 		lessonBean.setL_g_id(gymId); 
 		List<LessonBean> list = gymService.findLesson(lessonBean);
@@ -327,11 +327,13 @@ public class GymController {
 	
 
 	/**
-	 * 教练课程安排
+	 * 教练课程安排,添加课程
 	 */
 	@RequestMapping("/addLesson.do")
-	@ResponseBody
-	public int addLesson(Model model,ModelMap map,BindingResult result,@Validated LessonBean lessonBean) {
+	//@ResponseBody
+	public String addLesson(Model model,ModelMap map,@Validated LessonBean lessonBean,
+			BindingResult result) {
+		
 		model.addAttribute("lessonBean", lessonBean);
 		if (result.hasErrors()) {
 			System.out.println("有错！！！");
@@ -340,10 +342,11 @@ public class GymController {
 			for (FieldError fieldError : errorList) {
 				map.put("error_"+fieldError.getField(), fieldError.getDefaultMessage());
 			}
-			//return "forward:/";
+			return "forward:/html/gym/lessonModify.html";
 		}
 		int number = gymService.addLesson(lessonBean);
-		return number;
+		//return "forward:/html/gym/lessonModify.html";
+		return "redirect:/gym/showLesson.do?l_weekday="+lessonBean.getL_weekday()+"&l_datetime="+lessonBean.getL_datetime();
 	}
 	
 	/**
@@ -351,13 +354,30 @@ public class GymController {
 	 */
 	@RequestMapping("/deleteLesson.do")
 	@ResponseBody
-	public int deleteLesson(int id){
-		int number = gymService.deleteLesson(id);
+	public int deleteLesson(int l_id){
+		int number = gymService.deleteLesson(l_id);
 		return number;
 	}
 	
 	/**
 	 * 查看我的签约教练
+<<<<<<< HEAD
+=======
+	 * 
+	 * @param g_id
+	 * @return
+	 */
+	@RequestMapping("/findMyCoach.do")
+	@ResponseBody
+	public List<CoachBean> findMyCoach() {
+		//System.out.println(l_g_id);
+		String l_g_id = "1";
+		List<CoachBean> list = gymService.findMyCoach(l_g_id);
+		return list;
+	}
+	/**
+	 * 通过电话号码或者昵称查找我的签约教练
+>>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 	 * 
 	 * @param g_id
 	 * @param map
@@ -383,18 +403,7 @@ public class GymController {
 		modelAndView.addObject("coachList", coachList);
 		return modelAndView;
 	}
-	
-	/**
-	 * 查看我的粉丝
-	 * @param g_id
-	 * @return
-	 */
-	@RequestMapping("/findMyFans.do")
-	@ResponseBody
-	public List<CoachBean> findMyFans(String g_id) {
-		List<CoachBean> list = gymService.findMyCoach(g_id);
-		return list;
-	}
+
 	
 
 	/**
