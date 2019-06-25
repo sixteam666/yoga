@@ -81,13 +81,13 @@ public class GymController {
 	/**
 	 * 登录或注册前验证用户是否存在
 	 * @param arg 邮箱或电话号
-	 * @return 用户是否存在
+	 * @return 用户存在返回true，用户不存在返回false
 	 */
 	@RequestMapping("/findGym.do")
 	@ResponseBody
 	public Boolean loginTest(String arg) {
 		if(gymService.login(arg) == null) {
-			return false;
+			return false; 
 		}
 		return true;
 	}
@@ -104,8 +104,6 @@ public class GymController {
 	public int register(String regName, String g_password) {
 		String emailTest = "^[0-9a-z]+\\w*@([0-9a-z]+\\.)+[0-9a-z]+$"; // 邮箱正则表达式
 		String phoneTest = "^1[3|4|5|7|8][0-9]\\\\d{4,8}$"; // 电话正则表达式
-		
-		System.out.println("reg.do测试:GymBean:" + regName +"--" + g_password);
 		if(gymService.login(regName) != null) {
 			return -2; // 邮箱或电话已注册
 		}
@@ -123,9 +121,20 @@ public class GymController {
 		// 盐值暂时无法确定
 		Object obj = new SimpleHash("MD5", gym.getG_password(),"",1024);
 		gym.setG_password(obj.toString());
-		 
+		
 		int result = gymService.register(gym);
 		return result;
+	}
+	
+	/**
+	 * 退出登录（注销）
+	 */
+	@RequestMapping("/logout.do")
+	public String logout() {
+		System.out.println("正在注销");
+		Subject currentUser = SecurityUtils.getSubject();
+		currentUser.logout();
+		return "redirect:/html/gym/gymLogin.html";
 	}
 
 	/**
