@@ -70,6 +70,14 @@ public interface IGymService {
 	 * @return
 	 */
 	public List<CoachBean> findMyCoach(String g_id);
+	
+	/**
+	 * 通过姓名或电话号码查看我的签约教练
+	 * @param g_id
+	 * @param nameOrPho
+	 * @return
+	 */
+	public List<CoachBean> findCoaByNameOrPho(String g_id ,String nameOrPho);
 
 	/**
 	 * 解约或者签约教练

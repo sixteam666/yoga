@@ -49,5 +49,13 @@ public class LessonDaoTest extends BaseTest{
 		System.out.println(number);
 	}
 	
+	@Test
+	public void updateStuNumber(){
+		LessonBean lessonBean = new LessonBean();
+		lessonBean.setL_s_number(1);
+		lessonBean.setL_id(3);
+		int number = lessonDao.updateStuNumber(lessonBean);
+		System.out.println(number);
+	}
 
 }

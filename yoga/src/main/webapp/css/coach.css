@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 
-.code_warning,.false_warning,.phone_warning,.username_warning,.password_warning,.repassword_warning{visibility: hidden;color: red;}
+.code_warning,.blank_warning,.false_warning,.phone_warning,.username_warning,.password_warning,.repassword_warning{visibility: hidden;color: red;}
 
 		.phoneReg {text-decoration: underline;}
 

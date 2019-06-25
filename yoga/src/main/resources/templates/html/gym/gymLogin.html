@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>教练登陆</title>
+	<title>场馆登陆</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -35,7 +35,6 @@
 
 	<!-- Modernizr JS -->
 	<script src="../../js/modernizr-2.6.2.min.js"></script>
-	<link rel="stylesheet" href="../../css/coach.css">
 	</head>
 	<style type="text/css">
 		.fon{
@@ -52,7 +51,7 @@
 			<div class="gtco-container">
 				
 				<div class="row">
-					
+				
 					<div class="col-sm-4 col-xs-12">
 						<ul>
 							<li><a href="../index.html" class="fon">首页</a></li>
@@ -63,8 +62,8 @@
 					</div>
 					<div class="col-xs-8 text-right menu-1">
 						<ul>
+							<li><a href="/Yoga/html/coach/coachLogin.html" class="fon">成为教练</a></li>
 							<li><a href="/Yoga/html/student/studentLogin.html" class="fon">我是学生</a></li>
-							<li><a href="/Yoga/html/gym/gymLogin.html" class="fon">场馆入驻</a></li>
 						</ul>	
 					</div>
 				</div>
@@ -72,7 +71,7 @@
 			</div>
 		</nav>
 		
-		<header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url(../../images/img_bg_1.jpg)">
+		<header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url(../../images/img_bg_2.jpg)">
 			<div class="overlay"></div>
 			<div class="gtco-container">
 				<div class="row">
@@ -85,35 +84,33 @@
 								<h1 id="fon">蜗牛学院瑜伽平台</h1>
 							</div>
 							<div class="col-md-4 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
-								<div id="login_form" class="form-wrap">
+								<div class="form-wrap">
 									<div class="tab">
 										
 										<div class="tab-content">
 											<div class="tab-content-inner active" data-content="signup">
-												<h3><span id="fon">教练登陆</span></h3>
-												<label class="blank_warning">&nbsp;&nbsp;*用户名和密码不能为空</label></br>
-												<label class="false_warning">&nbsp;&nbsp;*登录失败</label>
+												<h3><span id="fon">场馆入驻</span></h3>
 												<form action="#">
 													<div class="row form-group">
 														<div class="col-md-12">
 															<label for="fullname"><span class="fon">账户</span></label>
-															<label class="username_warning">&nbsp;&nbsp;*用户名或手机格式有误</label>
-															<input type="text" id="fullname" class="form-control" placeholder="请输入用户名/手机号" name="c_name">
+															<input type="text" id="fullname" class="form-control" placeholder="请输入用户名/手机号/邮箱">
 														</div>
 													</div>
 												
 													<div class="row form-group">
 														<div class="col-md-12">
-															<label for="form-control"><span class="fon">密码</span></label>
-															<label class="password_warning">&nbsp;&nbsp;*密码长度为6~16位字母或数字</label>
-															<input type="password" id="password" class="form-control password" placeholder="请输入密码" name="c_password">
+															<label for="date-start"><span class="fon">密码</span></label>
+															<input type="password" class="form-control" placeholder="请输入密码">
 														</div>
 													</div>
 	
 													<div class="row form-group">
 														<div class="col-md-12">
-															<input type="button" onclick="login()" class="btn btn-primary btn-block" value="登陆">
-															<a href="coachReg.html"><input type="button" class="btn btn-primary btn-block" value="注册"></a>
+															<input type="submit" class="btn btn-primary btn-block" value="登陆">
+															<!-- <input type="button" class="btn btn-primary btn-block" value="注册"> -->
+															<a href="/html/gym/gymReg.html" class="btn btn-primary btn-block">注册</a>
+															
 														</div>
 													</div>
 												</form>	
@@ -154,83 +151,11 @@
 	
 	<!-- Datepicker -->
 	<script src="../../js/bootstrap-datepicker.min.js"></script>
+	
+
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-	<script type="text/javascript">
-		var false_warning = document.getElementsByClassName("false_warning")[0]
-		var blank_warning = document.getElementsByClassName("blank_warning")[0]
-		var inpName = document.getElementById("fullname")
-		var inpPwd = document.getElementById("password")
-		inpName.onfocus = function(){
-			false_warning.style.visibility = "hidden"
-			blank_warning.style.visibility = "hidden"
-		}
-		inpPwd.onfocus = function(){
-			false_warning.style.visibility = "hidden"
-			blank_warning.style.visibility = "hidden"
-		}
-		function login(){
-			var c_name = document.getElementById("fullname").value
-			var c_password = document.getElementById("password").value
-			if (c_name == "" || c_password == "") {
-				blank_warning.style.visibility = "visible";
-			}else{
-				$.ajax({
-					type:"post",
-					url:"/coach/login.do",
-					asycn:true,
-					data:"c_name="+c_name+"&c_password="+c_password,
-					success:function(mes){
-						if (mes=="success") {
-							location.href="coach.html"
-						}else{
-							false_warning.style.visibility = "visible";
-						}
-						
-					}
-				})
-			}
-			
-			
-		}
-		/* var inpName = document.getElementById("fullname")
-		var inpPwd = document.getElementById("password")
-		var username_warning = document.getElementsByClassName("username_warning")[0]
-		var password_warning = document.getElementsByClassName("password_warning")[0]
-		inpName.onfocus = function(){
-			username_warning.style.visibility = "hidden"
-		}
-		inpPwd.onfocus = function(){
-			password_warning.style.visibility = "hidden"
-		}
 		
-		inpName.onblur = function(){
-			var regx1 = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/;
-			var regx2 = /^[0-9a-zA-Z]{6,16}$/;
-			
-			if (regx1.test(inpName.value)) {
-				
-				username_warning.style.visibility = "hidden";
-				return true;
-			}else if(regx2.test(inpName.value) && !regx2.test(name)) {
-				
-				username_warning.style.visibility = "hidden";
-				return true;
-			}else{
-				username_warning.style.visibility = "visible";
-				return false;
-			}
-		}
 		
-		inpPwd.onblur = function(){
-			var regx1 = /^[1-9a-zA-Z]{6,16}$/;
-			if (regx1.test(inpPwd.value)) {
-				password_warning.style.visibility = "hidden"
-			} else {
-				password_warning.style.visibility = "visible"
-			}
-		}
-		 */
-	</script>
 	</body>
 </html>

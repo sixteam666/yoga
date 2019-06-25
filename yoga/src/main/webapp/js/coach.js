@@ -17,7 +17,6 @@
 				var false_warning = document.getElementsByClassName("false_warning")
 				//切换手机号注册
 				function phoneReg() {
-					location.reload()
 					name_pwd.setAttribute("class", "notshow")
 					phone.removeAttribute("class", "notshow")
 					inpPassWord[1].setAttribute("name","c_password")
@@ -27,7 +26,6 @@
 				}
 
 				function name_pwdReg() {
-					location.reload()
 					phone.setAttribute("class", "notshow")
 					name_pwd.removeAttribute("class", "notshow")
 					inpPassWord[0].setAttribute("name","c_password")

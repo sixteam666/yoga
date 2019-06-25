@@ -65,7 +65,7 @@ public class ShiroConfig {
 	@Bean
 	public MyRealm myRealm(HashedCredentialsMatcher hashedCredentialsMatcher) {
 		MyRealm userRealm = new MyRealm();
-		//userRealm.setCredentialsMatcher(hashedCredentialsMatcher);
+		userRealm.setCredentialsMatcher(hashedCredentialsMatcher);
 		return userRealm;
 	}
 	
