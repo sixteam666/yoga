@@ -15,6 +15,13 @@ public class LessonBean {
 	private String l_g_id;
 	private int l_weekday;
 	private int l_datetime;
+	private CoachBean coach;
+	public CoachBean getCoach() {
+		return coach;
+	}
+	public void setCoach(CoachBean coach) {
+		this.coach = coach;
+	}
 	public int getL_id() {
 		return l_id;
 	}

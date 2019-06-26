@@ -6,8 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.bean.CoachBean;
+import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
 import com.project.bean.StudentBean;
+import com.project.bean.WordsBean;
+import com.project.dao.CoachDaoTest;
+import com.project.dao.ICoachDao;
+import com.project.dao.IFollowDao;
+import com.project.dao.ILessonDao;
 import com.project.dao.IStudentDao;
 import com.project.service.IStudentService;
 
@@ -16,6 +22,13 @@ public class StudentServiceImpl implements IStudentService{
 
 	@Autowired
 	private IStudentDao dao;
+	@Autowired
+	private ILessonDao lessondao;
+	@Autowired
+	private ICoachDao CoachDao;
+	@Autowired
+	private IFollowDao followDao;
+	
 	
 	@Override
 	public boolean regist(StudentBean student) {
@@ -130,5 +143,42 @@ public class StudentServiceImpl implements IStudentService{
 				return false;
 			}
 			return true;
+	}
+
+	@Override
+	public List<LessonBean> findcourse(String id) {
+		 List<LessonBean> list =  lessondao.findlessonbystudentid(id);
+		 for (LessonBean lessonBean : list) {
+			String coach_id =lessonBean.getL_c_id();
+			CoachBean coach = CoachDao.getCoachById(coach_id);
+			lessonBean.setCoach(coach);
+		}
+		return list;
+	}
+
+	@Override
+	public List<StudentBean> findFans(String id) {
+		List<StudentBean> list = followDao.listFollowingStudent(id);
+		for (StudentBean studentBean : list) {
+			List<StudentBean> list2 = followDao.listFollowingStudent(studentBean.getS_id());
+			for (StudentBean studentBean2 : list2) {
+				if (studentBean2.getS_id().equals(studentBean.getS_id())) {
+					list.remove(studentBean2);
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<WordsBean> findWords(String id) {
+		List<WordsBean> list = dao.findWords(id);
+		return list;
+	}
+
+	@Override
+	public boolean addFollow(String myid, String idolid) {
+		Integer num = followDao.insert(myid, idolid);
+		return num>0?true:false;
 	}
 }

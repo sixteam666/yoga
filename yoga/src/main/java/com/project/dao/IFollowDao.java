@@ -19,7 +19,7 @@ public interface IFollowDao {
 	 * @param idolid
 	 * @return
 	 */
-	@Insert("insert into t_attention(a_myid, a_idolid) values(#{myid}, #{idolid})")
+	@Insert("insert into t_attention(a_myid, a_idolid) values(#{idolid},#{myid})")
 	Integer insert(@Param("myid") String myid, @Param("idolid") String idolid);
 	
 	/**

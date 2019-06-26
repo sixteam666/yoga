@@ -1,9 +1,5 @@
 <!DOCTYPE HTML>
-<<<<<<< HEAD
-<html>
-=======
 <html xmlns:th="http://www.thymeleaf.org">
->>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -79,7 +75,7 @@
 				<div class="col-xs-8 text-right menu-1">
 					<ul>
 						<li class="has-dropdown">
-							<span style="color: white;">欢迎您，用户名</span>
+							<span  th:text="|欢迎您: ${session.stu.s_name}|" style="color: white;">欢迎您，用户名</span>
 							<a href="#">注销</a>
 						</li>
 						<li class="has-dropdown">
@@ -107,17 +103,17 @@
 					<h2>我的课程</h2>
 				</div>
 				<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
-					<div>
-						<span class="classSpan">课程名称</span>
-						<span class="classSpan">上课时间</span>
-						<span class="classSpan">教练</span>
-						<span class="classSpan">场馆</span>
+				<div >
+						<span  class="classSpan">课程名称</span>
+						<span  class="classSpan">上课时间</span>
+						<span  class="classSpan">教练</span>
+						<span  class="classSpan">场馆</span>
 					</div>
-					<div>
-						<span class="classSpan">课程名称</span>
-						<span class="classSpan">上课时间</span>
-						<span class="classSpan">教练</span>
-						<span class="classSpan">场馆</span>
+					<div th:each="lesson : ${lesson}">
+						<span  th:text="${lesson.l_descirbe}" class="classSpan">课程名称</span>
+						<span th:text="${lesson.l_time}" class="classSpan">上课时间</span>
+						<span th:text="${lesson.coach.c_name}" class="classSpan">教练</span>
+						<span th:text="${lesson.l_price}" class="classSpan">场馆</span>
 					</div>
 				</div>
 			</div>

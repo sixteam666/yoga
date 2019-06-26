@@ -83,7 +83,7 @@
 			<div class="row" style="background-color:#09C6AB ;">
 				<div class="col-sm-4 col-xs-12">
 					<ul>
-						<li><a href="/student/stu.do" class="fon">首页</a></li>
+						<li><a href="student.html" class="fon">首页</a></li>
 						<li><a href="showGym.html" class="fon">所有场馆</a></li>
 						<li><a href="showCoach.html" class="fon">认证教练</a></li>
 						<li class="has-dropdown">
@@ -104,7 +104,7 @@
 						<li class="has-dropdown">
 							<a href="#">个人中心</a>
 							<ul class="dropdown">
-								<li><a href="/student/showStudent.do">个人资料</a></li>
+								<li><a href="my.html">个人资料</a></li>
 								<li><a href="className.html">我的课程</a></li>
 								<li><a href="order.html">我的订单</a></li>
 								<li><a href="attention.html">我的关注</a></li>
@@ -129,7 +129,7 @@
 					<table border="0" cellspacing="0" cellpadding="0" style="width: 700px;height: 500px;">
 						<tr align="center">
 							<td width="140">头像:</td>
-							<td width="140">
+							<td width="140" colspan="2">
 								上传头像
 							</td>
 						</tr>
@@ -282,6 +282,7 @@
 	<script type="text/javascript">
 	$(function(){initLocation({sheng_val:"请选择",shi_val:"请选择",xian_val:"<?php echo $v['country']?>",xiang_val:"<?php echo $v['street']?>"});})
 	</script>
+	
 	
 	<!-- Main -->
 	<script src="../../js/main.js"></script>

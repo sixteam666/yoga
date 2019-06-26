@@ -1,5 +1,6 @@
 package com.project.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +26,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.bean.CoachBean;
+import com.project.bean.GymBean;
+import com.project.bean.LessonBean;
+import com.project.bean.ShowWordsBean;
 import com.project.bean.StudentBean;
+import com.project.bean.WordsBean;
+import com.project.service.ICoachService;
+import com.project.service.IGymService;
 import com.project.service.IStudentService;
 
 @Controller
@@ -33,6 +41,10 @@ import com.project.service.IStudentService;
 public class StudentController {
 	@Autowired
 	private IStudentService service;
+	@Autowired
+	private IGymService gymService;
+	@Autowired
+	private ICoachService coachService;
 	
 	/**1111
 	 * 
@@ -68,12 +80,17 @@ public class StudentController {
 		 StudentBean student = service.findStudentbyName(arg1);
 		 HttpSession session = request.getSession();
 		 session.setAttribute("stu", student);
- 		 System.out.println(session.getAttribute("stu"));	
 		 return "认证成功";
 	}
 	
 	@RequestMapping("/stu.do")
-	public String href(String string){
+	public String href(String string,Model model){
+		List<GymBean> Gymlist = gymService.findAllGym();
+		for (GymBean gymBean : Gymlist) {
+			//System.out.println(gymBean);
+		}
+		List<CoachBean> Coachlist = coachService.listCoachFans(string);
+		model.addAttribute("Gymlist",Gymlist);
 		return "html/student/student.html";
 	}
 		
@@ -87,7 +104,7 @@ public class StudentController {
 			student.setS_id(id);
 			Boolean boo = service.regist(student);
 			//注册成功：定向登录界面；失败：定向注册界面
-			System.out.println(boo);
+			//System.out.println(boo);
 			if (boo) {
 				return "yes";
 			}else {
@@ -98,10 +115,10 @@ public class StudentController {
 	@RequestMapping("/loginout.do")
 	@ResponseBody
 	public String logout(HttpSession session) {
-		System.out.println("正在注销");
+		//System.out.println("正在注销");
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
-		System.out.println(session.getAttribute("stu"));
+		//System.out.println(session.getAttribute("stu"));
 		return "ok";
 	}
 	
@@ -146,9 +163,9 @@ public class StudentController {
 			@RequestMapping(value ="/modify.do",method = RequestMethod.GET)
 			public String updateStudent(Model m,HttpServletRequest request,ModelMap map){
 				String id = request.getParameter("id");
-				System.out.println(id);
+				//System.out.println(id);
 				StudentBean stu = service.findStudentbyId(id);
-				System.out.println(stu);
+				//System.out.println(stu);
 				m.addAttribute("stu", stu);
 				map.addAttribute("stuafter", stu);
 				return "html/student/modify.html";
@@ -156,9 +173,72 @@ public class StudentController {
 			
 			@PostMapping("/update.do")
 			public String update(@ModelAttribute StudentBean stuafter,Model m){
-						System.out.println(stuafter);
+						//System.out.println(stuafter);
 						service.update(stuafter);
 						m.addAttribute("stu", stuafter);
 						return "redirect:/student/showStudent.do";
+			}
+
+			
+			/**
+			 * 查询课程
+			 * @param session
+			 * @param m
+			 * @return
+			 */
+			@RequestMapping("/findcourse.do")
+			public String findcourse(HttpSession session,ModelMap m){
+				StudentBean stu=(StudentBean) session.getAttribute("stu");
+				System.out.println(stu);
+				String id = stu.getS_id();
+				List<LessonBean> lessonlist = service.findcourse(id);
+				/*for (LessonBean lessonBean : lessonlist) {
+					System.out.println(lessonBean);
+				}*/
+				m.addAttribute("lesson", lessonlist);
+				return "html/student/className.html";
+			}
+			
+			
+			/**
+			 * 我的通知
+			 */
+			@RequestMapping("/findFans.do")
+			public String myTips(HttpSession session,Model model){
+				System.out.println("进来了");
+				StudentBean bean = (StudentBean)session.getAttribute("stu");
+				List<StudentBean> list = service.findFans(bean.getS_id());
+				List<WordsBean> wordslist = service.findWords(bean.getS_id());
+				List<ShowWordsBean> list3 = new ArrayList<ShowWordsBean>();
+				for (WordsBean wordsBean : wordslist) {
+					ShowWordsBean showWordsBean = new ShowWordsBean();
+					StudentBean bean2 = service.findStudentbyId(wordsBean.getW_userid());
+					showWordsBean.setHeadimg(bean2.getS_headimg());
+					if (bean2.getS_nickname()!=null) {
+						showWordsBean.setName(bean2.getS_nickname());
+					}else {
+						showWordsBean.setName(bean2.getS_name());
+					}
+					showWordsBean.setWord(wordsBean.getW_content());
+					showWordsBean.setTime(wordsBean.getW_time());
+					list3.add(showWordsBean);
+				}
+				
+				model.addAttribute("list",list3);
+				model.addAttribute("fans",list);
+				return "html/student/inform.html";
+			}
+			
+			/**
+			 * 加关注
+			 */
+			@RequestMapping("/attention.do")
+			public String addAttention(HttpSession session,HttpServletRequest request){
+				String name = request.getParameter("name");
+				StudentBean bean = (StudentBean)session.getAttribute("stu");
+				System.out.println(name);
+				StudentBean studentBean = service.findStudentbyName(name);
+				service.addFollow(bean.getS_id(),studentBean.getS_id());
+				return "redirect:/student/findFans.do";
 			}
 }

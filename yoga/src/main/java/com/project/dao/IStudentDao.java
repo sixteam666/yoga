@@ -10,11 +10,12 @@ import org.apache.ibatis.annotations.Update;
 import com.project.bean.CoachBean;
 import com.project.bean.OrderBean;
 import com.project.bean.StudentBean;
+import com.project.bean.WordsBean;
 
 public interface IStudentDao {
       //	添加学员
-	@Insert("insert into t_student(s_id,s_name,s_password,s_phone)"
-			+"values(#{s_id},#{s_name},#{s_password},#{s_phone}) ")
+	@Insert("insert into t_student(s_id,s_name,s_password)"
+			+"values(#{s_id},#{s_name},#{s_password})")
 	public int addStudent(StudentBean student);
 	
 	//  查询全部学员
@@ -68,6 +69,10 @@ public interface IStudentDao {
 	
 	@Update("update t_order set o_status =#{status} where o_id = #{id}")
 	public int updateorder(String id,int status);
+	
+	//  查询我的留言
+	@Select("SELECT * FROM t_words WHERE w_showid = #{id};")
+	public List<WordsBean> findWords(String id);
 	
 	//     通过地图查询学生员
 	
