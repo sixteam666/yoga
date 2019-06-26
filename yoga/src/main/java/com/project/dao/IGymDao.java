@@ -49,7 +49,7 @@ public interface IGymDao {
 	 * @param arg 邮箱或电话号
 	 * @return 会馆对象
 	 */
-	@Select("SELECT g_id,g_email,g_phone, g_password FROM t_gym WHERE g_email=#{arg} OR g_phone=#{arg}")
+	@Select("SELECT g_id,g_name,g_email,g_phone, g_password FROM t_gym WHERE g_email=#{arg} OR g_phone=#{arg}")
 	GymBean findGymByEmailOrPhone(String arg);
 
 	/**
@@ -70,10 +70,5 @@ public interface IGymDao {
 	 */
 	@Update("update t_gym set g_address=#{g_address},g_contactphone=#{g_contactphone},g_name=#{g_name},g_headimg=#{g_headimg} where g_id=#{g_id}")
 	public int updateMessage(GymBean gymBean);
-	
-	
-	
-	
-	
 
 }

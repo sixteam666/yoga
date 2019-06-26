@@ -24,7 +24,7 @@ public class CoachBean {
 	private String c_address;
 	private String c_style;
 	private Integer c_access;
-	private String c_price;
+	private double c_price;
 	private String c_g_id;
 	private GymBean gym;
 	/**
@@ -103,10 +103,10 @@ public class CoachBean {
 	public void setC_access(Integer c_access) {
 		this.c_access = c_access;
 	}
-	public String getC_price() {
+	public double getC_price() {
 		return c_price;
 	}
-	public void setC_price(String c_price) {
+	public void setC_price(double c_price) {
 		this.c_price = c_price;
 	}
 	public String getC_g_id() {
