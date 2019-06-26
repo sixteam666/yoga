@@ -56,7 +56,7 @@ public class GymController {
 	@RequestMapping("/getGymToSession.do")
 	@ResponseBody
 	public GymBean getGymToSession() {
-		System.out.println("正在获取Session");
+		// System.out.println("正在获取Session");
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession(false);
 		if (session == null) {
@@ -69,7 +69,7 @@ public class GymController {
 			return null;
 		}
 		GymBean gymBean = (GymBean) object;
-		System.out.println(gymBean);
+		// System.out.println(gymBean);
 		return gymBean;
 	}
 	
@@ -359,8 +359,6 @@ public class GymController {
 	
 	/**
 	 * 查看我的签约教练
-<<<<<<< HEAD
-=======
 	 * 
 	 * @param g_id
 	 * @return
@@ -368,41 +366,25 @@ public class GymController {
 	@RequestMapping("/findMyCoach.do")
 	@ResponseBody
 	public List<CoachBean> findMyCoach() {
-		//System.out.println(l_g_id);
+		// System.out.println(l_g_id);
 		String l_g_id = "1";
 		List<CoachBean> list = gymService.findMyCoach(l_g_id);
 		return list;
 	}
+	
 	/**
 	 * 通过电话号码或者昵称查找我的签约教练
->>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 	 * 
 	 * @param g_id
 	 * @param map
 	 */
-	@RequestMapping("/findMyCoach.do")
-	public ModelAndView findMyCoach(String g_id) {
-		// List<CoachBean> coachList = gymService.findMyCoach(g_id);
+	@RequestMapping("/findCoaByNameOrPho.do")
+	@ResponseBody
+	public List<CoachBean> findCoaByNameOrPho(String g_id,String nameOrPho) {
 		
-		// 测试数据
-		List<CoachBean> coachList = new ArrayList<CoachBean>();
-		CoachBean coach = new CoachBean();
-		coach.setC_id("1234");
-		coach.setC_nickname("张山");
-		coach.setC_price(200.0);
-		coach.setC_style("二流门派");
-		coach.setC_phone("12343566");
-		coachList.add(coach);
-		coachList.add(coach);
-		coachList.add(coach);
-		System.out.println(coach);
-		// map.put("coachList", coachList);
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("coachList", coachList);
-		return modelAndView;
+		List<CoachBean> list = gymService.findCoaByNameOrPho(g_id, nameOrPho);
+		return list;
 	}
-
-	
 
 	/**
 	 * 签约或解约教练
