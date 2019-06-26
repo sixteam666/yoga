@@ -101,7 +101,8 @@ public class MyRealm extends AuthorizingRealm {
 			if(username == null) {
 				return null;
 			}
-			return new SimpleAuthenticationInfo(gym, gym.getG_password(),this.getName());
+			ByteSource by = ByteSource.Util.bytes(gym.getG_id());
+			return new SimpleAuthenticationInfo(gym, gym.getG_password(),by,this.getName());
 		}
 		return null;
 	}
