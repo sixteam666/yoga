@@ -10,6 +10,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
@@ -44,8 +46,33 @@ public class GymController {
 	@Qualifier("gymService")
 	private IGymService gymService;
 	
-	private FileUtil picUtil ;
-
+	private FileUtil picUtil;
+	
+	/**
+	 * 获取Session中的数据
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/getGymToSession.do")
+	@ResponseBody
+	public GymBean getGymToSession() {
+		// System.out.println("正在获取Session");
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession(false);
+		if (session == null) {
+			System.out.println("Session:null");
+			return null;
+		}
+		Object object = session.getAttribute("gym");
+		if (object == null) {
+			System.out.println("gym:null");
+			return null;
+		}
+		GymBean gymBean = (GymBean) object;
+		// System.out.println(gymBean);
+		return gymBean;
+	}
+	
 	/**
 	 * 登录
 	 * 
@@ -56,27 +83,27 @@ public class GymController {
 	@RequestMapping("/login.do")
 	@ResponseBody
 	public int login(String arg, String g_password) {
-		System.out.println(arg + "==" + g_password);
-		// 盐值暂时无法确定
-		Object obj = new SimpleHash("MD5", g_password,"",1024);
+		System.out.println("name" + arg +"=="+ g_password);
+		// Object obj = new SimpleHash("MD5", g_password,"42067398-8e42-4de4-a25d-14645a65b338",1024);
 		// 产生一个用户（门面对象）
 		Subject currentUser = SecurityUtils.getSubject();
 		if (!currentUser.isAuthenticated()) {
-			UsernamePasswordToken token = new UsernamePasswordToken("g" + arg, obj.toString());
+			UsernamePasswordToken token = new UsernamePasswordToken("g" + arg, g_password);
 			try {
-				// 调用login进行认证
-				currentUser.login(token);
+				currentUser.login(token); // 调用login进行认证
+				Session session = currentUser.getSession(true);
+				session.setAttribute("gym", gymService.login(arg)); // 将gym用户放在Session中
 				System.out.println("认证成功");
-				return 1;
+				return 1; // 登录成功
 			}
 			// 父异常。认证失败异常
 			catch (AuthenticationException ae) {
 				// unexpected condition? error?
-				System.out.println("异常不详：自己解决");
-				return 0;
+				System.out.println("用户名或密码错误");
+				return 0; // 用户名或密码错误
 			}
 		}
-		return -1;
+		return 1; // 如果已经登录过
 	}
 	
 	/**
@@ -88,7 +115,7 @@ public class GymController {
 	@ResponseBody
 	public Boolean loginTest(String arg) {
 		if(gymService.login(arg) == null) {
-			return false; 
+			return false;
 		}
 		return true;
 	}
@@ -108,8 +135,9 @@ public class GymController {
 		if(gymService.login(regName) != null) {
 			return -2; // 邮箱或电话已注册
 		}
+		String gymUUID = UUID.randomUUID().toString();
 		GymBean gym = new GymBean();
-		gym.setG_id(UUID.randomUUID().toString());
+		gym.setG_id(gymUUID);
 		gym.setG_password(g_password);
 		
 		if(regName.contains("@")) {
@@ -119,8 +147,7 @@ public class GymController {
 		}else {
 			return -1; // 格式不符合要求
 		}
-		// 盐值暂时无法确定
-		Object obj = new SimpleHash("MD5", gym.getG_password(),"",1024);
+		Object obj = new SimpleHash("MD5", gym.getG_password(),gymUUID,1024);
 		gym.setG_password(obj.toString());
 		
 		int result = gymService.register(gym);
@@ -137,6 +164,21 @@ public class GymController {
 		currentUser.logout();
 		return "redirect:/html/gym/gymLogin.html";
 	}
+	
+	/**
+	 * 更新(修改)密码
+	 * 
+	 * @param g_id        场馆id
+	 * @param newPassword 新密码
+	 * @return 影响行数
+	 */
+	@RequestMapping("/updatePassword.do")
+	@ResponseBody
+	public int updatePassword(String g_id, String newPassword) {
+		int num = gymService.updatePassword(g_id, newPassword);
+		return num;
+	}
+	
 
 	/**
 	 * 查找所有场馆
@@ -257,7 +299,7 @@ public class GymController {
 				picBean.setP_imgname(imgName);
 				list.add(picBean);
 		    }  
-		}  
+		}
 		
 		//int number = gymService.addPictrue(list);
 		//System.out.println(number);
@@ -270,7 +312,7 @@ public class GymController {
 	@RequestMapping("/showLesson.do")
 	//@ResponseBody
 	public String showLesson(LessonBean lessonBean,ModelMap map){
-		System.out.println(lessonBean);
+		//System.out.println(lessonBean);
 		String gymId = "1";
 		lessonBean.setL_g_id(gymId); 
 		List<LessonBean> list = gymService.findLesson(lessonBean);
@@ -283,11 +325,13 @@ public class GymController {
 	
 
 	/**
-	 * 教练课程安排
+	 * 教练课程安排,添加课程
 	 */
 	@RequestMapping("/addLesson.do")
-	@ResponseBody
-	public int addLesson(Model model,ModelMap map,BindingResult result,@Validated LessonBean lessonBean) {
+	//@ResponseBody
+	public String addLesson(Model model,ModelMap map,@Validated LessonBean lessonBean,
+			BindingResult result) {
+		
 		model.addAttribute("lessonBean", lessonBean);
 		if (result.hasErrors()) {
 			System.out.println("有错！！！");
@@ -296,10 +340,11 @@ public class GymController {
 			for (FieldError fieldError : errorList) {
 				map.put("error_"+fieldError.getField(), fieldError.getDefaultMessage());
 			}
-			//return "forward:/";
+			return "forward:/html/gym/lessonModify.html";
 		}
 		int number = gymService.addLesson(lessonBean);
-		return number;
+		//return "forward:/html/gym/lessonModify.html";
+		return "redirect:/gym/showLesson.do?l_weekday="+lessonBean.getL_weekday()+"&l_datetime="+lessonBean.getL_datetime();
 	}
 	
 	/**
@@ -307,16 +352,31 @@ public class GymController {
 	 */
 	@RequestMapping("/deleteLesson.do")
 	@ResponseBody
-	public int deleteLesson(int id){
-		int number = gymService.deleteLesson(id);
+	public int deleteLesson(int l_id){
+		int number = gymService.deleteLesson(l_id);
 		return number;
 	}
-
+	
+	/**
+	 * 查看我的签约教练
+	 * 
+	 * @param g_id
+	 * @return
+	 */
+	@RequestMapping("/findMyCoach.do")
+	@ResponseBody
+	public List<CoachBean> findMyCoach() {
+		// System.out.println(l_g_id);
+		String l_g_id = "1";
+		List<CoachBean> list = gymService.findMyCoach(l_g_id);
+		return list;
+	}
+	
 	/**
 	 * 通过电话号码或者昵称查找我的签约教练
 	 * 
 	 * @param g_id
-	 * @return
+	 * @param map
 	 */
 	@RequestMapping("/findCoaByNameOrPho.do")
 	@ResponseBody
@@ -325,19 +385,6 @@ public class GymController {
 		List<CoachBean> list = gymService.findCoaByNameOrPho(g_id, nameOrPho);
 		return list;
 	}
-	
-	/**
-	 * 查看我的粉丝
-	 * @param g_id
-	 * @return
-	 */
-	@RequestMapping("/findMyFans.do")
-	@ResponseBody
-	public List<CoachBean> findMyFans(String g_id) {
-		List<CoachBean> list = gymService.findMyCoach(g_id);
-		return list;
-	}
-	
 
 	/**
 	 * 签约或解约教练

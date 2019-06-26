@@ -22,7 +22,7 @@ $("#login_button").click(function(){
 		data:"arg="+loginName + "&g_password="+g_password,
 		success:function(mes){
 			if(mes == 1){
-				window.location.href = "/html/gym/msgShow.html";
+				window.location.href = "/html/gym/index.html";
 			}else{
 				alert("用户名或密码错误");
 			}
