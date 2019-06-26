@@ -205,4 +205,11 @@ public interface ICoachService {
 	 * @param id
 	 */
 	public Double getMoney(String id);
+	/**
+	 * 展示给其他用户的个人信息
+	 * @param currentUserId 要查看信息的用户id
+	 * @param coachId 教练id
+	 * @return 教练对象
+	 */
+	public CoachBean showToOtherUser(String currentUserId, String coachId, Integer type);
 }

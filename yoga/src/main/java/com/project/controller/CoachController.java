@@ -306,5 +306,33 @@ public class CoachController {
 		map.put("money", money);
 		return "/html/coach/money.html";
 	} 
-
+	
+	@RequestMapping("showToOther.do")
+	@ResponseBody
+	public CoachBean showToOtherUser(String coachId) {
+		 String currentUserId = "";
+		 Integer type = null;
+		 Session session = SecurityUtils.getSubject().getSession(false);
+		 StudentBean stu = (StudentBean) session.getAttribute("student");
+		 if(stu == null) {
+			 CoachBean coach = (CoachBean) session.getAttribute("coach");
+			 if(coach == null) {
+				 GymBean gym = (GymBean) session.getAttribute("gym");
+				 if(gym == null) {
+					 return null;
+				 } else {
+					 currentUserId = gym.getG_id();
+					 type = 2;
+				 }
+			 } else {
+				 currentUserId = coach.getC_id();
+				 type = 1;
+			 }
+		 } else {
+			 currentUserId = stu.getS_id();
+			 type = 0;
+		 }
+		 CoachBean c = service.showToOtherUser(currentUserId,coachId,type);
+		 return c;
+	}
 }
