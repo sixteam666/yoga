@@ -35,4 +35,19 @@ public interface ILessonDao {
 	@Delete("delete from t_lesson where l_id=#{l_id}")
 	public int deleteLesson(int id);
 
+	
+	/**
+	 * 通过学生id查询该生课程
+	 * @param id
+	 * @return
+	 */
+	@Select("SELECT * from t_lesson where l_id in (SELECT o_l_id from t_order where o_s_id = #{s_id}) ")
+	public List<LessonBean> findlessonbystudentid(String id);
+	
+	
+	/**通过课程id查教练id
+	 * @return
+	 */
+	@Select("select l_c_id  from t_lesson where l_id = #{l_id}")
+	public String findcoachidbylessonid(Integer l_id);
 }

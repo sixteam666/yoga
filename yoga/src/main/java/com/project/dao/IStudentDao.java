@@ -13,8 +13,8 @@ import com.project.bean.StudentBean;
 
 public interface IStudentDao {
       //	添加学员
-	@Insert("insert into t_student(s_id,s_name,s_password,s_phone)"
-			+"values(#{s_id},#{s_name},#{s_password},#{s_phone}) ")
+	@Insert("insert into t_student(s_id,s_name,s_password )"
+			+"values(#{s_id},#{s_name},#{s_password}) ")
 	public int addStudent(StudentBean student);
 	
 	//  查询全部学员

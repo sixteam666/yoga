@@ -45,17 +45,13 @@
 	<body>
 		
 	<div class="gtco-loader"></div>
-	
-	<div id="page">
-
-	
 	<nav class="gtco-nav" role="navigation">
 		<div class="gtco-container">
 			
 			<div class="row" style="background-color:#09C6AB ;">
 				<div class="col-sm-4 col-xs-12">
 					<ul>
-						<li><a href="student.html" class="fon">首页</a></li>
+						<li><a th:href="@{/student/stu.do}" class="fon">首页</a></li>
 						<li><a href="showGym.html" class="fon">所有场馆</a></li>
 						<li><a href="showCoach.html" class="fon">认证教练</a></li>
 						<li class="has-dropdown">
@@ -77,7 +73,7 @@
 							<a href="#">个人中心</a>
 							<ul class="dropdown">
 								<li><a href="my.html">个人资料</a></li>
-								<li><a href="className.html">我的课程</a></li>
+								<li><a href="findcourse.do">我的课程</a></li>
 								<li><a href="order.html">我的订单</a></li>
 								<li><a href="attention.html">我的关注</a></li>
 								<li><a href="inform.html">我的通知</a></li>
