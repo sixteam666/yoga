@@ -111,10 +111,7 @@
 				</div>
 				<div class="col-xs-8 text-right menu-1">
 					<ul>
-						<li class="has-dropdown">
-							<span style="color: white;">欢迎您，用户名</span>
-							<a href="#">注销</a>
-						</li>
+						<li class="has-dropdown" id="gym_top"><span style="color: white">点击登录</span></li>
 						<li class="has-dropdown">
 							<a href="#">场馆中心</a>
 							<ul class="dropdown">
@@ -260,7 +257,8 @@
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-	
+	<!-- 获取Session中的数据 -->
+	<script type="text/javascript" src="../../js/gym/getSession.js"></script>
 	<script>
 		function showPictures(p_type){
 			$.ajax({
