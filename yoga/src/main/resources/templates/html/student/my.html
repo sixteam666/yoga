@@ -45,46 +45,8 @@
 	<body>
 		
 	<div class="gtco-loader"></div>
-	<nav class="gtco-nav" role="navigation">
-		<div class="gtco-container">
-			
-			<div class="row" style="background-color:#09C6AB ;">
-				<div class="col-sm-4 col-xs-12">
-					<ul>
-						<li><a th:href="@{/student/stu.do}" class="fon">首页</a></li>
-						<li><a href="showGym.html" class="fon">所有场馆</a></li>
-						<li><a href="showCoach.html" class="fon">附近教练</a></li>
-						<li class="has-dropdown">
-							<a href="/html/student/showMessage.html">动态</a>
-							<ul class="dropdown">
-								<li><a href="showMessage.html">我的关注</a></li>
-								<li><a href="showMessage.html">附近的人</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-				<div class="col-xs-8 text-right menu-1">
-					<ul>
-						<li class="has-dropdown">
-							<span th:text="|欢迎您: ${session.stu.s_name}|" style="color: white;">欢迎您，用户名</span>
-							<a href="#">注销</a>
-						</li>
-						<li class="has-dropdown">
-							<a href="#">个人中心</a>
-							<ul class="dropdown">
-								<li><a href="my.html">个人资料</a></li>
-								<li><a href="findcourse.do">课程中心</a></li>
-								<li><a href="findorder.do">我的订单</a></li>
-								<li><a href="mypage.do">个人主页</a></li>
-								<li><a href="inform.do">我的通知</a></li>
-							</ul>
-						</li>
-					</ul>	
-			</div>
-			</div>
-			
-		</div>
-	</nav>
+		<div th:replace="html/student/frag.html::common_head">
+	</div>
 	
 		<div class="gtco-section">
 		<div class="gtco-container">

@@ -17,8 +17,8 @@ public interface IBlogDao {
 	 * @param dynamic
 	 */
 	@Insert("insert into "
-			+ "t_dynamic(d_content,d_time,d_userid,d_img,d_heading,d_nickname,d_type) "
-			+ "values(#{d_content},#{d_time},#{d_userid},#{d_img},#{d_heading},"
+			+ "t_dynamic(d_content,d_time,d_userid,d_img,d_headimg,d_nickname,d_type) "
+			+ "values(#{d_content},#{d_time},#{d_userid},#{d_img},#{d_headimg},"
 			+ "#{d_nickname},#{d_type})")
 	Integer insert(DynamicBean dynamic);
 	

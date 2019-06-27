@@ -1,9 +1,10 @@
 <!DOCTYPE HTML>
-<html>
-	<head>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>修改信息</title>
+	<title>个人中心</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -36,95 +37,84 @@
 	<!-- Modernizr JS -->
 	<script src="../../js/modernizr-2.6.2.min.js"></script>
 
-	</head>
 	<style type="text/css">
 		.fon{
 			font-family: "微软雅黑";
 		}
-		.btn1,.btn2{
-			float: left;
-			width: 150px;
-			margin-top: 50px;
-		}
-		.btn1{
-			margin-left: 150px;
-		}
-		.btn2{
-			margin-left: 50px;
+		
+		.round_icon{
+		  width: 60px;
+		  height: 60px;
+		  /* display: flex; */
+		  border-radius: 50%;
+		  align-items: center;
+		  justify-content: center;
+		  overflow: hidden;
 		}
 	</style>
-	<body>
-		
+</head>
+<body>
 	<div class="gtco-loader"></div>
-	
-	<div id="page">
-
-	
-	<nav class="gtco-nav" role="navigation">
+	<div id="page"></div>
+	<div th:replace="html/coach/my-pan.html::common_head"></div>	
+	<div class="gtco-section border-bottom">
 		<div class="gtco-container">
-			
-			<div class="row" style="background-color:#09C6AB ;">
-				<div class="col-sm-4 col-xs-12">
-					<ul>
-						<li><a href="gym.html" class="fon">首页</a></li>
-						<li><a href="showCoach.html" class="fon">教练</a></li>
-						<li><a href="showStudent.html" class="fon">学员</a></li>
-					</ul>
+			<div class="row" style="padding:0 0 50px">
+				<div class="col-md-2 col-md-offset-1">
+					<button onclick="publish()">发表新动态</button>
 				</div>
-				<div class="col-xs-8 text-right">
-					<ul>
-						<li class="has-dropdown" id="gym_top">
-							<span style="color: white">点击登录</span>
-						</li>
-						<li class="has-dropdown">
-							<a href="#">场馆中心</a>
-							<ul class="dropdown">
-								<li><a href="/html/gym/index.html">场馆展示</a></li>
-								<li><a href="/gym/showMessage.do">场馆资料</a></li>
-								<li><a href="/html/gym/lesson.html">课程安排</a></li>
-								<li><a href="/html/gym/wallet.html">我的钱包</a></li>
-								<li><a href="/html/gym/myCoach.html">我的签约教练</a></li>
-								<li><a href="/gym/findCoachByMyResponse.do">我的通知</a></li>
-							</ul>
-						</li>
-					</ul>	
 			</div>
+			<div id="publish" class="row" style="display:none;">
+				<div class="col-md-9 col-md-offset-1" align="left" >
+					<div class="row">
+						<form action="/dynamic/addDynamic.do" method="post">
+							<div class="col-md-10">
+								<textarea name="d_content" style="width:100%;height:100px;" placeholder="说点什么吧！（30字以内）"></textarea>
+							</div> 
+							<div class="col-md-1 col-md-offset-1">
+								<input type="submit" class="btn" value="发表" style="float:right;margin-top:60px" />
+							</div>
+							<div style="height:50px" class="col-md-12"></div>
+						</form>
+					</div>
+				</div>
 			</div>
-			
-		</div>
-	</nav>
-	
-		<div class="gtco-section">
-		<div class="gtco-container">
 			<div class="row">
-				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>我的钱包</h2>
-				</div>
-				<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
-					<table border="0" cellspacing="0" cellpadding="0" style="width: 700px;height: 200px;">
-						<tr align="center">
-							<td>账户余额：</td>
-							<td>xxx</td>
-							<td><a >隐藏余额</a></td>
-						</tr>
-						
-						<tr align="center">
-							<td>银行卡号：</td>
-							<td>xxxxxx</td>
-							<td><a>解绑银行卡</a></td>
-						</tr>
-					</table>
-					<button type="button" class="btn1 btn-primary">提现</button>  
-					<button type="button" class="btn2 btn-primary">添加银行卡</button>  
-					
+				<div th:each="dynamic : ${dynamicList}" class="col-md-10 col-md-offset-1">
+					<div class="row">
+						<div class="col-md-1">
+							<a href="#">
+								<img th:src="@{/images/imgs/}+${dynamic.d_headimg}" class="round_icon" >
+							</a>
+						</div>
+						<div class="col-md-3">
+							<a href="#">
+								<span th:text="${dynamic.d_nickname}">猜猜我是谁</span>
+							</a>
+							<p th:text="${dynamic.d_time}">今天 13:20</p>
+						</div>
+						<div class="col-md-2 col-md-offset-5">
+							<button style="color:white;border:none" 
+								th:if="${dynamic.follow}"
+								th:onclick="">已关注</button>
+							<button style="background-color:#2fddc3;color:white;border:none" 
+							th:unless="${dynamic.follow}"
+							th:onclick="">&nbsp;+&nbsp;&nbsp;关注</button>
+						</div>
+						<div class="col-md-12">
+							<p th:text="${dynamic.d_content}"></p>
+							<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/images/imgs/}+${dynamic.d_img}">
+						</div>
+					</div>
+					<hr>
 				</div>
 			</div>
 		</div>
 	</div>
-			
+	
 	<footer id="gtco-footer" role="contentinfo">
 		<div class="gtco-container">
-			<div class="row row-p	b-md">
+			<div class="row row-p b-md">
 
 				<div class="col-md-4">
 					<div class="gtco-widget">
@@ -135,6 +125,16 @@
 
 				<div class="col-md-2 col-md-push-1"></div>
 				
+				<div class="col-md-2 col-md-push-1">
+					<div class="gtco-widget">
+						<h3 class="fon">瑜伽平台</h3>
+						<ul class="gtco-footer-links">
+							<li><a href="coachLogin.html" class="fon">成为教练</a></li>
+							<li><a href="gymLogin.html" class="fon">场馆入驻</a></li>
+						</ul>
+					</div>
+				</div>
+
 				<div class="col-md-3 col-md-push-1">
 					<div class="gtco-widget">
 						<h3>联系方式</h3>
@@ -198,7 +198,11 @@
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-	<script type="text/javascript" src="../../js/gym/getSession.js"></script>
+	<script>
+		function publish() {
+			$("#publish").slideToggle("slow");
+		}
+	</script>
 	</body>
 </html>
 

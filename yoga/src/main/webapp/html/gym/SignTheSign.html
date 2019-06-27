@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>教练个人信息</title>
+		<title>我的通知</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
 		<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -17,31 +17,65 @@
 		<link rel="stylesheet" href="../../css/themify-icons.css">
 		<!-- Bootstrap  -->
 		<link rel="stylesheet" href="../../css/bootstrap.css">
+
 		<!-- Magnific Popup -->
 		<link rel="stylesheet" href="../../css/magnific-popup.css">
+
 		<!-- Magnific Popup -->
 		<link rel="stylesheet" href="../../css/bootstrap-datepicker.min.css">
+
 		<!-- Owl Carousel  -->
 		<link rel="stylesheet" href="../../css/owl.carousel.min.css">
 		<link rel="stylesheet" href="../../css/owl.theme.default.min.css">
+
 		<!-- Theme style  -->
 		<link rel="stylesheet" href="../../css/style.css">
-		<link rel="stylesheet" href="../../css/baidumap/baidumap.css" />
+
 		<!-- Modernizr JS -->
-		<script type="text/javascript" src="../../js/modernizr-2.6.2.min.js"></script>
-		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=YYXMCpSms6hDBtGu09ZhLmx0jNTOXeqd"></script>
+		<script src="../../js/modernizr-2.6.2.min.js"></script>
 	</head>
 	<style type="text/css">
 		.fon {
 			font-family: "微软雅黑";
 		}
-		label{
-			background-color: transparent !important;
-			border-color: transparent !important;
+		.message_top{
+			text-align: center;
+		}
+		.coach_message{
+			border: 3px solid rgb(9,198,171);
+			border-radius: 10px;
+			padding: 10px;
+			
+		}
+		.coach_message .table div{
+			float: left;
+		}
+		.table.coach tr td{
+			border-radius: 10px;
+		}
+		
+		.table.coach tr:hover{
+			background-color: rgb(9,198,171);
+		}
+		
+		.coach_name{
+			color: black;
+			font-weight:bold;
+			font-size: 25px !important;
+			font-family: 微软雅黑 !important;
+		}
+		.coach_sms{
+			font-size: 20px !important;
+		}
+		#coach_controller{
+			float: right;
+			height: 80%;
+			margin-top: 60px;
 		}
 	</style>
 	<body>
 		<div class="gtco-loader"></div>
+		<div id="page"></div>
 		<nav class="gtco-nav" role="navigation">
 			<div class="gtco-container">
 
@@ -59,7 +93,7 @@
 							<li class="has-dropdown"><a href="#">场馆中心</a>
 								<ul class="dropdown">
 									<li><a href="/html/gym/index.html">场馆展示</a></li>
-									<li><a href="/gym/showMessage.do">场馆资料</a></li>
+									<li><a href="/html/gym/msgShow.html">场馆资料</a></li>
 									<li><a href="/html/gym/lesson.html">课程安排</a></li>
 									<li><a href="/html/gym/wallet.html">我的钱包</a></li>
 									<li><a href="/html/gym/myCoach.html">我的签约教练</a></li>
@@ -73,23 +107,28 @@
 		</nav>
 		<div class="gtco-section">
 			<div class="gtco-container">
-				<div>
-					<div class="col-md-8 col-md-offset-2 text-center">
-						<h2>地图查看</h2>
-					</div>
-					<div class="col-md-8" style="font-size: 20px;width: 1000px;height: 600px;">
-						<div id="r-result" style="display: none">
-							搜索:<input type="text" id="suggestId" size="20" style="width:150px;" /><br><br>
-							<label for="province">省份:</label>
-							<select class="form-control" id="cmbProvince" name="cmbProvince"></select>
-							<label for="city">城市:</label>
-							<select class="form-control" id="cmbCity" name="cmbCity"></select>
-							<label for="county">区县:</label>
-							<select class="form-control" id="cmbArea" name="cmbArea"></select>
-							<input id="address_mes" type="text" />
-						</div>
-						<div id="BaiduMap"></div>
-					</div>
+				<div class="message_top">
+					<h2>签约通知</h2>
+				</div>
+				<div class="coach_message">
+					<table class="table coach table-striped">
+					
+						<tr th:each="coach,iterStat : ${coachList}">
+							<td>
+								<div><img class="coach_headimg" th:src="'/images/headimg/'+${coach.c_headimg}" src="/html/gym/image/1.jpg" th:onclick="'getCoachMessage('+${coach.c_headimg}+')'" onclick=""></div>
+								<div>&nbsp;&nbsp;&nbsp;
+									<span class="coach_name" th:text="${coach.c_nickname}">null</span>
+									<span class="coach_tips">&nbsp;&nbsp;&nbsp;（点击头像查看教练个人信息）</span><br><br/>
+									<span class="coach_sms">&nbsp;&nbsp;&nbsp;&nbsp;对方对你的场馆很感兴趣，希望和您签约，赶快回复他</span>
+								</div>
+								<div id="coach_controller">
+									<input type="button" value="同意" onclick="" th:onclick="'agreeSigingApplication('+ ${coach.c_id}+',1,'+${coach.c_name})'"/>&nbsp;&nbsp;&nbsp;&nbsp;
+									<input type="button" value="拒绝" onclick="" th:onclick="'agreeSigingApplication('+ ${coach.c_id}+',2,'+${coach.c_name})'"/>
+								</div>
+							</td>
+						</tr>
+						
+					</table>
 				</div>
 			</div>
 		</div>
@@ -171,12 +210,28 @@
 		<!-- 获取Session中的数据 -->
 		<script type="text/javascript" src="../../js/gym/getSession.js"></script>
 		
-		<!-- 添加或删除缩放控件 -->
-		<!-- <script type="text/javascript" src="js/BaiduMapJs/ControlButton.js"></script> -->
-		<!-- 地图定位   其他地图的js文件需放在此代码之后-->
-		<script type="text/javascript" src="../../js/BaiduMapJs/location.js"></script>
-		<script type="text/javascript" src="../../js/BaiduMapJs/search.js"></script>
-		<script type="text/javascript" src="../../js/BaiduMapJs/Address.js"></script>
-		<script type="text/javascript" src="../../js/BaiduMapJs/baidumap.js"></script>
+		<script type="text/javascript">
+			// 前往教练详情页
+			function getCoachMessage(c_id){
+				console.info(c_id);
+				window.location.href="/gym/findCoachById.do?type=2&c_id="+c_id;
+			}
+			
+			// 处理签约请求
+			function agreeSigingApplication(c_id,state,c_name){
+				$.ajax({
+					url:"/gym/agreeSigingApplication.do",
+					type:"post",
+					async:true,
+					data:"c_id="+c_id+"&state="+state,
+					success:function(mes){
+						console.info(mes);
+						if(mes == 1){
+							alert("已经和   "+c_name+ "  签约");
+						}
+					}
+				});
+			}
+		</script>
 	</body>
 </html>

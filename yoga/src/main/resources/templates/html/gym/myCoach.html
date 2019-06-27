@@ -50,9 +50,9 @@
 					<div class="row" style="background-color: #09C6AB;">
 						<div class="col-sm-4 col-xs-12">
 							<ul>
-								<li><a href="gym.html" class="fon">首页</a></li>
-								<li><a href="showCoach.html" class="fon">教练</a></li>
-								<li><a href="showStudent.html" class="fon">学员</a></li>
+								<li><a href="/html/gym/gym.html" class="fon">首页</a></li>
+								<li><a href="/html/gym/showCoach.html" class="fon">教练</a></li>
+								<li><a href="/html/gym/showStudent.html" class="fon">学员</a></li>
 							</ul>
 						</div>
 						<div class="col-xs-8 text-right">
@@ -68,7 +68,7 @@
 										<li><a href="/html/gym/lesson.html">课程安排</a></li>
 										<li><a href="/html/gym/wallet.html">我的钱包</a></li>
 										<li><a href="/html/gym/myCoach.html">我的签约教练</a></li>
-										<li><a href="/html/gym/MyMessage.html">我的通知</a></li>
+										<li><a href="/gym/findCoachByMyResponse.do">我的通知</a></li>
 									</ul>
 								</li>
 							</ul>	
@@ -238,6 +238,12 @@
 	<script src="../../js/main.js"></script>
 	<script type="text/javascript" src="../../js/gym/getSession.js"></script>
 	<script type="text/javascript">
+		// 查看教练详情
+		function getCoachData(c_id){
+			console.info(c_id);
+			window.location.href="/gym/findCoachById.do?type=1&c_id="+c_id;
+		}
+	
 		//显示我的签约教练
 		function findMyCoach(){
 			$.ajax({
@@ -248,10 +254,9 @@
 				success:function(mes){
 					console.info(mes);
 					var str ="";
-					
 					if(mes.length>0){
 						for(var i=0;i<mes.length;i++){
-							str+="<div class='col-lg-4 col-md-4 col-sm-6'>"+
+							str+="<div class='col-lg-4 col-md-4 col-sm-6' >"+
 								"<span class='fh5co-card-item'>"+
 									"<figure style='text-align: center;top:50px'>"+
 										"<img src='../../images/imgs/"+mes[i].c_headimg+"' alt='Image'>"+
@@ -262,6 +267,7 @@
 										"<h2>流派："+mes[i].c_style+"</h2>"+
 										"<h2>课时费标准："+mes[i].c_price+"￥/节</h2>"+
 										"<h2>电话："+mes[i].c_phone+"</h2>"+
+										"<button class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick=\"getCoachData('"+ mes[i].c_id +"')\">查看详情</button>"+
 										"<button class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick=\"delMyCoach('"+ mes[i].c_id +"')\">解约</button>"+
 									"</div>"+
 								"</span>"+
@@ -270,7 +276,6 @@
 					}else{
 						str+="<h3>暂无签约教练</h3>"
 					} 
-					
 					$(".myCoach").html(str);
 				}
 			});

@@ -48,9 +48,9 @@
 					<div class="row" style="background-color: #09C6AB;">
 						<div class="col-sm-4 col-xs-12">
 							<ul>
-								<li><a href="gym.html" class="fon">首页</a></li>
-								<li><a href="showCoach.html" class="fon">教练</a></li>
-								<li><a href="showStudent.html" class="fon">学员</a></li>
+								<li><a href="/html/gym/gym.html" class="fon">首页</a></li>
+								<li><a href="/html/gym/showCoach.html" class="fon">教练</a></li>
+								<li><a href="/html/gym/showStudent.html" class="fon">学员</a></li>
 							</ul>
 						</div>
 						<div class="col-xs-8 text-right">
@@ -63,7 +63,7 @@
 										<li><a href="/html/gym/lesson.html">课程安排</a></li>
 										<li><a href="/html/gym/wallet.html">我的钱包</a></li>
 										<li><a href="/html/gym/myCoach.html">我的签约教练</a></li>
-										<li><a href="/html/gym/MyMessage.html">我的通知</a></li>
+										<li><a href="/html/gym/SignTheSign.html">我的通知</a></li>
 									</ul>
 								</li>
 							</ul>
@@ -98,7 +98,7 @@
 									<td><span th:text="${coach.c_style}">未设置</span></td>
 									<td></td>
 									<td>空闲时间：</td>
-									<td>下拉框</td>
+									<td><span>null</span></td>
 								</tr>
 								<tr align="center">
 									<td>地址：</td>
@@ -108,6 +108,12 @@
 									<td><span th:text="${coach.c_price}">0.0</span>元/节</td>
 								</tr>
 							</table>
+							<div id="div_controller">  <!-- 根据教练是否已签约动态显示以下标签 -->
+								<a href="#" th:href="'/gym/submitSigingApplication.do?' + ${coach.c_id}" th:if="${type==0}">发送签约申请</a>
+								<a href="#" th:href="'/gym/updateCoach.do?g_id=0&' + ${coach.c_id}" th:if="${type==1}">解约</a>
+								<a href="#" onclick='' th:onclick="'agreeSigingApplication('+ ${coach.c_id}+',1,'+${coach.c_name})'" th:if="${type==2}">同意</a>
+								<a href="#" onclick='' th:onclick="'agreeSigingApplication('+ ${coach.c_id}+',2,'+${coach.c_name})'" th:if="${type==2}">拒绝</a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -138,8 +144,7 @@
 								<h3>联系方式</h3>
 								<ul class="gtco-quick-contact">
 									<li><a href="#"><i class="icon-phone"></i> 15002881866</a></li>
-									<li><a href="#"><i class="icon-mail2"></i>
-											shinoda@live.cn</a></li>
+									<li><a href="#"><i class="icon-mail2"></i>shinoda@live.cn</a></li>
 									<li><a href="#"><i class="icon-chat"></i> Zzy19951117</a></li>
 								</ul>
 							</div>
@@ -190,5 +195,22 @@
 			<script src="../../js/main.js"></script>
 			<!-- 获取Session中的数据 -->
 			<script type="text/javascript" src="../../js/gym/getSession.js"></script>
+			<script type="text/javascript">
+				// 处理签约请求
+				function agreeSigingApplication(c_id,state,c_name){
+					$.ajax({
+						url:"/gym/agreeSigingApplication.do",
+						type:"post",
+						async:true,
+						data:"c_id="+c_id+"&state="+state,
+						success:function(mes){
+							console.info(mes);
+							if(mes == 1){
+								alert("已经和   "+c_name+ "  签约");
+							}
+						}
+					});
+				}
+			</script>
 	</body>
 </html>
