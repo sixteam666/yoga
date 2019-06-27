@@ -6,8 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.bean.CoachBean;
+import com.project.bean.GymBean;
+import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
 import com.project.bean.StudentBean;
+import com.project.dao.CoachDaoTest;
+import com.project.dao.ICoachDao;
+import com.project.dao.IGymDao;
+import com.project.dao.ILessonDao;
 import com.project.dao.IStudentDao;
 import com.project.service.IStudentService;
 
@@ -16,6 +22,13 @@ public class StudentServiceImpl implements IStudentService{
 
 	@Autowired
 	private IStudentDao dao;
+	@Autowired
+	private ILessonDao lessondao;
+	@Autowired
+	private ICoachDao CoachDao;
+	@Autowired
+	private IGymDao  Gymdao;
+	
 	
 	@Override
 	public boolean regist(StudentBean student) {
@@ -64,9 +77,9 @@ public class StudentServiceImpl implements IStudentService{
 	}
 
 	@Override
-	public CoachBean findCoachbyStudentId(String id) {
-		CoachBean coach = dao.findCoachbyStudentId(id);
-		return coach;
+	public List<CoachBean> findCoachbyStudentId(String id) {
+		List<CoachBean> list = dao.findCoachbyStudentId(id);
+		return list;
 	}
 
 	@Override
@@ -120,6 +133,14 @@ public class StudentServiceImpl implements IStudentService{
 	@Override
 	public List<OrderBean> findorderbyid(String id) {
 		List<OrderBean> list = dao.findorderbyid(id);
+		for (OrderBean orderBean : list) {
+			int lessonid =orderBean.getO_l_id();
+			LessonBean lesson= lessondao.findlessonbyid(lessonid);
+			orderBean.setLessonname(lesson.getL_descirbe());
+			String gymid = lesson.getL_g_id();
+			GymBean gym= Gymdao.findGymById(gymid);
+			orderBean.setGym(gym);
+		}
 		return list;
 	}
 
@@ -130,5 +151,16 @@ public class StudentServiceImpl implements IStudentService{
 				return false;
 			}
 			return true;
+	}
+
+	@Override
+	public List<LessonBean> findcourse(String id) {
+		 List<LessonBean> list =  lessondao.findlessonbystudentid(id);
+		 for (LessonBean lessonBean : list) {
+			String coach_id =lessonBean.getL_c_id();
+			CoachBean coach = CoachDao.getCoachById(coach_id);
+			lessonBean.setCoach(coach);
+		}
+		return list;
 	}
 }

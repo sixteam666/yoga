@@ -125,6 +125,7 @@
 			//被申请人id
 			var r_resid = document.getElementById("r_resid").value
 			var isSign = document.getElementById("isSign")
+			alert(r_resid)
 			$.ajax({
 				type:"get",
 				url:"/coach/signGym.do?r_resid="+r_resid,
@@ -139,8 +140,12 @@
 				}
 			})
 		}
+		function update(){
+			var update = parent.document.getElementById("nearGym")
+			update.innerHTML = ""
+		}
 		
-		
+		update();
 	</script>
 	</body>
 </html>

@@ -1,127 +1,120 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="百度地图,百度地图API，百度地图自定义工具，百度地图所见即所得工具" />
-<meta name="description" content="百度地图API自定义地图，帮助用户在可视化操作下生成百度地图" />
-<title>附近学员</title>
-<!--引用百度地图API-->
-<style type="text/css">
-    html,body{margin:0;padding:0;}
-    .iw_poi_title {color:#CC5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
-    .iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
-</style>
-<script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<title>批量地址</title>
+	<style type="text/css">
+		body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#l-map{height:80%;width:100%;}
+		#r-result{width:100%; font-size:14px;line-height:20px;}
+		select{width: 50px;}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=20ohGQGQ43DuaaIWIBfKkfM0xxzU4xbj"></script>
 </head>
-
 <body>
-  <!--百度地图容器-->
-  <div style="width:1100px;height:750px;border:#ccc solid 1px;" id="dituContent"></div>
+	
+	<div id="r-result">
+		<div id="result"></div>
+		<input id="findbox" type="text" placeholder="搜索地址" />
+		<input id="find" type="button"  value="搜索" />
+		
+		
+	</div>
+	<div id="l-map"></div>
 </body>
-<script type="text/javascript">
-    //创建和初始化地图函数：
-    function initMap(){
-        createMap();//创建地图
-        setMapEvent();//设置地图事件
-        addMapControl();//向地图添加控件
-        addMarker();//向地图中添加marker
-    }
-    
-    //创建地图函数：
-    function createMap(){
-        var map = new BMap.Map("dituContent");//在百度地图容器中创建一个地图
-        var point = new BMap.Point(104.069572,30.579553);//定义一个中心点坐标
-        map.centerAndZoom(point,18);//设定地图的中心点和坐标并将地图显示在地图容器中
-        window.map = map;//将map变量存储在全局
-    }
-    
-    //地图事件设置函数：
-    function setMapEvent(){
-        map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
-        map.enableScrollWheelZoom();//启用地图滚轮放大缩小
-        map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
-        map.enableKeyboard();//启用键盘上下左右键移动地图
-    }
-    
-    //地图控件添加函数：
-    function addMapControl(){
-        //向地图中添加缩放控件
-	var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
-	map.addControl(ctrl_nav);
-        //向地图中添加缩略图控件
-	var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:1});
-	map.addControl(ctrl_ove);
-        //向地图中添加比例尺控件
-	var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
-	map.addControl(ctrl_sca);
-    }
-    
-    //标注点数组
-    var markerArr = [{title:"我的标记",content:"我的备注",point:"104.068283|30.580843",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
-		 ,{title:"我的标记",content:"我的备注",point:"104.06822|30.579397",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
-		 ,{title:"我的标记",content:"我的备注",point:"104.071346|30.58134",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
-		 ,{title:"我的标记",content:"我的备注",point:"104.072092|30.578814",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
-		 ,{title:"我的标记",content:"我的备注",point:"104.071912|30.579374",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
-		 ,{title:"我的标记",content:"我的备注",point:"104.068885|30.581682",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
-		 ,{title:"我的标记",content:"我的备注",point:"104.067582|30.579607",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
-		 ,{title:"我的标记",content:"我的备注",point:"104.067735|30.580602",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
-		 ,{title:"我的标记",content:"我的备注",point:"104.067834|30.581993",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
-		 ,{title:"我的标记",content:"我的备注",point:"104.071831|30.580649",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
-		 ];
-    //创建marker
-    function addMarker(){
-        for(var i=0;i<markerArr.length;i++){
-            var json = markerArr[i];
-            var p0 = json.point.split("|")[0];
-            var p1 = json.point.split("|")[1];
-            var point = new BMap.Point(p0,p1);
-			var iconImg = createIcon(json.icon);
-            var marker = new BMap.Marker(point,{icon:iconImg});
-			var iw = createInfoWindow(i);
-			var label = new BMap.Label(json.title,{"offset":new BMap.Size(json.icon.lb-json.icon.x+10,-20)});
-			marker.setLabel(label);
-            map.addOverlay(marker);
-            label.setStyle({
-                        borderColor:"#808080",
-                        color:"#333",
-                        cursor:"pointer"
-            });
-			
-			(function(){
-				var index = i;
-				var _iw = createInfoWindow(i);
-				var _marker = marker;
-				_marker.addEventListener("click",function(){
-				    this.openInfoWindow(_iw);
-			    });
-			    _iw.addEventListener("open",function(){
-				    _marker.getLabel().hide();
-			    })
-			    _iw.addEventListener("close",function(){
-				    _marker.getLabel().show();
-			    })
-				label.addEventListener("click",function(){
-				    _marker.openInfoWindow(_iw);
-			    })
-				if(!!json.isOpen){
-					label.hide();
-					_marker.openInfoWindow(_iw);
-				}
-			})()
-        }
-    }
-    //创建InfoWindow
-    function createInfoWindow(i){
-        var json = markerArr[i];
-        var iw = new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b><div class='iw_poi_content'>"+json.content+"</div>");
-        return iw;
-    }
-    //创建一个Icon
-    function createIcon(json){
-        var icon = new BMap.Icon("http://app.baidu.com/map/images/us_mk_icon.png", new BMap.Size(json.w,json.h),{imageOffset: new BMap.Size(-json.l,-json.t),infoWindowOffset:new BMap.Size(json.lb+5,1),offset:new BMap.Size(json.x,json.h)})
-        return icon;
-    }
-    
-    initMap();//创建和初始化地图
-</script>
 </html>
+<script src="../../js/jquery.min.js"></script>
+<script type="text/javascript">
+	// 百度地图API功能
+	var findbox = document.getElementById("findbox")
+	var findbtn = document.getElementById("find")
+	var myIcon = new BMap.Icon("../../img/1.jpg",new BMap.Size(50,50))
+	
+	var map = new BMap.Map("l-map");
+	map.centerAndZoom("成都", 12);
+	map.enableScrollWheelZoom(true);
+	var index = 0;
+	var myGeo = new BMap.Geocoder();
+	var geoc = new BMap.Geocoder();
+	var adds = [];
+				
+	//从服务器获取场馆
+	function getStu(){
+		$.ajax({
+			type:"get",
+			url:"/coach/showAllStu.do",
+			asycn:true,
+			success:function(re){
+				for (var i = 0; i < re.length; i++) {
+					adds[i] = re[i];
+				}
+				bdGEO();
+			}
+		})
+	}
+	getStu()
+	var opts = {
+				width : 250,     // 信息窗口宽度
+				height: 80,     // 信息窗口高度
+				title : "信息窗口" , // 信息窗口标题
+				enableMessage:true//设置允许信息窗发送短息
+			   };
+	function bdGEO(){
+		var add = adds[index].s_nickname;
+		var addinfo = adds[index].s_address;
+		var addid = "<input id='stuId' type='hidden' value='"+adds[index].s_id+"'>";
+		geocodeSearch(add,addinfo,addid);
+		index++;
+	}
+	
+	
+	function geocodeSearch(add,addinfo,addid){
+		
+		if(index < adds.length-1){
+			setTimeout(window.bdGEO);
+		} 
+		 myGeo.getPoint(addinfo,function(point){
+			
+			if (point) {
+				/* document.getElementById("result").innerHTML +=   add + ":" + point.lng + "," + point.lat + "</br>"; */
+				var address = new BMap.Point(point.lng, point.lat);
+				addMarker(address,new BMap.Label(add+addid,{offset:new BMap.Size(20,-10)}));
+			}
+		}, "成都市");
+	}
+	 // 编写自定义函数,创建标注
+	function addMarker(point,label){
+		var marker = new BMap.Marker(point);
+		marker.onclick = function(){
+			var stuId = document.getElementById("stuId").value;
+			parent.location.href = "/coach/showStuDetail.do?stuId="+stuId;
+		}
+		
+		marker.setLabel(label);
+		map.addOverlay(marker);
+		
+		
+	}
+	
+	  function openInfo(content,e){
+		var p = e.target;
+		var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+		var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象 
+		map.openInfoWindow(infoWindow,point); //开启信息窗口
+	}  
+	
+	findbtn.onclick = function(){
+		map.clearOverlays()
+		index = 0;
+		bdGEO();
+		map.centerAndZoom(findbox.value, 12);
+		myGeo.getPoint(findbox.value, function(point){
+			
+			var marker = new BMap.Marker(point,{icon:myIcon})
+			map.addOverlay(marker);
+			
+		}, "成都市");
+	}
+	
+</script>
