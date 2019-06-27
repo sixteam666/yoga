@@ -24,11 +24,10 @@ public class FileUtil {
 	 * @param multipartFile
 	 * @param req
 	 */
-	public static String getFileName(MultipartFile multipartFile,HttpServletRequest req){
+	public static String getFileName(MultipartFile multipartFile,HttpServletRequest req, String uploadPath){
 		//获取到tomcat的物理路径 将虚拟路径转化为物理路径
 		ServletContext context = req.getServletContext();
-		String path = context.getRealPath("/upload");
-		System.out.println(path);
+		String path = context.getRealPath("/image/"+uploadPath);
 		File filepath = new File(path);
 		if (!filepath.exists()) {
             filepath.mkdirs();				

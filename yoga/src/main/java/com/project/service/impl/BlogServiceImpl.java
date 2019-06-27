@@ -27,7 +27,7 @@ public class BlogServiceImpl implements IBlogService {
 		List<DynamicBean> listFollowsBlog = blogDao.listFollowsBlog(id);
 		for (DynamicBean dynamic : listFollowsBlog) {
 			//关注者的动态代表所有人均已关注
-			dynamic.setFollow(true);
+			dynamic.setFollow(1);
 		}
 		return listFollowsBlog;
 	}
@@ -76,7 +76,7 @@ public class BlogServiceImpl implements IBlogService {
 	public List<DynamicBean> listFriendDynamic(String id) {
 		List<DynamicBean> listFriendBlog = blogDao.listFriendBlog(id);
 		for (DynamicBean dynamic : listFriendBlog) {
-			dynamic.setFollow(true);
+			dynamic.setFollow(1);
 		}
 		return listFriendBlog;
 	}
@@ -88,9 +88,14 @@ public class BlogServiceImpl implements IBlogService {
 		List<DynamicBean> dynamicList = blogDao.listAllBlog();
 		for (DynamicBean dynamic : dynamicList) {
 			String userid = dynamic.getD_userid();
-			Integer follow = followDao.isFollow(currentUserId, userid);
-			if(follow == 1) {
-				dynamic.setFollow(true);
+			//动态属于用户自己
+			if(currentUserId == userid){
+				dynamic.setFollow(2);
+			} else {
+				Integer follow = followDao.isFollow(currentUserId, userid);
+				if(follow == 1) {
+					dynamic.setFollow(1);
+				}
 			}
 		}
 		return dynamicList;

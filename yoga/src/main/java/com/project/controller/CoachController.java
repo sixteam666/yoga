@@ -34,6 +34,7 @@ import com.project.service.ICoachService;
 import com.project.service.IGymService;
 import com.project.service.IStudentService;
 import com.project.util.FileUtil;
+import com.project.util.UploadPathConstant;
 
 @Controller
 @RequestMapping("/coach")
@@ -258,14 +259,19 @@ public class CoachController {
 	 */
 	@RequestMapping("updatePersonalInfo.do")
 	public String updatePersonalInfo(CoachBean coach, MultipartFile file, HttpServletRequest req) {
-		//这里还有点问题，如果用户未重新上传文件情况未处理
-		String headimg = "";//session中取出
-		if(file.getOriginalFilename() != ""){
-			headimg =FileUtil.getFileName(file, req);
+		/*CoachBean c = (CoachBean) SecurityUtils.getSubject().getSession().getAttribute("coach");
+		if(c == null) {
+			throw new RuntimeException("教练个人信息更改时教练还未登录");
+		}
+		String headimg = c.getC_headimg();
+		String id = c.getC_id();*/
+		String headimg = "1.jpg";
+		String id = "1";
+		if(!"".equals(file.getOriginalFilename())){
+			headimg =FileUtil.getFileName(file, req, UploadPathConstant.HEADIMG);
 		}
 		coach.setC_headimg(headimg);
-		coach.setC_id("1");
-		System.out.println(coach);
+		coach.setC_id(id);
 		service.updatePersonalInfo(coach);
 		//重定向到个人信息显示页面
 		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
