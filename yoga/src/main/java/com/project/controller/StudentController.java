@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -23,14 +22,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
-import com.project.bean.ShowWordsBean;
 import com.project.bean.OrderBean;
+import com.project.bean.ShowWordsBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
 import com.project.service.ICoachService;
@@ -133,13 +130,12 @@ public class StudentController {
 			 */
 			@RequestMapping("/showStudent.do")
 			public String showCoachInfoByid(Model m,HttpSession session) {
-				StudentBean studentBean = (StudentBean) session.getAttribute("stu");
+				/*StudentBean studentBean = (StudentBean) session.getAttribute("stu");
 				String id = studentBean.getS_id();
-				StudentBean stu = service.findStudentbyId(id);
-				/*stu.setS_name("文然");
-				stu.setS_money(8838);
-				stu.setS_phone("4564879");
-				stu.setS_headimg("34.jpg");*/
+				StudentBean stu = service.findStudentbyId(id);*/
+				
+				StudentBean stu = new StudentBean();
+				stu.setS_id("s001");
 				StudentBean stuuuu=service.findStudentbyId(stu.getS_id());
 				//m.addAttribute("stu", stu);
 				session.setAttribute("stu", stuuuu);
@@ -290,7 +286,6 @@ public class StudentController {
 			
 			@RequestMapping("/findorder.do")
 			public String findorder(HttpSession session,ModelMap m){
-				System.out.println("11111111111111");
 				StudentBean stu=(StudentBean) session.getAttribute("stu");
 				String id = stu.getS_id();
 				List<OrderBean> orderlist = service.findorderbyid(id);
@@ -299,9 +294,13 @@ public class StudentController {
 			}
 		
 			@RequestMapping("/mypage.do")
-			public String attention(){
-				
-				
-				return "html/student/showInformation.html";
+			public String mypage(HttpSession session,ModelMap m){
+				StudentBean stu=(StudentBean) session.getAttribute("stu");
+				String id = stu.getS_id();
+				int fansnumber = service.countmyfans(id);
+				int idolnumber = service.countmyattention(id);
+				m.addAttribute("fansnumber", fansnumber);
+				m.addAttribute("idolnumber", idolnumber);
+				return "html/student/mypage.html";
 			}
 }
