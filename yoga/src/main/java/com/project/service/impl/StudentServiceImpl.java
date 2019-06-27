@@ -15,6 +15,7 @@ import com.project.dao.ICoachDao;
 import com.project.dao.IFollowDao;
 import com.project.dao.ILessonDao;
 import com.project.dao.IStudentDao;
+import com.project.dao.IWordDao;
 import com.project.service.IStudentService;
 
 @Service
@@ -28,6 +29,8 @@ public class StudentServiceImpl implements IStudentService{
 	private ICoachDao CoachDao;
 	@Autowired
 	private IFollowDao followDao;
+	@Autowired
+	private IWordDao wordDao;
 	
 	
 	@Override
@@ -172,7 +175,7 @@ public class StudentServiceImpl implements IStudentService{
 
 	@Override
 	public List<WordsBean> findWords(String id) {
-		List<WordsBean> list = dao.findWords(id);
+		List<WordsBean> list = wordDao.findWords(id);
 		return list;
 	}
 
@@ -180,5 +183,11 @@ public class StudentServiceImpl implements IStudentService{
 	public boolean addFollow(String myid, String idolid) {
 		Integer num = followDao.insert(myid, idolid);
 		return num>0?true:false;
+	}
+
+	@Override
+	public int insertWords(WordsBean wordsBean) {
+		wordDao.insertWords(wordsBean);
+		return 0;
 	}
 }

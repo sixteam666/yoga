@@ -140,6 +140,13 @@ public interface IStudentService{
 	public List<WordsBean> findWords(String id);
 	
 	/**
+	 * 留言
+	 * @param id
+	 * @return
+	 */
+	public int insertWords(WordsBean wordsBean);
+	
+	/**
 	 * 添加关注
 	 * @param id
 	 * @return

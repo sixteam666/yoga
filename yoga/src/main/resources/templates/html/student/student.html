@@ -117,7 +117,7 @@
 					<a href="../../images/img_1.jpg" class="fh5co-card-item image-popup">
 						<figure>
 							<div class="overlay"><i class="ti-plus"></i></div>
-							<img src="../../images/img_1.jpg" alt="Image" class="img-responsive">
+							<img src="../../images/img_1.jpg" th:src="@{'../../images/imgs/'+${hotgym.g_headimg}}" alt="Image" class="img-responsive">
 						</figure>
 						<div class="fh5co-text">
 							<h2 th:text="${hotgym.g_name}">瑜伽馆</h2>
@@ -141,45 +141,21 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-4 col-md-4 col-sm-6">
+			
+				<div class="col-lg-4 col-md-4 col-sm-6" th:each="hotCoach : ${Coach}">
 					<a href="showCoachInformation.html" class="fh5co-card-item">
 						<figure style="text-align: center;top:50px">
-							<img src="../../images/imgs/39.jpg" alt="Image">
+							<img src="../../images/imgs/39.jpg" th:src="@{'../../images/imgs/'+${hotCoach.c_headimg}}" alt="Image">
 						</figure>
 						<div class="fh5co-text">
-							<h2>瑜伽教练：a</h2>
-							<h2>流派：a</h2>
-							<h2>课时费标准：200元/节</h2>
-							<h2>电话：1111</h2>
+							<h2>瑜伽教练：<span th:text="${hotCoach.c_name}">a</span></h2>
+							<h2>流派：<span th:text="${hotCoach.c_style}">a</span></h2>
+							<h2>课时费标准：<span th:text="${hotCoach.c_price}">200</span>/节</h2>
+							<h2>电话：<span th:text="${hotCoach.c_phone}">a</span></h2>
 						</div>
 					</a>
 				</div>
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<a href="showCoachInformation.html" class="fh5co-card-item">
-						<figure style="text-align: center;top:50px">
-							<img src="../../images/imgs/46.jpg" alt="Image">
-						</figure>
-						<div class="fh5co-text">
-							<h2>瑜伽教练：a</h2>
-							<h2>流派：a</h2>
-							<h2>课时费标准：200元/节</h2>
-							<h2>电话：1111</h2>
-						</div>
-					</a>
-				</div>
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<a href="showCoachInformation.html" class="fh5co-card-item">
-						<figure style="text-align: center;top:50px">
-							<img src="../../images/imgs/20.jpg" alt="Image">
-						</figure>
-						<div class="fh5co-text">
-							<h2>瑜伽教练：a</h2>
-							<h2>流派：a</h2>
-							<h2>课时费标准：200元/节</h2>
-							<h2>电话：1111</h2>
-						</div>
-					</a>
-				</div>
+			
 			</div>
 		</div>
 	</div>

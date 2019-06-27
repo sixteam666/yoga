@@ -40,6 +40,14 @@ public interface ICoachDao {
 	@Select("select * from t_coach where c_g_id = #{gymId}")
 	public List<CoachBean> findCoachByGymId(String gymId);
 	
+	/**
+	 * 查询热门教练	
+	 * @param
+	 * @return 教练集合
+	 */
+	@Select("select * from t_coach limit 0,6")
+	public List<CoachBean> findHotCoach();
+	
 	
 	//教练信息完善，方式变更
 	/**

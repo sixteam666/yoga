@@ -126,4 +126,10 @@ public class GymServiceImpl implements IGymService {
 		int number = lessonDao.deleteLesson(id);
 		return number;
 	}
+
+	@Override
+	public List<GymBean> findHotGym() {
+		List<GymBean> list = gymDao.findHotGym();
+		return list;
+	}
 }

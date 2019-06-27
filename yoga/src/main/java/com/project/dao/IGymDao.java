@@ -35,6 +35,15 @@ public interface IGymDao {
 	List<GymBean> findAllGym();
 
 	/**
+	 * 查找所有会馆
+	 * 
+	 * @return
+	 */
+	@Select("SELECT * FROM t_gym limit 0,6")
+	List<GymBean> findHotGym();
+	
+	
+	/**
 	 * 通过会馆id查询会馆
 	 * 
 	 * @param id

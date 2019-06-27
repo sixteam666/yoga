@@ -70,9 +70,6 @@ public interface IStudentDao {
 	@Update("update t_order set o_status =#{status} where o_id = #{id}")
 	public int updateorder(String id,int status);
 	
-	//  查询我的留言
-	@Select("SELECT * FROM t_words WHERE w_showid = #{id};")
-	public List<WordsBean> findWords(String id);
 	
 	//     通过地图查询学生员
 	

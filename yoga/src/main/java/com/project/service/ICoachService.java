@@ -205,4 +205,10 @@ public interface ICoachService {
 	 * @param id
 	 */
 	public Double getMoney(String id);
+	
+	/**
+	 * 查询热门教练
+	 * @param id
+	 */
+	public List<CoachBean> findHotCoach();
 }

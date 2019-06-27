@@ -83,14 +83,18 @@ public class StudentController {
 		 return "认证成功";
 	}
 	
+	/**
+	 * 登录后跳转学生主页，显示热门场馆和教练
+	 * @param string 
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/stu.do")
 	public String href(String string,Model model){
-		List<GymBean> Gymlist = gymService.findAllGym();
-		for (GymBean gymBean : Gymlist) {
-			//System.out.println(gymBean);
-		}
-		List<CoachBean> Coachlist = coachService.listCoachFans(string);
+		List<GymBean> Gymlist = gymService.findHotGym();
+		List<CoachBean> coachBeans = coachService.findHotCoach();
 		model.addAttribute("Gymlist",Gymlist);
+		model.addAttribute("Coach",coachBeans);
 		return "html/student/student.html";
 	}
 		
@@ -230,6 +234,32 @@ public class StudentController {
 			}
 			
 			/**
+			 * 留言板
+			 */
+			@RequestMapping("/findWord.do")
+			public String findWord(HttpSession session,Model model){
+				System.out.println("进来了");
+				StudentBean bean = (StudentBean)session.getAttribute("stu");
+				List<WordsBean> wordslist = service.findWords(bean.getS_id());
+				List<ShowWordsBean> list3 = new ArrayList<ShowWordsBean>();
+				for (WordsBean wordsBean : wordslist) {
+					ShowWordsBean showWordsBean = new ShowWordsBean();
+					StudentBean bean2 = service.findStudentbyId(wordsBean.getW_userid());
+					showWordsBean.setHeadimg(bean2.getS_headimg());
+					if (bean2.getS_nickname()!=null) {
+						showWordsBean.setName(bean2.getS_nickname());
+					}else {
+						showWordsBean.setName(bean2.getS_name());
+					}
+					showWordsBean.setWord(wordsBean.getW_content());
+					showWordsBean.setTime(wordsBean.getW_time());
+					list3.add(showWordsBean);
+				}
+				model.addAttribute("list",list3);
+				return "html/student/guestbook.html";
+			}
+			
+			/**
 			 * 加关注
 			 */
 			@RequestMapping("/attention.do")
@@ -240,5 +270,21 @@ public class StudentController {
 				StudentBean studentBean = service.findStudentbyName(name);
 				service.addFollow(bean.getS_id(),studentBean.getS_id());
 				return "redirect:/student/findFans.do";
+			}
+			
+			/**
+			 * 留言
+			 */
+			@RequestMapping("/insertWord.do")
+			public String insertWord(HttpSession session,HttpServletRequest request){
+				String content = request.getParameter("name");
+				StudentBean bean = (StudentBean)session.getAttribute("stu");
+				WordsBean wordsBean = new WordsBean();
+				wordsBean.setW_content(content);
+				wordsBean.setW_time("2019-06-27");
+				wordsBean.setW_userid(bean.getS_id());
+				wordsBean.setW_showid("sadasd");
+
+				return "redirect:/student/findWord.do";
 			}
 }

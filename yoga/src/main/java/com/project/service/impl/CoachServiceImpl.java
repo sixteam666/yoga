@@ -218,4 +218,10 @@ public class CoachServiceImpl implements ICoachService {
 		return dao.getMoney(id);
 	}
 
+	@Override
+	public List<CoachBean> findHotCoach() {
+		List<CoachBean> list = dao.findHotCoach();
+		return list;
+	}
+
 }
