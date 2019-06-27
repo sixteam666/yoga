@@ -28,6 +28,7 @@ import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 import com.project.service.IBankCardService;
 import com.project.service.ICoachService;
+import com.project.service.IGymService;
 import com.project.util.FileUtil;
 
 @Controller
@@ -38,6 +39,8 @@ public class CoachController {
 	private ICoachService service;
 	@Autowired
 	private IBankCardService bankCardService;
+	@Autowired
+	private IGymService gs;
 	
 	/**
 	 * 
@@ -79,11 +82,15 @@ public class CoachController {
 	@RequestMapping("/getUser.do")
 	@ResponseBody
 	public CoachBean getUser(){
-		
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession(true);
-		CoachBean coach = (CoachBean) session.getAttribute("coach");
-		return coach;
+		Object obj = session.getAttribute("coach");
+		if (obj != null) {
+			CoachBean coach = (CoachBean)obj;
+			return coach;
+		}
+		 ;
+		return null;
 	} 
 	
 	@RequestMapping("/register.do")
@@ -150,6 +157,7 @@ public class CoachController {
 		//返回场馆集合，页面地图展示
 		return service.showAllGym();
 	}
+	
 	/**
 	 * 教练申请签约场馆
 	 * @param r_reqid 教练id
@@ -157,8 +165,16 @@ public class CoachController {
 	 * @return 
 	 */
 	@RequestMapping("/signGym.do")
-	public Boolean signGym(String r_reqid,String r_resid){
-		Boolean boo = service.addRequest(r_reqid, r_resid);
+	@ResponseBody
+	public String signGym(String r_resid){
+		String boo = "";
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession(true);
+		Object obj = session.getAttribute("coach");
+		if (obj != null) {
+			CoachBean coach = (CoachBean)obj;
+			boo = service.addRequest(coach.getC_id(), r_resid);
+		}
 		return boo;
 	}
 	/**
@@ -335,5 +351,14 @@ public class CoachController {
 		 }
 		 CoachBean c = service.showToOtherUser(currentUserId,coachId,type);
 		 return c;
+	}
+	
+	
+	@RequestMapping("/showOneGym.do")
+	public String showOneGym(ModelMap map,String gymId){
+		GymBean gb = gs.findGymById(gymId);
+		map.put("gymBean", gb);
+		return "/html/coach/msgShow.html";
+
 	}
 }

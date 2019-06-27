@@ -101,6 +101,7 @@ public class MyRealm extends AuthorizingRealm {
 			if(username == null) {
 				return null;
 			}
+
 			ByteSource byteSource = ByteSource.Util.bytes(gym.getG_id()); // 以g_id（UUID）作为盐值
 			return new SimpleAuthenticationInfo(gym, gym.getG_password(),byteSource,this.getName());
 		}

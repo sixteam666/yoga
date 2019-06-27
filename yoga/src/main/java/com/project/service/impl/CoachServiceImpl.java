@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.project.bean.CoachBean;
 import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
+import com.project.bean.RequestBean;
 import com.project.bean.StudentBean;
 import com.project.dao.IBankCardDao;
 import com.project.dao.IBlogDao;
@@ -88,15 +89,26 @@ public class CoachServiceImpl implements ICoachService {
 	}
 
 	@Override
-	public Boolean addRequest(String r_reqid, String r_resid) {
-		int row = reDao.addRequest(r_reqid, r_resid);
-		if(row>0)return true;
-		return false;
+	public String addRequest(String r_reqid, String r_resid) {
+		int row = 0;
+		//先查询两个对象之间是否有申请关系
+		Object obj = dao.findIsRequest(r_reqid, r_resid);
+		if (obj == null) {
+			row = reDao.addRequest(r_reqid, r_resid);
+		}else{
+			RequestBean rb = (RequestBean) obj;
+			//已有申请关系
+			if (rb.getR_state()==0) return "isRequest";
+		}
+		//申请成功
+		if(row>0)return "add";
+		//申请失败
+		return "false";
 	}
 
 	@Override
-	public Boolean updateRequest(String r_reqid, String r_resid, int r_state) {
-		int row = reDao.updateRequestState(r_reqid, r_resid, r_state);
+	public Boolean updateRequest(String r_reqid, String r_resid,int r_state) {
+		int row = reDao.updateRequestState(r_reqid, r_resid,r_state);
 		if(row>0)return true;
 		return false;
 	}

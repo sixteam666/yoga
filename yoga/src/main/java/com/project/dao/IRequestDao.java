@@ -17,7 +17,7 @@ public interface IRequestDao {
 	 * 修改申请
 	 * @param r_reqid 申请方  id
 	 * @param r_resid 被申请方 id
-	 * @param r_state 1:同意，2：拒绝
+	 * 都是删除数据
 	 * @return 影响行数
 	 */
 	@Update("update t_request set r_state = #{r_state} where r_reqid = #{r_reqid} and r_resid = #{r_resid}")
