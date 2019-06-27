@@ -51,10 +51,10 @@
 			<div class="row">
 				<div class="col-sm-4 col-xs-12">
 					<ul>
-						<li><a href="coach.html" class="fon">首页</a></li>
-						<li><a href="showGym.html" class="fon">场馆</a></li>
-						<li><a href="showStudent.html" class="fon">学员</a></li>
-						<li><a href="showMessage.html" class="fon">动态</a></li>
+						<li><a href="/html/coach/coach.html" class="fon">首页</a></li>
+						<li><a href="/html/coach/showGym.html" class="fon">场馆</a></li>
+						<li><a href="/html/coach/showStudent.html" class="fon">学员</a></li>
+						<li><a href="/html/coach/showMessage.html" class="fon">动态</a></li>
 					</ul>
 				</div>
 			<div class="col-xs-8 text-right">
@@ -109,89 +109,21 @@
 				</div>
 			</div>
 			<div class="row">
-
-				<div class="col-lg-4 col-md-4 col-sm-6">
+				<div class="col-lg-4 col-md-4 col-sm-6" th:each="gy,iterStat : ${gym}">
 					<a href="../../images/img_1.jpg" class="fh5co-card-item image-popup">
 						<figure>
 							<div class="overlay"><i class="ti-plus"></i></div>
 							<img src="../../images/img_1.jpg" alt="Image" class="img-responsive">
 						</figure>
 						<div class="fh5co-text">
-							<h2>瑜伽馆</h2>
-							<p>xxxxxxxxxxx</p>
-							<p><span class="btn btn-primary">点击查看大图</span></p>
+							<h2 th:text="${gy.g_name}">瑜伽馆</h2>
+							<p th:text="${gy.g_phone}">xxxxxxxxxxx</p>
+							<p><span class="btn btn-primary" th:href="@{/coach/showGymDetail.do?gymId=}+${gy.g_id}">点击查看详细信息</span></p>
 						</div>
 					</a>
 				</div>
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<a href="../../images/img_2.jpg" class="fh5co-card-item image-popup">
-						<figure>
-							<div class="overlay"><i class="ti-plus"></i></div>
-							<img src="../../images/img_2.jpg" alt="Image" class="img-responsive">
-						</figure>
-						<div class="fh5co-text">
-							<h2>瑜伽馆</h2>
-							<p>xxxxxxxxxxx</p>
-							<p><span class="btn btn-primary">点击查看大图</span></p>
-						</div>
-					</a>
-				</div>
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<a href="../../images/img_3.jpg" class="fh5co-card-item image-popup">
-						<figure>
-							<div class="overlay"><i class="ti-plus"></i></div>
-							<img src="../../images/img_3.jpg" alt="Image" class="img-responsive">
-						</figure>
-						<div class="fh5co-text">
-							<h2>瑜伽馆</h2>
-							<p>xxxxxxxxxxx</p>
-							<p><span class="btn btn-primary">点击查看大图</span></p>
-						</div>
-					</a>
-				</div>
-
-
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<a href="../../images/img_4.jpg" class="fh5co-card-item image-popup">
-						<figure>
-							<div class="overlay"><i class="ti-plus"></i></div>
-							<img src="../../images/img_4.jpg" alt="Image" class="img-responsive">
-						</figure>
-						<div class="fh5co-text">
-							<h2>瑜伽馆</h2>
-							<p>xxxxxxxxxxx</p>
-							<p><span class="btn btn-primary">点击查看大图</span></p>
-						</div>
-					</a>
-				</div>
-
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<a href="../../images/img_5.jpg" class="fh5co-card-item image-popup">
-						<figure>
-							<div class="overlay"><i class="ti-plus"></i></div>
-							<img src="../../images/img_5.jpg" alt="Image" class="img-responsive">
-						</figure>
-						<div class="fh5co-text">
-							<h2>瑜伽馆</h2>
-							<p>xxxxxxxxxxx</p>
-							<p><span class="btn btn-primary">点击查看大图</span></p>
-						</div>
-					</a>
-				</div>
-
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<a href="../../images/img_6.jpg" class="fh5co-card-item image-popup">
-						<figure>
-							<div class="overlay"><i class="ti-plus"></i></div>
-							<img src="../../images/img_6.jpg" alt="Image" class="img-responsive">
-						</figure>
-						<div class="fh5co-text">
-							<h2>瑜伽馆</h2>
-							<p>xxxxxxxxxxx</p>
-							<p><span class="btn btn-primary">点击查看大图</span></p>
-						</div>
-					</a>
-				</div>
+					
+				
 			</div>
 		</div>
 	</div>
@@ -218,32 +150,7 @@
 						</div>
 					</span>
 				</div>
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<span class="fh5co-card-item">
-						<figure style="text-align: center;top:50px">
-							<img src="../../images/imgs/46.jpg" alt="Image">
-						</figure>
-						<div class="fh5co-text">
-							<h2>瑜伽教练：a</h2>
-							<h2>流派：a</h2>
-							<h2>课时费标准：200元/节</h2>
-							<h2>电话：1111</h2>
-						</div>
-					</span>
-				</div>
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<span class="fh5co-card-item">
-						<figure style="text-align: center;top:50px">
-							<img src="../../images/imgs/20.jpg" alt="Image">
-						</figure>
-						<div class="fh5co-text">
-							<h2>瑜伽教练：a</h2>
-							<h2>流派：a</h2>
-							<h2>课时费标准：200元/节</h2>
-							<h2>电话：1111</h2>
-						</div>
-					</span>
-				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -339,7 +246,9 @@
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
 	<script src="../../js/coachName.js"></script>
-	
+	<script type="text/javascript">
+		
+	</script>
 	</body>
 </html>
 

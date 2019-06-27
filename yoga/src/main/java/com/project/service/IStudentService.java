@@ -6,9 +6,10 @@ import com.project.bean.CoachBean;
 import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
 import com.project.bean.StudentBean;
+import com.project.bean.WordsBean;
 
 
-public interface IStudentService {
+public interface IStudentService{
 	
 	/**
 	 * 注册
@@ -123,4 +124,32 @@ public interface IStudentService {
 	 * @return
 	 */
 	public List<LessonBean> findcourse(String id);
+	
+	/**
+	 * 查询我没有关注的学员粉丝
+	 * @param id
+	 * @return
+	 */
+	public List<StudentBean> findFans(String id);
+	
+	/**
+	 * 查询我的留言
+	 * @param id
+	 * @return
+	 */
+	public List<WordsBean> findWords(String id);
+	
+	/**
+	 * 留言
+	 * @param id
+	 * @return
+	 */
+	public int insertWords(WordsBean wordsBean);
+	
+	/**
+	 * 添加关注
+	 * @param id
+	 * @return
+	 */
+	public boolean addFollow(String myid,String idolid);
 }

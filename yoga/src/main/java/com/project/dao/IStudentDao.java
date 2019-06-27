@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Update;
 import com.project.bean.CoachBean;
 import com.project.bean.OrderBean;
 import com.project.bean.StudentBean;
+import com.project.bean.WordsBean;
 
 public interface IStudentDao {
       //	添加学员
@@ -26,7 +27,7 @@ public interface IStudentDao {
 	public StudentBean findStudentbyId(String id);
 	
 	//  根据用户名或者电话查询学员
-	@Select("select *from t_student where s_name = #{name} or s_phone=#{name}")
+	@Select("select *from t_student where s_name = #{name} or s_phone = #{name}")
 	public StudentBean findStudentbyName(String name);
 	
 	//      更新学员个人信息
@@ -68,6 +69,7 @@ public interface IStudentDao {
 	
 	@Update("update t_order set o_status =#{status} where o_id = #{id}")
 	public int updateorder(String id,int status);
+	
 	
 	//     通过地图查询学生员
 	

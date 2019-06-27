@@ -129,6 +129,12 @@ public class GymServiceImpl implements IGymService {
 	}
 
 	@Override
+
+	public List<GymBean> findHotGym() {
+		List<GymBean> list = gymDao.findHotGym();
+		return list;
+	}
+		
 	public List<CoachBean> findCoaByNameOrPho(String g_id, String nameOrPho) {
 		CoachBean coach = new CoachBean();
 		coach.setC_g_id(g_id);

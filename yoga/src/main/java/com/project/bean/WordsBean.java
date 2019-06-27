@@ -10,6 +10,15 @@ public class WordsBean {
 	private String w_content;
 	private String w_time;
 	private String w_userid;
+	private String w_showid;
+	
+	
+	public String getW_showid() {
+		return w_showid;
+	}
+	public void setW_showid(String w_showid) {
+		this.w_showid = w_showid;
+	}
 	public int getW_id() {
 		return w_id;
 	}
@@ -37,8 +46,6 @@ public class WordsBean {
 	@Override
 	public String toString() {
 		return "WordsBean [w_id=" + w_id + ", w_content=" + w_content + ", w_time=" + w_time + ", w_userid=" + w_userid
-				+ "]";
+				+ ", w_showid=" + w_showid + "]";
 	}
-	
-
 }

@@ -48,6 +48,13 @@ public interface IGymService {
 	 * @return
 	 */
 	public List<GymBean> findAllGym();
+	
+	/**
+	 * 查找热门场馆
+	 * 
+	 * @return
+	 */
+	public List<GymBean> findHotGym();
 
 	/**
 	 * 查找场馆by id
