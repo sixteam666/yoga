@@ -54,7 +54,13 @@
 						<li><a href="coach.html" class="fon">首页</a></li>
 						<li><a href="showGym.html" class="fon">场馆</a></li>
 						<li><a href="showStudent.html" class="fon">学员</a></li>
-						<li><a href="showMessage.html" class="fon">动态</a></li>
+						<li class="has-dropdown">
+							<a href="/dynamic/showHot.do" class="fon">动态</a>
+							<ul class="dropdown">
+								<li><a href="my.html">我的关注</a></li>
+								<li><a href="inform.html">我的好友</a></li>
+							</ul>
+						</li>
 					</ul>
 				</div>
 				<div class="col-xs-8 text-right menu-1">
@@ -63,9 +69,9 @@
 							<a >欢迎您，用户名</a>
 							<ul class="dropdown">
 								<li><a href="/coach/showCoach.do?id=1">个人资料</a></li>
-								<li><a href="/html/coach/myStudent.html">我的学员</a></li>
+								<li><a href="/coach/myStudent.do">我的学员</a></li>
 								<li><a href="contract.html">我的签约</a></li>
-								<li><a href="attention.html">我的关注</a></li>
+								<li><a href="/dynamic/showMy.do">我的动态</a></li>
 								<li><a href="inform.html">我的通知</a></li>
 								<li><a href="/coach/showMoney.do?id=1">我的钱包</a></li>
 							</ul>
@@ -79,6 +85,7 @@
 			
 		</div>
 	</nav>
+	
 	<div class="gtco-section border-bottom">
 		<div class="gtco-container">
 			<div class="row">
@@ -88,31 +95,10 @@
 			</div>
 			<div class="row">
 				<div class="col-md-4">
-					<div class="price-box">
-						<img src="../../images/imgs/13.jpg" />
-						<br /><br /><br />
-						<h2 class="pricing-plan">用户名</h2>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="price-box">
-						<img src="../../images/imgs/7.jpg" />
-						<br /><br /><br />
-						<h2 class="pricing-plan">用户名</h2>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="price-box">
-						<img src="../../images/imgs/19.jpg" />
-						<br /><br /><br />
-						<h2 class="pricing-plan">用户名</h2>
-					</div>
-				</div>
-				<div class="col-md-4">
 					<div th:each="myStu : ${myStuList}" class="price-box">
 						<img th:src="@{/images/imgs/}+${myStu.s_headimg}" src="../../images/imgs/19.jpg" />
 						<br /><br /><br />
-						<h2 class="pricing-plan" th:text="${myStu.nickname}">用户名</h2>
+						<h2 class="pricing-plan" th:text="${myStu.s_nickname}">用户名</h2>
 					</div>
 				</div>
 			</div>

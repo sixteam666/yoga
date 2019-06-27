@@ -28,6 +28,7 @@ import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 import com.project.service.IBankCardService;
 import com.project.service.ICoachService;
+import com.project.service.IGymService;
 import com.project.util.FileUtil;
 
 @Controller
@@ -38,6 +39,8 @@ public class CoachController {
 	private ICoachService service;
 	@Autowired
 	private IBankCardService bankCardService;
+	@Autowired
+	private IGymService gs;
 	
 	/**
 	 * 
@@ -79,11 +82,15 @@ public class CoachController {
 	@RequestMapping("/getUser.do")
 	@ResponseBody
 	public CoachBean getUser(){
-		
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession(true);
-		CoachBean coach = (CoachBean) session.getAttribute("coach");
-		return coach;
+		Object obj = session.getAttribute("coach");
+		if (obj != null) {
+			CoachBean coach = (CoachBean)obj;
+			return coach;
+		}
+		 ;
+		return null;
 	} 
 	
 	@RequestMapping("/register.do")
@@ -124,7 +131,7 @@ public class CoachController {
 	@RequestMapping("showCoach.do")
 	public String showCoachInfoByid(String id, ModelMap map) {
 		//id从session域中获取？还是从前台传递？
-		CoachBean coachInfo = service.getCoachDetailInfo(id);
+		CoachBean coachInfo = service.getCoachById(id);
 		System.out.println(coachInfo);
 		map.put("coachInfo", coachInfo);
 		return "html/coach/my-pan.html";
@@ -150,6 +157,7 @@ public class CoachController {
 		//返回场馆集合，页面地图展示
 		return service.showAllGym();
 	}
+	
 	/**
 	 * 教练申请签约场馆
 	 * @param r_reqid 教练id
@@ -157,8 +165,16 @@ public class CoachController {
 	 * @return 
 	 */
 	@RequestMapping("/signGym.do")
-	public Boolean signGym(String r_reqid,String r_resid){
-		Boolean boo = service.addRequest(r_reqid, r_resid);
+	@ResponseBody
+	public String signGym(String r_resid){
+		String boo = "";
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession(true);
+		Object obj = session.getAttribute("coach");
+		if (obj != null) {
+			CoachBean coach = (CoachBean)obj;
+			boo = service.addRequest(coach.getC_id(), r_resid);
+		}
 		return boo;
 	}
 	/**
@@ -210,6 +226,7 @@ public class CoachController {
 		//从session中取出用户id
 		String id = "1";
 		List<StudentBean> stuList = service.listMyStudent(id);
+		System.out.println(stuList);
 		map.put("myStuList", stuList);
 		return "html/coach/myStudent.html";
 	}
@@ -299,12 +316,49 @@ public class CoachController {
 	public String updateLessonInfo(ModelMap map) {
 		CoachBean coach = getUser();
 		System.out.println("=========="+coach);
-		String id = coach.getC_id();
+		String id = "1";
 		Double money = service.getMoney(id);
 		List<BankCardBean> cardList = bankCardService.listBankCard(id);
 		map.put("cardList", cardList);
 		map.put("money", money);
 		return "/html/coach/money.html";
 	} 
+	
+	@RequestMapping("showToOther.do")
+	@ResponseBody
+	public CoachBean showToOtherUser(String coachId) {
+		 String currentUserId = "";
+		 Integer type = null;
+		 Session session = SecurityUtils.getSubject().getSession(false);
+		 StudentBean stu = (StudentBean) session.getAttribute("student");
+		 if(stu == null) {
+			 CoachBean coach = (CoachBean) session.getAttribute("coach");
+			 if(coach == null) {
+				 GymBean gym = (GymBean) session.getAttribute("gym");
+				 if(gym == null) {
+					 return null;
+				 } else {
+					 currentUserId = gym.getG_id();
+					 type = 2;
+				 }
+			 } else {
+				 currentUserId = coach.getC_id();
+				 type = 1;
+			 }
+		 } else {
+			 currentUserId = stu.getS_id();
+			 type = 0;
+		 }
+		 CoachBean c = service.showToOtherUser(currentUserId,coachId,type);
+		 return c;
+	}
+	
+	
+	@RequestMapping("/showOneGym.do")
+	public String showOneGym(ModelMap map,String gymId){
+		GymBean gb = gs.findGymById(gymId);
+		map.put("gymBean", gb);
+		return "/html/coach/msgShow.html";
 
+	}
 }

@@ -42,7 +42,7 @@ public interface IBlogDao {
 	 * @param id
 	 * @return
 	 */
-	@Select("select * from t_dynamic where * d_userid = #{id}")
+	@Select("select * from t_dynamic where d_userid = #{id}")
 	List<DynamicBean> listAllBlogByUserId(String id);
 	
 	/**
@@ -54,7 +54,7 @@ public interface IBlogDao {
 			+ "select a_myid from t_attention where a_myid in("
 			+ "select a_idolid from t_attention where a_myid = #{id})"
 			+ "and a_idolid = #{id})"
-			+ "and order by d_time limit 0,5")
+			+ "order by d_time limit 0,5")
 	List<DynamicBean> listFriendBlog(@Param("id") String id);
 	
 	/**
@@ -63,7 +63,7 @@ public interface IBlogDao {
 	 */
 	@Select("select * from t_dynamic where d_userid in("
 			+ "select a_idolid from t_attention where a_myid = #{id})"
-			+ "and order by d_time limit 0,5")
+			+ " order by d_time limit 0,5")
 	List<DynamicBean> listFollowsBlog(String id);
 	
 	/**
