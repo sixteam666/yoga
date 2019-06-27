@@ -485,7 +485,7 @@ public class GymController {
 	@RequestMapping("/findAllCoach.do")
 	@ResponseBody
 	public List<CoachBean> findAllCoach(){
-		List<CoachBean> coachList = coachService.findAll();
+		List<CoachBean> coachList = gymService.findAllCoach();
 		return coachList;
 	}
 }
