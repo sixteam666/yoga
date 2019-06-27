@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>场馆课程</title>
+	<title>修改信息</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -51,14 +51,27 @@
 		.headimg_txt,.headimg_file{
 			float: left;
 		}
-		.msg{
-			margin-left: 150px;
+		.headimg_file{
+			margin-left: 80px;
+			margin-top: 10px;
+		}
+		.headimg_img{
+			margin-top: 0px;
+		}
+		.msg1{
+			margin-left: 80px;
+		}
+		.msg2{
+			margin-left: 20px;
+		}
+		img{
+			height: 100px;
 		}
 	</style>
 	
 	
     <style type="text/css">
-    	.error_name,.error_headimg,.error_phone,.error_address{
+    	.error_name,.error_phone,.error_address{
     		color: red;
     		visibility: hidden;/*visible*/ 
     	}
@@ -82,11 +95,10 @@
 						<li><a href="showStudent.html" class="fon">学员</a></li>
 					</ul>
 				</div>
-				<div class="col-xs-8 text-right menu-1">
+				<div class="col-xs-8 text-right">
 					<ul>
-						<li class="has-dropdown">
-							<span style="color: white;">欢迎您，用户名</span>
-							<a href="#">注销</a>
+						<li class="has-dropdown" id="gym_top">
+							<span style="color: white">点击登录</span>
 						</li>
 						<li class="has-dropdown">
 							<a href="#">场馆中心</a>
@@ -122,31 +134,35 @@
 					<br />
 					
 					<span>点击地图可获得详细地址</span><br /><br />
-					<form action="/gym/updateMsg.do" method="post" id="myform">
-						场馆地址：<input type="text" name="g_address" id="gym_address" value="" /><span class="span error_address">*场馆地址不能为空</span><br /><br />
+					
+					
+					<form action="/gym/updateMsg.do" method="post" id="myform" enctype="multipart/form-data">
+						场馆地址：<input type="text" name="g_address" id="gym_address" th:attr="value=#{oldMsg.g_address}"/>
+						<span class="span error_address">*场馆地址不能为空</span><br /><br />
 						<div class="headimg">
 							<div class="headimg_txt">
 								场馆头像：
 							</div>
+							<div class="headimg_img">
+								<img src="image/1.jpg" th:src="@{../../images/imgs/}+${gymBean.g_headimg}"/>
+							</div>
 							<div class="headimg_file">
-								<input type="file" name="g_headimg" id="input_headimg" placeholder=""/>
+								<input type="file" name="file" id="input_headimg" placeholder="" multiple="multiple"/>
 							</div>
-							<div class="headimg_span">
-								<span class="span error_headimg">*场馆头像不能为空</span>
-							</div>
+							
 						</div>
 						<br /><br />
-						场馆名称：<input type="text" name="g_name" id="input_name" placeholder=""/>
+						场馆名称：<input type="text" name="g_name" id="input_name" placeholder="" th:attr="value=#{oldMsg.g_name}"/>
 							<span class="span error_name">*场馆名称不能为空</span><br /><br />
 							
-						联系电话：<input type="text" name="g_contactphone" id="input_phone" placeholder=""/>
-						<span class="span error_phone">*联系电话不能为空</span><br /><br />
+						联系电话：<input type="text" name="g_contactphone" id="input_phone" placeholder="" th:attr="value=#{oldMsg.g_contactphone}"/>
+						<span class="span error_phone">*联系电话格式不正确</span><br /><br />
 						
 						<span>&nbsp;&nbsp;&nbsp;&nbsp;q&nbsp;&nbsp;&nbsp;&nbsp;q&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>：
-						<input type="text" name="g_qq" /><br /><br />
+						<input type="text" name="g_qq" th:attr="value=#{oldMsg.g_qq}"/><br /><br />
 						
-						<button type="submit" class="btn btn-primary msg">保存</button>
-						
+						<button type="submit" class="btn btn-primary msg1">保存</button>
+						<button type="reset" class="btn btn-primary msg2">取消</button>
 					</form>
 					
 				</div>
@@ -230,8 +246,123 @@
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
 	
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=IRc5LSbvaY7NSn3IA8McK3oElyqOwY8v"></script>
+	<script type="text/javascript" src="../../js/gym/getSession.js"></script>
 	<script type="text/javascript">
-    
+		// 百度地图API功能
+		var map = new BMap.Map("allmap");
+		map.centerAndZoom(new BMap.Point(104.06792346,30.67994285), 14);
+		
+		map.enableScrollWheelZoom(); //启用滚轮放大缩小，默认禁用
+		map.enableContinuousZoom(); //启用地图惯性拖拽，默认禁用
+	
+		map.addControl(new BMap.NavigationControl()); //添加默认缩放平移控件
+		map.addControl(new BMap.OverviewMapControl()); //添加默认缩略地图控件
+		//显示小地图
+		map.addControl(new BMap.OverviewMapControl({
+			isOpen: true,
+			anchor: BMAP_ANCHOR_BOTTOM_RIGHT
+		})); //右下角，打开
+		
+			
+		// 添加带有定位的导航控件
+		var navigationControl = new BMap.NavigationControl({
+			// 靠左上角位置
+			anchor: BMAP_ANCHOR_TOP_LEFT,
+			// LARGE类型
+			type: BMAP_NAVIGATION_CONTROL_LARGE,
+			// 启用显示定位
+			enableGeolocation: true
+		});
+		map.addControl(navigationControl);
+		
+		//浏览器定位
+		var geolocation = new BMap.Geolocation();
+		geolocation.getCurrentPosition(function(r){
+			if(this.getStatus() == BMAP_STATUS_SUCCESS){
+				var mk = new BMap.Marker(r.point);
+				map.addOverlay(mk);
+				map.panTo(r.point);
+				//alert('您的位置：'+r.point.lng+','+r.point.lat);
+			}
+			else {
+				alert('failed'+this.getStatus());
+			}        
+		},{enableHighAccuracy: true})
+		
+		// 点击查看地址
+		var geoc = new BMap.Geocoder(); 
+		var address = "";
+		var gym_address = document.getElementById("gym_address");
+		map.addEventListener("click", function(e){        
+			var pt = e.point;
+			geoc.getLocation(pt, function(rs){
+				var addComp = rs.addressComponents;
+				address = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+				
+				gym_address.value = address;
+				//alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+			});        
+		});
+		
+		//查询地址
+		var localSearch = new BMap.LocalSearch(map);
+		localSearch.enableAutoViewport(); //允许自动调节窗体大小
+		
+		function searchByStationName() {
+			map.clearOverlays(); //清空原来的标注
+			var keyword = document.getElementById("find_address").value;
+			if (keyword!=null && keyword!="") {
+				localSearch.setSearchCompleteCallback(function(searchResult) {
+					var poi = searchResult.getPoi(0);
+					//document.getElementById("result_").value = poi.point.lng + "," + poi.point.lat;
+					
+					map.centerAndZoom(poi.point, 18);
+					var marker = new BMap.Marker(new BMap.Point(poi.point.lng, poi.point.lat)); // 创建标注，为要查询的地方对应的经纬度
+					map.addOverlay(marker);
+					var content = document.getElementById("find_address").value + "<br/><br/>经度：" + poi.point.lng + "<br/>纬度：" + poi.point.lat;
+					var infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + content + "</p>");
+					marker.addEventListener("click", function() {
+						this.openInfoWindow(infoWindow);
+					});
+					// marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+				});
+				localSearch.search(keyword);
+			}
+				
+		}
+		
+		
+		gym_address.onblur = function(){
+			
+			if (gym_address.value!=null && gym_address.value!="") {
+				//查询地址
+				var localSearch = new BMap.LocalSearch(map);
+				localSearch.enableAutoViewport(); //允许自动调节窗体大小
+				map.clearOverlays(); //清空原来的标注
+				var keyword = gym_address.value;
+				localSearch.setSearchCompleteCallback(function(searchResult) {
+					var poi = searchResult.getPoi(0);
+					//document.getElementById("result_").value = poi.point.lng + "," + poi.point.lat;
+					
+					map.centerAndZoom(poi.point, 18);
+					var marker = new BMap.Marker(new BMap.Point(poi.point.lng, poi.point.lat)); // 创建标注，为要查询的地方对应的经纬度
+					map.addOverlay(marker);
+					var content = document.getElementById("find_address").value + "<br/><br/>经度：" + poi.point.lng + "<br/>纬度：" + poi.point.lat;
+					var infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + content + "</p>");
+					marker.addEventListener("click", function() {
+						this.openInfoWindow(infoWindow);
+					});
+					// marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+				});
+				localSearch.search(keyword);
+				
+			}
+		}
+	</script>
+	
+	<script type="text/javascript">
+	    
 	    function showError(oinp,ospan) {
 		    var inpValue = oinp.value;
 		    //alert(inpValue);
@@ -246,15 +377,17 @@
 	    
 		var oinp_address = document.getElementById("gym_address");
 		var ospan_address = document.getElementsByClassName("error_address")[0];
+		
 		oinp_address.onblur = function(){
 			return showError(oinp_address,ospan_address);
 		}
 		
-		var oinp_headimg = document.getElementById("input_headimg");
+		/* var oinp_headimg = document.getElementById("input_headimg");
 		var ospan_headimg = document.getElementsByClassName("error_headimg")[0];
+		
 		oinp_headimg.onblur = function(){
 			return showError(oinp_headimg,ospan_headimg);
-		}
+		} */
 	    
 	    var oinp_name = document.getElementById("input_name");
 		var ospan_name = document.getElementsByClassName("error_name")[0];
@@ -265,16 +398,16 @@
 		var oinp_phone = document.getElementById("input_phone");
 		var ospan_phone = document.getElementsByClassName("error_phone")[0];
 		oinp_phone.onblur = function(){
-            var regexp = /^[0-9]{11}$/;
-            var inpValue = this.value;
-            if(!regexp.test(inpValue)){
-            	ospan_phone.style.visibility = "visible";
-                return false;
-            }else{
-            	ospan_phone.style.visibility = "hidden";
-                return true;
-            }
-        }
+	        var regexp = /^[0-9]{11}$/;
+	        var inpValue = this.value;
+	        if(!regexp.test(inpValue)){
+	        	ospan_phone.style.visibility = "visible";
+	            return false;
+	        }else{
+	        	ospan_phone.style.visibility = "hidden";
+	            return true;
+	        }
+	    }
 	    
 		/*
 	     * 阻止表单提交
@@ -284,130 +417,16 @@
 	    oform.onsubmit = function(){
 	        //onblur()表示执行一次 匿名函数
 	        var boo1 = oinp_address.onblur();
-	        var boo2 = oinp_headimg.onblur();
+	        //var boo2 = oinp_headimg.onblur();
 	        var boo3 = oinp_name.onblur();
 	        var boo4 = oinp_phone.onblur();
-	        if(boo1 && boo2 && boo3 && boo4){
+	        if(boo1 && boo3 && boo4){
 	            return true;
 	        }
 	        return false;
 	    } 
-    </script>
+	</script>
 
 	</body>
 </html>
 
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=IRc5LSbvaY7NSn3IA8McK3oElyqOwY8v"></script>
-		
-<script type="text/javascript">
-	// 百度地图API功能
-	var map = new BMap.Map("allmap");
-	map.centerAndZoom(new BMap.Point(104.06792346,30.67994285), 14);
-	
-	map.enableScrollWheelZoom(); //启用滚轮放大缩小，默认禁用
-	map.enableContinuousZoom(); //启用地图惯性拖拽，默认禁用
-
-	map.addControl(new BMap.NavigationControl()); //添加默认缩放平移控件
-	map.addControl(new BMap.OverviewMapControl()); //添加默认缩略地图控件
-	//显示小地图
-	map.addControl(new BMap.OverviewMapControl({
-		isOpen: true,
-		anchor: BMAP_ANCHOR_BOTTOM_RIGHT
-	})); //右下角，打开
-	
-		
-	// 添加带有定位的导航控件
-	var navigationControl = new BMap.NavigationControl({
-		// 靠左上角位置
-		anchor: BMAP_ANCHOR_TOP_LEFT,
-		// LARGE类型
-		type: BMAP_NAVIGATION_CONTROL_LARGE,
-		// 启用显示定位
-		enableGeolocation: true
-	});
-	map.addControl(navigationControl);
-	
-	//浏览器定位
-	var geolocation = new BMap.Geolocation();
-	geolocation.getCurrentPosition(function(r){
-		if(this.getStatus() == BMAP_STATUS_SUCCESS){
-			var mk = new BMap.Marker(r.point);
-			map.addOverlay(mk);
-			map.panTo(r.point);
-			//alert('您的位置：'+r.point.lng+','+r.point.lat);
-		}
-		else {
-			alert('failed'+this.getStatus());
-		}        
-	},{enableHighAccuracy: true})
-	
-	// 点击查看地址
-	var geoc = new BMap.Geocoder(); 
-	var address = "";
-	var gym_address = document.getElementById("gym_address");
-	map.addEventListener("click", function(e){        
-		var pt = e.point;
-		geoc.getLocation(pt, function(rs){
-			var addComp = rs.addressComponents;
-			address = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
-			
-			gym_address.value = address;
-			//alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
-		});        
-	});
-	
-	//查询地址
-	var localSearch = new BMap.LocalSearch(map);
-	localSearch.enableAutoViewport(); //允许自动调节窗体大小
-	
-	function searchByStationName() {
-		map.clearOverlays(); //清空原来的标注
-		var keyword = document.getElementById("find_address").value;
-		if (keyword!=null && keyword!="") {
-			localSearch.setSearchCompleteCallback(function(searchResult) {
-				var poi = searchResult.getPoi(0);
-				//document.getElementById("result_").value = poi.point.lng + "," + poi.point.lat;
-				
-				map.centerAndZoom(poi.point, 18);
-				var marker = new BMap.Marker(new BMap.Point(poi.point.lng, poi.point.lat)); // 创建标注，为要查询的地方对应的经纬度
-				map.addOverlay(marker);
-				var content = document.getElementById("find_address").value + "<br/><br/>经度：" + poi.point.lng + "<br/>纬度：" + poi.point.lat;
-				var infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + content + "</p>");
-				marker.addEventListener("click", function() {
-					this.openInfoWindow(infoWindow);
-				});
-				// marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
-			});
-			localSearch.search(keyword);
-		}
-			
-	}
-	
-	
-	gym_address.onblur = function(){
-		
-		if (gym_address.value!=null && gym_address.value!="") {
-			//查询地址
-			var localSearch = new BMap.LocalSearch(map);
-			localSearch.enableAutoViewport(); //允许自动调节窗体大小
-			map.clearOverlays(); //清空原来的标注
-			var keyword = gym_address.value;
-			localSearch.setSearchCompleteCallback(function(searchResult) {
-				var poi = searchResult.getPoi(0);
-				//document.getElementById("result_").value = poi.point.lng + "," + poi.point.lat;
-				
-				map.centerAndZoom(poi.point, 18);
-				var marker = new BMap.Marker(new BMap.Point(poi.point.lng, poi.point.lat)); // 创建标注，为要查询的地方对应的经纬度
-				map.addOverlay(marker);
-				var content = document.getElementById("find_address").value + "<br/><br/>经度：" + poi.point.lng + "<br/>纬度：" + poi.point.lat;
-				var infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + content + "</p>");
-				marker.addEventListener("click", function() {
-					this.openInfoWindow(infoWindow);
-				});
-				// marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
-			});
-			localSearch.search(keyword);
-			
-		}
-	}
-</script>

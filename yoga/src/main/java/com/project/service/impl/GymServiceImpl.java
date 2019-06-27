@@ -9,6 +9,7 @@ import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.PictureBean;
+import com.project.bean.RequestBean;
 import com.project.dao.ICoachDao;
 import com.project.dao.IGymDao;
 import com.project.dao.ILessonDao;
@@ -128,8 +129,35 @@ public class GymServiceImpl implements IGymService {
 	}
 
 	@Override
+
 	public List<GymBean> findHotGym() {
 		List<GymBean> list = gymDao.findHotGym();
 		return list;
+	}
+		
+	public List<CoachBean> findCoaByNameOrPho(String g_id, String nameOrPho) {
+		CoachBean coach = new CoachBean();
+		coach.setC_g_id(g_id);
+		List<CoachBean> list = null;
+		if(!nameOrPho.equals("") && nameOrPho!=null){
+			coach.setC_nickname(nameOrPho);
+			list = coachDao.findCoachByNick(coach);
+			if (list.isEmpty()) {
+				CoachBean bean = coachDao.findCoachByPhone(nameOrPho);
+				list.add(bean);
+			}
+		}
+		
+		return list;
+	}
+
+	@Override
+	public List<CoachBean> findCoachByMyResponse(String g_id) {
+		return gymDao.findCoachByMyResponse(g_id);
+	}
+
+	@Override
+	public List<CoachBean> findCoachByMyRequest(String g_id) {
+		return gymDao.findCoachByMyRequest(g_id);
 	}
 }

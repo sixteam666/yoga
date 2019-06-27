@@ -14,8 +14,8 @@ import com.project.bean.WordsBean;
 
 public interface IStudentDao {
       //	添加学员
-	@Insert("insert into t_student(s_id,s_name,s_password)"
-			+"values(#{s_id},#{s_name},#{s_password})")
+	@Insert("insert into t_student(s_id,s_name,s_password )"
+			+"values(#{s_id},#{s_name},#{s_password}) ")
 	public int addStudent(StudentBean student);
 	
 	//  查询全部学员
@@ -53,8 +53,8 @@ public interface IStudentDao {
 	
 	
 	//  根据学员id查询教练
-	@Select(" SELECT * from t_coach WHERE c_id = ( SELECT l_c_id from t_lesson where l_id = (SELECT o_l_id from  t_order where o_s_id = #{id})) ")
-	public CoachBean findCoachbyStudentId(String id);
+	@Select(" SELECT * from t_coach WHERE c_id IN ( SELECT l_c_id from t_lesson where l_id IN (SELECT o_l_id from  t_order where o_s_id = 's001')) ")
+	public List<CoachBean> findCoachbyStudentId(String id);
 	
 	//    生成订单
 	@Insert("insert into t_order VALUES (null,#{o_status},#{o_time},#{o_s_id},#{o_l_id},#{o_price})")

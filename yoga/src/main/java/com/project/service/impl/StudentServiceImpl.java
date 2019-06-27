@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.bean.CoachBean;
+import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
 import com.project.bean.StudentBean;
@@ -13,6 +14,9 @@ import com.project.bean.WordsBean;
 import com.project.dao.CoachDaoTest;
 import com.project.dao.ICoachDao;
 import com.project.dao.IFollowDao;
+import com.project.dao.CoachDaoTest;
+import com.project.dao.ICoachDao;
+import com.project.dao.IGymDao;
 import com.project.dao.ILessonDao;
 import com.project.dao.IStudentDao;
 import com.project.dao.IWordDao;
@@ -31,6 +35,7 @@ public class StudentServiceImpl implements IStudentService{
 	private IFollowDao followDao;
 	@Autowired
 	private IWordDao wordDao;
+	private IGymDao  Gymdao;
 	
 	
 	@Override
@@ -80,9 +85,9 @@ public class StudentServiceImpl implements IStudentService{
 	}
 
 	@Override
-	public CoachBean findCoachbyStudentId(String id) {
-		CoachBean coach = dao.findCoachbyStudentId(id);
-		return coach;
+	public List<CoachBean> findCoachbyStudentId(String id) {
+		List<CoachBean> list = dao.findCoachbyStudentId(id);
+		return list;
 	}
 
 	@Override
@@ -136,6 +141,14 @@ public class StudentServiceImpl implements IStudentService{
 	@Override
 	public List<OrderBean> findorderbyid(String id) {
 		List<OrderBean> list = dao.findorderbyid(id);
+		for (OrderBean orderBean : list) {
+			int lessonid =orderBean.getO_l_id();
+			LessonBean lesson= lessondao.findlessonbyid(lessonid);
+			orderBean.setLessonname(lesson.getL_descirbe());
+			String gymid = lesson.getL_g_id();
+			GymBean gym= Gymdao.findGymById(gymid);
+			orderBean.setGym(gym);
+		}
 		return list;
 	}
 

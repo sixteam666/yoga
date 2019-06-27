@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.project.bean.CoachBean;
+import com.project.bean.RequestBean;
 import com.project.bean.StudentBean;
 
 public interface ICoachDao {
@@ -184,5 +185,25 @@ public interface ICoachDao {
 	 */
 	@Update("update t_coach set c_style = #{c_style}, c_price = #{c_price}, c_access = #{c_access} where c_id = #{c_id}")
 	public void updateCoachLessonInfo(CoachBean coach);
+	/**
+	 * 通过手机号查找教练
+	 * @param phone
+	 * @return
+	 */
+	@Select("select * from t_coach where c_phone = #{phone}")
+	public CoachBean findCoachByPhone(String phone);
+	/**
+	 * 通过昵称查找教练
+	 * @param nickname
+	 * @return
+	 */
+	@Select("select * from t_coach where c_g_id=#{c_g_id} and c_nickname like concat('%',#{c_nickname},'%')")
+	public List<CoachBean> findCoachByNick(CoachBean coach);
 	
+	/**
+	 * 查询所有教练
+	 * @return
+	 */
+	@Select("select * from t_coach")
+	public List<CoachBean> findAll();
 }

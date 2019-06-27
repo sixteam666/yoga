@@ -124,6 +124,7 @@ public interface IFollowDao {
 	 * @param id 用户id
 	 * @return 关注数量
 	 */
+	@Select("select count(1) from t_attention where a_myid = #{id}")
 	Integer countFollow(String id);
 	
 	/**
@@ -131,6 +132,16 @@ public interface IFollowDao {
 	 * @param id 用户id
 	 * @return 粉丝数量
 	 */
+	@Select("select count(1) from t_attention where a_idolid = #{id}")
 	Integer countFollowing(String id);
+	
+	/**
+	 * 判断是否关注某人
+	 * @param id1
+	 * @param id2
+	 * @return
+	 */
+	@Select("select count(1) from t_attention where a_myid = #{fan} and a_idolid = #{idol}")
+	Integer isFollow(@Param("fan") String fan, @Param("idol") String idol);
 	
 }

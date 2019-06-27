@@ -18,7 +18,7 @@ public interface IBankCardDao {
 	 * @param money
 	 * @return
 	 */
-	@Update("update t_bankcard set b_balance = b_balance + money where id = #{id}")
+	@Update("update t_bankcard set b_balance = b_balance + #{money} where id = #{id}")
 	Integer updateBankCard(@Param("id") Integer id, @Param("money") double money);
 	
 	
@@ -45,7 +45,7 @@ public interface IBankCardDao {
 	 * @param userId
 	 * @return
 	 */
-	@Select("select * from t_bankcard wehre b_userId = #{userId}")
-	List<String> listBankCard(String userId);
+	@Select("select * from t_bankcard where b_userId = #{userId}")
+	List<BankCardBean> listBankCard(String userId);
 
 }

@@ -6,12 +6,16 @@ import java.util.TimerTask;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.bean.CoachBean;
 import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
+import com.project.bean.RequestBean;
 import com.project.bean.StudentBean;
+import com.project.bean.WordsBean;
 import com.project.dao.IBankCardDao;
 import com.project.dao.IBlogDao;
 import com.project.dao.ICoachDao;
@@ -19,6 +23,7 @@ import com.project.dao.IFollowDao;
 import com.project.dao.IGymDao;
 import com.project.dao.IRequestDao;
 import com.project.dao.IStudentDao;
+import com.project.dao.IWordDao;
 import com.project.service.ICoachService;
 @Service
 public class CoachServiceImpl implements ICoachService {
@@ -37,6 +42,8 @@ public class CoachServiceImpl implements ICoachService {
 	private IRequestDao reDao;
 	@Autowired
 	private IBankCardDao bankDao;
+	@Autowired
+	private IWordDao wd;
 	
 	@Override
 	public Boolean register(CoachBean coach) {
@@ -70,7 +77,7 @@ public class CoachServiceImpl implements ICoachService {
 	}
 
 	@Override
-	public CoachBean getCoachDetailInfo(String id) {
+	public CoachBean getCoachById(String id) {
 		return dao.getCoachById(id);
 	}
 
@@ -81,20 +88,30 @@ public class CoachServiceImpl implements ICoachService {
 
 	@Override
 	public List<StudentBean> showAllStu() {
-		//return stuDao.findAllStudent();
-		return null;
+		return stuDao.findAllStudent();
 	}
 
 	@Override
-	public Boolean addRequest(String r_reqid, String r_resid) {
-		int row = reDao.addRequest(r_reqid, r_resid);
-		if(row>0)return true;
-		return false;
+	public String addRequest(String r_reqid, String r_resid) {
+		int row = 0;
+		//先查询两个对象之间是否有申请关系
+		Object obj = reDao.findIsRequest(r_reqid, r_resid);
+		if (obj == null) {
+			row = reDao.addRequest(r_reqid, r_resid);
+		}else{
+			RequestBean rb = (RequestBean) obj;
+			//已有申请关系
+			if (rb.getR_state()==0) return "isRequest";
+		}
+		//申请成功
+		if(row>0)return "add";
+		//申请失败
+		return "false";
 	}
 
 	@Override
-	public Boolean updateRequest(String r_reqid, String r_resid, int r_state) {
-		int row = reDao.updateRequestState(r_reqid, r_resid, r_state);
+	public Boolean updateRequest(String r_reqid, String r_resid,int r_state) {
+		int row = reDao.updateRequestState(r_reqid, r_resid,r_state);
 		if(row>0)return true;
 		return false;
 	}
@@ -109,8 +126,11 @@ public class CoachServiceImpl implements ICoachService {
 		return dao.updatePassword(newPassword, id) == 1;
 	}
 
+	/**
+	 * 事务管理为设置成功
+	 */
 	@Override
-	@Transactional
+	@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
 	public Boolean updateMoney(String id, double money, Integer cardId) {
 		//查询出钱包余额
 		Double balance = dao.getMoney(id);
@@ -118,9 +138,9 @@ public class CoachServiceImpl implements ICoachService {
 			System.out.println(id+"的余额不足还想提现");
 			return false;
 		}
-		dao.updateMoney(id, money);
-		bankDao.updateBankCard(cardId,money);
-		return true;
+		Integer subtractMoney = dao.updateMoney(id, money);
+		Integer addMoney = bankDao.updateBankCard(cardId,money);
+		return subtractMoney == 1 && addMoney == 1;
 	}
 
 	@Override
@@ -222,6 +242,53 @@ public class CoachServiceImpl implements ICoachService {
 	public List<CoachBean> findHotCoach() {
 		List<CoachBean> list = dao.findHotCoach();
 		return list;
+	}
+	
+	@Override
+	public String sendMessage(WordsBean words) {
+		int row = wd.insertWords(words);;
+		if (row>0) return "success";
+		return "false";
+	}
+	
+	@Override
+	public CoachBean showToOtherUser(String currentUserId, String coachId, Integer type) {
+		CoachBean c = dao.getCoachById(coachId);
+		Integer privacy = c.getC_privacy();
+		
+		/**
+		 * 给别人展示那些信息
+		 * 昵称，手机号，QQ号，地址，流派
+		 */
+		
+		if(privacy == 2) {	//如果教练信息完全公开，则直接返回
+			return c;
+		}
+		if(privacy == 1) {	//如果教练信息仅对好友公开
+			//判断两者是否为好友关系
+			Integer follow = followDao.isFollow(currentUserId, coachId);
+			Integer follow2 = followDao.isFollow(coachId, currentUserId);
+			if(follow == 1 && follow2 == 1){
+				//两者为好友，则将所有信息返回
+				return c;
+			}
+			if(type == 2) {
+				//判断是否与我签约
+				
+			}
+			if(type == 0) {
+				//判断是否是我的学员
+			}
+		}
+		//如果是场馆或学员，则默认开放手机号，方便其约私教或与我签约
+		if(type == 0 || type == 2) {
+			c.setC_qq("****");
+			return c;
+		}
+		//如果教练信息保密
+		c.setC_phone("****");
+		c.setC_qq("****");
+		return c;
 	}
 
 }

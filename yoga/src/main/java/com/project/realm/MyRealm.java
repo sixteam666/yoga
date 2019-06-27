@@ -7,6 +7,7 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.project.bean.CoachBean;
@@ -69,7 +70,6 @@ public class MyRealm extends AuthorizingRealm {
 		//教练身份验证
 		if("c".equals(prefix)) {
 			CoachBean coach = coachService.login(principal);
-			System.out.println(coach);
 			//未查找到教练，则不再进行验证，返回验证失败
 			if(coach == null) {
 				return null;
@@ -81,7 +81,8 @@ public class MyRealm extends AuthorizingRealm {
 			if(username == null) {
 				return null;
 			}
-			return new SimpleAuthenticationInfo(coach, coach.getC_password(),this.getName());
+			ByteSource by = ByteSource.Util.bytes(coach.getC_id());
+			return new SimpleAuthenticationInfo(coach, coach.getC_password(),by,this.getName());
 		}
 		
 		//场馆身份验证
@@ -100,7 +101,9 @@ public class MyRealm extends AuthorizingRealm {
 			if(username == null) {
 				return null;
 			}
-			return new SimpleAuthenticationInfo(gym, gym.getG_password(),this.getName());
+
+			ByteSource byteSource = ByteSource.Util.bytes(gym.getG_id()); // 以g_id（UUID）作为盐值
+			return new SimpleAuthenticationInfo(gym, gym.getG_password(),byteSource,this.getName());
 		}
 		return null;
 	}

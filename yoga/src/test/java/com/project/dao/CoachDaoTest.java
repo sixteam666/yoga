@@ -1,5 +1,7 @@
 package com.project.dao;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,6 +13,8 @@ public class CoachDaoTest extends BaseTest {
 	private ICoachDao dao;
 	@Autowired
 	private IRequestDao reDao;
+	@Autowired
+	private IWordDao wd;
 	//测试添加教练
 	@Test
 	public void addCoach(){
@@ -76,6 +80,21 @@ public class CoachDaoTest extends BaseTest {
 		int row = reDao.updateRequestState("a", "b", 1);
 		System.out.println(row);
 	}
-	//测试解约
+	//通过昵称查找教练
+	@Test
+	public void findCoachByNick(){
+		CoachBean bean = new CoachBean();
+		bean.setC_g_id("1");
+		bean.setC_nickname("");
+		List<CoachBean> list = dao.findCoachByNick(bean);
+		System.out.println(list.size());
+	}
+	//通过手机号查找教练
+	@Test
+	public void findCoachByPhone(){
+		CoachBean coach = dao.findCoachByPhone("13345674567");
+		System.out.println(coach);
+	}
+	
 
 }

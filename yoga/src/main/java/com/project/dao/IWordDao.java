@@ -20,7 +20,6 @@ public interface IWordDao {
 	
 	//  留言
 	@Insert("INSERT INTO t_words(w_content,w_time,w_userid,w_showid) VALUES(#{w_content},#{w_time},#{w_userid},#{w_showid})")
-	public void insertWords(WordsBean wordsBean);
-	
-	
+	public int insertWords(WordsBean wordsBean);
+
 }

@@ -46,15 +46,21 @@
 <body>
 	<div class="gtco-loader"></div>
 	<div id="page"></div>
-	<nav class="gtco-nav" role="navigation">
+	<nav class="gtco-nav" role="navigation" th:fragment="common_head">
 		<div class="gtco-container">
 			<div class="row" style="background-color:#09C6AB ;">
 				<div class="col-sm-4 col-xs-12">
 					<ul>
-						<li><a href="coach.html" class="fon">首页</a></li>
-						<li><a href="showGym.html" class="fon">场馆</a></li>
-						<li><a href="showStudent.html" class="fon">学员</a></li>
-						<li><a href="showMessage.html" class="fon">动态</a></li>
+						<li><a href="/html/coach/coach.html" class="fon">首页</a></li>
+						<li><a href="/html/coach/showGym.html" class="fon">场馆</a></li>
+						<li><a href="/html/coach/showStudent.html" class="fon">学员</a></li>
+						<li class="has-dropdown">
+							<a href="/dynamic/showHot.do" class="fon">动态</a>
+							<ul class="dropdown">
+								<li><a href="/dynamic/showFollow.do">我的关注</a></li>
+								<li><a href="/dynamic/showFriend.do">我的好友</a></li>
+							</ul>
+						</li>
 					</ul>
 				</div>
 				<div class="col-xs-8 text-right menu-1">
@@ -63,9 +69,9 @@
 							<a >欢迎您，用户名</a>
 							<ul class="dropdown">
 								<li><a href="/coach/showCoach.do?id=1">个人资料</a></li>
-								<li><a href="/coach/showMyStudent.do?id=1">我的学员</a></li>
+								<li><a href="/coach/myStudent.do">我的学员</a></li>
 								<li><a href="contract.html">我的签约</a></li>
-								<li><a href="attention.html">我的关注</a></li>
+								<li><a href="/dynamic/showMy.do">我的动态</a></li>
 								<li><a href="inform.html">我的通知</a></li>
 								<li><a href="/coach/showMoney.do?id=1">我的钱包</a></li>
 							</ul>
@@ -93,7 +99,7 @@
 					<table class="table table-bordered">
 						<tr align="center">
 							<td colspan="2">
-								<img th:src="@{/html/coach/image/headimg/}+${coachInfo.c_headimg}" src="../../images/imgs/1.jpg"/>
+								<img th:src="@{/images/imgs/}+${coachInfo.c_headimg}" src="../../images/imgs/1.jpg"/>
 							</td>
 						</tr>
 						<tr align="center">
@@ -165,28 +171,6 @@
 							</tr>
 						</table>
 					</div>
-					<!-- <div class="col-md-8 text-left">
-						<h3>钱包管理</h3>
-					</div>
-					<table class="table table-bordered">
-						<tr align="center">
-							<td>余额:</td>
-							<td>
-								<span th:text="${coachInfo.c_money}">1000元</span>&nbsp;&nbsp;&nbsp;
-								<button type="button" style="font-size:14px">提现</button>
-							</td>
-						</tr>
-					</table> -->
-					
-					<!-- <div class="col-md-8 text-left">
-						<h3>我的签约</h3>
-					</div>e
-					<table class="table table-bordered">
-						<tr align="center">
-							<td>我的签约场馆：</td>
-							<td th:if="${not #lists.isEmpty(coachInfo.gym)}" th:text="${coachInfo.gym.g_name}">无</td>
-						</tr>
-					</table> -->
 				</div>
 			</div>
 		</div>

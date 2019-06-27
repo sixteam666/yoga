@@ -77,7 +77,7 @@ public interface IStudentService{
 	 * @param id
 	 * @return CoachBean
 	 */
-	public CoachBean findCoachbyStudentId(String id);
+	public List<CoachBean> findCoachbyStudentId(String id);
 	
 	/**
 	 * 充值到钱包

@@ -30,6 +30,7 @@ import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.ShowWordsBean;
+import com.project.bean.OrderBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
 import com.project.service.ICoachService;
@@ -114,15 +115,15 @@ public class StudentController {
 			}else {
 				return "no";
 			}	
-		}
+		}	
 	
 	@RequestMapping("/loginout.do")
 	@ResponseBody
 	public String logout(HttpSession session) {
-		//System.out.println("正在注销");
+		System.out.println("正在注销");
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
-		//System.out.println(session.getAttribute("stu"));
+		System.out.println(session.getAttribute("stu"));
 		return "ok";
 	}
 	
@@ -193,20 +194,18 @@ public class StudentController {
 			@RequestMapping("/findcourse.do")
 			public String findcourse(HttpSession session,ModelMap m){
 				StudentBean stu=(StudentBean) session.getAttribute("stu");
-				System.out.println(stu);
 				String id = stu.getS_id();
 				List<LessonBean> lessonlist = service.findcourse(id);
-				/*for (LessonBean lessonBean : lessonlist) {
-					System.out.println(lessonBean);
-				}*/
 				m.addAttribute("lesson", lessonlist);
+				List<CoachBean> coachlist =service.findCoachbyStudentId(id);
+				m.addAttribute("coach", coachlist);
 				return "html/student/className.html";
 			}
 			
 			
 			/**
-			 * 我的通知
-			 */
+			 * 我的粉丝（暂时不用，有误）
+			 *//*
 			@RequestMapping("/findFans.do")
 			public String myTips(HttpSession session,Model model){
 				System.out.println("进来了");
@@ -231,7 +230,7 @@ public class StudentController {
 				model.addAttribute("list",list3);
 				model.addAttribute("fans",list);
 				return "html/student/inform.html";
-			}
+			}*/
 			
 			/**
 			 * 留言板
@@ -285,6 +284,24 @@ public class StudentController {
 				wordsBean.setW_userid(bean.getS_id());
 				wordsBean.setW_showid("sadasd");
 
-				return "redirect:/student/findWord.do";
+				return "redirect:/student/findWord.do";				
+			}
+			
+			
+			@RequestMapping("/findorder.do")
+			public String findorder(HttpSession session,ModelMap m){
+				System.out.println("11111111111111");
+				StudentBean stu=(StudentBean) session.getAttribute("stu");
+				String id = stu.getS_id();
+				List<OrderBean> orderlist = service.findorderbyid(id);
+				m.addAttribute("order", orderlist);
+				return "html/student/order.html";
+			}
+		
+			@RequestMapping("/mypage.do")
+			public String attention(){
+				
+				
+				return "html/student/showInformation.html";
 			}
 }
