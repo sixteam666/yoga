@@ -1,9 +1,10 @@
 <!DOCTYPE HTML>
+
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
+<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>个人中心</title> 
+	<title>个人中心</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -36,109 +37,84 @@
 	<!-- Modernizr JS -->
 	<script src="../../js/modernizr-2.6.2.min.js"></script>
 
-	</head>
 	<style type="text/css">
 		.fon{
 			font-family: "微软雅黑";
 		}
-	</style>
-	<body>
 		
+		.round_icon{
+		  width: 60px;
+		  height: 60px;
+		  /* display: flex; */
+		  border-radius: 50%;
+		  align-items: center;
+		  justify-content: center;
+		  overflow: hidden;
+		}
+	</style>
+</head>
+<body>
 	<div class="gtco-loader"></div>
-	<nav class="gtco-nav" role="navigation">
+	<div id="page"></div>
+	<div th:replace="html/coach/my-pan.html::common_head"></div>	
+	<div class="gtco-section border-bottom">
 		<div class="gtco-container">
-			
-			<div class="row" style="background-color:#09C6AB ;">
-				<div class="col-sm-4 col-xs-12">
-					<ul>
-						<li><a th:href="@{/student/stu.do}" class="fon">首页</a></li>
-						<li><a href="showGym.html" class="fon">所有场馆</a></li>
-						<li><a href="showCoach.html" class="fon">附近教练</a></li>
-						<li class="has-dropdown">
-							<a href="/dynamic/showHot.do">动态</a>
-							<ul class="dropdown">
-								<li><a href="showMessage.html">我的关注</a></li>
-								<li><a href="showMessage.html">附近的人</a></li>
-							</ul>
-						</li>
-					</ul>
+			<div class="row" style="padding:0 0 50px">
+				<div class="col-md-2 col-md-offset-1">
+					<button onclick="publish()">发表新动态</button>
 				</div>
-				<div class="col-xs-8 text-right menu-1">
-					<ul>
-						<li class="has-dropdown">
-							<span th:text="|欢迎您: ${session.stu.s_name}|" style="color: white;">欢迎您，用户名</span>
-							<a href="#">注销</a>
-						</li>
-						<li class="has-dropdown">
-							<a href="#">个人中心</a>
-							<ul class="dropdown">
-								<li><a href="my.html">个人资料</a></li>
-								<li><a href="findcourse.do">课程中心</a></li>
-								<li><a href="findorder.do">我的订单</a></li>
-								<li><a href="mypage.do">个人主页</a></li>
-								<li><a href="inform.do">我的通知</a></li>
-							</ul>
-						</li>
-					</ul>	
 			</div>
-			</div>
-			
-		</div>
-	</nav>
-	
-		<div class="gtco-section">
-		<div class="gtco-container">
-			<div class="row" style="border: 5px solid #09C6AB;border-radius: 50px;">
-				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<br />
-					<h2>个人资料</h2>
+			<div id="publish" class="row" style="display:none;">
+				<div class="col-md-9 col-md-offset-1" align="left" >
+					<div class="row">
+						<form action="/dynamic/addDynamic.do" method="post">
+							<div class="col-md-10">
+								<textarea name="d_content" style="width:100%;height:100px;" placeholder="说点什么吧！（30字以内）"></textarea>
+							</div> 
+							<div class="col-md-1 col-md-offset-1">
+								<input type="submit" class="btn" value="发表" style="float:right;margin-top:60px" />
+							</div>
+							<div style="height:50px" class="col-md-12"></div>
+						</form>
+					</div>
 				</div>
-				<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
-					<table style="width: 700px;height: 500px;">
-						<tr align="center" height="200px">
-							<td width="140">用户名：</td>
-							<td width="140" th:text="${session.stu.s_name}">xxx</td>
-						
-							<td width="200">头像:</td>
-							<td width="100" colspan="2">
-								<img src="../../images/imgs/1.jpg" th:src="@{'../../images/imgs/'+${session.stu.s_headimg}}"/>
-							</td>
-						</tr>
-						<tr align="center">
-							<td>昵称：</td>
-							<td th:text="${session.stu.s_nickname}">xxxxx</td>
-
-							<td>访问权限:</td>
-							<td th:if="${session.stu.s_privacy}==0" >私密</td>
-							<td th:if="${session.stu.s_privacy}==1" >好友可见</td>
-							<td th:if="${session.stu.s_privacy}==2" >公开</td>
-						</tr>
-						<tr align="center">
-							<td>手机号：</td>
-							<td th:text="${session.stu.s_phone}">xxxxxxx</td>
-							<td colspan="3"><button class="btn btn-primary" style="float: right;">修改绑定手机</button></td>
-						</tr>
-						<tr align="center">
-							<td>地址:</td>
-							<td th:text="${session.stu.s_address}">xxxxxxx</td>
-						</tr>
-					</table>
-					<br /><br />
-					<a th:href="@{'modify.do?id='+${session.stu.s_id}}"><button style="float: right;" class="btn btn-primary">修改资料</button></a>
-					<br /><br />
+			</div>
+			<div class="row">
+				<div th:each="dynamic : ${dynamicList}" class="col-md-10 col-md-offset-1">
+					<div class="row">
+						<div class="col-md-1">
+							<a href="#">
+								<img th:src="@{/images/imgs/}+${dynamic.d_headimg}" class="round_icon" >
+							</a>
+						</div>
+						<div class="col-md-3">
+							<a href="#">
+								<span th:text="${dynamic.d_nickname}">猜猜我是谁</span>
+							</a>
+							<p th:text="${dynamic.d_time}">今天 13:20</p>
+						</div>
+						<div class="col-md-2 col-md-offset-5">
+							<button style="color:white;border:none" 
+								th:if="${dynamic.follow}"
+								th:onclick="">已关注</button>
+							<button style="background-color:#2fddc3;color:white;border:none" 
+							th:unless="${dynamic.follow}"
+							th:onclick="">&nbsp;+&nbsp;&nbsp;关注</button>
+						</div>
+						<div class="col-md-12">
+							<p th:text="${dynamic.d_content}"></p>
+							<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/images/imgs/}+${dynamic.d_img}">
+						</div>
+					</div>
 					<hr>
-					<span th:text="|我的余额 ${session.stu.s_money} 元|">
-						我的余额：1000元
-					</span>
-					<a th:href="@{'recharge.do?id='+${session.stu.s_id}}"><button style="float: right;" class="btn btn-primary">充值</button></a>
 				</div>
 			</div>
 		</div>
 	</div>
-			
+	
 	<footer id="gtco-footer" role="contentinfo">
 		<div class="gtco-container">
-			<div class="row row-p	b-md">
+			<div class="row row-p b-md">
 
 				<div class="col-md-4">
 					<div class="gtco-widget">
@@ -149,6 +125,16 @@
 
 				<div class="col-md-2 col-md-push-1"></div>
 				
+				<div class="col-md-2 col-md-push-1">
+					<div class="gtco-widget">
+						<h3 class="fon">瑜伽平台</h3>
+						<ul class="gtco-footer-links">
+							<li><a href="coachLogin.html" class="fon">成为教练</a></li>
+							<li><a href="gymLogin.html" class="fon">场馆入驻</a></li>
+						</ul>
+					</div>
+				</div>
+
 				<div class="col-md-3 col-md-push-1">
 					<div class="gtco-widget">
 						<h3>联系方式</h3>
@@ -212,7 +198,11 @@
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-
+	<script>
+		function publish() {
+			$("#publish").slideToggle("slow");
+		}
+	</script>
 	</body>
 </html>
 

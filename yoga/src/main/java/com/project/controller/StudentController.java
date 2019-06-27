@@ -146,8 +146,6 @@ public class StudentController {
 			Object obj = new SimpleHash("MD5",student.getS_password(),id,1024);
 			student.setS_password(obj.toString());
 			Boolean boo = service.regist(student);
-			//注册成功：定向登录界面；失败：定向注册界面
-			//System.out.println(boo);
 			if (boo) {
 				return "yes";
 			}else {
@@ -168,8 +166,10 @@ public class StudentController {
 			 * @param id 学员id
 			 */
 			@RequestMapping("/showStudent.do")
-			public String showCoachInfoByid(Model m,Session session) {
-				StudentBean studentBean = (StudentBean)session.getAttribute("stu");
+
+			public String showCoachInfoByid(Model m) {
+				Session session = SecurityUtils.getSubject().getSession();
+				StudentBean studentBean = (StudentBean) session.getAttribute("stu");
 				String id = studentBean.getS_id();
 				System.out.println(id);
 				StudentBean stu = service.findStudentbyId(id);
@@ -204,9 +204,7 @@ public class StudentController {
 			@RequestMapping(value ="/modify.do",method = RequestMethod.GET)
 			public String updateStudent(Model m,HttpServletRequest request,ModelMap map){
 				String id = request.getParameter("id");
-				//System.out.println(id);
 				StudentBean stu = service.findStudentbyId(id);
-				//System.out.println(stu);
 				m.addAttribute("stu", stu);
 				map.addAttribute("stuafter", stu);
 				return "html/student/modify.html";
@@ -214,7 +212,6 @@ public class StudentController {
 			
 			@PostMapping("/update.do")
 			public String update(@ModelAttribute StudentBean stuafter,Model m){
-						//System.out.println(stuafter);
 						service.update(stuafter);
 						m.addAttribute("stu", stuafter);
 						return "redirect:/student/showStudent.do";
@@ -228,7 +225,8 @@ public class StudentController {
 			 * @return
 			 */
 			@RequestMapping("/findcourse.do")
-			public String findcourse(Session session,ModelMap m){
+			public String findcourse( ModelMap m){
+				Session session = SecurityUtils.getSubject().getSession();
 				StudentBean stu=(StudentBean) session.getAttribute("stu");
 				String id = stu.getS_id();
 				List<LessonBean> lessonlist = service.findcourse(id);
@@ -272,8 +270,9 @@ public class StudentController {
 			 * 留言板
 			 */
 			@RequestMapping("/findWord.do")
-			public String findWord(Session session,Model model){
-				System.out.println("进来了");
+
+			public String findWord(Model model){
+				Session session = SecurityUtils.getSubject().getSession();
 				StudentBean bean = (StudentBean)session.getAttribute("stu");
 				List<WordsBean> wordslist = service.findWords(bean.getS_id());
 				List<ShowWordsBean> list3 = new ArrayList<ShowWordsBean>();
@@ -298,7 +297,8 @@ public class StudentController {
 			 * 加关注
 			 */
 			@RequestMapping("/attention.do")
-			public String addAttention(Session session,HttpServletRequest request){
+			public String addAttention(HttpServletRequest request){
+				Session session = SecurityUtils.getSubject().getSession();
 				String name = request.getParameter("name");
 				StudentBean bean = (StudentBean)session.getAttribute("stu");
 				System.out.println(name);
@@ -311,7 +311,8 @@ public class StudentController {
 			 * 留言
 			 */
 			@RequestMapping("/insertWord.do")
-			public String insertWord(Session session,HttpServletRequest request){
+			public String insertWord(HttpServletRequest request){
+				Session session = SecurityUtils.getSubject().getSession();
 				String content = request.getParameter("name");
 				StudentBean bean = (StudentBean)session.getAttribute("stu");
 				WordsBean wordsBean = new WordsBean();
@@ -325,7 +326,8 @@ public class StudentController {
 			
 			
 			@RequestMapping("/findorder.do")
-			public String findorder(Session session,ModelMap m){
+			public String findorder(ModelMap m){
+				Session session = SecurityUtils.getSubject().getSession();
 				StudentBean stu=(StudentBean) session.getAttribute("stu");
 				String id = stu.getS_id();
 				List<OrderBean> orderlist = service.findorderbyid(id);
@@ -335,7 +337,8 @@ public class StudentController {
 			}
 		
 			@RequestMapping("/mypage.do")
-			public String mypage(Session session,ModelMap m){
+			public String mypage(ModelMap m){
+				Session session = SecurityUtils.getSubject().getSession();
 				StudentBean stu=(StudentBean) session.getAttribute("stu");
 				String id = stu.getS_id();
 				int fansnumber = service.countmyfans(id);
@@ -348,13 +351,25 @@ public class StudentController {
 				return "html/student/mypage.html";
 			}
 			
+			/**
+			 * 跳转充值页面
+			 * @param m
+			 * @return
+			 */
 			@RequestMapping("/recharge.do")
-			public String recharge(Session session,ModelMap m){
+			public String recharge(ModelMap m){
 				return "html/student/pay.html";
 			}
 			
+			/**
+			 * 跳转支付宝支付页面
+			 * @param session
+			 * @param m
+			 * @return
+			 */
+			
 			@RequestMapping("/alipay.do")
-			public String alipay(Session session,ModelMap m){
-				return "html/jsp/index.jsp";
+			public String alipay(ModelMap m){
+				return "redirect:/jsp/index.jsp";
 			}
 }

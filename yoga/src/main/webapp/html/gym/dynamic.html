@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+
+<html>
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -47,36 +48,146 @@
 
 	</head>
 	<style type="text/css">
+		body{
+			background: ghostwhite;
+		}
+		/*==============发表动态===================================*/
+		.dyn_head{
+			margin-left: 100px;
+			width: 800px;
+			height: 310px;
+			
+		}
+		.my_headimg,.add_dyn,.new_dyn{
+			float: left;
+		}
+		.my_headimg{
+			width: 120px;
+			text-align: center;
+		}
+		.my_headimg img{
+			width: 100%;
+		}
+		.add_dyn{
+			margin-left: 30px;
+		}
+		.add_dyn img{
+			width: 80px;
+			height: 80px;
+			margin-left: 5px;
+			margin-top: -70px;
+		}	
+		.btn{
+			margin-left: 400px;
+			margin-top: -50px;
+		}
+		/*-==================================================*/
+		.new_dyn{
+			width: 100%;
+			margin-top: 40px;
+		}
+		ul{
+			margin-top: -45px;
+			margin-left: 65px;
+		}
 		.dialog{ 
-            border: solid 2px;
-            border-radius: 15px;
-            margin-left:50px;
-            padding: 40px;
+            /*border: red solid 2px;*/
+            /*border-radius: 15px;*/
+            /*margin-left:30px;*/
+            /*padding: 20px;*/
             display: inline-block;
             font-size: 1.5em;
             color: #09C6AB;
-            width: 600px;
+            /*width: 600px;*/
         }
-        .dialog:before{
+       /* .dialog:before{
+        	
             width: 0;
             height: 0;
             border-top:32px solid #fff;
             border-right: 35px solid;
             margin-left: -81px;
-            margin-top: 32px;
+            margin-top: 10px;
         }
         .dialog:after{
-            top: 43px;
+            top: 20px;
             bottom: 88px;
             left: -37px;
             border-top: 44px solid transparent;
             border-right: 48px solid #ffffff;
             border-bottom: 0 solid transparent;
-        }
+        }*/
+	/*====================动态展示========================================================*/
         #message{
-        	height: 300px;
+        	width: 700px;
+        	margin-left: 150px;
+        }
+        .dynamic{
+        	margin-top: 15px;
+        	padding: 30px;
+        	width:700px;
+        	word-wrap: break-word;
+        	border-radius: 5px;
+        	background: white;
+        	border: 1px solid ghostwhite;
+        }
+        .con_head{
+        	width: 600px;
+        	height: 100px;
+        }
+        .headimg,.nickname{
+        	float: left;
+        }
+        .headimg{
+        	width: 70px;
+        	height: 70px;
+        	border-radius: 35px;
+        	overflow: hidden;
+        }
+        .headimg img{
+        	width: 80px;
+        }	
+        .nickname{
+        	margin-left: 10px;
+        	margin-top: 5px;
+        }
+        .content{
+        	width: 550px;
+        	font: "微软雅黑";
+        	font-size: 20px;
+        	margin-left: 30px;
         }
 	</style>
+	<style>
+		.preview{
+			margin-left: 505px;
+			margin-top: -27px;
+			width: 80px;
+			height: 80px;
+			z-index: 1;
+		}
+		
+		.file {
+			position: absolute;
+			display: block;
+			width: 80px;
+			height: 80px;
+			background: #9acd32;
+			overflow: hidden;
+			z-index: 2;
+			margin-left: 510px;
+			margin-top: -141px;
+			opacity:0;/*透明度设置*/
+		}
+		.file input {
+			position: absolute;
+			font-size: 75pt;
+			right: 0;
+			top: 0;
+			opacity: 0
+		}
+	</style>
+	
 	<body>
 		
 	<div class="gtco-loader"></div>
@@ -126,42 +237,70 @@
 	
 	<div class="gtco-section border-bottom">
 		<div  class="gtco-container">
-			<div class="row">
-			<div  class="col-md-2 col-md-offset-0" >
-				<img  src="../../images/imgs/1.jpg">
-				<p><a>关注</a>|<a>粉丝</a>|<a>动态</a></p>
+			<div class="dyn_head">
+				<div class="my_headimg">
+					<img  src="../../images/imgs/1.jpg"><br />
+					昵称
+				</div>
+				<div class="add_dyn">
+					<h2 style="text-align: center;">发表动态</h2>
+					<div class="">
+						<textarea name="message"  placeholder="说点什么吧！（30字以内）" style="width: 500px;height: 80px;"></textarea>
+						<div class="preview">
+							 <img  src="../../images/imgs/add.jpg"><br />
+						</div>
+						<div class="headimg_file">
+							<a href="javascript:;" class="file">
+								<span>选择文件</span>
+								<input type="file" onchange="preview(this)" />
+							</a>
+						</div>
+						<button class="btn btn-primary">发表</button>
+					</div>
+				</div>
 				
-			</div>
-					<h2 style="text-align: center;" class="col-md-6 col-md-offset-1 ">发表动态</h2>
-				<div   class="col-md-7 col-md-offset-1" align="left" >
-				<textarea name="message" style="width:100%;height:100px;" placeholder="说点什么吧！（30字以内）"></textarea>
-				<br />
-				<button  style="float: right;" class="btn btn-primary">发表</button>
-				</div>
-				<br /><br /><br />
-				<div  class="col-md-2 col-md-offset-1 text-center ">
-					<div style="height:150px;" class="has-dropdown">
-					<h3  style="text-align: left;" >最新动态 <img  src="../../images/pointer.jpg"> </h3>
-						<ul style="width:150px" class="dropdown">
-								<li style=" list-style-type:none"><a href="/dynamic/showFollow.do">我的关注</a></li>
-								<li style=" list-style-type:none"><a href="/dynamic/showFriend.do">我的好友</a></li>
-							</ul>
-					</div>		
-				</div>
+				<div class="new_dyn has-dropdown">
+   					<h3>最新动态</h3>	
+   					<ul style="width:150px" class="dropdown">
+						<li style=" list-style-type:none"><a href="showMessage.html">所有动态</a></li>
+						<li style=" list-style-type:none"><a href="showMessage.html">我的动态</a></li>
+					</ul>
+   				</div>	
 			</div>
 			<div  id="message">
-				<div class="col-md-14 col-md-offset-1">
-				<div style="float:left">
-						<img src="../../images/imgs/2.jpg"/>
-						<h3>用户名/昵称</h3>
-						<button class="btn btn-primary">关注</button>
+				<div class="dynamic" >
+					<div class="con_head">
+						<div class="headimg">
+   							<img src="../../images/imgs/2.jpg" />
+   						</div>
+   						<div class="nickname">
+   							<span style="font-size: 18px;font-weight: 700;">昵称</span><br />
+   							<span style="font-size: 12px;">2019/06/04</span>
+   						</div>
+   						
+					</div>
+					
+					<div class="content">
+						动态内容qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq<br/>
+						<img src="image/1.jpg" style="height:200px;" />
+					</div>
 				</div>
-				</div>
-				<div class="dialog_Box">
-   					<span class="dialog">
-   						动态内容BBBBBBBBBBBBBBBBBBBBBBBB
-   						<p>发表时间：2019-06-19</p>
-   					</span>
+				
+				<div class="dynamic" >
+					<div class="con_head">
+						<div class="headimg">
+   							<img src="../../images/imgs/2.jpg" style="height:80px;"/>
+   						</div>
+   						<div class="nickname">
+   							<span style="font-size: 18px;font-weight: 700;">昵称</span><br />
+   							<span style="font-size: 12px;">2019/06/04</span>
+   						</div>
+					</div>
+					
+					<div class="content">
+						动态内容qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq<br/>
+						<img src="image/1.jpg" style="height:200px;" />
+					</div>
 				</div>
 			</div>
 			<hr>
@@ -241,10 +380,27 @@
 	
 	<!-- Datepicker -->
 	<script src="../../js/bootstrap-datepicker.min.js"></script>
-	
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
+	
+	<script>
+
+		var prevDiv = document.getElementsByClassName('preview')[0];
+		var OFile = document.getElementsByClassName('file')[0];
+		
+		function preview(file) { //预览图片得到图片base64
+			
+			if(file.files && file.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(evt) {
+					prevDiv.innerHTML = '<img src="' + evt.target.result + '" alt="Image"/>';
+				}
+				reader.readAsDataURL(file.files[0]);
+			} 
+		}
+		
+	</script>
 
 	</body>
 </html>

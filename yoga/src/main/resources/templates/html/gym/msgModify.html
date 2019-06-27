@@ -65,10 +65,35 @@
 			margin-left: 20px;
 		}
 		img{
+			width: 100px;
 			height: 100px;
 		}
 	</style>
-	
+	<style>
+		.preview{
+			z-index: 1;
+		}
+		
+		.file {
+			position: absolute;
+			display: block;
+			width: 100px;
+			height: 100px;
+			background: #9acd32;
+			overflow: hidden;
+			z-index: 2;
+			margin-left: -5px;
+			margin-top: -110px;
+			opacity:0;/*透明度设置*/
+		}
+		.file input {
+			position: absolute;
+			font-size: 75pt;
+			right: 0;
+			top: 0;
+			opacity: 0
+		}
+	</style>
 	
     <style type="text/css">
     	.error_name,.error_phone,.error_address{
@@ -144,13 +169,17 @@
 							<div class="headimg_txt">
 								场馆头像：
 							</div>
-							<div class="headimg_img">
+							<div class="headimg_img preview">
 								<img src="image/1.jpg" th:src="@{../../images/imgs/}+${oldMsg.g_headimg}"/> 
 							</div>
 							<div class="headimg_file">
-								<input type="file" name="file" id="input_headimg" placeholder="" multiple="multiple"/>
+								<a href="javascript:;" class="file">
+									<span>选择文件</span>
+									<input type="file" name="file" onchange="preview(this)" />
+								</a>
+								<div style="font-size: 10px;">点击图片更换头像</div>
+								<!--<input type="file" name="file" id="input_headimg" placeholder="" multiple="multiple"/>-->
 							</div>
-							
 						</div>
 						<br /><br />
 						场馆名称：<input type="text" name="g_name" id="input_name" placeholder="" th:value="${oldMsg.g_name}"/>
@@ -248,7 +277,25 @@
 	<script src="../../js/main.js"></script>
 	
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=IRc5LSbvaY7NSn3IA8McK3oElyqOwY8v"></script>
+	
+	<script>
+
+		var prevDiv = document.getElementsByClassName('preview')[0];
+		var OFile = document.getElementsByClassName('file')[0];
 		
+		function preview(file) { //预览图片得到图片base64
+			
+			if(file.files && file.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(evt) {
+					prevDiv.innerHTML = '<img src="' + evt.target.result + '" alt="Image"/>';
+				}
+				reader.readAsDataURL(file.files[0]);
+			} 
+		}
+		
+	</script>
+	
 	<script type="text/javascript">
 		// 百度地图API功能
 		var map = new BMap.Map("allmap");
