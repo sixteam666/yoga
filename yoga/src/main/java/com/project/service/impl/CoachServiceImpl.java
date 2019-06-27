@@ -239,11 +239,18 @@ public class CoachServiceImpl implements ICoachService {
 	}
 
 	@Override
+	public List<CoachBean> findHotCoach() {
+		List<CoachBean> list = dao.findHotCoach();
+		return list;
+	}
+	
+	@Override
 	public String sendMessage(WordsBean words) {
-		int row = wd.addWord(words);
+		int row = wd.insertWords(words);;
 		if (row>0) return "success";
 		return "false";
 	}
+	
 	@Override
 	public CoachBean showToOtherUser(String currentUserId, String coachId, Integer type) {
 		CoachBean c = dao.getCoachById(coachId);

@@ -1,16 +1,25 @@
 package com.project.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
 
 import com.project.bean.WordsBean;
 
 public interface IWordDao {
-	/**
-	 * 增加留言
-	 * @param stuId 被留言人
-	 * @param word 留言内容
-	 * @return 影响行数
-	 */
-	@Insert("insert into t_words(w_userid,w_showid,w_content) values(#{w_userid},#{w_showid},#{w_content})")
-	int addWord(WordsBean words);
+	
+	//  查询我的留言
+	@Select("SELECT * FROM t_words WHERE w_showid = #{id};")
+	public List<WordsBean> findWords(String id);
+	
+	/*//  删除我的留言
+	@Delete("DELETE FROM t_words WHERE w_id = #{id};")
+	public void deleteWords(String id);*/
+	
+	//  留言
+	@Insert("INSERT INTO t_words(w_content,w_time,w_userid,w_showid) VALUES(#{w_content},#{w_time},#{w_userid},#{w_showid})")
+	public int insertWords(WordsBean wordsBean);
+
 }

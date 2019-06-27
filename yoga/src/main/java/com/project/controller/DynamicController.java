@@ -1,7 +1,9 @@
 package com.project.controller;
 
+import java.util.Date;
 import java.util.List;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -9,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.bean.CoachBean;
 import com.project.bean.DynamicBean;
+import com.project.bean.GymBean;
+import com.project.bean.StudentBean;
 import com.project.service.IBlogService;
 import com.project.service.ICoachService;
+import com.project.util.DateUtil;
 
 @Controller
 @RequestMapping("dynamic")
@@ -89,5 +94,91 @@ public class DynamicController {
 	public String deleteDynamic(Integer id) {
 		blogService.delete(id);
 		return "redirect:/dynamic/showMy.do";
+	}
+	
+	/**
+	 * 显示关注的人
+	 * 垃圾代码
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("follow.do")
+	public String follows(String id, ModelMap map) {
+		if(id == null) {
+			//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+			id = "1";
+		}
+		
+		List<CoachBean> followCoach = blogService.listFollowCoach(id);
+		List<StudentBean> followStudent = blogService.listFollowStudent(id);
+		List<GymBean> followGym = blogService.listFollowGym(id);
+		map.put("followCoach", followCoach);
+		map.put("followStudent", followStudent);
+		map.put("followGym", followGym);
+		
+		return "html/coach/follow.html";
+	}
+	
+	/**
+	 * 显示粉丝
+	 * 垃圾代码
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("following.do")
+	public String followings(String id, ModelMap map) {
+		if(id == null) {
+			//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+			id = "1";
+		}
+		
+		List<CoachBean> coachFans = blogService.listCoachFans(id);
+		List<StudentBean> studentFans = blogService.listStudentFans(id);
+		map.put("coachFans", coachFans);
+		map.put("studentFans", studentFans);
+		
+		return "html/coach/following.html";
+	}
+	
+	@RequestMapping("/addDynamic.do")
+	public String addDynamic(DynamicBean dynamic) {
+		String d_time = DateUtil.Date2String(new Date(), "yyyy-MM-dd hh:mm:ss");
+		String d_userId = "";
+		String d_headimg = "";
+		String d_nickname = "";
+		Integer d_type = null;
+		CoachBean coach = (CoachBean) SecurityUtils.getSubject().getSession().getAttribute("coach");
+		System.out.println("===========***"+coach);
+		if(coach != null) {
+			d_userId = coach.getC_id();
+			d_headimg = coach.getC_headimg();
+			d_nickname = coach.getC_nickname();
+			d_type = 1;
+		} else {
+			StudentBean student = (StudentBean) SecurityUtils.getSubject().getSession().getAttribute("stu");
+			if(student != null) {
+				d_userId = student.getS_id();
+				d_headimg = student.getS_headimg();
+				d_nickname = student.getS_nickname();
+				d_type = 0;
+			} else {
+				GymBean gym = (GymBean) SecurityUtils.getSubject().getSession().getAttribute("gym");
+				if(gym != null) {
+					d_userId = gym.getG_id();
+					d_headimg = gym.getG_headimg();
+					d_nickname = gym.getG_name();
+					d_type = 2;
+				} else {
+					throw new RuntimeException("添加动态时未找到当前用户！");
+				}
+			}
+		}
+		dynamic.setD_userid(d_userId);
+		dynamic.setD_headimg(d_headimg);
+		dynamic.setD_nickname(d_nickname);
+		dynamic.setD_type(d_type);
+		dynamic.setD_time(d_time);
+		blogService.insert(dynamic);
+		return "dynamic/showHot.do";
 	}
 }

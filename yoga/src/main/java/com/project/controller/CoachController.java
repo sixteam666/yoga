@@ -15,11 +15,9 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.session.HttpServletSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -87,10 +85,6 @@ public class CoachController {
 	      }
 		return "success";
 	}
-	/**
-	 * 得到当前用户
-	 * @return
-	 */
 	@RequestMapping("/getUser.do")
 	@ResponseBody
 	public CoachBean getUser(){
