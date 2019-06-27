@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>教练个人信息</title>
+		<title>我的通知</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
 		<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -17,31 +17,31 @@
 		<link rel="stylesheet" href="../../css/themify-icons.css">
 		<!-- Bootstrap  -->
 		<link rel="stylesheet" href="../../css/bootstrap.css">
+
 		<!-- Magnific Popup -->
 		<link rel="stylesheet" href="../../css/magnific-popup.css">
+
 		<!-- Magnific Popup -->
 		<link rel="stylesheet" href="../../css/bootstrap-datepicker.min.css">
+
 		<!-- Owl Carousel  -->
 		<link rel="stylesheet" href="../../css/owl.carousel.min.css">
 		<link rel="stylesheet" href="../../css/owl.theme.default.min.css">
+
 		<!-- Theme style  -->
 		<link rel="stylesheet" href="../../css/style.css">
-		<link rel="stylesheet" href="../../css/baidumap/baidumap.css" />
+
 		<!-- Modernizr JS -->
-		<script type="text/javascript" src="../../js/modernizr-2.6.2.min.js"></script>
-		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=YYXMCpSms6hDBtGu09ZhLmx0jNTOXeqd"></script>
+		<script src="../../js/modernizr-2.6.2.min.js"></script>
 	</head>
 	<style type="text/css">
 		.fon {
 			font-family: "微软雅黑";
 		}
-		label{
-			background-color: transparent !important;
-			border-color: transparent !important;
-		}
 	</style>
 	<body>
 		<div class="gtco-loader"></div>
+		<div id="page"></div>
 		<nav class="gtco-nav" role="navigation">
 			<div class="gtco-container">
 
@@ -63,7 +63,7 @@
 									<li><a href="lesson.html">课程安排</a></li>
 									<li><a href="wallet.html">我的钱包</a></li>
 									<li><a href="myCoach.html">我的签约教练</a></li>
-									<li><a href="MyMessage.html">我的通知</a></li>
+									<li><a href="SignTheSign.html">我的通知</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -73,22 +73,16 @@
 		</nav>
 		<div class="gtco-section">
 			<div class="gtco-container">
-				<div>
-					<div class="col-md-8 col-md-offset-2 text-center">
-						<h2>地图查看</h2>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+						<h2>签约通知</h2>
 					</div>
-					<div class="col-md-8" style="font-size: 20px;width: 1000px;height: 600px;">
-						<div id="r-result" style="display: none">
-							搜索:<input type="text" id="suggestId" size="20" style="width:150px;" /><br><br>
-							<label for="province">省份:</label>
-							<select class="form-control" id="cmbProvince" name="cmbProvince"></select>
-							<label for="city">城市:</label>
-							<select class="form-control" id="cmbCity" name="cmbCity"></select>
-							<label for="county">区县:</label>
-							<select class="form-control" id="cmbArea" name="cmbArea"></select>
-							<input id="address_mes" type="text" />
-						</div>
-						<div id="BaiduMap"></div>
+					<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
+						<table style="width: 700px; height: 450px;">
+							
+							
+							
+						</table>
 					</div>
 				</div>
 			</div>
@@ -119,7 +113,8 @@
 							<h3>联系方式</h3>
 							<ul class="gtco-quick-contact">
 								<li><a href="#"><i class="icon-phone"></i> 15002881866</a></li>
-								<li><a href="#"><i class="icon-mail2"></i>shinoda@live.cn</a></li>
+								<li><a href="#"><i class="icon-mail2"></i>
+										shinoda@live.cn</a></li>
 								<li><a href="#"><i class="icon-chat"></i> Zzy19951117</a></li>
 							</ul>
 						</div>
@@ -170,13 +165,5 @@
 		<script src="../../js/main.js"></script>
 		<!-- 获取Session中的数据 -->
 		<script type="text/javascript" src="../../js/gym/getSession.js"></script>
-		
-		<!-- 添加或删除缩放控件 -->
-		<!-- <script type="text/javascript" src="js/BaiduMapJs/ControlButton.js"></script> -->
-		<!-- 地图定位   其他地图的js文件需放在此代码之后-->
-		<script type="text/javascript" src="../../js/BaiduMapJs/location.js"></script>
-		<script type="text/javascript" src="../../js/BaiduMapJs/search.js"></script>
-		<script type="text/javascript" src="../../js/BaiduMapJs/Address.js"></script>
-		<script type="text/javascript" src="../../js/BaiduMapJs/baidumap.js"></script>
 	</body>
 </html>

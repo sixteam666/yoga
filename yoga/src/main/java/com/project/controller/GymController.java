@@ -398,6 +398,9 @@ public class GymController {
 	@RequestMapping("/updateCoach.do")
 	@ResponseBody
 	public int updateCoach(String g_id, String c_id) {
+		if(g_id != "0") {
+			g_id = this.getGymToSession().getG_id();
+		}
 		int number = gymService.updateCoachBean(g_id, c_id);
 		return number;
 	}
@@ -412,7 +415,7 @@ public class GymController {
 	@RequestMapping("/submitSigingApplication.do")
 	@ResponseBody
 	public int submitSigingApplication(String g_id, String c_id) {
-		
+		g_id = this.getGymToSession().getG_id();
 		return gymService.submitSigingApplication(g_id, c_id);
 	}
 	
@@ -428,6 +431,7 @@ public class GymController {
 	@RequestMapping("/agreeSigingApplication.do")
 	@ResponseBody
 	public int agreeSigingApplication(String g_id, String c_id,int state) {
+		g_id = this.getGymToSession().getG_id();
 		return gymService.agreeSigingApplication(g_id, c_id, state);
 	}
 	
@@ -460,14 +464,28 @@ public class GymController {
 	 * 通过教练id查找教练
 	 * 
 	 * @param c_id
-	 * @return
+	 * @param type 0：显示未签约教练， 1：显示已签约教练
+	 * @param map
+	 * @return 教练个人详情页
 	 */
 	@RequestMapping("/findCoachById.do")
-	public String findCoachById(String c_id,ModelMap map) {
-		System.out.println("测试：" + c_id);
+	public String findCoachById(String c_id,Integer type, ModelMap map) {
+		System.out.println("测试：" + type + "    " + c_id);
 		CoachBean coach = coachService.getCoachById(c_id);
 		map.put("coach", coach);
-		// forward
+		map.put("type", type);
 		return "html/gym/CoachMessage.html";
+	}
+	
+	/**
+	 * 查找所有教练
+	 * 
+	 * @return 教练对象集合
+	 */
+	@RequestMapping("/findAllCoach.do")
+	@ResponseBody
+	public List<CoachBean> findAllCoach(){
+		List<CoachBean> coachList = coachService.findAll();
+		return coachList;
 	}
 }
