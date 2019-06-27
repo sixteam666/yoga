@@ -118,6 +118,24 @@ public interface IStudentService{
 	 */
 	public boolean updateorderstatus(String id,int status);
 	
+	
+	
+	/**
+	 * 查询我的关注人数
+	 * @param id
+	 * @return
+	 */
+	public int countmyattention(String id);
+	
+
+	/**
+	 * 查询我的粉丝人数
+	 * @param id
+	 * @return
+	 */
+	public int countmyfans(String id);
+	
+	
 	/**
 	 * 查询学生所有课程
 	 * @param id
@@ -126,11 +144,11 @@ public interface IStudentService{
 	public List<LessonBean> findcourse(String id);
 	
 	/**
-	 * 查询我没有关注的学员粉丝
+	 * 查询我的学员粉丝
 	 * @param id
 	 * @return
 	 */
-	public List<StudentBean> findFans(String id);
+	public List<StudentBean> findstuFans(String id);
 	
 	/**
 	 * 查询我的留言
