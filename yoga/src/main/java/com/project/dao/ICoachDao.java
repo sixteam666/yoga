@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.project.bean.CoachBean;
+import com.project.bean.RequestBean;
 import com.project.bean.StudentBean;
 
 public interface ICoachDao {
@@ -190,5 +191,13 @@ public interface ICoachDao {
 	 */
 	@Select("select * from t_coach where c_g_id=#{c_g_id} and c_nickname like concat('%',#{c_nickname},'%')")
 	public List<CoachBean> findCoachByNick(CoachBean coach);
+	/**
+	 * 查询是否有申请关系
+	 * @param r_reqid 声请人id
+	 * @param r_resid 被声请人id
+	 * @return
+	 */
+	@Select("select * from t_request where r_reqid = #{req} and r_resid = #{res} or r_reqid = #{res} and r_resid = #{req}")
+	public RequestBean findIsRequest(@Param("req")String r_reqid, @Param("res")String r_resid);
 	
 }

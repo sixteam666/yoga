@@ -117,7 +117,7 @@
 				
 				
 				inpPassWord[0].onblur = function(){
-					var regx1 = /^[1-9a-zA-Z]{6,16}$/;
+					var regx1 = /^[0-9a-zA-Z]{6,16}$/;
 					pwd = inpPassWord[0].value;
 					if (regx1.test(pwd)) {
 						password_warning[0].style.visibility = "hidden"
@@ -128,7 +128,7 @@
 					}
 				}
 				inpPassWord[1].onblur = function(){
-					var regx1 = /^[1-9a-zA-Z]{6,16}$/;
+					var regx1 = /^[0-9a-zA-Z]{6,16}$/;
 					pwd = inpPassWord[1].value;
 					if (regx1.test(pwd)) {
 						password_warning[1].style.visibility = "hidden"
@@ -217,5 +217,18 @@
 						
 					} 
 				}
+				
+				var welcome = document.getElementById("welcome")
+				
+				function getUser(){
+					$.ajax({
+						type:"get",
+						url:"/coach/getUser.do",
+						success:function(re){
+							welcome.innerHTML = "welcome,"+re.c_nickname
+						}
+					})
+				}
+				getUser()
 				
 				

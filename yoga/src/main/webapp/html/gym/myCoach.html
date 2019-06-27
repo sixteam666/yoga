@@ -80,7 +80,7 @@
 		<div class="gtco-container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>我的签约教练</h2><a id="map_mycoach" href="#">在地图上查看</a>
+					<h2>我的签约教练</h2><a id="map_mycoach" href="/html/gym/MyCoachMap.html">在地图上查看</a>
 				</div>
 			</div>
 			<div class="row myCoach">
@@ -149,7 +149,7 @@
 			            </div>  
 			            <div class="modal-footer">  
 			                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
-			                <button type="button" class="btn btn-primary">确定</button>  
+			                <button type="button" class="btn btn-primary" id="btn_agree">确定</button>  
 			            </div>  
 			        </div>  
 			    </div>  
@@ -278,17 +278,18 @@
 		
 		// 解约教练
 		function delMyCoach(c_id){
-	 		$(".btn.btn-primary").click(function(){
+	 		$("#btn_agree").click(function(){
 				console.info("测试  Coach id："+ c_id);
 				$.ajax({
 					url:"/gym/updateCoach.do",
 					type:"post",
 					async:true,
-					data:"g_id=0&c_id="+"73f6eb5f-cb38-48da-acc8-2da655afa363",
+					data:"g_id=0&c_id="+c_id,
 					success:function(mes){
 						console.info(mes);
 						if(mes == 1){
-							$("#myModal").css("display","none");
+							$(".close").click();
+							location.reload();
 						}
 					}
 				});

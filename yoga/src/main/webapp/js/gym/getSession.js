@@ -1,3 +1,4 @@
+// 获取Session中的数据
 function getSesison(){
 	$.ajax({
 		url:"/gym/getGymToSession.do",
@@ -14,3 +15,31 @@ function getSesison(){
 	});
 }
 getSesison();
+
+// 通过场馆id查询响应签约的教练（教练向场馆发请求）
+function findCoachByMyResponse(g_id){
+	$.ajax({
+		url:"/gym/findCoachByMyResponse.do",
+		type:"post",
+		async:true,
+		data:"g_id="+"g_id",
+		success:function(mes){
+			console.info(mes);
+		}
+	});
+}
+// findCoachByMyResponse("0"); 
+
+// 通过场馆id查询请求签约的教练（场馆向教练发请求）
+function findCoachByMyRequest(g_id){
+	$.ajax({
+		url:"/gym/findCoachByMyRequest.do",
+		type:"post",
+		async:true,
+		data:"g_id="+"g_id",
+		success:function(mes){
+			console.info(mes);
+		}
+	});
+}
+// findCoachByMyRequest("0"); 

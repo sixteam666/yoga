@@ -2,10 +2,13 @@ package com.project.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Select;
+
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.PictureBean;
+import com.project.bean.RequestBean;
 
 /**
  * 场馆业务层接口
@@ -157,5 +160,20 @@ public interface IGymService {
 	 * @return
 	 */
 	public int deleteLesson(int id);
-
+	
+	/**
+	 * 通过场馆id查询响应签约的教练（教练向场馆发请求）
+	 * 
+	 * @param g_id
+	 * @return 响应签约的教练集合
+	 */
+	public List<CoachBean> findCoachByMyResponse(String g_id);
+	
+	/**
+	 * 通过场馆id查询请求签约的教练（场馆向教练发请求）
+	 * @param g_id
+	 * @return 已请求签约的教练集合
+	 */
+	public List<CoachBean> findCoachByMyRequest(String g_id);
+	
 }
