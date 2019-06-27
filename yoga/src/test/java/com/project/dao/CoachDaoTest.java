@@ -95,11 +95,6 @@ public class CoachDaoTest extends BaseTest {
 		CoachBean coach = dao.findCoachByPhone("13345674567");
 		System.out.println(coach);
 	}
-	//测试添加留言
-	@Test
-	public void addWord(){
-		int row = wd.addWord("sdfsfdsdf", "sfsdfsdf324", "六级吧盐");
-		System.out.println(row);
-	}
+	
 
 }
