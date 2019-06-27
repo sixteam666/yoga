@@ -1,24 +1,14 @@
 <!DOCTYPE HTML>
+
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
+<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>我的订单</title>
+	<title>个人中心</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
 	<meta name="author" content="FreeHTML5.co" />
-
-  	<!-- Facebook and Twitter integration -->
-	<meta property="og:title" content=""/>
-	<meta property="og:image" content=""/>
-	<meta property="og:url" content=""/>
-	<meta property="og:site_name" content=""/>
-	<meta property="og:description" content=""/>
-	<meta name="twitter:title" content="" />
-	<meta name="twitter:image" content="" />
-	<meta name="twitter:url" content="" />
-	<meta name="twitter:card" content="" />
 
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
 	
@@ -47,48 +37,59 @@
 	<!-- Modernizr JS -->
 	<script src="../../js/modernizr-2.6.2.min.js"></script>
 
-	</head>
-	<body>
-		
-	<div class="gtco-loader"></div>
-		<div th:replace="html/student/frag.html::common_head">
-	</div>
-	
-	
-	<div class="gtco-section border-bottom">
+	<style type="text/css">
+		.fon{
+			font-family: "微软雅黑";
+		}
+	</style>
+</head>
+<body>
+		<!--  头部 -->
+		<nav class="gtco-nav" role="navigation" th:fragment="common_head">
 		<div class="gtco-container">
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>我的订单</h2>
+			
+			<div class="row" style="background-color:#09C6AB ;">
+				<div class="col-sm-4 col-xs-12">
+					<ul>
+						<li><a th:href="@{/student/stu.do}" class="fon">首页</a></li>
+						<li><a href="showGym.html" class="fon">所有场馆</a></li>
+						<li><a href="showCoach.html" class="fon">附近教练</a></li>
+						<li class="has-dropdown">
+							<a href="/dynamic/showHot.do">动态</a>
+							<ul class="dropdown">
+								<li><a href="showMessage.html">我的关注</a></li>
+								<li><a href="showMessage.html">附近的人</a></li>
+							</ul>
+						</li>
+					</ul>
 				</div>
+				<div class="col-xs-8 text-right menu-1">
+					<ul>
+						<li class="has-dropdown">
+							<span th:text="|欢迎您: ${session.stu.s_name}|" style="color: white;">欢迎您，用户名</span>
+							<a href="#">注销</a>
+						</li>
+						<li class="has-dropdown">
+							<a href="#">个人中心</a>
+							<ul class="dropdown">
+								<li><a href="showStudent.do">个人资料</a></li>
+								<li><a href="findcourse.do">课程中心</a></li>
+								<li><a href="findorder.do">我的订单</a></li>
+								<li><a href="mypage.do">个人主页</a></li>
+								<li><a href="inform.do">我的通知</a></li>
+							</ul>
+						</li>
+					</ul>	
 			</div>
-			<div class="row">
-				<div th:each="order : ${order} " class="col-md-4">
-					<div  class="price-box">
-						<h5 th:text="| ${order.gym.g_name} >|" align="left" class="pricing-plan">青脉健身馆  ></h5>
-						<h2 th:text="${order.lessonname}" class="pricing-plan">课程名称</h2>
-						<p th:text="| 订单编号 : ${order.code}|">订单编号：xxxxxx</p>
-						<div class="price" ><sup class="currency">￥</sup><span th:text="${order.o_price}">500</span><small>元</small></div>
-						<hr>
-						<ul class="pricing-info">
-							<li th:if="${order.o_status}==1">订单状态：未支付</li>
-							<li th:if="${order.o_status}==2">订单状态：已支付</li>
-							<li th:text="| 下单时间: ${order.o_time}|">下单时间：xxx</li>
-						</ul>
-						
-						<a th:if="${order.o_status}==1" href="#" class="btn btn-primary">去支付</a>
-						<a th:if="${order.o_status}==2" href="#" class="btn btn-primary">评价</a>
-					</div>
-				</div>
-		
 			</div>
+			
 		</div>
-	</div>
+	</nav>
 	
-	<footer id="gtco-footer" role="contentinfo">
+			
+	<footer id="gtco-footer" role="contentinfo" th:fragment="common_foot">
 		<div class="gtco-container">
 			<div class="row row-p	b-md">
-
 				<div class="col-md-4">
 					<div class="gtco-widget">
 						<h3>关于我们</h3>
@@ -98,6 +99,16 @@
 
 				<div class="col-md-2 col-md-push-1"></div>
 				
+				<div class="col-md-2 col-md-push-1">
+					<div class="gtco-widget">
+						<h3 class="fon">瑜伽平台</h3>
+						<ul class="gtco-footer-links">
+							<li><a href="coachLogin.html" class="fon">成为教练</a></li>
+							<li><a href="gymLogin.html" class="fon">场馆入驻</a></li>
+						</ul>
+					</div>
+				</div>
+
 				<div class="col-md-3 col-md-push-1">
 					<div class="gtco-widget">
 						<h3>联系方式</h3>
@@ -130,6 +141,9 @@
 
 		</div>
 	</footer>
+	
+	
+
 
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
@@ -161,6 +175,8 @@
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
+	
 
 	</body>
 </html>
+
