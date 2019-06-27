@@ -11,11 +11,8 @@ import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
-import com.project.dao.CoachDaoTest;
 import com.project.dao.ICoachDao;
 import com.project.dao.IFollowDao;
-import com.project.dao.CoachDaoTest;
-import com.project.dao.ICoachDao;
 import com.project.dao.IGymDao;
 import com.project.dao.ILessonDao;
 import com.project.dao.IStudentDao;
@@ -80,7 +77,7 @@ public class StudentServiceImpl implements IStudentService{
 
 	@Override
 	public StudentBean findStudentbyId(String id) {
-		StudentBean stu =  dao.findStudentbyId(id);
+		StudentBean stu = dao.findStudentbyId(id);
 		return stu;
 	}
 
@@ -173,16 +170,8 @@ public class StudentServiceImpl implements IStudentService{
 	}
 
 	@Override
-	public List<StudentBean> findFans(String id) {
+	public List<StudentBean> findstuFans(String id) {
 		List<StudentBean> list = followDao.listFollowingStudent(id);
-		for (StudentBean studentBean : list) {
-			List<StudentBean> list2 = followDao.listFollowingStudent(studentBean.getS_id());
-			for (StudentBean studentBean2 : list2) {
-				if (studentBean2.getS_id().equals(studentBean.getS_id())) {
-					list.remove(studentBean2);
-				}
-			}
-		}
 		return list;
 	}
 
@@ -202,5 +191,17 @@ public class StudentServiceImpl implements IStudentService{
 	public int insertWords(WordsBean wordsBean) {
 		wordDao.insertWords(wordsBean);
 		return 0;
+	}
+
+	@Override
+	public int countmyattention(String id) {
+		int result = followDao.countFollow(id);
+		return result;
+	}
+
+	@Override
+	public int countmyfans(String id) {
+		int result = followDao.countFollowing(id);
+		return result;
 	}
 }
