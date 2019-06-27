@@ -77,7 +77,7 @@ public class StudentServiceImpl implements IStudentService{
 
 	@Override
 	public StudentBean findStudentbyId(String id) {
-		StudentBean stu =  dao.findStudentbyId(id);
+		StudentBean stu = dao.findStudentbyId(id);
 		return stu;
 	}
 

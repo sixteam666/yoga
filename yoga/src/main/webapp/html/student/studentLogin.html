@@ -88,12 +88,18 @@
 									<div class="tab">
 										
 										<div class="tab-content">
-											<div class="tab-content-inner active" data-content="signup">
-												<h3><span id="fon">学员登陆</span></h3>
+											<div id="login" class="tab-content-inner active" data-content="signup">
+												<div class="btn" onclick="weixinlog()">
+													手机登陆
+												</div>
+												<div class="btn" onclick="shoujinum()">
+													账户登陆
+												</div>
+												<div id="in">
 													<div class="row form-group">
 														<div class="col-md-12">
 															<label for="fullname"><span class="fon">账户</span></label>
-															<input type="text" id="fullname" name="arg1" class="form-control" placeholder="请输入用户名/手机号">
+															<input type="text" id="fullname" name="arg1" class="form-control" placeholder="请输入用户名">
 														</div>
 													</div>
 												
@@ -111,6 +117,30 @@
 															<a href="forgetPassword.html">忘记密码</a>
 														</div>
 													</div>
+												</div>
+												<div id="in2">
+													<div class="row form-group">
+														<div class="col-md-12">
+															<label for="fullname"><span class="fon">手机号</span></label>
+															<input type="text" id="fullname2" name="arg1" class="form-control" placeholder="请输入手机号">
+														</div>
+													</div>
+												
+													<div class="row form-group">
+														<div class="col-md-12">
+															<label for="date-start"><span class="fon">密码</span></label>
+															<input type="password" id="password2" name="pwd" class="form-control" placeholder="请输入密码">
+														</div>
+													</div>
+	
+													<div class="row form-group">
+														<div class="col-md-12">
+															<input type="button" onclick="login2()" class="btn btn-primary btn-block" value="登陆">
+															<a href="studentReg.html"><input type="button" class="btn btn-primary btn-block" value="注册"></a>
+															<a href="forgetPassword.html">忘记密码</a>
+														</div>
+													</div>
+												</div>
 											</div>
 	
 											
@@ -172,6 +202,40 @@
 			}
 		});
 	}
+	
+	function login2(){
+		var userName = $("#fullname2").val();
+		var password = $("#password2").val();
+		$.ajax({
+			url:"/student/login2.do",
+			type:"post",
+			async:true,
+			data:"arg1="+userName+"&pwd="+password,
+			success:function(mes){
+				if(mes == "认证成功"){
+					location.href = "/student/stu.do";
+				}if(mes == "用户名错误"){
+					alert("用户名输入错误，请重新输入");
+				}if(mes == "密码错误"){
+					alert("密码输入错误，请重新输入");
+				}
+			}
+		});
+	}
+	function weixinlog(){
+		var shouji = document.getElementById("in");
+		var weixin = document.getElementById("in2");
+		shouji.style.display = "none";
+		weixin.style.display = "block";
+	}
+	
+	function shoujinum(){
+		var shouji = document.getElementById("in");
+		var weixin = document.getElementById("in2");
+		weixin.style.display = "none";
+		shouji.style.display = "block";
+	}
+	shoujinum();
 	</script>
 	</body>
 </html>
