@@ -13,6 +13,6 @@ public class BlogServiceImplTest extends BaseTest {
 	
 	@Test
 	public void testListAllBlog() {
-		System.out.println(blogService.listAllBlog());
+		System.out.println(blogService.listAllDynamics());
 	}
 }

@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.project.bean.CoachBean;
+import com.project.bean.RequestBean;
 import com.project.bean.StudentBean;
 
 public interface ICoachDao {
@@ -19,10 +20,10 @@ public interface ICoachDao {
 	 * @param coach coachBean对象
 	 * @return 影响行数
 	 */
-	@Insert("insert into t_coach(c_name,c_password,c_phone,c_privacy,"
+	@Insert("insert into t_coach(c_id,c_name,c_password,c_phone,c_privacy,"
 			+ "c_nickname,c_headimg,c_money,c_address,c_style,c_access,c_price,c_g_id)"
-			+ "values(#{c_name},#{c_password},#{c_phone},#{c_privacy},"
-			+ "#{c_nickname},#{c_headimg},#{c_money},#{c_address},#{c_style},"
+			+ "values(#{c_id},#{c_name},#{c_password},#{c_phone},#{c_privacy},"
+			+ "#{c_name},#{c_headimg},#{c_money},#{c_address},#{c_style},"
 			+ "#{c_access},#{c_price},#{c_g_id})")
 	public int addCoach(CoachBean coach);
 	/**
@@ -30,7 +31,7 @@ public interface ICoachDao {
 	 * @param name 用户名或电话号码
 	 * @return 教练对象
 	 */
-	@Select("select * from t_coach where c_name = #{name} or c_phone = #{name}")
+	@Select("select * from t_coach where c_name = #{name}")
 	public CoachBean findCoachByName(String name);
 	/**
 	 * 通过场馆id查询教练	
@@ -40,6 +41,8 @@ public interface ICoachDao {
 	@Select("select * from t_coach where c_g_id = #{gymId}")
 	public List<CoachBean> findCoachByGymId(String gymId);
 	
+	
+	//教练信息完善，方式变更
 	/**
 	 * 教练信息完善，包含：动态权限设置、昵称设置、头像设置、地址设置
 	 * 业务：教练资料完善，教练资料更新
@@ -123,5 +126,78 @@ public interface ICoachDao {
 	@Select("select * from t_student where s_id "
 			+ "in(select po_s_id from t_porder where po_c_id = #{cid})")
 	List<StudentBean> listStudentByCoachId(String id);
+	
+	/**
+	 * 查询教练基本信息：昵称，手机号，qq号，地址，头像等
+	 * @param id 教练id
+	 * @return
+	 */
+	@Select("select c_id,c_phone,c_nickname,c_headimg,c_address,c_privacy,c_qq "
+			+ "from t_coach where c_id = #{id}")
+	public CoachBean getPersonalInfo(String id);
+	
+	/**
+	 * 更改基本信息：昵称、头像、手机号 、他人查看权限、地址、qq
+	 * @param coach
+	 * @return
+	 */
+	@Update("update t_coach set c_nickname = #{c_nickname}, c_headimg = #{c_headimg},"
+			+ " c_address = #{c_address}, c_privacy = #{c_privacy}, c_phone = #{c_phone},"
+			+ " c_qq = #{c_qq} where c_id = #{c_id}")
+	int updateCoachPersonalInfo(CoachBean coach);
+	
+	/**
+	 * 教练认证
+	 * @uthor pan
+	 * @param coach
+	 */
+	@Update("update t_coach set authentication = 5 where c_id = #{c_id}")
+	public void updateAuthentication(CoachBean coach);
+	/**
+	 * 教练认证结束
+	 * @uthor pan
+	 * @param coach
+	 */
+	@Update("update t_coach set authentication = 1 where c_id = #{c_id}")
+	public void updateAuthenticationSuccess(CoachBean coach);
+	
+	/**
+	 * 查询教练课程设置
+	 * @author pan
+	 * @param id
+	 * @return
+	 */
+	@Select("select c_id,c_style,c_price,c_access from t_coach where c_id = #{id}")
+	public CoachBean getLessonInfo(String id);
+	
+	/**
+	 * 更新教练课程设置
+	 * @author pan 
+	 * @param coach
+	 */
+	@Update("update t_coach set c_style = #{c_style}, c_price = #{c_price}, c_access = #{c_access} where c_id = #{c_id}")
+	public void updateCoachLessonInfo(CoachBean coach);
+	/**
+	 * 通过手机号查找教练
+	 * @param phone
+	 * @return
+	 */
+	@Select("select * from t_coach where c_phone = #{phone}")
+	public CoachBean findCoachByPhone(String phone);
+	/**
+	 * 通过昵称查找教练
+	 * @param nickname
+	 * @return
+	 */
+	@Select("select * from t_coach where c_g_id=#{c_g_id} and c_nickname like concat('%',#{c_nickname},'%')")
+	public List<CoachBean> findCoachByNick(CoachBean coach);
+	/**
+	 * 查询是否有申请关系
+	 * @param r_reqid 声请人id
+	 * @param r_resid 被声请人id
+	 * @return
+	 */
+	@Select("select * from t_request where r_reqid = #{req} and r_resid = #{res} or r_reqid = #{res} and r_resid = #{req}")
+	public RequestBean findIsRequest(@Param("req")String r_reqid, @Param("res")String r_resid);
 	
 }

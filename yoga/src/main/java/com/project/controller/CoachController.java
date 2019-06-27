@@ -3,22 +3,33 @@ package com.project.controller;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.session.HttpServletSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.project.bean.BankCardBean;
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
+import com.project.service.IBankCardService;
 import com.project.service.ICoachService;
+import com.project.service.IGymService;
+import com.project.util.FileUtil;
 
 @Controller
 @RequestMapping("/coach")
@@ -26,6 +37,10 @@ public class CoachController {
 	
 	@Autowired
 	private ICoachService service;
+	@Autowired
+	private IBankCardService bankCardService;
+	@Autowired
+	private IGymService gs;
 	
 	/**
 	 * 
@@ -35,11 +50,12 @@ public class CoachController {
 	 * @return
 	 */
 	@RequestMapping("/login.do")
-	public String login(String arg1,String pwd,Integer remenber){
+	@ResponseBody
+	public String login(String c_name,String c_password,Integer remenber ){
 		//产生一个用户（门面对象）
 		Subject currentUser = SecurityUtils.getSubject();
 		 if (!currentUser.isAuthenticated()) {
-	            UsernamePasswordToken token = new UsernamePasswordToken("c"+arg1,pwd);
+	            UsernamePasswordToken token = new UsernamePasswordToken("c"+c_name,c_password);
 	            try {
 	            	if (remenber != null && remenber == 1) {
 						token.setRememberMe(true);
@@ -47,35 +63,51 @@ public class CoachController {
 	            	//调用login进行认证
 	                currentUser.login(token);
 	                System.out.println("认证成功");
-	                return "redirect:/index.html";
+	                Session session = currentUser.getSession(true);
+	                session.setAttribute("coach", service.login(c_name));
+	                return "success";
 	            } catch (UnknownAccountException uae) {
 	            	System.out.println("用户名异常");
-	            	return "redirect:/login.html";
+	            	return "name_false";
 	            } catch (IncorrectCredentialsException ice) {
 	            	System.out.println("密码异常");
-	            	return "redirect:/login.html";
+	            	return "password_false";
 	            } catch (LockedAccountException lae) {
 	               System.out.println("被锁定异常");
-	               return "redirect:/login.html";
+	               return "user_lock";
 	            }
-	            
 	      }
-		return "redirect:/index.html";
+		return "success";
 	}
+	@RequestMapping("/getUser.do")
+	@ResponseBody
+	public CoachBean getUser(){
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession(true);
+		Object obj = session.getAttribute("coach");
+		if (obj != null) {
+			CoachBean coach = (CoachBean)obj;
+			return coach;
+		}
+		 ;
+		return null;
+	} 
+	
 	@RequestMapping("/register.do")
+	@ResponseBody
 	public String register(CoachBean coach){
-		
-		/**
-		 * 未确定加盐值
-		 */
 		String id = UUID.randomUUID().toString();
+		/**
+		 * 暂未加盐
+		 */
+		Object obj = new SimpleHash("MD5",coach.getC_password(),id,1024);
+		coach.setC_password(obj.toString());
 		coach.setC_id(id);
 		Boolean boo = service.register(coach);
 		//注册成功：定向登录界面；失败：定向注册界面
-		if (boo) return "redirect:/login.html";
-		return "redirect:/register.html";
+		if (boo) return "success";
+		return "false";
 	}
-	
 	
 	/**
 	 * 教练信息完善，教练信息更新
@@ -98,11 +130,11 @@ public class CoachController {
 	 */
 	@RequestMapping("showCoach.do")
 	public String showCoachInfoByid(String id, ModelMap map) {
-		System.out.println("测试进入详情展示控制层方法>>>>>>>>>>>>>>>>>>>>>>>>");
 		//id从session域中获取？还是从前台传递？
-		CoachBean coachInfo = service.getCoachDetailInfo(id);
+		CoachBean coachInfo = service.getCoachById(id);
+		System.out.println(coachInfo);
 		map.put("coachInfo", coachInfo);
-		return "html/coach/my.html";
+		return "html/coach/my-pan.html";
 	}
 	
 	/**
@@ -125,6 +157,7 @@ public class CoachController {
 		//返回场馆集合，页面地图展示
 		return service.showAllGym();
 	}
+	
 	/**
 	 * 教练申请签约场馆
 	 * @param r_reqid 教练id
@@ -132,8 +165,16 @@ public class CoachController {
 	 * @return 
 	 */
 	@RequestMapping("/signGym.do")
-	public Boolean signGym(String r_reqid,String r_resid){
-		Boolean boo = service.addRequest(r_reqid, r_resid);
+	@ResponseBody
+	public String signGym(String r_resid){
+		String boo = "";
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession(true);
+		Object obj = session.getAttribute("coach");
+		if (obj != null) {
+			CoachBean coach = (CoachBean)obj;
+			boo = service.addRequest(coach.getC_id(), r_resid);
+		}
 		return boo;
 	}
 	/**
@@ -166,8 +207,13 @@ public class CoachController {
 	 * @param id 教练id
 	 * @param money 提现金额
 	 */
-	public void withdraw(String id, double money) {
-		service.updateMoney(id, money);
+	@RequestMapping("withdraw.do")
+	@ResponseBody
+	public boolean withdraw(double money, Integer cardId) {
+		//congsession中获取用户id
+		String id = "1";
+		Boolean res = service.updateMoney(id, money, cardId);
+		return res;
 	}
 	
 	/**
@@ -175,9 +221,144 @@ public class CoachController {
 	 * @author pan
 	 * @param id 教练id
 	 */
-	public String showMyStudent(String id, ModelMap map) {
+	@RequestMapping("myStudent.do")
+	public String showMyStudent(ModelMap map) {
+		//从session中取出用户id
+		String id = "1";
 		List<StudentBean> stuList = service.listMyStudent(id);
-		map.put("stuList", stuList);
-		return "/html/coach/showStudent.html";
+		System.out.println(stuList);
+		map.put("myStuList", stuList);
+		return "html/coach/myStudent.html";
+	}
+	
+	/**
+	 * 显示教练基本信息
+	 * @param id
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("personalInfo.do")
+	public String showPersonalInfo(String id, ModelMap map) {
+		CoachBean personalInfo = service.getPersonalInfo(id);
+		map.put("personalInfo", personalInfo);
+		return "/html/coach/personalInfo.html";
+	}
+	
+	/**
+	 * 更新教练个人详细信息
+	 * @author pan
+	 * @param coach 要更新的数据
+	 * @return 返回个人信息显示页面
+	 */
+	@RequestMapping("updatePersonalInfo.do")
+	public String updatePersonalInfo(CoachBean coach, MultipartFile file, HttpServletRequest req) {
+		//这里还有点问题，如果用户未重新上传文件情况未处理
+		String headimg = "";//session中取出
+		if(file.getOriginalFilename() != ""){
+			headimg =FileUtil.getFileName(file, req);
+		}
+		coach.setC_headimg(headimg);
+		coach.setC_id("1");
+		System.out.println(coach);
+		service.updatePersonalInfo(coach);
+		//重定向到个人信息显示页面
+		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
+	}
+	
+	/**
+	 * 教练认证
+	 * @author pan
+	 * @param coach
+	 */
+	@RequestMapping("authentication.do")
+	@ResponseBody
+	public String coachAuthentication(CoachBean coach) {
+		coach.setC_id("1");
+		service.updateAuthentication(coach);
+		return coach.getC_id();
+	}
+	
+	/**
+	 * 显示教练课程信息
+	 * @param id
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("lessonInfo.do")
+	public String showLessonInfo(String id, ModelMap map) {
+		CoachBean lessonInfo = service.getLessonInfo(id);
+		map.put("lessonInfo", lessonInfo);
+		return "/html/coach/lessonInfo.html";
+	}
+	
+	/**
+	 * 更新教练课程信息
+	 * @author pan
+	 * @param coach 要更新的数据
+	 * @return 返回个人信息显示页面
+	 */
+	@RequestMapping("updateLessonInfo.do")
+	public String updateLessonInfo(CoachBean coach) {
+		coach.setC_id("1");
+		System.out.println(coach);
+		service.updateLessonInfo(coach);
+		//重定向到个人信息显示页面
+		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
+	}
+	
+	/**
+	 * 查看钱包余额
+	 * @author pan
+	 * @param coach 要更新的数据
+	 * @return 返回个人信息显示页面
+	 */
+	@RequestMapping("showMoney.do")
+	public String updateLessonInfo(ModelMap map) {
+		CoachBean coach = getUser();
+		System.out.println("=========="+coach);
+		String id = "1";
+		Double money = service.getMoney(id);
+		List<BankCardBean> cardList = bankCardService.listBankCard(id);
+		map.put("cardList", cardList);
+		map.put("money", money);
+		return "/html/coach/money.html";
+	} 
+	
+	@RequestMapping("showToOther.do")
+	@ResponseBody
+	public CoachBean showToOtherUser(String coachId) {
+		 String currentUserId = "";
+		 Integer type = null;
+		 Session session = SecurityUtils.getSubject().getSession(false);
+		 StudentBean stu = (StudentBean) session.getAttribute("student");
+		 if(stu == null) {
+			 CoachBean coach = (CoachBean) session.getAttribute("coach");
+			 if(coach == null) {
+				 GymBean gym = (GymBean) session.getAttribute("gym");
+				 if(gym == null) {
+					 return null;
+				 } else {
+					 currentUserId = gym.getG_id();
+					 type = 2;
+				 }
+			 } else {
+				 currentUserId = coach.getC_id();
+				 type = 1;
+			 }
+		 } else {
+			 currentUserId = stu.getS_id();
+			 type = 0;
+		 }
+		 CoachBean c = service.showToOtherUser(currentUserId,coachId,type);
+		 return c;
+	}
+	
+	
+	@RequestMapping("/showOneGym.do")
+	public String showOneGym(ModelMap map,String gymId){
+		GymBean gb = gs.findGymById(gymId);
+		map.put("gymBean", gb);
+		return "/html/coach/msgShow.html";
+
 	}
 }

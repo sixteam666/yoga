@@ -13,8 +13,9 @@ public class FileUtil {
 	/*
 	 * 更改图片的名字，防止重名
 	 */
-	public String changeName(String name){
-		String newName = name +"_"+ UUID.randomUUID().toString();
+	public static String changeName(String name){
+		String ext = name.substring(name.lastIndexOf("."));
+		String newName = UUID.randomUUID().toString() + ext;
 		return newName;
 	}
 	
@@ -23,10 +24,11 @@ public class FileUtil {
 	 * @param multipartFile
 	 * @param req
 	 */
-	public String getFileName(MultipartFile multipartFile,HttpServletRequest req){
+	public static String getFileName(MultipartFile multipartFile,HttpServletRequest req){
 		//获取到tomcat的物理路径 将虚拟路径转化为物理路径
 		ServletContext context = req.getServletContext();
 		String path = context.getRealPath("/upload");
+		System.out.println(path);
 		File filepath = new File(path);
 		if (!filepath.exists()) {
             filepath.mkdirs();				

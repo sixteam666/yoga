@@ -43,7 +43,7 @@ public interface ICoachService {
 	 * @param id 要展示的教练对象的id
 	 * @return 教练实体对象
 	 */
-	CoachBean getCoachDetailInfo(String id);
+	CoachBean getCoachById(String id);
 	
 	/**
 	 * 修改密码
@@ -60,7 +60,7 @@ public interface ICoachService {
 	 * @param money 提取现金数量
 	 * @return
 	 */
-	Boolean updateMoney(String id, double money);
+	Boolean updateMoney(String id, double money, Integer cardId);
 	
 	/**
 	 * 获得教练所有学员
@@ -159,7 +159,7 @@ public interface ICoachService {
 	 * @param r_resid 被申请人id
 	 * @return true:添加成功；false：添加失败
 	 */
-	Boolean addRequest(String r_reqid,String r_resid);
+	String addRequest(String r_reqid,String r_resid);
 	/**
 	 * 处理申请
 	 * @param r_reqid 申请人id
@@ -167,5 +167,49 @@ public interface ICoachService {
 	 * @param state 申请状态
 	 * @return 是否处理成功
 	 */
-	Boolean updateRequest(String r_reqid,String r_resid,int state);
+	Boolean updateRequest(String r_reqid,String r_resid,int r_state);
+	
+	/**
+	 * 获得教练基本信息，用于个人资料基本信息修改
+	 * @author pan
+	 * @param id
+	 * @return
+	 */
+	public CoachBean getPersonalInfo(String id);
+	/**
+	 * 更新基本信息
+	 * @author pan
+	 * @param coach
+	 */
+	public void updatePersonalInfo(CoachBean coach);
+	/**
+	 * 教练认证
+	 * @author pan
+	 * @param coach
+	 */
+	public void updateAuthentication(CoachBean coach);
+	
+	/**
+	 * 获得教练课程设置
+	 * @param id
+	 * @return
+	 */
+	public CoachBean getLessonInfo(String id);
+	/**
+	 * 更新教练课程设置
+	 * @param coach
+	 */
+	public void updateLessonInfo(CoachBean coach);
+	/**
+	 * 查询钱包余额
+	 * @param id
+	 */
+	public Double getMoney(String id);
+	/**
+	 * 展示给其他用户的个人信息
+	 * @param currentUserId 要查看信息的用户id
+	 * @param coachId 教练id
+	 * @return 教练对象
+	 */
+	public CoachBean showToOtherUser(String currentUserId, String coachId, Integer type);
 }

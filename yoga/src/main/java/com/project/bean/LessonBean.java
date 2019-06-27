@@ -22,6 +22,9 @@ public class LessonBean {
 	public void setCoach(CoachBean coach) {
 		this.coach = coach;
 	}
+
+	private CoachBean coachBean;
+	
 	public int getL_id() {
 		return l_id;
 	}
@@ -84,12 +87,20 @@ public class LessonBean {
 	public void setL_s_number(int l_s_number) {
 		this.l_s_number = l_s_number;
 	}
+	
+	public CoachBean getCoachBean() {
+		return coachBean;
+	}
+	public void setCoachBean(CoachBean coachBean) {
+		this.coachBean = coachBean;
+	}
 	@Override
 	public String toString() {
 		return "LessonBean [l_id=" + l_id + ", l_time=" + l_time + ", l_c_id=" + l_c_id + ", l_descirbe=" + l_descirbe
 				+ ", l_size=" + l_size + ", l_s_number=" + l_s_number + ", l_price=" + l_price + ", l_g_id=" + l_g_id
-				+ ", l_weekday=" + l_weekday + ", l_datetime=" + l_datetime + "]";
+				+ ", l_weekday=" + l_weekday + ", l_datetime=" + l_datetime + ", coachBean=" + coachBean + "]";
 	}
+	
 	
 	
 

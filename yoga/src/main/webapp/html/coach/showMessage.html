@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 
-<html>
-	<head>
+<html xmlns:th="http:www.thymeleaf.org">
+<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>动态显示</title>
@@ -46,8 +46,8 @@
 	<!-- Modernizr JS -->
 	<script src="../../js/modernizr-2.6.2.min.js"></script>
 
-	</head>
-	<body>
+</head>
+<body>
 		
 	<div class="gtco-loader"></div>
 	
@@ -92,38 +92,40 @@
 	<div class="gtco-section border-bottom">
 		<div class="gtco-container">
 			<div class="row">
-				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+				<!-- <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
 					<h2>发表动态</h2>
 				</div>
 				<textarea name="message" style="width: 1100px;height: 300px;">说点什么吧！（30字以内）</textarea>
 				<br />
 				<input style="float: right;" type="button" value="发表" />
-				<br /><br /><br />
+				<br /><br /><br /> -->
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
 					<h2>最新动态</h2>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-16">
-						<img src="../../images/imgs/2.jpg"/>
-						<h2>用户名/昵称</h2><button class="btn btn-primary">关注</button>
-						<h4>动态内容aasdasdasdasdasdsadsadas</h4>
-						<p>发表时间：2019-06-19</p>
-						<hr>
+				<div th:each="dynamic : ${dynamicList}" class="col-md-12">
+					<img th:src="@{/images/dynamic/}+${dynamic.d_headimg}" width="40px" src="../../images/imgs/2.jpg"/>
+					<span th:text="${dynamic.d_nickname}">猜猜我是谁</span>
+					<span th:text="${dynamic.d_time}">今天 13:20</span>
+					<button style="background-color:#2fddc3;color:white;border:none">+&nbsp;关注</button>
+					<p th:text="dynamic.d_content">动态内容aasdasdasdasdasdsadsadas</p>
+					<img th:src="@{/images/dynamic/}+${dynamic.d_img}">
+					<hr>
 				</div>
-				<div class="col-md-16">
-						<img src="../../images/imgs/3.jpg"/>
-						<h2>用户名/昵称</h2><button class="btn btn-primary">关注</button>
-						<h4>动态内容aasdasdasdasdasdsadsadas</h4>
-						<p>发表时间：2019-06-19</p>
-						<hr>
+				<div class="col-md-12">
+					<img src="../../images/imgs/3.jpg"/>
+					<h2>用户名/昵称</h2><button class="btn btn-primary">关注</button>
+					<h4>动态内容aasdasdasdasdasdsadsadas</h4>
+					<p>发表时间：2019-06-19</p>
+					<hr>
 				</div>
-				<div class="col-md-16">
-						<img src="../../images/imgs/5.jpg"/>
-						<h2>用户名/昵称</h2><button class="btn btn-primary">关注</button>
-						<h4>动态内容aasdasdasdasdasdsadsadas</h4>
-						<p>发表时间：2019-06-19</p>
-						<hr>
+				<div class="col-md-12">
+					<img src="../../images/imgs/5.jpg"/>
+					<h2>用户名/昵称</h2><button class="btn btn-primary">关注</button>
+					<h4>动态内容aasdasdasdasdasdsadsadas</h4>
+					<p>发表时间：2019-06-19</p>
+					<hr>
 				</div>
 			</div>
 		</div>
@@ -131,7 +133,7 @@
 	
 	<footer id="gtco-footer" role="contentinfo">
 		<div class="gtco-container">
-			<div class="row row-p	b-md">
+			<div class="row row-p b-md">
 
 				<div class="col-md-4">
 					<div class="gtco-widget">

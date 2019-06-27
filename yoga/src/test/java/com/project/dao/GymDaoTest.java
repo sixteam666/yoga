@@ -65,7 +65,7 @@ public class GymDaoTest extends BaseTest{
 		gym.setG_password("1234567");
 		gym.setG_email("752998419@qq.com");
 		gym.setG_phone("18515779663");
-		gym.setG_qq("752998419");
+		gym.setG_qq("752998418");
 		gymDao.addGym(gym);
 
 	}

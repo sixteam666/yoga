@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -57,14 +57,15 @@
 						<li><a href="showMessage.html" class="fon">动态</a></li>
 					</ul>
 				</div>
-			<div class="col-xs-8 text-right menu-1">
+			<div class="col-xs-8 text-right">
 					<ul>
 						<li class="has-dropdown">
-							<span style="color: white;">欢迎您，用户名</span>
-							<a href="#">注销</a>
+							<span id="welcome" style="color: white;">rwer</span>
+							<a href="/logout">【注销】</a>
+							
 						</li>
 						<li class="has-dropdown">
-							<a href="#">个人中心</a>
+							
 							<ul class="dropdown">
 								<li><a href="my.html">个人资料</a></li>
 								<li><a href="myStudent.html">我的学员</a></li>
@@ -245,7 +246,7 @@
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 	
 	
 	<footer id="gtco-footer" role="contentinfo">
@@ -304,6 +305,7 @@
 
 		</div>
 	</footer>
+	<span id="ceshi"></span>
 </div>
 
 	<div class="gototop js-top">
@@ -336,7 +338,8 @@
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-
+	<script src="../../js/coachName.js"></script>
+	
 	</body>
 </html>
 

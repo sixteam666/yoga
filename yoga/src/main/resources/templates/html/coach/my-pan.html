@@ -1,0 +1,331 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>个人中心</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
+	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
+	<meta name="author" content="FreeHTML5.co" />
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="../../css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="../../css/icomoon.css">
+	<!-- Themify Icons-->
+	<link rel="stylesheet" href="../../css/themify-icons.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="../../css/bootstrap.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../../css/magnific-popup.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../../css/bootstrap-datepicker.min.css">
+
+	<!-- Owl Carousel  -->
+	<link rel="stylesheet" href="../../css/owl.carousel.min.css">
+	<link rel="stylesheet" href="../../css/owl.theme.default.min.css">
+
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="../../css/style.css">
+
+	<!-- Modernizr JS -->
+	<script src="../../js/modernizr-2.6.2.min.js"></script>
+
+	<style type="text/css">
+		.fon{
+			font-family: "微软雅黑";
+		}
+	</style>
+</head>
+<body>
+	<div class="gtco-loader"></div>
+	<div id="page"></div>
+	<nav class="gtco-nav" role="navigation" th:fragment="common_head">
+		<div class="gtco-container">
+			<div class="row" style="background-color:#09C6AB ;">
+				<div class="col-sm-4 col-xs-12">
+					<ul>
+						<li><a href="/html/coach/coach.html" class="fon">首页</a></li>
+						<li><a href="/html/coach/showGym.html" class="fon">场馆</a></li>
+						<li><a href="/html/coach/showStudent.html" class="fon">学员</a></li>
+						<li class="has-dropdown">
+							<a href="/dynamic/showHot.do" class="fon">动态</a>
+							<ul class="dropdown">
+								<li><a href="/dynamic/showFollow.do">我的关注</a></li>
+								<li><a href="/dynamic/showFriend.do">我的好友</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="col-xs-8 text-right menu-1">
+					<ul>
+						<li class="has-dropdown">
+							<a >欢迎您，用户名</a>
+							<ul class="dropdown">
+								<li><a href="/coach/showCoach.do?id=1">个人资料</a></li>
+								<li><a href="/coach/myStudent.do">我的学员</a></li>
+								<li><a href="contract.html">我的签约</a></li>
+								<li><a href="/dynamic/showMy.do">我的动态</a></li>
+								<li><a href="inform.html">我的通知</a></li>
+								<li><a href="/coach/showMoney.do?id=1">我的钱包</a></li>
+							</ul>
+						</li>
+						<li class="has-dropdown">
+							<a href="#">注销</a>
+						</li>
+					</ul>	
+				</div>
+			</div>
+			
+		</div>
+	</nav>
+	
+	<div class="gtco-section">
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<h2>个人资料</h2>
+				</div>
+				<div class="col-md-8 col-md-offset-2">
+					<div class="col-md-8 text-left">
+						<h3>基本信息&nbsp;&nbsp;<a style="font-size:14px" th:href="@{/coach/personalInfo.do?id=}+${coachInfo.c_id}">编辑</a></h3>
+					</div>
+					<table class="table table-bordered">
+						<tr align="center">
+							<td colspan="2">
+								<img th:src="@{/images/imgs/}+${coachInfo.c_headimg}" src="../../images/imgs/1.jpg"/>
+							</td>
+						</tr>
+						<tr align="center">
+							<td>昵称：</td>
+							<td ><span th:text="${coachInfo.c_nickname}">未设置</span></td>
+						</tr>
+						<tr align="center">
+							<td>手机号：</td>
+							<td><span th:text="${coachInfo.c_phone}">未设置</span></td>
+						</tr>
+						<tr align="center">
+							<td>QQ号：</td>
+							<td><span th:text="${coachInfo.c_qq}">未设置</span></td>
+						</tr>
+						<tr align="center">
+							<td>地址：</td>
+							<td><span th:text="${coachInfo.c_address}">未设置</span></td>
+						</tr>
+						<tr align="center">
+							<td>资料是否公开:</td>
+							<td>
+								<span th:text="${coachInfo.c_privacyStr}">完全公开</span>
+							</td>
+						</tr>
+					</table>
+						
+					<!-- 未认证 -->
+					<div th:if="${coachInfo.authentication == 0}">
+						<p>你还未进行教练认证，赶紧<a data-toggle="modal" data-target="#myModal2">点击认证</a>吧</p>
+					</div>
+					
+					<!-- 认证中 -->
+					<div th:if="${coachInfo.authentication == 5}">
+						<p>资料已提交，正在审核中...</p>
+					</div>
+					
+					<div th:if="${coachInfo.authentication == 1 || coachInfo.authentication == 2}">
+						<div class="col-md-8 text-left">
+							<h3>教练设置&nbsp;&nbsp;
+								<a style="font-size:14px" href="/coach/lessonInfo.do?id=1">编辑</a>
+							</h3>
+						</div>
+						<table class="table table-bordered">
+							<tr align="center">
+								<td>流派：</td>
+								<td><span th:text="${coachInfo.c_style}">未设置</span></td>
+							</tr>
+							<tr align="center">
+								<td>课时费标准：</td>
+								<td><span th:text="${coachInfo.c_price}+'元/节'">未设置</span></td>
+							</tr>
+							<tr align="center">
+								<td>是否接课：</td>
+								<td>
+									<span th:if="${coachInfo.c_access == 1}">是</span>
+									<span th:if="${coachInfo.c_access == 0}">否</span>
+								</td>
+							</tr>
+							<tr align="center">
+								<td>教练认证：</td>
+								<td>
+									<span th:if="${coachInfo.authentication == 1}">
+										<a>官方已认证</a>
+									</span>
+									<span th:if="${coachInfo.authentication == 2}">
+										<a>官方已认证</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a>场馆已认证</a>
+									</span>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+			
+	<footer id="gtco-footer" role="contentinfo">
+		<div class="gtco-container">
+			<div class="row row-p	b-md">
+
+				<div class="col-md-4">
+					<div class="gtco-widget">
+						<h3>关于我们</h3>
+						<p>蜗牛46期第六组项目，由项目负责人温攀，会长文然，技术负责人黄仁杰，产品经理滕伟，后台管理刘勇，前端张正宇负责</p>
+					</div>
+				</div>
+
+				<div class="col-md-2 col-md-push-1"></div>
+				
+				<div class="col-md-2 col-md-push-1">
+					<div class="gtco-widget">
+						<h3 class="fon">瑜伽平台</h3>
+						<ul class="gtco-footer-links">
+							<li><a href="coachLogin.html" class="fon">成为教练</a></li>
+							<li><a href="gymLogin.html" class="fon">场馆入驻</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="col-md-3 col-md-push-1">
+					<div class="gtco-widget">
+						<h3>联系方式</h3>
+						<ul class="gtco-quick-contact">
+							<li><a href="#"><i class="icon-phone"></i> 15002881866</a></li>
+							<li><a href="#"><i class="icon-mail2"></i> shinoda@live.cn</a></li>
+							<li><a href="#"><i class="icon-chat"></i> Zzy19951117</a></li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row copyright">
+				<div class="col-md-12">
+					<p class="pull-left">
+						<small class="block">&copy; 2019 在蜗牛46期写出来的.</small> 
+						<small class="block">模板都是网上找的，描述都是自己瞎BB的</small>
+					</p>
+					<p class="pull-right">
+						<ul class="gtco-social-icons pull-right">
+							<li><a href="#"><i class="icon-twitter"></i></a></li>
+							<li><a href="#"><i class="icon-facebook"></i></a></li>
+							<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							<li><a href="#"><i class="icon-dribbble"></i></a></li>
+						</ul>
+					</p>
+				</div>
+			</div>
+
+		</div>
+	</footer>
+	
+	
+	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
+	    <div class="modal-dialog" role="document">  
+	        <div class="modal-content">  
+	            <div class="modal-header">  
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+	                    <span aria-hidden="true">×</span>  
+	                </button>  
+	                <h4 class="modal-title" id="myModalLabel">教练官方认证</h4>  
+	            </div>  
+	            <div class="modal-body">
+					请输入您的真实姓名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input id="realName" type="text" onblur="checkRealName()"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<span id="realNameError" style="color:red;display:none">格式错误</span><br /><br />               
+					请输入你的教练证书号：
+					<input id="certificateCode" type="text" onblur="checkCertificateCode()" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<span id=certificateCodeError style="color:red;display:none">证书号不存在</span><br /><br />
+	            </div>  
+	            <div class="modal-footer">  
+	                <button type="button" class="btn btn-primary" onclick="authentication()">认证</button>  
+	                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
+	            </div>  
+	        </div>  
+	    </div>  
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+	</div>
+	
+		<!-- jQuery -->
+	<script src="../../js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="../../js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="../../js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="../../js/jquery.waypoints.min.js"></script>
+	<!-- Carousel -->
+	<script src="../../js/owl.carousel.min.js"></script>
+	<!-- countTo -->
+	<script src="../../js/jquery.countTo.js"></script>
+
+	<!-- Stellar Parallax -->
+	<script src="../../js/jquery.stellar.min.js"></script>
+
+	<!-- Magnific Popup -->
+	<script src="../../js/jquery.magnific-popup.min.js"></script>
+	<script src="../../js/magnific-popup-options.js"></script>
+	
+	<!-- Datepicker -->
+	<script src="../../js/bootstrap-datepicker.min.js"></script>
+	
+
+	<!-- Main -->
+	<script src="../../js/main.js"></script>
+	
+	<script>
+		function authentication() {
+			if(!(checkRealName() && checkCertificateCode()))
+				return ;
+			var $realName = $("#realName").val();
+			var $certificateCode = $("#certificateCode").val();
+			$.ajax({
+				type: "post",
+				url: "/coach/authentication.do",
+				data: "realName="+$realName+"&certificateCode="+$certificateCode,
+				success: function(data){
+					window.location.href = "/coach/showCoach.do?id="+data;
+				}
+			});
+		}
+		
+		//校验真实姓名和证书号
+		function checkRealName() {
+			$("#realNameError").css("display","none");
+			var $realName = $("#realName").val();
+			if(/^[\u4E00-\u9FA5]{2,4}$/.test($realName)){
+				return true;
+			}
+			$("#realNameError").css("display","inline");
+			return false;
+		}
+		function checkCertificateCode() {
+			$("#certificateCodeError").css("display","none");
+			var $realName = $("#certificateCode").val();
+			if(/^[0-9]{8}$/.test($realName)){
+				return true;
+			}
+			$("#certificateCodeError").css("display","inline");
+			return false;
+		}
+	</script>
+
+	</body>
+</html>
+
