@@ -33,6 +33,7 @@ import com.project.bean.PictureBean;
 import com.project.service.ICoachService;
 import com.project.service.IGymService;
 import com.project.util.FileUtil;
+import com.project.util.UploadPathConstant;
 
 /**
  * 会馆控制层类
@@ -226,7 +227,7 @@ public class GymController {
 		String imgName = this.getGymToSession().getG_headimg();
 		//String imgName = null;
 		if (file!=null) {
-			imgName = FileUtil.getFileName(file, req);
+			imgName = FileUtil.getFileName(file, req, UploadPathConstant.HEADIMG);
 		}
 		
 		gymBean.setG_headimg(imgName);
@@ -329,7 +330,7 @@ public class GymController {
 				if (file[i].getOriginalFilename()!=null && file[i].getOriginalFilename()!="") {
 					//MultipartFile file1 = file[i];  
 					//文件名
-					String imgName = picUtil.getFileName(file[i], req);
+					String imgName = picUtil.getFileName(file[i], req, UploadPathConstant.GYMIMG);
 					//将图片名字保存数据库
 					pictureBean.setP_id(p_id[i]);
 					pictureBean.setP_imgname(imgName);
