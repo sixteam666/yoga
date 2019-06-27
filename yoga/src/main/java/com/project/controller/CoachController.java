@@ -124,7 +124,7 @@ public class CoachController {
 	@RequestMapping("showCoach.do")
 	public String showCoachInfoByid(String id, ModelMap map) {
 		//id从session域中获取？还是从前台传递？
-		CoachBean coachInfo = service.getCoachDetailInfo(id);
+		CoachBean coachInfo = service.getCoachById(id);
 		System.out.println(coachInfo);
 		map.put("coachInfo", coachInfo);
 		return "html/coach/my-pan.html";
@@ -210,6 +210,7 @@ public class CoachController {
 		//从session中取出用户id
 		String id = "1";
 		List<StudentBean> stuList = service.listMyStudent(id);
+		System.out.println(stuList);
 		map.put("myStuList", stuList);
 		return "html/coach/myStudent.html";
 	}
@@ -299,7 +300,7 @@ public class CoachController {
 	public String updateLessonInfo(ModelMap map) {
 		CoachBean coach = getUser();
 		System.out.println("=========="+coach);
-		String id = coach.getC_id();
+		String id = "1";
 		Double money = service.getMoney(id);
 		List<BankCardBean> cardList = bankCardService.listBankCard(id);
 		map.put("cardList", cardList);

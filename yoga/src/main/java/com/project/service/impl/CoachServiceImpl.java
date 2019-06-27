@@ -72,7 +72,7 @@ public class CoachServiceImpl implements ICoachService {
 	}
 
 	@Override
-	public CoachBean getCoachDetailInfo(String id) {
+	public CoachBean getCoachById(String id) {
 		return dao.getCoachById(id);
 	}
 

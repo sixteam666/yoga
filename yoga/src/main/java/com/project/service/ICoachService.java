@@ -43,7 +43,7 @@ public interface ICoachService {
 	 * @param id 要展示的教练对象的id
 	 * @return 教练实体对象
 	 */
-	CoachBean getCoachDetailInfo(String id);
+	CoachBean getCoachById(String id);
 	
 	/**
 	 * 修改密码

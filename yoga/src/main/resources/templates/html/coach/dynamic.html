@@ -1,26 +1,17 @@
 <!DOCTYPE HTML>
 
-<html xmlns:th="http:www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>动态显示</title>
+	<title>个人中心</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
 	<meta name="author" content="FreeHTML5.co" />
 
-  	<!-- Facebook and Twitter integration -->
-	<meta property="og:title" content=""/>
-	<meta property="og:image" content=""/>
-	<meta property="og:url" content=""/>
-	<meta property="og:site_name" content=""/>
-	<meta property="og:description" content=""/>
-	<meta name="twitter:title" content="" />
-	<meta name="twitter:image" content="" />
-	<meta name="twitter:url" content="" />
-	<meta name="twitter:card" content="" />
-
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	
 	<!-- Animate.css -->
 	<link rel="stylesheet" href="../../css/animate.css">
 	<!-- Icomoon Icon Fonts-->
@@ -46,49 +37,16 @@
 	<!-- Modernizr JS -->
 	<script src="../../js/modernizr-2.6.2.min.js"></script>
 
+	<style type="text/css">
+		.fon{
+			font-family: "微软雅黑";
+		}
+	</style>
 </head>
 <body>
-		
 	<div class="gtco-loader"></div>
-	
-	<div id="page">
-
-	
-	<nav class="gtco-nav" role="navigation">
-		<div class="gtco-container">
-			
-			<div class="row" style="background-color: #09C6AB;">
-				<div class="col-sm-4 col-xs-12">
-					<ul>
-						<li><a href="coach.html" class="fon">首页</a></li>
-						<li><a href="showGym.html" class="fon">场馆</a></li>
-						<li><a href="showStudent.html" class="fon">学员</a></li>
-						<li><a href="showMessage.html" class="fon">动态</a></li>
-					</ul>
-				</div>
-			<div class="col-xs-8 text-right menu-1">
-					<ul>
-						<li class="has-dropdown">
-							<span style="color: white;">欢迎您，用户名</span>
-							<a href="#">注销</a>
-						</li>
-						<li class="has-dropdown">
-							<a href="#">个人中心</a>
-							<ul class="dropdown">
-								<li><a href="my.html">个人资料</a></li>
-								<li><a href="myStudent.html">我的学员</a></li>
-								<li><a href="contract.html">我的签约</a></li>
-								<li><a href="attention.html">我的关注</a></li>
-								<li><a href="inform.html">我的通知</a></li>
-							</ul>
-						</li>
-					</ul>	
-			</div>
-			</div>
-			
-		</div>
-	</nav>
-	
+	<div id="page"></div>
+	<div th:replace="html/coach/my-pan.html::common_head"></div>	
 	<div class="gtco-section border-bottom">
 		<div class="gtco-container">
 			<div class="row">
@@ -105,26 +63,16 @@
 			</div>
 			<div class="row">
 				<div th:each="dynamic : ${dynamicList}" class="col-md-12">
-					<img th:src="@{/images/dynamic/}+${dynamic.d_headimg}" width="40px" src="../../images/imgs/2.jpg"/>
-					<span th:text="${dynamic.d_nickname}">猜猜我是谁</span>
+					<a href="#">
+						<img th:src="@{/images/imgs/}+${dynamic.d_headimg}" width="40px">
+					</a>
+					<a href="#">
+						<span th:text="${dynamic.d_nickname}">猜猜我是谁</span>
+					</a>
 					<span th:text="${dynamic.d_time}">今天 13:20</span>
 					<button style="background-color:#2fddc3;color:white;border:none">+&nbsp;关注</button>
-					<p th:text="dynamic.d_content">动态内容aasdasdasdasdasdsadsadas</p>
-					<img th:src="@{/images/dynamic/}+${dynamic.d_img}">
-					<hr>
-				</div>
-				<div class="col-md-12">
-					<img src="../../images/imgs/3.jpg"/>
-					<h2>用户名/昵称</h2><button class="btn btn-primary">关注</button>
-					<h4>动态内容aasdasdasdasdasdsadsadas</h4>
-					<p>发表时间：2019-06-19</p>
-					<hr>
-				</div>
-				<div class="col-md-12">
-					<img src="../../images/imgs/5.jpg"/>
-					<h2>用户名/昵称</h2><button class="btn btn-primary">关注</button>
-					<h4>动态内容aasdasdasdasdasdsadsadas</h4>
-					<p>发表时间：2019-06-19</p>
+					<p th:text="${dynamic.d_content}">动态内容aasdasdasdasdasdsadsadas</p>
+					<img th:src="@{/images/imgs/}+${dynamic.d_img}">
 					<hr>
 				</div>
 			</div>

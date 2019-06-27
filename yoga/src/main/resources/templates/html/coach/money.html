@@ -44,11 +44,12 @@
 </head>
 <body>
 
-	<div style="height:50px"></div>
+	<div th:replace="html/coach/my-pan.html::common_head"></div>
+
+	<div style="height:100px"></div>
 	<div class="col-md-8 col-md-offset-2 text-left text-center ">
 		<h3>我的钱包</h3>
 	</div>
-	<div><a onclick="history.back(-1)">返回上一页</a></div>
 	<div class="col-md-6 col-md-offset-3">
 		<table class="table">
 			<tr>
@@ -80,6 +81,9 @@
 				</td>
 			</tr>
 		</table>
+	</div>
+	<div class="col-md-8 col-md-offset-2 text-left text-center">
+		<a class="btn btn-primary" onclick="history.back(-1)">返回上一页</a>
 	</div>
 	
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
