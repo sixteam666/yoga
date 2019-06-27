@@ -137,7 +137,7 @@ public class CoachController {
 	@RequestMapping("showCoach.do")
 	public String showCoachInfoByid(String id, ModelMap map) {
 		//id从session域中获取？还是从前台传递？
-		CoachBean coachInfo = service.getCoachDetailInfo(id);
+		CoachBean coachInfo = service.getCoachById(id);
 		System.out.println(coachInfo);
 		map.put("coachInfo", coachInfo);
 		return "html/coach/my-pan.html";
@@ -231,6 +231,7 @@ public class CoachController {
 		//从session中取出用户id
 		String id = "1";
 		List<StudentBean> stuList = service.listMyStudent(id);
+		System.out.println(stuList);
 		map.put("myStuList", stuList);
 		return "html/coach/myStudent.html";
 	}
@@ -320,7 +321,7 @@ public class CoachController {
 	public String updateLessonInfo(ModelMap map) {
 		CoachBean coach = getUser();
 		System.out.println("=========="+coach);
-		String id = coach.getC_id();
+		String id = "1";
 		Double money = service.getMoney(id);
 		List<BankCardBean> cardList = bankCardService.listBankCard(id);
 		map.put("cardList", cardList);
@@ -335,6 +336,41 @@ public class CoachController {
 	 */
 	@RequestMapping("/showGymDetail.do")
 	public String showGymDetail(ModelMap map,String gymId){
+		return "";
+	} 
+	
+	@RequestMapping("showToOther.do")
+	@ResponseBody
+	public CoachBean showToOtherUser(String coachId) {
+		 String currentUserId = "";
+		 Integer type = null;
+		 Session session = SecurityUtils.getSubject().getSession(false);
+		 StudentBean stu = (StudentBean) session.getAttribute("student");
+		 if(stu == null) {
+			 CoachBean coach = (CoachBean) session.getAttribute("coach");
+			 if(coach == null) {
+				 GymBean gym = (GymBean) session.getAttribute("gym");
+				 if(gym == null) {
+					 return null;
+				 } else {
+					 currentUserId = gym.getG_id();
+					 type = 2;
+				 }
+			 } else {
+				 currentUserId = coach.getC_id();
+				 type = 1;
+			 }
+		 } else {
+			 currentUserId = stu.getS_id();
+			 type = 0;
+		 }
+		 CoachBean c = service.showToOtherUser(currentUserId,coachId,type);
+		 return c;
+	}
+	
+	
+	@RequestMapping("/showOneGym.do")
+	public String showOneGym(ModelMap map,String gymId){
 		GymBean gb = gs.findGymById(gymId);
 		map.put("gymBean", gb);
 		return "/html/coach/msgShow.html";

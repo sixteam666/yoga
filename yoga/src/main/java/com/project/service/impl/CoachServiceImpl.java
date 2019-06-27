@@ -77,7 +77,7 @@ public class CoachServiceImpl implements ICoachService {
 	}
 
 	@Override
-	public CoachBean getCoachDetailInfo(String id) {
+	public CoachBean getCoachById(String id) {
 		return dao.getCoachById(id);
 	}
 
@@ -243,6 +243,45 @@ public class CoachServiceImpl implements ICoachService {
 		int row = wd.addWord(words);
 		if (row>0) return "success";
 		return "false";
+	}
+	@Override
+	public CoachBean showToOtherUser(String currentUserId, String coachId, Integer type) {
+		CoachBean c = dao.getCoachById(coachId);
+		Integer privacy = c.getC_privacy();
+		
+		/**
+		 * 给别人展示那些信息
+		 * 昵称，手机号，QQ号，地址，流派
+		 */
+		
+		if(privacy == 2) {	//如果教练信息完全公开，则直接返回
+			return c;
+		}
+		if(privacy == 1) {	//如果教练信息仅对好友公开
+			//判断两者是否为好友关系
+			Integer follow = followDao.isFollow(currentUserId, coachId);
+			Integer follow2 = followDao.isFollow(coachId, currentUserId);
+			if(follow == 1 && follow2 == 1){
+				//两者为好友，则将所有信息返回
+				return c;
+			}
+			if(type == 2) {
+				//判断是否与我签约
+				
+			}
+			if(type == 0) {
+				//判断是否是我的学员
+			}
+		}
+		//如果是场馆或学员，则默认开放手机号，方便其约私教或与我签约
+		if(type == 0 || type == 2) {
+			c.setC_qq("****");
+			return c;
+		}
+		//如果教练信息保密
+		c.setC_phone("****");
+		c.setC_qq("****");
+		return c;
 	}
 
 }

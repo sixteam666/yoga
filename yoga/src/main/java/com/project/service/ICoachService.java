@@ -44,7 +44,7 @@ public interface ICoachService {
 	 * @param id 要展示的教练对象的id
 	 * @return 教练实体对象
 	 */
-	CoachBean getCoachDetailInfo(String id);
+	CoachBean getCoachById(String id);
 	
 	/**
 	 * 修改密码
@@ -213,4 +213,11 @@ public interface ICoachService {
 	 * @return
 	 */
 	public String sendMessage(WordsBean words);
+	/**
+	 * 展示给其他用户的个人信息
+	 * @param currentUserId 要查看信息的用户id
+	 * @param coachId 教练id
+	 * @return 教练对象
+	 */
+	public CoachBean showToOtherUser(String currentUserId, String coachId, Integer type);
 }

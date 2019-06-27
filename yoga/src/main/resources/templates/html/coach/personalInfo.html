@@ -40,10 +40,39 @@
 		.fon{
 			font-family: "微软雅黑";
 		}
+		.preview{
+			z-index: 1;
+		}
+		img{
+			width: 100px;
+			height: 100px;
+		}
+		.file {
+			position: absolute;
+			display: block;
+			width: 100px;
+			height: 100px;
+			background: #9acd32;
+			overflow: hidden;
+			z-index: 2;
+			margin-left: 325px;
+			margin-top: -100px;
+			opacity:0;/*透明度设置*/
+		}
+		.file input {
+			position: absolute;
+			font-size: 75px;
+			right: 0;
+			top: 0;
+			opacity: 0
+		}
 	</style>
 </head>
 <body>
-	<div style="height:50px"></div>
+	
+	<div th:replace="html/coach/my-pan.html::common_head"></div>
+
+	<div style="height:100px"></div>
 	<div class="col-md-8 col-md-offset-2 text-left text-center">
 		<h3>基本信息修改</h3>
 	</div>
@@ -51,8 +80,17 @@
 		<table class="table table-hover">
 			<tr align="center">
 				<td colspan="2">
-					<img th:src="@{/html/coach/image/headimg/}+${personalInfo.c_headimg}" src="../../images/imgs/1.jpg"/>
-					<input type="file" name="file">
+					<div class="headimg_img preview">
+						<img src="image/1.jpg" th:src="@{/images/imgs/}+${personalInfo.c_headimg}"/> 
+					</div>
+					<div class="headimg_file">
+						<a href="javascript:;" class="file">
+							<span>选择文件</span>
+							<input type="file" name="file" onchange="preview(this)" />
+						</a>
+						<div style="font-size: 10px;">点击图片更换头像</div>
+						<!--<input type="file" name="file" id="input_headimg" placeholder="" multiple="multiple"/>-->
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -140,6 +178,20 @@
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
 	<script>
+		var prevDiv = document.getElementsByClassName('preview')[0];
+		var OFile = document.getElementsByClassName('file')[0];
+		
+		function preview(file) { //预览图片得到图片base64
+			
+			if(file.files && file.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(evt) {
+					prevDiv.innerHTML = '<img src="' + evt.target.result + '" alt="Image"/>';
+				}
+				reader.readAsDataURL(file.files[0]);
+			} 
+		}
+	
 		function changePhone() {
 			var newPhone = $("#newPhone").val();	
 			$("#c_phone").val(newPhone);

@@ -54,21 +54,33 @@
 								<li><a href="showCoach.html" class="fon">教练</a></li>
 								<li><a href="showStudent.html" class="fon">学员</a></li>
 							</ul>
-<<<<<<< HEAD
-=======
-						</li>
-					</ul>	
-			</div>
-			</div>
-			
-		</div>
-	</nav>
+						</div>
+						<div class="col-xs-8 text-right">
+							<ul>
+								<li class="has-dropdown" id="gym_top">
+									<span style="color: white">点击登录</span>
+								</li>
+								<li class="has-dropdown">
+									<a href="#">场馆中心</a>
+									<ul class="dropdown">
+										<li><a href="index.html">场馆展示</a></li>
+										<li><a href="msgShow.html">场馆资料</a></li>
+										<li><a href="lesson.html">课程安排</a></li>
+										<li><a href="wallet.html">我的钱包</a></li>
+										<li><a href="myCoach.html">我的签约教练</a></li>
+									</ul>
+								</li>
+							</ul>	
+						</div>
+					</div>
+				</div>
+			</nav>
 	
-<div class="gtco-section">
+	<div class="gtco-section">
 		<div class="gtco-container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>我的签约教练</h2>
+					<h2>我的签约教练</h2><a id="map_mycoach" href="/html/gym/MyCoachMap.html">在地图上查看</a>
 				</div>
 			</div>
 			<div class="row myCoach">
@@ -83,14 +95,11 @@
 							<h2>课时费标准：200元/节</h2>
 							<h2>电话：1111</h2>
 							<button class="btn btn-primary">解约</button>
->>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 						</div>
-						<div class="col-xs-8 text-right menu-1">
+						<div class="col-xs-8 text-right">
 							<ul>
-								<li class="has-dropdown">
-									<input id="g_id" type="hidden" value="" >
-									<span style="color: white;" id="top_username">欢迎您，用户名</span>
-									<a href="#">注销</a>
+								<li class="has-dropdown" id="gym_top">
+									<span style="color: white">点击登录</span>
 								</li>
 								<li class="has-dropdown">
 									<a href="#">场馆中心</a>
@@ -104,13 +113,11 @@
 								</li>
 							</ul>
 						</div>
-<<<<<<< HEAD
 					</div>
-=======
 					</span>
 				</div>
 				<div class="col-lg-4 col-md-4 col-sm-6">
-					<span class="fh5co-card-item">
+<!-- 					<span class="fh5co-card-item">
 						<figure style="text-align: center;top:50px">
 							<img src="../../images/imgs/52.jpg" alt="Image">
 						</figure>
@@ -121,98 +128,32 @@
 							<h2>电话：1111</h2>
 							<button class="btn btn-primary">解约</button>
 						</div>
-					</span>
+					</span> -->
 				</div>
 			</div>
 		</div>
 	</div>
 	
 	
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
-	    <div class="modal-dialog" role="document">  
-	        <div class="modal-content">  
-	            <div class="modal-header">  
-	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
-	                    <span aria-hidden="true">×</span>  
-	                </button>  
-	                <h4 class="modal-title" id="myModalLabel">解约教练</h4>  
-	            </div>  
-	            <div class="modal-body">  
-	                <p>是否解约教练?</p>  
-	            </div>  
-	            <div class="modal-footer">  
-	                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
-	                <button type="button" class="btn btn-primary" onclick="delLesson()">确定</button>  
-	            </div>  
-	        </div>  
-	    </div>  
-	</div> 			
-				
-	<footer id="gtco-footer" role="contentinfo">
-		<div class="gtco-container">
-			<div class="row row-p	b-md">
->>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
-
-				</div>
-			</nav>
-
-			<div class="gtco-section">
-				<div class="gtco-container">
-					<div class="row">
-						<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-							<h2>我的签约教练</h2>
-						</div>
-					</div>
-					<div class="row">
-					
-						<div class="col-lg-4 col-md-4 col-sm-6" th:each="coach,iterStat:${coachList}">
-							<span class="fh5co-card-item">
-								<figure style="text-align: center;top:50px">
-									<img src="../../images/imgs/21.jpg"  alt="Image"><!-- th:src="../../images/imgs${coach.c_headimg}" -->
-								</figure>
-								<div class="fh5co-text" >
-									<h2>瑜伽教练：<span th:text="${coach.c_nickname}">null</span></h2>
-									<h2>流派：<span th:text="${coach.c_style}">null</span></h2>
-									<h2>课时费标准：<span th:text="${coach.c_price}">0</span>元/节</h2>
-									<h2>电话：<span th:text="${coach.c_phone}">null</span></h2>
-									<button class="btn btn-primary">解约</button>
-								</div>
-							</span>
-						</div>
-						
-<!-- 						<div class="col-lg-4 col-md-4 col-sm-6">
-							<span class="fh5co-card-item">
-								<figure style="text-align: center;top:50px">
-									<img src="../../images/imgs/39.jpg" alt="Image">
-								</figure>
-								<div class="fh5co-text">
-									<h2>瑜伽教练：a</h2>
-									<h2>流派：a</h2>
-									<h2>课时费标准：200元/节</h2>
-									<h2>电话：1111</h2>
-									<button class="btn btn-primary">解约</button>
-								</div>
-							</span>
-						</div>
-						
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<span class="fh5co-card-item">
-								<figure style="text-align: center;top:50px">
-									<img src="../../images/imgs/52.jpg" alt="Image">
-								</figure>
-								<div class="fh5co-text">
-									<h2>瑜伽教练：a</h2>
-									<h2>流派：a</h2>
-									<h2>课时费标准：200元/节</h2>
-									<h2>电话：1111</h2>
-									<button class="btn btn-primary">解约</button>
-								</div>
-							</span>
-						</div> -->
-						
-					</div>
-				</div>
-			</div>
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
+			    <div class="modal-dialog" role="document">  
+			        <div class="modal-content">  
+			            <div class="modal-header">  
+			                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+			                    <span aria-hidden="true">×</span>  
+			                </button>
+			                <h4 class="modal-title" id="myModalLabel">解约教练</h4>  
+			            </div>  
+			            <div class="modal-body">  
+			                <p>是否解约教练?</p>  
+			            </div>  
+			            <div class="modal-footer">  
+			                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
+			                <button type="button" class="btn btn-primary" id="btn_agree">确定</button>  
+			            </div>  
+			        </div>  
+			    </div>  
+			</div> 			
 
 			<footer id="gtco-footer" role="contentinfo">
 				<div class="gtco-container">
@@ -265,44 +206,6 @@
 			<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
 		</div>
 
-<<<<<<< HEAD
-		<!-- jQuery -->
-		<script src="../../js/jquery.min.js"></script>
-		<!-- jQuery Easing -->
-		<script src="../../js/jquery.easing.1.3.js"></script>
-		<!-- Bootstrap -->
-		<script src="../../js/bootstrap.min.js"></script>
-		<!-- Waypoints -->
-		<script src="../../js/jquery.waypoints.min.js"></script>
-		<!-- Carousel -->
-		<script src="../../js/owl.carousel.min.js"></script>
-		<!-- countTo -->
-		<script src="../../js/jquery.countTo.js"></script>
-		<!-- Stellar Parallax -->
-		<script src="../../js/jquery.stellar.min.js"></script>
-		<!-- Magnific Popup -->
-		<script src="../../js/jquery.magnific-popup.min.js"></script>
-		<script src="../../js/magnific-popup-options.js"></script>
-		<!-- Datepicker -->
-		<script src="../../js/bootstrap-datepicker.min.js"></script>
-		<!-- Main -->
-		<script src="../../js/main.js"></script>
-		<!-- 业务逻辑 -->
-		<script type="text/javascript">
-			function getMyCoach(){
-				var g_id = "1";
-				$.ajax({
-					url:"/gym/findMyCoach.do",
-					type:"post",
-					async:true,
-					data:"g_id="+g_id
-				});
-			}
-			getMyCoach();
-		</script>
-=======
-	</div>
-
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
 	</div>
@@ -332,7 +235,7 @@
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-	
+	<script type="text/javascript" src="../../js/gym/getSession.js"></script>
 	<script type="text/javascript">
 		//显示我的签约教练
 		function findMyCoach(){
@@ -353,11 +256,12 @@
 										"<img src='../../images/imgs/"+mes[i].c_headimg+"' alt='Image'>"+
 									"</figure>"+
 									"<div class='fh5co-text'>"+
+										"<input type='hidden' value='"+ mes[i].c_id +"'/>"+
 										"<h2>瑜伽教练："+mes[i].c_nickname+"</h2>"+
 										"<h2>流派："+mes[i].c_style+"</h2>"+
 										"<h2>课时费标准："+mes[i].c_price+"￥/节</h2>"+
 										"<h2>电话："+mes[i].c_phone+"</h2>"+
-										"<button class='btn btn-primary' data-toggle='modal' data-target='#myModal'>解约</button>"+
+										"<button class='btn btn-primary' data-toggle='modal' data-target='#myModal' onclick=\"delMyCoach('"+ mes[i].c_id +"')\">解约</button>"+
 									"</div>"+
 								"</span>"+
 							"</div>"
@@ -370,9 +274,28 @@
 				}
 			});
 		}
-		findMyCoach()
+		findMyCoach();
+		
+		// 解约教练
+		function delMyCoach(c_id){
+	 		$("#btn_agree").click(function(){
+				console.info("测试  Coach id："+ c_id);
+				$.ajax({
+					url:"/gym/updateCoach.do",
+					type:"post",
+					async:true,
+					data:"g_id=0&c_id="+c_id,
+					success:function(mes){
+						console.info(mes);
+						if(mes == 1){
+							$(".close").click();
+							location.reload();
+						}
+					}
+				});
+			});
+		}
 	</script>
-
->>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
+	
 	</body>
 </html>
