@@ -465,7 +465,7 @@ public class GymController {
 	@RequestMapping("/findCoachById.do")
 	public String findCoachById(String c_id,ModelMap map) {
 		System.out.println("测试：" + c_id);
-		CoachBean coach = coachService.getCoachDetailInfo(c_id);
+		CoachBean coach = coachService.getCoachById(c_id);
 		map.put("coach", coach);
 		// forward
 		return "html/gym/CoachMessage.html";
