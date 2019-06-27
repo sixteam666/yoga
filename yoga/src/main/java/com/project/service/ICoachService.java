@@ -6,6 +6,7 @@ import com.project.bean.CoachBean;
 import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
+import com.project.bean.WordsBean;
 
 public interface ICoachService {
 	/**
@@ -205,4 +206,11 @@ public interface ICoachService {
 	 * @param id
 	 */
 	public Double getMoney(String id);
+	/**
+	 * 教练留言
+	 * @param stuId
+	 * @param message
+	 * @return
+	 */
+	public String sendMessage(WordsBean words);
 }

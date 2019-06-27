@@ -13,6 +13,8 @@ public class CoachDaoTest extends BaseTest {
 	private ICoachDao dao;
 	@Autowired
 	private IRequestDao reDao;
+	@Autowired
+	private IWordDao wd;
 	//测试添加教练
 	@Test
 	public void addCoach(){
@@ -92,6 +94,12 @@ public class CoachDaoTest extends BaseTest {
 	public void findCoachByPhone(){
 		CoachBean coach = dao.findCoachByPhone("13345674567");
 		System.out.println(coach);
+	}
+	//测试添加留言
+	@Test
+	public void addWord(){
+		int row = wd.addWord("sdfsfdsdf", "sfsdfsdf324", "六级吧盐");
+		System.out.println(row);
 	}
 
 }

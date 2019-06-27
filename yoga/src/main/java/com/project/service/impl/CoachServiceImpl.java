@@ -15,6 +15,7 @@ import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.RequestBean;
 import com.project.bean.StudentBean;
+import com.project.bean.WordsBean;
 import com.project.dao.IBankCardDao;
 import com.project.dao.IBlogDao;
 import com.project.dao.ICoachDao;
@@ -22,6 +23,7 @@ import com.project.dao.IFollowDao;
 import com.project.dao.IGymDao;
 import com.project.dao.IRequestDao;
 import com.project.dao.IStudentDao;
+import com.project.dao.IWordDao;
 import com.project.service.ICoachService;
 @Service
 public class CoachServiceImpl implements ICoachService {
@@ -40,6 +42,8 @@ public class CoachServiceImpl implements ICoachService {
 	private IRequestDao reDao;
 	@Autowired
 	private IBankCardDao bankDao;
+	@Autowired
+	private IWordDao wd;
 	
 	@Override
 	public Boolean register(CoachBean coach) {
@@ -84,15 +88,14 @@ public class CoachServiceImpl implements ICoachService {
 
 	@Override
 	public List<StudentBean> showAllStu() {
-		//return stuDao.findAllStudent();
-		return null;
+		return stuDao.findAllStudent();
 	}
 
 	@Override
 	public String addRequest(String r_reqid, String r_resid) {
 		int row = 0;
 		//先查询两个对象之间是否有申请关系
-		Object obj = dao.findIsRequest(r_reqid, r_resid);
+		Object obj = reDao.findIsRequest(r_reqid, r_resid);
 		if (obj == null) {
 			row = reDao.addRequest(r_reqid, r_resid);
 		}else{
@@ -233,6 +236,13 @@ public class CoachServiceImpl implements ICoachService {
 	@Override
 	public Double getMoney(String id) {
 		return dao.getMoney(id);
+	}
+
+	@Override
+	public String sendMessage(WordsBean words) {
+		int row = wd.addWord(words);
+		if (row>0) return "success";
+		return "false";
 	}
 
 }

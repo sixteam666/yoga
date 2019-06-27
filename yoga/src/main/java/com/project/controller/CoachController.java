@@ -1,5 +1,7 @@
 package com.project.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,9 +28,11 @@ import com.project.bean.BankCardBean;
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
+import com.project.bean.WordsBean;
 import com.project.service.IBankCardService;
 import com.project.service.ICoachService;
 import com.project.service.IGymService;
+import com.project.service.IStudentService;
 import com.project.util.FileUtil;
 
 @Controller
@@ -41,6 +45,8 @@ public class CoachController {
 	private IBankCardService bankCardService;
 	@Autowired
 	private IGymService gs;
+	@Autowired
+	private IStudentService ss;
 	
 	/**
 	 * 
@@ -138,13 +144,12 @@ public class CoachController {
 	}
 	
 	/**
-	 * 页面展示所有学生
+	 * 地图展示所有学生
 	 * @return
 	 */
 	@RequestMapping("/showAllStu.do")
 	@ResponseBody
 	public List<StudentBean> showAllStu(){
-		//返回学生集合，页面地图展示
 		return service.showAllStu();
 	}
 	/**
@@ -152,10 +157,10 @@ public class CoachController {
 	 * @return 返回场馆集合，页面展示
 	 */
 	@RequestMapping("/showAllGym.do")
-	@ResponseBody
-	public List<GymBean> showAllGym(){
-		//返回场馆集合，页面地图展示
-		return service.showAllGym();
+	public String showAllGym(ModelMap map){
+		List<GymBean> list = service.showAllGym();
+		map.put("gym", list);
+		return "/html/coach/coach.html";
 	}
 	
 	/**
@@ -322,10 +327,55 @@ public class CoachController {
 		map.put("money", money);
 		return "/html/coach/money.html";
 	} 
-	@RequestMapping("/showOneGym.do")
-	public String showOneGym(ModelMap map,String gymId){
+	/**
+	 * 显示某个场馆信息
+	 * @param map
+	 * @param gymId
+	 * @return
+	 */
+	@RequestMapping("/showGymDetail.do")
+	public String showGymDetail(ModelMap map,String gymId){
 		GymBean gb = gs.findGymById(gymId);
 		map.put("gymBean", gb);
 		return "/html/coach/msgShow.html";
+	}
+	/**
+	 * 显示某个学生详细信息
+	 * @param map
+	 * @param stuId
+	 * @return
+	 */
+	@RequestMapping("/showStuDetail.do")
+	public String showOneStu(ModelMap map,String stuId){
+		StudentBean sb = ss.findStudentbyId(stuId);
+		map.put("sb", sb);
+		return "/html/coach/showStudentDetail.html";
+	}
+	/**
+	 * 教练给学员留言
+	 * @param stuId
+	 * @param message
+	 * @return
+	 */
+	@RequestMapping("/sendMessage.do")
+	@ResponseBody
+	public String sendMessage(String stuId,String message){
+		String re = "false";
+		WordsBean words = new WordsBean();
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession(true);
+		Object obj = session.getAttribute("coach");
+		if (obj != null) {
+			CoachBean coach = (CoachBean)obj;
+			words.setW_content(message);
+			words.setW_userid(coach.getC_id());
+			//获取时间
+			SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String date = sp.format(new Date());
+			words.setW_time(date);
+			//words.setW_showid(stuId);
+			re = service.sendMessage(words);
+		}
+		return re;
 	}
 }
