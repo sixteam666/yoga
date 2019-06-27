@@ -135,10 +135,10 @@ public class CoachController {
 	 * @param id 教练id
 	 */
 	@RequestMapping("showCoach.do")
-	public String showCoachInfoByid(String id, ModelMap map) {
-		//id从session域中获取？还是从前台传递？
+	public String showCoachInfoByid(ModelMap map) {
+		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		String id = "1";
 		CoachBean coachInfo = service.getCoachById(id);
-		System.out.println(coachInfo);
 		map.put("coachInfo", coachInfo);
 		return "html/coach/my-pan.html";
 	}
@@ -224,7 +224,7 @@ public class CoachController {
 	@RequestMapping("withdraw.do")
 	@ResponseBody
 	public boolean withdraw(double money, Integer cardId) {
-		//congsession中获取用户id
+		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		String id = "1";
 		Boolean res = service.updateMoney(id, money, cardId);
 		return res;
@@ -237,7 +237,7 @@ public class CoachController {
 	 */
 	@RequestMapping("myStudent.do")
 	public String showMyStudent(ModelMap map) {
-		//从session中取出用户id
+		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		String id = "1";
 		List<StudentBean> stuList = service.listMyStudent(id);
 		System.out.println(stuList);
@@ -252,7 +252,9 @@ public class CoachController {
 	 * @return
 	 */
 	@RequestMapping("personalInfo.do")
-	public String showPersonalInfo(String id, ModelMap map) {
+	public String showPersonalInfo(ModelMap map) {
+		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		String id = "1";
 		CoachBean personalInfo = service.getPersonalInfo(id);
 		map.put("personalInfo", personalInfo);
 		return "/html/coach/personalInfo.html";
@@ -292,7 +294,9 @@ public class CoachController {
 	@RequestMapping("authentication.do")
 	@ResponseBody
 	public String coachAuthentication(CoachBean coach) {
-		coach.setC_id("1");
+		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		String id = "1";
+		coach.setC_id(id);
 		service.updateAuthentication(coach);
 		return coach.getC_id();
 	}
@@ -304,7 +308,9 @@ public class CoachController {
 	 * @return
 	 */
 	@RequestMapping("lessonInfo.do")
-	public String showLessonInfo(String id, ModelMap map) {
+	public String showLessonInfo(ModelMap map) {
+		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		String id = "1";
 		CoachBean lessonInfo = service.getLessonInfo(id);
 		map.put("lessonInfo", lessonInfo);
 		return "/html/coach/lessonInfo.html";
@@ -318,7 +324,9 @@ public class CoachController {
 	 */
 	@RequestMapping("updateLessonInfo.do")
 	public String updateLessonInfo(CoachBean coach) {
-		coach.setC_id("1");
+		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		String id = "1";
+		coach.setC_id(id);
 		System.out.println(coach);
 		service.updateLessonInfo(coach);
 		//重定向到个人信息显示页面
@@ -333,8 +341,7 @@ public class CoachController {
 	 */
 	@RequestMapping("showMoney.do")
 	public String updateLessonInfo(ModelMap map) {
-		CoachBean coach = getUser();
-		System.out.println("=========="+coach);
+		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		String id = "1";
 		Double money = service.getMoney(id);
 		List<BankCardBean> cardList = bankCardService.listBankCard(id);
