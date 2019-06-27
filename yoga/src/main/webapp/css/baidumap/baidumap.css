@@ -1,0 +1,32 @@
+body,html {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	font-family: "微软雅黑";
+}
+
+#BaiduMap {
+	height: 100%;
+	width: 100%;
+}
+
+#r-result {
+	width: 100%;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+.div_coach:hover {
+	cursor: pointer;
+	font-size: 22px;
+	padding: 5px;
+}
+.div_coach{
+	background-color: #C2C2C2;
+	border:1px solid #C2C2C2;
+/* 	width: 60px;
+	height: 40x; */
+	border-radius: 5px;
+	text-align: center;
+	font-size: 20px;
+}
