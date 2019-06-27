@@ -13,6 +13,7 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -65,6 +66,7 @@ public class StudentController {
 	            UsernamePasswordToken token = new UsernamePasswordToken("s"+arg1,pwd);
 	            try {
 	            	//调用login进行认证
+	            	System.out.println("!!!!!!!!!!");
 	                currentUser.login(token);
 	                System.out.println("认证成功");        		
 	            } catch (UnknownAccountException uae) {
@@ -107,6 +109,8 @@ public class StudentController {
 			 */
 			String id = UUID.randomUUID().toString();
 			student.setS_id(id);
+			Object obj = new SimpleHash("MD5",student.getS_password(),id,1024);
+			student.setS_password(obj.toString());
 			Boolean boo = service.regist(student);
 			//注册成功：定向登录界面；失败：定向注册界面
 			//System.out.println(boo);

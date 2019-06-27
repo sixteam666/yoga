@@ -85,6 +85,7 @@ public class CoachController {
 	      }
 		return "success";
 	}
+	
 	@RequestMapping("/getUser.do")
 	@ResponseBody
 	public CoachBean getUser(){
