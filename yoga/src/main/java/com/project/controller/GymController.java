@@ -154,6 +154,10 @@ public class GymController {
 		gym.setG_password(obj.toString());
 		
 		int result = gymService.register(gym);
+		if (result!=0) {
+			int number = this.addPictures(gymUUID);
+			System.out.println(number+"picture");
+		}
 		return result;
 	}
 	
@@ -216,11 +220,11 @@ public class GymController {
 			return "forward:/html/gym/msgModify.html";
 		}
 		
-		//String gymId = this.getGymToSession().getG_id();
-		//gymBean.setG_id(gymId);
-		gymBean.setG_id("1");
-		//String imgName = this.getGymToSession().getG_headimg();
-		String imgName = null;
+		String gymId = this.getGymToSession().getG_id();
+		gymBean.setG_id(gymId);
+		//gymBean.setG_id("1");
+		String imgName = this.getGymToSession().getG_headimg();
+		//String imgName = null;
 		if (file!=null) {
 			imgName = FileUtil.getFileName(file, req);
 		}
@@ -239,8 +243,8 @@ public class GymController {
 	 */
 	@RequestMapping("/showOldMsg.do")
 	public String showOldMsg(ModelMap map){
-		//String gymId = this.getGymToSession().getG_id();
-		String gymId = "1";
+		String gymId = this.getGymToSession().getG_id();
+		//String gymId = "1";
 		GymBean oldMsg =  gymService.findGymById(gymId);
 		System.out.println(oldMsg);
 		map.put("oldMsg", oldMsg);
@@ -254,8 +258,8 @@ public class GymController {
 	 */
 	@RequestMapping("/showMessage.do")
 	public String showMessage(ModelMap map){
-		//String gymId = this.getGymToSession().getG_id();
-		String gymId = "1";
+		String gymId = this.getGymToSession().getG_id();
+		//String gymId = "1";
 		GymBean gymBean =  gymService.findGymById(gymId);
 		System.out.println(gymBean);
 		map.put("gymBean", gymBean);
@@ -270,33 +274,17 @@ public class GymController {
 	 */
 	@RequestMapping("/addPictures.do")
 	@ResponseBody
-	public String addPictures(MultipartFile[] files,HttpServletRequest req) {
-		System.out.println(files);
+	public Integer addPictures(String gymId) {
 		PictureBean picBean = new PictureBean();
-		List<PictureBean> list = new ArrayList<PictureBean>();
-		
-		//封装gymid
-		String gymId = this.getGymToSession().getG_id();
 		picBean.setP_g_id(gymId);
-		
-		if(files!=null && files.length>0){  
-			//循环获取file数组中得文件  
-			for(int i = 0;i<files.length;i++){  
-			    MultipartFile file = files[i];  
-				//二进制传过来的文件
-				System.out.println(file);
-				//文件名
-				System.out.println(file.getOriginalFilename());
-				String imgName = picUtil.getFileName(file, req);
-				//将图片名字保存数据库
-				picBean.setP_imgname(imgName);
-				list.add(picBean);
-		    }  
-		}
-		
+		List<PictureBean> list = new ArrayList<PictureBean>();
+		for(int i = 1;i<=12;i++){  
+			String imgName = i+".jpg";
+			picBean.setP_imgname(imgName);
+			list.add(picBean);
+	    }  
 		int number = gymService.addPictrue(list);
-		System.out.println(number);
-		return "ok";
+		return number;
 	}
 	
 	/**
@@ -307,8 +295,10 @@ public class GymController {
 	@RequestMapping("/showPictures.do")
 	@ResponseBody
 	public List<PictureBean> showPictures(int p_type) {
-		//String gymId = this.getGymToSession().getG_id();
-		String gymId = "1";
+		
+		String gymId = this.getGymToSession().getG_id();
+		System.out.println(gymId);
+		//String gymId = "1";
 		List<PictureBean> list = gymService.findAllPic(gymId, p_type);
 		for (PictureBean pictureBean : list) {
 			System.out.println(pictureBean);
@@ -357,9 +347,10 @@ public class GymController {
 	@RequestMapping("/showLesson.do")
 	//@ResponseBody
 	public String showLesson(LessonBean lessonBean,ModelMap map){
-		//System.out.println(lessonBean);
+		System.out.println(lessonBean);
 		String gymId = this.getGymToSession().getG_id();
 		lessonBean.setL_g_id(gymId); 
+		System.out.println(lessonBean);
 		List<LessonBean> list = gymService.findLesson(lessonBean);
 		if (list.isEmpty()) {
 			list.add(lessonBean);
@@ -454,7 +445,6 @@ public class GymController {
 	@RequestMapping("/submitSigingApplication.do")
 	@ResponseBody
 	public int submitSigingApplication(String g_id, String c_id) {
-		
 		return gymService.submitSigingApplication(g_id, c_id);
 	}
 	

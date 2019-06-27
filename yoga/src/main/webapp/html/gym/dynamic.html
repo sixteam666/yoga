@@ -1,0 +1,407 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>动态显示</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
+	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
+	<meta name="author" content="FreeHTML5.co" />
+
+  	<!-- Facebook and Twitter integration -->
+	<meta property="og:title" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:description" content=""/>
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:image" content="" />
+	<meta name="twitter:url" content="" />
+	<meta name="twitter:card" content="" />
+
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="../../css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="../../css/icomoon.css">
+	<!-- Themify Icons-->
+	<link rel="stylesheet" href="../../css/themify-icons.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="../../css/bootstrap.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../../css/magnific-popup.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../../css/bootstrap-datepicker.min.css">
+
+	<!-- Owl Carousel  -->
+	<link rel="stylesheet" href="../../css/owl.carousel.min.css">
+	<link rel="stylesheet" href="../../css/owl.theme.default.min.css">
+
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="../../css/style.css">
+
+	<!-- Modernizr JS -->
+	<script src="../../js/modernizr-2.6.2.min.js"></script>
+
+	</head>
+	<style type="text/css">
+		body{
+			background: ghostwhite;
+		}
+		/*==============发表动态===================================*/
+		.dyn_head{
+			margin-left: 100px;
+			width: 800px;
+			height: 310px;
+			
+		}
+		.my_headimg,.add_dyn,.new_dyn{
+			float: left;
+		}
+		.my_headimg{
+			width: 120px;
+			text-align: center;
+		}
+		.my_headimg img{
+			width: 100%;
+		}
+		.add_dyn{
+			margin-left: 30px;
+		}
+		.add_dyn img{
+			width: 80px;
+			height: 80px;
+			margin-left: 5px;
+			margin-top: -70px;
+		}	
+		.btn{
+			margin-left: 400px;
+			margin-top: -50px;
+		}
+		/*-==================================================*/
+		.new_dyn{
+			width: 100%;
+			margin-top: 40px;
+		}
+		ul{
+			margin-top: -45px;
+			margin-left: 65px;
+		}
+		.dialog{ 
+            /*border: red solid 2px;*/
+            /*border-radius: 15px;*/
+            /*margin-left:30px;*/
+            /*padding: 20px;*/
+            display: inline-block;
+            font-size: 1.5em;
+            color: #09C6AB;
+            /*width: 600px;*/
+        }
+       /* .dialog:before{
+        	
+            width: 0;
+            height: 0;
+            border-top:32px solid #fff;
+            border-right: 35px solid;
+            margin-left: -81px;
+            margin-top: 10px;
+        }
+        .dialog:after{
+            top: 20px;
+            bottom: 88px;
+            left: -37px;
+            border-top: 44px solid transparent;
+            border-right: 48px solid #ffffff;
+            border-bottom: 0 solid transparent;
+        }*/
+	/*====================动态展示========================================================*/
+        #message{
+        	width: 700px;
+        	margin-left: 150px;
+        }
+        .dynamic{
+        	margin-top: 15px;
+        	padding: 30px;
+        	width:700px;
+        	word-wrap: break-word;
+        	border-radius: 5px;
+        	background: white;
+        	border: 1px solid ghostwhite;
+        }
+        .con_head{
+        	width: 600px;
+        	height: 100px;
+        }
+        .headimg,.nickname{
+        	float: left;
+        }
+        .headimg{
+        	width: 70px;
+        	height: 70px;
+        	border-radius: 35px;
+        	overflow: hidden;
+        }
+        .headimg img{
+        	width: 80px;
+        }	
+        .nickname{
+        	margin-left: 10px;
+        	margin-top: 5px;
+        }
+        .content{
+        	width: 550px;
+        	font: "微软雅黑";
+        	font-size: 20px;
+        	margin-left: 30px;
+        }
+	</style>
+	<style>
+		.preview{
+			margin-left: 505px;
+			margin-top: -27px;
+			width: 80px;
+			height: 80px;
+			z-index: 1;
+		}
+		
+		.file {
+			position: absolute;
+			display: block;
+			width: 80px;
+			height: 80px;
+			background: #9acd32;
+			overflow: hidden;
+			z-index: 2;
+			margin-left: 510px;
+			margin-top: -141px;
+			opacity:0;/*透明度设置*/
+		}
+		.file input {
+			position: absolute;
+			font-size: 75pt;
+			right: 0;
+			top: 0;
+			opacity: 0
+		}
+	</style>
+	
+	<body>
+		
+	<div class="gtco-loader"></div>
+	
+
+	
+	<nav class="gtco-nav" role="navigation">
+		<div class="gtco-container">
+			
+			<div class="row" style="background-color: #09C6AB;">
+				<div class="col-sm-4 col-xs-12">
+					<ul>
+						<li><a href="student.html" class="fon">首页</a></li>
+						<li><a href="showGym.html" class="fon">所有场馆</a></li>
+						<li><a href="showCoach.html" class="fon">认证教练</a></li>
+						<li class="has-dropdown">
+							<a href="#">动态</a>
+							<ul class="dropdown">
+								<li><a href="showMessage.html">我的关注</a></li>
+								<li><a href="showMessage.html">附近的人</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			<div class="col-xs-8 text-right menu-1">
+					<ul>
+						<li class="has-dropdown">
+							<span style="color: white;">欢迎您，用户名</span>
+							<a href="#">注销</a>
+						</li>
+						<li class="has-dropdown">
+							<a href="#">个人中心</a>
+							<ul class="dropdown">
+								<li><a href="my.html">个人资料</a></li>
+								<li><a href="className.html">我的课程</a></li>
+								<li><a href="order.html">我的订单</a></li>
+								<li><a href="attention.html">我的关注</a></li>
+								<li><a href="inform.html">我的通知</a></li>
+							</ul>
+						</li>
+					</ul>	
+			</div>
+			</div>
+			
+		</div>
+	</nav>
+	
+	<div class="gtco-section border-bottom">
+		<div  class="gtco-container">
+			<div class="dyn_head">
+				<div class="my_headimg">
+					<img  src="../../images/imgs/1.jpg"><br />
+					昵称
+				</div>
+				<div class="add_dyn">
+					<h2 style="text-align: center;">发表动态</h2>
+					<div class="">
+						<textarea name="message"  placeholder="说点什么吧！（30字以内）" style="width: 500px;height: 80px;"></textarea>
+						<div class="preview">
+							 <img  src="../../images/imgs/add.jpg"><br />
+						</div>
+						<div class="headimg_file">
+							<a href="javascript:;" class="file">
+								<span>选择文件</span>
+								<input type="file" onchange="preview(this)" />
+							</a>
+						</div>
+						<button class="btn btn-primary">发表</button>
+					</div>
+				</div>
+				
+				<div class="new_dyn has-dropdown">
+   					<h3>最新动态</h3>	
+   					<ul style="width:150px" class="dropdown">
+						<li style=" list-style-type:none"><a href="showMessage.html">所有动态</a></li>
+						<li style=" list-style-type:none"><a href="showMessage.html">我的动态</a></li>
+					</ul>
+   				</div>	
+			</div>
+			<div  id="message">
+				<div class="dynamic" >
+					<div class="con_head">
+						<div class="headimg">
+   							<img src="../../images/imgs/2.jpg" />
+   						</div>
+   						<div class="nickname">
+   							<span style="font-size: 18px;font-weight: 700;">昵称</span><br />
+   							<span style="font-size: 12px;">2019/06/04</span>
+   						</div>
+   						
+					</div>
+					
+					<div class="content">
+						动态内容qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq<br/>
+						<img src="image/1.jpg" style="height:200px;" />
+					</div>
+				</div>
+				
+				<div class="dynamic" >
+					<div class="con_head">
+						<div class="headimg">
+   							<img src="../../images/imgs/2.jpg" style="height:80px;"/>
+   						</div>
+   						<div class="nickname">
+   							<span style="font-size: 18px;font-weight: 700;">昵称</span><br />
+   							<span style="font-size: 12px;">2019/06/04</span>
+   						</div>
+					</div>
+					
+					<div class="content">
+						动态内容qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq<br/>
+						<img src="image/1.jpg" style="height:200px;" />
+					</div>
+				</div>
+			</div>
+			<hr>
+		</div>
+	</div>
+	
+	<footer id="gtco-footer" role="contentinfo">
+		<div class="gtco-container">
+			<div class="row row-p	b-md">
+
+				<div class="col-md-4">
+					<div class="gtco-widget">
+						<h3>关于我们</h3>
+						<p>蜗牛46期第六组项目，由项目负责人温攀，会长文然，技术负责人黄仁杰，产品经理滕伟，后台管理刘勇，前端张正宇负责</p>
+					</div>
+				</div>
+
+				<div class="col-md-2 col-md-push-1"></div>
+
+
+				<div class="col-md-3 col-md-push-1">
+					<div class="gtco-widget">
+						<h3>联系方式</h3>
+						<ul class="gtco-quick-contact">
+							<li><a href="#"><i class="icon-phone"></i> 15002881866</a></li>
+							<li><a href="#"><i class="icon-mail2"></i> shinoda@live.cn</a></li>
+							<li><a href="#"><i class="icon-chat"></i> Zzy19951117</a></li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row copyright">
+				<div class="col-md-12">
+					<p class="pull-left">
+						<small class="block">&copy; 2019 在蜗牛46期写出来的.</small> 
+						<small class="block">模板都是网上找的，描述都是自己瞎BB的</small>
+					</p>
+					<p class="pull-right">
+						<ul class="gtco-social-icons pull-right">
+							<li><a href="#"><i class="icon-twitter"></i></a></li>
+							<li><a href="#"><i class="icon-facebook"></i></a></li>
+							<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							<li><a href="#"><i class="icon-dribbble"></i></a></li>
+						</ul>
+					</p>
+				</div>
+			</div>
+
+		</div>
+	</footer>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+	</div>
+	
+		<!-- jQuery -->
+	<script src="../../js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="../../js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="../../js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="../../js/jquery.waypoints.min.js"></script>
+	<!-- Carousel -->
+	<script src="../../js/owl.carousel.min.js"></script>
+	<!-- countTo -->
+	<script src="../../js/jquery.countTo.js"></script>
+
+	<!-- Stellar Parallax -->
+	<script src="../../js/jquery.stellar.min.js"></script>
+
+	<!-- Magnific Popup -->
+	<script src="../../js/jquery.magnific-popup.min.js"></script>
+	<script src="../../js/magnific-popup-options.js"></script>
+	
+	<!-- Datepicker -->
+	<script src="../../js/bootstrap-datepicker.min.js"></script>
+
+	<!-- Main -->
+	<script src="../../js/main.js"></script>
+	
+	<script>
+
+		var prevDiv = document.getElementsByClassName('preview')[0];
+		var OFile = document.getElementsByClassName('file')[0];
+		
+		function preview(file) { //预览图片得到图片base64
+			
+			if(file.files && file.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(evt) {
+					prevDiv.innerHTML = '<img src="' + evt.target.result + '" alt="Image"/>';
+				}
+				reader.readAsDataURL(file.files[0]);
+			} 
+		}
+		
+	</script>
+
+	</body>
+</html>
+
