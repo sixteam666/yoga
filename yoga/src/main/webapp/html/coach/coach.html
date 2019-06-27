@@ -45,7 +45,7 @@
 
 	
 	<!-- <div class="page-inner"> -->
-	<nav class="gtco-nav" role="navigation" th:fragment="header">
+	<nav class="gtco-nav" role="navigation" th:replace="/html/coach/showGym.html::coach_header">
 		<div class="gtco-container">
 			
 			<div class="row">
@@ -54,7 +54,7 @@
 						<li><a href="/coach/showCoachPage.do" class="fon">首页</a></li>
 						<li><a href="/coach/showAllGym.do" class="fon">场馆</a></li>
 						<li><a href="/coach/showAllStu.do" class="fon">学员</a></li>
-						<li><a href="/html/coach/showMessage.html" class="fon">动态</a></li>
+						<li><a href="/dynamic/showHot.do" class="fon">动态</a></li>
 					</ul>
 				</div>
 			<div class="col-xs-8 text-right">
