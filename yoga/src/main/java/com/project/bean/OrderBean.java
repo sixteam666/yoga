@@ -12,6 +12,28 @@ public class OrderBean {
 	private String o_s_id;
 	private int o_l_id;
 	private double o_price;
+	private String lessonname;
+	private GymBean gym;
+	private String code;
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public GymBean getGym() {
+		return gym;
+	}
+	public void setGym(GymBean gym) {
+		this.gym = gym;
+	}
+	public String getLessonname() {
+		return lessonname;
+	}
+	public void setLessonname(String lessonname) {
+		this.lessonname = lessonname;
+	}
+	
 	public int getO_id() {
 		return o_id;
 	}

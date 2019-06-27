@@ -25,8 +25,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
+import com.project.bean.OrderBean;
 import com.project.bean.StudentBean;
 import com.project.service.ICoachService;
 import com.project.service.IGymService;
@@ -184,19 +186,28 @@ public class StudentController {
 			@RequestMapping("/findcourse.do")
 			public String findcourse(HttpSession session,ModelMap m){
 				StudentBean stu=(StudentBean) session.getAttribute("stu");
-				System.out.println(stu);
 				String id = stu.getS_id();
 				List<LessonBean> lessonlist = service.findcourse(id);
-				/*for (LessonBean lessonBean : lessonlist) {
-					System.out.println(lessonBean);
-				}*/
 				m.addAttribute("lesson", lessonlist);
+				List<CoachBean> coachlist =service.findCoachbyStudentId(id);
+				m.addAttribute("coach", coachlist);
 				return "html/student/className.html";
 			}
 			
-			
+			@RequestMapping("/findorder.do")
 			public String findorder(HttpSession session,ModelMap m){
+				System.out.println("11111111111111");
+				StudentBean stu=(StudentBean) session.getAttribute("stu");
+				String id = stu.getS_id();
+				List<OrderBean> orderlist = service.findorderbyid(id);
+				m.addAttribute("order", orderlist);
+				return "html/student/order.html";
+			}
+		
+			@RequestMapping("/mypage.do")
+			public String attention(){
 				
-				return null;
+				
+				return "html/student/showInformation.html";
 			}
 }

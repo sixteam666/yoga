@@ -9,6 +9,16 @@ import org.apache.ibatis.annotations.Select;
 import com.project.bean.LessonBean;
 
 public interface ILessonDao {
+	
+	/**
+	 * 通过课程id查课程
+	 * @return
+	 */
+	@Select("select * from t_lesson where l_id = #{id}")
+	public LessonBean findlessonbyid(int id);
+	
+	
+	
 	/**
 	 * 查找某场馆星期几第几节课
 	 * @param lessonBean
@@ -35,6 +45,7 @@ public interface ILessonDao {
 	@Delete("delete from t_lesson where l_id=#{l_id}")
 	public int deleteLesson(int id);
 
+	
 	
 	/**
 	 * 通过学生id查询该生课程
