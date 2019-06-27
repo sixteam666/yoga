@@ -42,14 +42,9 @@
 			font-family: "微软雅黑";
 		}
 		
-		.round_icon{
-		  width: 60px;
-		  height: 60px;
-		  /* display: flex; */
-		  border-radius: 50%;
-		  align-items: center;
-		  justify-content: center;
-		  overflow: hidden;
+		#follow{
+			margin: 100px 0 40px;
+			text-align: center;
 		}
 	</style>
 </head>
@@ -57,59 +52,27 @@
 	<div class="gtco-loader"></div>
 	<div id="page"></div>
 	<div th:replace="html/coach/my-pan.html::common_head"></div>	
-	<div class="gtco-section border-bottom">
-		<div class="gtco-container">
-			<div class="row" style="padding:0 0 50px">
-				<div class="col-md-2 col-md-offset-1">
-					<button onclick="publish()">发表新动态</button>
-				</div>
-			</div>
-			<div id="publish" class="row" style="display:none;">
-				<div class="col-md-9 col-md-offset-1" align="left" >
-					<div class="row">
-						<form action="/dynamic/addDynamic.do" method="post">
-							<div class="col-md-10">
-								<textarea name="d_content" style="width:100%;height:100px;" placeholder="说点什么吧！（30字以内）"></textarea>
-							</div> 
-							<div class="col-md-1 col-md-offset-1">
-								<input type="submit" class="btn" value="发表" style="float:right;margin-top:60px" />
-							</div>
-							<div style="height:50px" class="col-md-12"></div>
-						</form>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div th:each="dynamic : ${dynamicList}" class="col-md-10 col-md-offset-1">
-					<div class="row">
-						<div class="col-md-1">
-							<a href="#">
-								<img th:src="@{/images/imgs/}+${dynamic.d_headimg}" class="round_icon" >
-							</a>
-						</div>
-						<div class="col-md-3">
-							<a href="#">
-								<span th:text="${dynamic.d_nickname}">猜猜我是谁</span>
-							</a>
-							<p th:text="${dynamic.d_time}">今天 13:20</p>
-						</div>
-						<div class="col-md-2 col-md-offset-5">
-							<button style="color:white;border:none" 
-								th:if="${dynamic.follow}"
-								th:onclick="">已关注</button>
-							<button style="background-color:#2fddc3;color:white;border:none" 
-							th:unless="${dynamic.follow}"
-							th:onclick="">&nbsp;+&nbsp;&nbsp;关注</button>
-						</div>
-						<div class="col-md-12">
-							<p th:text="${dynamic.d_content}"></p>
-							<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/images/imgs/}+${dynamic.d_img}">
-						</div>
-					</div>
-					<hr>
-				</div>
-			</div>
-		</div>
+	
+	<div id="follow">我的粉丝</div>
+	<div class="col-md-6 col-md-offset-3 text-center">
+		<table class="table table-bordered">
+			<tr th:each="coach : ${coachFans}">
+				<td>
+					<input type="hidden" th:value="${coach.c_id}" />
+					<img src="@{/images/imgs/}+${coach.c_headimg}" />
+				</td>
+				<td><span th:text="${coach.c_nickname}"></span></td>
+				<td><button>+关注</button></td>
+			</tr>
+			<tr th:each="stu : ${studentFans}">
+				<td>
+					<input type="hidden" th:value="${stu.s_id}" />
+					<img src="@{/images/imgs/}+${stu.s_headimg}" />
+				</td>
+				<td><span th:text="${stu.s_nickname}"></span></td>
+				<td><button>+关注</button></td>
+			</tr>
+		</table>
 	</div>
 	
 	<footer id="gtco-footer" role="contentinfo">
@@ -198,11 +161,7 @@
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-	<script>
-		function publish() {
-			$("#publish").slideToggle("slow");
-		}
-	</script>
+
 	</body>
 </html>
 
