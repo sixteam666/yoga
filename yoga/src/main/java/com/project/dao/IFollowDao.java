@@ -19,7 +19,7 @@ public interface IFollowDao {
 	 * @param idolid
 	 * @return
 	 */
-	@Insert("insert into t_attention(a_myid, a_idolid) values(#{myid}, #{idolid})")
+	@Insert("insert into t_attention(a_myid, a_idolid) values(#{idolid},#{myid})")
 	Integer insert(@Param("myid") String myid, @Param("idolid") String idolid);
 	
 	/**
@@ -65,7 +65,7 @@ public interface IFollowDao {
 	 * @return
 	 */
 	@Select("select * from t_student where s_id in("
-			+ "select a_idolid from t_attention where a_myid = #{id})")
+			+ "select  a_myid from t_attention where a_idolid = #{id})")
 	List<StudentBean> listFollowingStudent(String id);
 	
 	/**
@@ -74,7 +74,7 @@ public interface IFollowDao {
 	 * @return
 	 */
 	@Select("select * from t_coach where c_id in("
-			+ "select a_idolid from t_attention where a_myid = #{id})")
+			+ "select a_myid  from t_attention where a_idolid = #{id})")
 	List<CoachBean> listFollowingCoach(String id);
 	
 	/**

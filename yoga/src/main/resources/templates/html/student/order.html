@@ -1,5 +1,4 @@
 <!DOCTYPE HTML>
-
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 	<meta charset="utf-8">
@@ -53,8 +52,6 @@
 		
 	<div class="gtco-loader"></div>
 	
-	<div id="page">
-
 	
 	<nav class="gtco-nav" role="navigation">
 		<div class="gtco-container">
@@ -104,36 +101,24 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-4">
-					<div class="price-box">
-						<h2 class="pricing-plan">订单名称</h2>
-						<p>订单编号：xxxxxx</p>
-						<div class="price"><sup class="currency">￥</sup>500<small>元</small></div>
+				<div th:each="order : ${order} " class="col-md-4">
+					<div  class="price-box">
+						<h5 th:text="| ${order.gym.g_name} >|" align="left" class="pricing-plan">青脉健身馆  ></h5>
+						<h2 th:text="${order.lessonname}" class="pricing-plan">课程名称</h2>
+						<p th:text="| 订单编号 : ${order.code}|">订单编号：xxxxxx</p>
+						<div class="price" ><sup class="currency">￥</sup><span th:text="${order.o_price}">500</span><small>元</small></div>
 						<hr>
 						<ul class="pricing-info">
-							<li>场馆名称：xxx</li>
-							<li>教练名称：xxx</li>
-							<li>课程时间：xxx</li>
+							<li th:if="${order.o_status}==1">订单状态：未支付</li>
+							<li th:if="${order.o_status}==2">订单状态：已支付</li>
+							<li th:text="| 下单时间: ${order.o_time}|">下单时间：xxx</li>
 						</ul>
 						
-						<a href="#" class="btn btn-primary">去支付</a>
+						<a th:if="${order.o_status}==1" href="#" class="btn btn-primary">去支付</a>
+						<a th:if="${order.o_status}==2" href="#" class="btn btn-primary">评价</a>
 					</div>
 				</div>
-				<div class="col-md-4">
-					<div class="price-box">
-						<h2 class="pricing-plan">订单名称</h2>
-						<p>订单编号：xxxxxx</p>
-						<div class="price"><sup class="currency">￥</sup>500<small>元</small></div>
-						<hr>
-						<ul class="pricing-info">
-							<li>场馆名称：xxx</li>
-							<li>教练名称：xxx</li>
-							<li>课程时间：xxx</li>
-						</ul>
-						
-						<span class="btn btn-primary">已完成</span>
-					</div>
-				</div>
+		
 			</div>
 		</div>
 	</div>

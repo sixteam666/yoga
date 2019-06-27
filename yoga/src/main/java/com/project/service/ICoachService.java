@@ -6,6 +6,7 @@ import com.project.bean.CoachBean;
 import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
+import com.project.bean.WordsBean;
 
 public interface ICoachService {
 	/**
@@ -205,6 +206,20 @@ public interface ICoachService {
 	 * @param id
 	 */
 	public Double getMoney(String id);
+	
+	/**
+	 * 查询热门教练
+	 * @param id
+	 */
+	public List<CoachBean> findHotCoach();
+
+	/**
+	 * 教练留言
+	 * @param stuId
+	 * @param message
+	 * @return
+	 */
+	public String sendMessage(WordsBean words);
 	/**
 	 * 展示给其他用户的个人信息
 	 * @param currentUserId 要查看信息的用户id

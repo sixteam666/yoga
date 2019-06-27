@@ -89,9 +89,6 @@
 	<div class="gtco-section">
 		<div class="gtco-container">
 			<div class="row">
-				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>个人资料</h2>
-				</div>
 				<div class="col-md-8 col-md-offset-2">
 					<div class="col-md-8 text-left">
 						<h3>基本信息&nbsp;&nbsp;<a style="font-size:14px" th:href="@{/coach/personalInfo.do?id=}+${coachInfo.c_id}">编辑</a></h3>
@@ -324,6 +321,7 @@
 			$("#certificateCodeError").css("display","inline");
 			return false;
 		}
+		
 	</script>
 
 	</body>

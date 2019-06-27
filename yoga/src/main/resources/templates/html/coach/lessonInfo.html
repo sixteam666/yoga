@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>基本信息修改</title>
+	<title>课程信息修改</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -43,25 +43,13 @@
 	</style>
 </head>
 <body>
-	<div style="height:50px"></div>
+	<div th:replace="/html/coach/my-pan.html::common_head"></div>
+	<div style="height:100px"></div>
 	<div class="col-md-8 col-md-offset-2 text-left text-center">
-		<h3>教练信息修改</h3>
+		<h3>课程信息修改</h3>
 	</div>
 	<form class="col-md-6 col-md-offset-3" action="/coach/updateLessonInfo.do" method="post" enctype="multipart/form-data">
 		<table class="table table-hover">
-			<tr>
-				<td align="right">流派：</td>
-				<td align="left">
-					<select name="c_style">
-						<option value="null" th:selected="${lessonInfo.c_style == null}">请选择</option>
-						<option value="王瑜伽" th:selected="${lessonInfo.c_style == '王瑜伽'}">王瑜伽</option>
-						<option value="业瑜伽" th:selected="${lessonInfo.c_style == '业瑜伽'}">业瑜伽</option>
-						<option value="智瑜伽" th:selected="${lessonInfo.c_style == '智瑜伽'}">智瑜伽</option>
-						<option value="哈达瑜伽" th:selected="${lessonInfo.c_style == '哈达瑜伽'}">哈达瑜伽</option>
-						<option value="奉爱瑜伽" th:selected="${lessonInfo.c_style == '奉爱瑜伽'}">奉爱瑜伽</option>
-					</select>
-				</td>
-			</tr>
 			<tr align="center">
 				<td align="right">课时费：</td>
 				<td align="left">
@@ -73,6 +61,19 @@
 				<td align="left">
 					<input type="radio" name="c_access" id="radio1" value="1" th:checked="${lessonInfo.c_access == 1}"/>是
 					<input type="radio" name="c_access" id="radio2" value="0" th:checked="${lessonInfo.c_access == 0}"/>否
+				</td>
+			</tr>
+			<tr>
+				<td align="right">流派：</td>
+				<td align="left">
+					<select name="c_style">
+						<option value="null" th:selected="${lessonInfo.c_style == null}">请选择</option>
+						<option value="王瑜伽" th:selected="${lessonInfo.c_style == '王瑜伽'}">王瑜伽</option>
+						<option value="业瑜伽" th:selected="${lessonInfo.c_style == '业瑜伽'}">业瑜伽</option>
+						<option value="智瑜伽" th:selected="${lessonInfo.c_style == '智瑜伽'}">智瑜伽</option>
+						<option value="哈达瑜伽" th:selected="${lessonInfo.c_style == '哈达瑜伽'}">哈达瑜伽</option>
+						<option value="奉爱瑜伽" th:selected="${lessonInfo.c_style == '奉爱瑜伽'}">奉爱瑜伽</option>
+					</select>
 				</td>
 			</tr>
 			<tr align="center">

@@ -41,77 +41,64 @@
 		.fon{
 			font-family: "微软雅黑";
 		}
+		
+		.round_icon{
+		  width: 60px;
+		  height: 60px;
+		  /* display: flex; */
+		  border-radius: 50%;
+		  align-items: center;
+		  justify-content: center;
+		  overflow: hidden;
+		}
+		
 	</style>
 </head>
 <body>
 	<div class="gtco-loader"></div>
 	<div id="page"></div>
-	<nav class="gtco-nav" role="navigation">
-		<div class="gtco-container">
-			<div class="row" style="background-color:#09C6AB ;">
-				<div class="col-sm-4 col-xs-12">
-					<ul>
-						<li><a href="coach.html" class="fon">首页</a></li>
-						<li><a href="showGym.html" class="fon">场馆</a></li>
-						<li><a href="showStudent.html" class="fon">学员</a></li>
-						<li class="has-dropdown">
-							<a href="/dynamic/showHot.do" class="fon">动态</a>
-							<ul class="dropdown">
-								<li><a href="/dynamic/showFollow.do">我的关注</a></li>
-								<li><a href="/dynamic/showFriend.do">我的好友</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-				<div class="col-xs-8 text-right menu-1">
-					<ul>
-						<li class="has-dropdown">
-							<a >欢迎您，用户名</a>
-							<ul class="dropdown">
-								<li><a href="/coach/showCoach.do?id=1">个人资料</a></li>
-								<li><a href="/coach/myStudent.do">我的学员</a></li>
-								<li><a href="contract.html">我的签约</a></li>
-								<li><a href="/dynamic/showMy.do">我的主页</a></li>
-								<li><a href="inform.html">我的通知</a></li>
-								<li><a href="/coach/showMoney.do?id=1">我的钱包</a></li>
-							</ul>
-						</li>
-						<li class="has-dropdown">
-							<a href="#">注销</a>
-						</li>
-					</ul>	
-				</div>
-			</div>
-			
-		</div>
-	</nav>
+	<div th:replace="/html/coach/my-pan.html::common_head"></div>
 	
 	<div class="gtco-section border-bottom">
 		<div class="gtco-container">
 			<div class="row">
-				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<img width="40px" th:src=@{/images/imgs/}+${coach.c_headimg}/>
-					<span th:text="${coach.c_nickname}"></span>
-					<p>
-						<a href="#">关注：<span th:text="${follow}"></span></a>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<a href="#">粉丝：<span th:text="${following}"></span></a>
-					</p>
+				<div class="col-md-7 col-md-offset-5 text-left" style="padding:0 0 20px">
+					<img th:src=@{/images/imgs/}+${coach.c_headimg} class="round_icon"/>
+					<span th:text="${session.coach.c_nickname}" style="font-weight:bold"></span>
+				</div>
+				<div class="col-md-1 col-md-offset-4 text-center gtco-heading">
+					<a th:href="@{/dynamic/follow.do}">关注&nbsp;&nbsp;&nbsp;<span th:text="${follow}"></span></a>
+				</div>
+				<div class="col-md-1 text-center gtco-heading">
+					<a th:href="@{/dynamic/following.do}">粉丝&nbsp;&nbsp;&nbsp;<span th:text="${following}"></span></a>
+				</div>
+				<div class="col-md-1 text-center gtco-heading">
+					<a th:href="@{/dynamic/following.do}">好友&nbsp;&nbsp;&nbsp;<span th:text="${following}"></span></a>
 				</div>
 			</div>
+			<hr>
 			<div class="row">
-				<div th:each="dynamic : ${dynamicList}" class="col-md-12">
-					<a href="#">
-						<img th:src="@{/images/imgs/}+${dynamic.d_headimg}" width="40px">
-					</a>
-					<a href="#">
-						<span th:text="${dynamic.d_nickname}">猜猜我是谁</span>
-					</a>
-					<span th:text="${dynamic.d_time}">今天 13:20</span>
-					
-					<button style="background-color:#2fddc3;color:white;border:none" th:onclick="| window.location.href = '/dynamic/delete.do?id=${dynamic.d_id}' |">删除</button>
-					<p th:text="${dynamic.d_content}">动态内容aasdasdasdasdasdsadsadas</p>
-					<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/images/imgs/}+${dynamic.d_img}">
+				<div th:each="dynamic : ${dynamicList}" class="col-md-10 col-md-offset-1">
+					<div class="row">
+						<div class="col-md-1">
+							<a href="#">
+								<img th:src="@{/images/imgs/}+${dynamic.d_headimg}" width="40px" >
+							</a>
+						</div>
+						<div class="col-md-3">
+							<a href="#">
+								<span th:text="${dynamic.d_nickname}">猜猜我是谁</span>
+							</a>
+							<p th:text="${dynamic.d_time}">今天 13:20</p>
+						</div>
+						<div class="col-md-1 col-md-offset-5">
+							<button style="background-color:#2fddc3;color:white;border:none" th:onclick="| window.location.href = '/dynamic/delete.do?id=${dynamic.d_id}' |">删除</button>
+						</div>
+						<div class="col-md-12">
+							<p th:text="${dynamic.d_content}"></p>
+							<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/images/imgs/}+${dynamic.d_img}">
+						</div>
+					</div>
 					<hr>
 				</div>
 			</div>
@@ -173,7 +160,7 @@
 
 		</div>
 	</footer>
-
+	
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
 	</div>
@@ -207,4 +194,3 @@
 
 	</body>
 </html>
-
