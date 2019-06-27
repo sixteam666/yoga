@@ -67,7 +67,7 @@
 					<ul>
 						<li class="has-dropdown">
 							<span th:text="|欢迎您: ${session.stu.s_name}|" style="color: white;">欢迎您，用户名</span>
-							<a href="#">注销</a>
+							<a href="logout.do">注销</a>
 						</li>
 						<li class="has-dropdown">
 							<a href="#">个人中心</a>
@@ -173,8 +173,21 @@
 	<script src="../../js/bootstrap-datepicker.min.js"></script>
 	
 
+	
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
+	<script type="text/javascript">
+	function loginout(){
+		$.ajax({
+			url:"/student/loginout.do",
+			type:"post",
+			async:true,
+			success:function(mes){
+				window.location.href = "/html/index.html";
+			}
+		});
+	}
+	</script>
 	
 
 	</body>
