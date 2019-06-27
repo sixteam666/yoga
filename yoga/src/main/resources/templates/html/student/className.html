@@ -97,20 +97,7 @@
 					<br />
 					<h2>我的课程</h2>
 				</div>
-				<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
-				<div >
-						<span  class="classSpan">课程名称</span>
-						<span  class="classSpan">上课时间</span>
-						<span  class="classSpan">教练</span>
-						<span  class="classSpan">场馆</span>
-					</div>
-					<div th:each="lesson : ${lesson}">
-						<span  th:text="${lesson.l_descirbe}" class="classSpan">课程名称</span>
-						<span th:text="${lesson.l_time}" class="classSpan">上课时间</span>
-						<span th:text="${lesson.coach.c_name}" class="classSpan">教练</span>
-						<span th:text="${lesson.l_price}" class="classSpan">场馆</span>
-					</div>
-				</div>
+				
 				
 				 <!-- 公共课课表 -->
 				<div class="col-md-4 col-md-offset-2 ">
@@ -125,7 +112,7 @@
                                     <thead>
                                         <tr>
                                             <th><font ><font  >课程名称</font></font></th>
-                                            <th><font ><font  >上课名称</font></font></th>
+                                            <th><font ><font  >上课时间</font></font></th>
                                             <th><font ><font  >教练</font></font></th>
                                             <th><font><font  >场馆</font></font></th>
                                         </tr>
@@ -160,15 +147,13 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th><font ><font  >课程名称</font></font></th>
-                                            <th><font ><font  >上课名称</font></font></th>
+                                            <th><font ><font  >上课时间</font></font></th>
                                             <th><font ><font  >教练</font></font></th>
                                             <th><font><font  >场馆</font></font></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr th:each="lesson : ${lesson}">
-                                            <td><font th:text="${lesson.l_descirbe}" ><font>1</font></font></td>
                                             <td><font th:text="${lesson.l_time}"  ><font >标记</font></font></td>
                                             <td><font th:text="${lesson.coach.c_name}" ><font  >玫瑰油</font></font></td>
                                             <td><font th:text="${lesson.l_price}" ><font>@mdo</font></font></td>

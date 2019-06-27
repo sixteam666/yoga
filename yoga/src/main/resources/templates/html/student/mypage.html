@@ -97,7 +97,9 @@
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
 					<br />
 					<h2>个人主页</h2>
-					<div  style="text-align: center;margin-bottom:20px" ><img  src="../../images/imgs/1.jpg"/></div>
+					<div  style="text-align: center;margin-bottom:20px" >
+						<img th:src="@{'../../images/imgs/'+${session.stu.s_headimg}}"/>
+					</div>
 					<p th:text="| 关注: ${idolnumber}  粉丝: ${fansnumber}  |">关注  458  | 粉丝13753 </p>
 						<hr>
 				</div>
@@ -111,18 +113,18 @@
 				<div style="border-bottom: dashed;" class="col-md-10  gtco-heading">
 					<h4>我的动态</h4>
 				</div>
-				<div id="message">
+				<div th:each=" dynamic : ${dynamiclist} " id="message">
 				<div class="col-md-16">
-						<img src="../../images/imgs/1.jpg"/>
+						<img th:src="@{'../../images/imgs/'+${dynamic.d_headimg}}"/>
 						<h3 th:text="${session.stu.s_nickname}">用户名/昵称</h3>
+						<div class="dialog_Box">
+							<span th:text="${dynamic.d_content}" >
+   									sdsd
+   							</span>
+   						</div>
 				</div>
-				<div class="dialog_Box">
-   					<span class="dialog">
-   						动态内容BBBBBBBBBBBBB
-   						<p>发表时间：2019-06-19</p>
-   					</span>
+					<p>发表时间：2019-06-19</p>
 				</div>
-			</div>
 				</div>
 			</div>
 		</div>

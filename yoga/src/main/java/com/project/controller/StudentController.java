@@ -25,12 +25,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.bean.CoachBean;
+import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
 import com.project.bean.ShowWordsBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
+import com.project.service.IBlogService;
 import com.project.service.ICoachService;
 import com.project.service.IGymService;
 import com.project.service.IStudentService;
@@ -44,6 +46,8 @@ public class StudentController {
 	private IGymService gymService;
 	@Autowired
 	private ICoachService coachService;
+	@Autowired
+	private IBlogService IBlogService;
 	
 	/**1111
 	 * 
@@ -135,6 +139,7 @@ public class StudentController {
 			/**
 			 * 未确定加盐值
 			 */
+		
 			String id = UUID.randomUUID().toString();
 			student.setS_id(id);
 			Object obj = new SimpleHash("MD5",student.getS_password(),id,1024);
@@ -165,12 +170,12 @@ public class StudentController {
 			 */
 			@RequestMapping("/showStudent.do")
 			public String showCoachInfoByid(Model m,HttpSession session) {
-				/*StudentBean studentBean = (StudentBean) session.getAttribute("stu");
+				StudentBean studentBean = (StudentBean) session.getAttribute("stu");
 				String id = studentBean.getS_id();
-				StudentBean stu = service.findStudentbyId(id);*/
+				StudentBean stu = service.findStudentbyId(id);
 				
-				StudentBean stu = new StudentBean();
-				stu.setS_id("s001");
+				/*StudentBean stu = new StudentBean();
+				stu.setS_id("s001");*/
 				StudentBean stuuuu=service.findStudentbyId(stu.getS_id());
 				//m.addAttribute("stu", stu);
 				session.setAttribute("stu", stuuuu);
@@ -324,6 +329,7 @@ public class StudentController {
 				StudentBean stu=(StudentBean) session.getAttribute("stu");
 				String id = stu.getS_id();
 				List<OrderBean> orderlist = service.findorderbyid(id);
+				System.out.println(orderlist);
 				m.addAttribute("order", orderlist);
 				return "html/student/order.html";
 			}
@@ -336,6 +342,9 @@ public class StudentController {
 				int idolnumber = service.countmyattention(id);
 				m.addAttribute("fansnumber", fansnumber);
 				m.addAttribute("idolnumber", idolnumber);
+				List<DynamicBean> dynamiclist = IBlogService.listDynamicsById(id);
+				m.addAttribute("dynamiclist",dynamiclist);
+				
 				return "html/student/mypage.html";
 			}
 }
