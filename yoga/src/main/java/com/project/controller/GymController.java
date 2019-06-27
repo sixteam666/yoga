@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -212,11 +213,16 @@ public class GymController {
 			}
 			return "forward:/html/gym/msgModify.html";
 		}
-		String gymId = "1";
-		gymBean.setG_id(gymId);
 		
+		//String gymId = this.getGymToSession().getG_id();
+		//gymBean.setG_id(gymId);
+		gymBean.setG_id("1");
+		//String imgName = this.getGymToSession().getG_headimg();
+		String imgName = null;
+		if (file!=null) {
+			imgName = FileUtil.getFileName(file, req);
+		}
 		
-		String imgName = FileUtil.getFileName(file, req);
 		gymBean.setG_headimg(imgName);
 		System.out.println(gymBean);
 		int number = gymService.updateMessage(gymBean);
@@ -231,6 +237,7 @@ public class GymController {
 	 */
 	@RequestMapping("/showOldMsg.do")
 	public String showOldMsg(ModelMap map){
+		//String gymId = this.getGymToSession().getG_id();
 		String gymId = "1";
 		GymBean oldMsg =  gymService.findGymById(gymId);
 		System.out.println(oldMsg);
@@ -245,6 +252,7 @@ public class GymController {
 	 */
 	@RequestMapping("/showMessage.do")
 	public String showMessage(ModelMap map){
+		//String gymId = this.getGymToSession().getG_id();
 		String gymId = "1";
 		GymBean gymBean =  gymService.findGymById(gymId);
 		System.out.println(gymBean);
@@ -252,39 +260,22 @@ public class GymController {
 		return "/html/gym/msgShow.html";
 	}
 
-	/**
-	 * 一次添加一张图片
-	 * 
-	 * @param lists
-	 */
-	@RequestMapping("/addPictrue.do")
-	@ResponseBody
-	public int addOnePictrue(PictureBean picBean,MultipartFile file,HttpServletRequest req) {
-		//二进制传过来的文件
-		System.out.println(file);
-		//文件名
-		System.out.println(file.getOriginalFilename());
-		String imgName = picUtil.getFileName(file, req);
-		//将图片名字保存数据库
-		picBean.setP_imgname(imgName);
-		//int number = gymService.addPictrue(list);
-		return 0;
-	}
 	
 	/**
 	 * 一次添加多张图片
 	 * 
 	 * @param lists
 	 */
-	@RequestMapping("/addPictrues.do")
+	@RequestMapping("/addPictures.do")
 	@ResponseBody
-	public String addPictrues(MultipartFile[] files,HttpServletRequest req) {
+	public String addPictures(MultipartFile[] files,HttpServletRequest req) {
 		System.out.println(files);
 		PictureBean picBean = new PictureBean();
 		List<PictureBean> list = new ArrayList<PictureBean>();
 		
 		//封装gymid
-		picBean.setP_g_id("1");
+		String gymId = this.getGymToSession().getG_id();
+		picBean.setP_g_id(gymId);
 		
 		if(files!=null && files.length>0){  
 			//循环获取file数组中得文件  
@@ -301,9 +292,61 @@ public class GymController {
 		    }  
 		}
 		
-		//int number = gymService.addPictrue(list);
-		//System.out.println(number);
+		int number = gymService.addPictrue(list);
+		System.out.println(number);
 		return "ok";
+	}
+	
+	/**
+	 * 显示图片
+	 * 
+	 * @param lists
+	 */
+	@RequestMapping("/showPictures.do")
+	@ResponseBody
+	public List<PictureBean> showPictures(int p_type) {
+		//String gymId = this.getGymToSession().getG_id();
+		String gymId = "1";
+		List<PictureBean> list = gymService.findAllPic(gymId, p_type);
+		for (PictureBean pictureBean : list) {
+			System.out.println(pictureBean);
+		}
+		return list;
+	}
+	
+	/**
+	 * 修改图片
+	 * 
+	 * @param lists
+	 */
+	@RequestMapping(value="/updatePictures.do",method = RequestMethod.POST)
+	//@ResponseBody
+	public String updatePictures(Integer[] p_id,MultipartFile[] file,HttpServletRequest req) {
+		for (MultipartFile multipartFile : file) {
+			System.out.println(multipartFile);
+		}
+		for (Integer id : p_id) {
+			System.out.println(id);
+		}
+		System.out.println(p_id.length);
+		System.out.println(file.length);
+		PictureBean pictureBean = new PictureBean();
+		if(file!=null && file.length>0){  
+			//循环获取file数组中得文件  
+			for(int i = 0;i<file.length;i++){
+				if (file[i].getOriginalFilename()!=null && file[i].getOriginalFilename()!="") {
+					//MultipartFile file1 = file[i];  
+					//文件名
+					String imgName = picUtil.getFileName(file[i], req);
+					//将图片名字保存数据库
+					pictureBean.setP_id(p_id[i]);
+					pictureBean.setP_imgname(imgName);
+					int number = gymService.updatePicture(pictureBean);
+				}
+			   
+		    }  
+		}
+		return "/html/gym/index.html";
 	}
 	
 	/**
@@ -313,7 +356,7 @@ public class GymController {
 	//@ResponseBody
 	public String showLesson(LessonBean lessonBean,ModelMap map){
 		//System.out.println(lessonBean);
-		String gymId = "1";
+		String gymId = this.getGymToSession().getG_id();
 		lessonBean.setL_g_id(gymId); 
 		List<LessonBean> list = gymService.findLesson(lessonBean);
 		if (list.isEmpty()) {
@@ -366,9 +409,8 @@ public class GymController {
 	@RequestMapping("/findMyCoach.do")
 	@ResponseBody
 	public List<CoachBean> findMyCoach() {
-		// System.out.println(l_g_id);
-		String l_g_id = "1";
-		List<CoachBean> list = gymService.findMyCoach(l_g_id);
+		String gymId = this.getGymToSession().getG_id();
+		List<CoachBean> list = gymService.findMyCoach(gymId);
 		return list;
 	}
 	

@@ -120,7 +120,14 @@ public interface IGymService {
 	 * @param gymId
 	 * @return
 	 */
-	public List<PictureBean> findAllPic(String gymId);
+	public List<PictureBean> findAllPic(String gymId,int type);
+	
+	/**
+	 * 修改图片
+	 * @param bean
+	 * @return
+	 */
+	public int updatePicture(PictureBean bean); 
 	
 	/**
 	 * 删除图片
