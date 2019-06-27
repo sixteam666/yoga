@@ -80,7 +80,7 @@ public class StudentDaoTest extends BaseTest {
 	@Test 
 	public void testfindcoach(){
 		String id ="s001";
-		CoachBean coach = dao.findCoachbyStudentId(id);
+		List<CoachBean> coach = dao.findCoachbyStudentId(id);
 		System.out.println(coach);
 	}
 	

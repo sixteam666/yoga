@@ -3,6 +3,7 @@ package com.project.service;
 import java.util.List;
 
 import com.project.bean.CoachBean;
+import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
 import com.project.bean.StudentBean;
 
@@ -75,7 +76,7 @@ public interface IStudentService {
 	 * @param id
 	 * @return CoachBean
 	 */
-	public CoachBean findCoachbyStudentId(String id);
+	public List<CoachBean> findCoachbyStudentId(String id);
 	
 	/**
 	 * 充值到钱包
@@ -115,4 +116,11 @@ public interface IStudentService {
 	 * @return
 	 */
 	public boolean updateorderstatus(String id,int status);
+	
+	/**
+	 * 查询学生所有课程
+	 * @param id
+	 * @return
+	 */
+	public List<LessonBean> findcourse(String id);
 }
