@@ -3,7 +3,10 @@ package com.project.controller;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -32,9 +35,19 @@ public class DynamicController {
 	 */
 	@RequestMapping("showHot.do")
 	public String showHotDynamics(ModelMap map) {
+		Session session = SecurityUtils.getSubject().getSession();
 		List<DynamicBean> dynamicList = blogService.listAllDynamics();
 		map.put("dynamicList", dynamicList);
-		return "html/coach/dynamic.html";
+		//根据session判断当前登陆用户类型,分类转发
+		if (session.getAttribute("stu")!=null) {
+			return "html/student/dynamic.html";
+		}else if (session.getAttribute("coach")!=null) {
+			return "html/coach/dynamic.html";
+		}else if (session.getAttribute("gym")!=null) {
+			return "html/gym/dynamic.html";
+		}else {
+			throw new RuntimeException("显示热门动态时未找到当前用户！");
+		}
 	}
 	
 	/**
@@ -43,11 +56,21 @@ public class DynamicController {
 	 */
 	@RequestMapping("showFriend.do")
 	public String showFriendDynamics(ModelMap map) {
+		Session session = SecurityUtils.getSubject().getSession();
 		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		String id = "1";
 		List<DynamicBean> friendDynamicList = blogService.listFriendDynamic(id);
 		map.put("dynamicList", friendDynamicList);
-		return "html/coach/dynamic.html";
+		//根据session判断当前登陆用户类型,分类转发
+				if (session.getAttribute("stu")!=null) {
+					return "html/student/dynamic.html";
+				}else if (session.getAttribute("coach")!=null) {
+					return "html/coach/dynamic.html";
+				}else if (session.getAttribute("gym")!=null) {
+					return "html/gym/dynamic.html";
+				}else {
+					throw new RuntimeException("显示好友动态时未找到当前用户！");
+				}
 	}
 	
 	/**
@@ -57,11 +80,21 @@ public class DynamicController {
 	 */
 	@RequestMapping("showFollow.do")
 	public String showFollowDynamics(ModelMap map) {
+		Session session = SecurityUtils.getSubject().getSession();
 		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		String id = "1";
 		List<DynamicBean> followDynamicList = blogService.listFollowDynamic(id);
 		map.put("dynamicList", followDynamicList);
-		return "html/coach/dynamic.html";
+		//根据session判断当前登陆用户类型,分类转发
+		if (session.getAttribute("stu")!=null) {
+			return "html/student/dynamic.html";
+		}else if (session.getAttribute("coach")!=null) {
+			return "html/coach/dynamic.html";
+		}else if (session.getAttribute("gym")!=null) {
+			return "html/gym/dynamic.html";
+		}else {
+			throw new RuntimeException("显示关注动态时未找到当前用户！");
+		}
 	}
 	
 	/**
@@ -179,6 +212,6 @@ public class DynamicController {
 		dynamic.setD_type(d_type);
 		dynamic.setD_time(d_time);
 		blogService.insert(dynamic);
-		return "dynamic/showHot.do";
+		return "redirect:/dynamic/showHot.do";
 	}
 }
