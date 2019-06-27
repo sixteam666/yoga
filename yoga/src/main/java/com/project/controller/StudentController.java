@@ -86,6 +86,37 @@ public class StudentController {
 		 return "认证成功";
 	}
 	
+	@RequestMapping("/login2.do")
+	@ResponseBody
+	public String phoneLogin(String arg1,String pwd,HttpServletRequest request){
+		//产生一个用户（门面对象）
+		//暂无盐值
+		//Object obj = new SimpleHash("MD5", pwd,"",1024);
+		Subject currentUser = SecurityUtils.getSubject();
+		 if (!currentUser.isAuthenticated()) {
+	            UsernamePasswordToken token = new UsernamePasswordToken("s"+arg1,pwd);
+	            try {
+	            	//调用login进行认证
+	            	System.out.println("!!!!!!!!!!");
+	                currentUser.login(token);
+	                System.out.println("认证成功");        		
+	            } catch (UnknownAccountException uae) {
+	            	System.out.println("用户名错误");
+	            	return "用户名错误";
+	            } catch (IncorrectCredentialsException ice) {
+	            	System.out.println("密码错误");
+	            	return "密码错误";
+	            } catch (LockedAccountException lae) {
+	               System.out.println("被锁定异常");
+	               return "被锁定异常";
+	            }
+	      }
+		 StudentBean student = service.findStudentbyName(arg1);
+		 HttpSession session = request.getSession();
+		 session.setAttribute("stu", student);
+		 return "认证成功";
+	}
+	
 	/**
 	 * 登录后跳转学生主页，显示热门场馆和教练
 	 * @param string 
