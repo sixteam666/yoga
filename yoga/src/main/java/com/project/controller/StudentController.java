@@ -169,8 +169,9 @@ public class StudentController {
 			 */
 			@RequestMapping("/showStudent.do")
 			public String showCoachInfoByid(Model m,Session session) {
-				StudentBean studentBean = (StudentBean) session.getAttribute("stu");
+				StudentBean studentBean = (StudentBean)session.getAttribute("stu");
 				String id = studentBean.getS_id();
+				System.out.println(id);
 				StudentBean stu = service.findStudentbyId(id);
 				
 				/*StudentBean stu = new StudentBean();
@@ -350,5 +351,10 @@ public class StudentController {
 			@RequestMapping("/recharge.do")
 			public String recharge(Session session,ModelMap m){
 				return "html/student/pay.html";
+			}
+			
+			@RequestMapping("/alipay.do")
+			public String alipay(Session session,ModelMap m){
+				return "html/jsp/index.jsp";
 			}
 }
