@@ -1,0 +1,254 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>教练首页</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
+	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
+	<meta name="author" content="FreeHTML5.co" />
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="../../css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="../../css/icomoon.css">
+	<!-- Themify Icons-->
+	<link rel="stylesheet" href="../../css/themify-icons.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="../../css/bootstrap.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../../css/magnific-popup.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../../css/bootstrap-datepicker.min.css">
+
+	<!-- Owl Carousel  -->
+	<link rel="stylesheet" href="../../css/owl.carousel.min.css">
+	<link rel="stylesheet" href="../../css/owl.theme.default.min.css">
+
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="../../css/style.css">
+
+	<!-- Modernizr JS -->
+	<script src="../../js/modernizr-2.6.2.min.js"></script>
+
+	</head>
+	<body>
+		
+	<div class="gtco-loader"></div>
+	
+	<div id="page">
+
+	
+	<!-- <div class="page-inner"> -->
+	<nav class="gtco-nav" role="navigation">
+		<div class="gtco-container">
+			
+			<div class="row">
+				<div class="col-sm-4 col-xs-12">
+					<ul>
+						<li><a href="/html/coach/coach.html" class="fon">首页</a></li>
+						<li><a href="/html/coach/showGym.html" class="fon">场馆</a></li>
+						<li><a href="/html/coach/showStudent.html" class="fon">学员</a></li>
+						<li><a href="/html/coach/showMessage.html" class="fon">动态</a></li>
+					</ul>
+				</div>
+			<div class="col-xs-8 text-right">
+					<ul>
+						<li class="has-dropdown">
+							<span id="welcome" style="color: white;">rwer</span>
+							<a href="/logout">【注销】</a>
+							
+						</li>
+						<li class="has-dropdown">
+							
+							<ul class="dropdown">
+								<li><a href="my.html">个人资料</a></li>
+								<li><a href="myStudent.html">我的学员</a></li>
+								<li><a href="contract.html">我的签约</a></li>
+								<li><a href="attention.html">我的关注</a></li>
+								<li><a href="inform.html">我的通知</a></li>
+							</ul>
+						</li>
+					</ul>	
+			</div>
+			</div>
+			
+		</div>
+	</nav>
+	
+	<header id="gtco-header" class="gtco-cover gtco-cover-sm" role="banner" style="background-image: url(../../images/img_2.jpg)">
+		<div class="overlay"></div>
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-12 col-md-offset-0 text-center">
+					<div class="row row-mt-15em">
+
+						<div class="col-md-12 mt-text animate-box" data-animate-effect="fadeInUp">
+							<span class="intro-text-small" style="font-size: 20px;">欢迎来到</span>
+							<h1>蜗牛学院瑜伽平台</h1>	
+						</div>
+						
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</header>
+	
+			<div class="gtco-section">
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<h2>热门场馆</h2>
+					<p>瑜伽是身体的锻炼，是心的旅行，是生活的方式，更是探索生命意义的文化.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-6" th:each="gy,iterStat : ${gym}">
+					<a href="../../images/img_1.jpg" class="fh5co-card-item image-popup">
+						<figure>
+							<div class="overlay"><i class="ti-plus"></i></div>
+							<img src="../../images/img_1.jpg" alt="Image" class="img-responsive">
+						</figure>
+						<div class="fh5co-text">
+							<h2 th:text="${gy.g_name}">瑜伽馆</h2>
+							<p th:text="${gy.g_phone}">xxxxxxxxxxx</p>
+							<p><a class="btn btn-primary" th:href="@{/coach/showGymDetail.do?gymId=}+${gy.g_id}">点击查看详细信息</a></p>
+						</div>
+					</a>
+				</div>
+					
+				
+			</div>
+		</div>
+	</div>
+
+	<div class="gtco-section">
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<h2>热门教练</h2>
+					<p>想让自己变得更加完美，就从瑜伽开始吧.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<span class="fh5co-card-item">
+						<figure style="text-align: center;top:50px">
+							<img src="../../images/imgs/39.jpg" alt="Image">
+						</figure>
+						<div class="fh5co-text">
+							<h2>瑜伽教练：a</h2>
+							<h2>流派：a</h2>
+							<h2>课时费标准：200元/节</h2>
+							<h2>电话：1111</h2>
+						</div>
+					</span>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	
+	<footer id="gtco-footer" role="contentinfo">
+		<div class="gtco-container">
+			<div class="row row-p	b-md">
+
+				<div class="col-md-4">
+					<div class="gtco-widget">
+						<h3>关于我们</h3>
+						<p>蜗牛46期第六组，由项目负责人温攀，会长文然，技术负责人黄仁杰，产品经理滕伟，后台管理刘勇，前端张正宇组成</p>
+					</div>
+				</div>
+
+				<div class="col-md-2 col-md-push-1"></div>
+				
+				<div class="col-md-2 col-md-push-1">
+					<div class="gtco-widget">
+						<h3>瑜伽平台</h3>
+						<ul class="gtco-footer-links">
+							<li><a href="student/studentReg.html">学员注册</a></li>
+							<li><a href="coach/coachReg.html">成为教练</a></li>
+							<li><a href="gym/gymReg.html">场馆入驻</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="col-md-3 col-md-push-1">
+					<div class="gtco-widget">
+						<h3>联系方式</h3>
+						<ul class="gtco-quick-contact">
+							<li><a href="#"><i class="icon-phone"></i> 15002881866</a></li>
+							<li><a href="#"><i class="icon-mail2"></i> shinoda@live.cn</a></li>
+							<li><a href="#"><i class="icon-chat"></i> Zzy19951117</a></li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row copyright">
+				<div class="col-md-12">
+					<p class="pull-left">
+						<small class="block">&copy; 2019 在蜗牛46期写出来的.</small> 
+						<small class="block">模板都是网上找的，描述都是自己瞎BB的</small>
+					</p>
+					<p class="pull-right">
+						<ul class="gtco-social-icons pull-right">
+							<li><a href="#"><i class="icon-twitter"></i></a></li>
+							<li><a href="#"><i class="icon-facebook"></i></a></li>
+							<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							<li><a href="#"><i class="icon-dribbble"></i></a></li>
+						</ul>
+					</p>
+				</div>
+			</div>
+
+		</div>
+	</footer>
+	<span id="ceshi"></span>
+</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+	</div>
+	
+	<!-- jQuery -->
+	<script src="../../js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="../../js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="../../js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="../../js/jquery.waypoints.min.js"></script>
+	<!-- Carousel -->
+	<script src="../../js/owl.carousel.min.js"></script>
+	<!-- countTo -->
+	<script src="../../js/jquery.countTo.js"></script>
+
+	<!-- Stellar Parallax -->
+	<script src="../../js/jquery.stellar.min.js"></script>
+
+	<!-- Magnific Popup -->
+	<script src="../../js/jquery.magnific-popup.min.js"></script>
+	<script src="../../js/magnific-popup-options.js"></script>
+	
+	<!-- Datepicker -->
+	<script src="../../js/bootstrap-datepicker.min.js"></script>
+	
+
+	<!-- Main -->
+	<script src="../../js/main.js"></script>
+	<script src="../../js/coachName.js"></script>
+	<script type="text/javascript">
+		
+	</script>
+	</body>
+</html>
+

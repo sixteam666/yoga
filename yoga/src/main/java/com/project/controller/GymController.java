@@ -24,12 +24,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.PictureBean;
+import com.project.service.ICoachService;
 import com.project.service.IGymService;
 import com.project.util.FileUtil;
 
@@ -45,6 +45,8 @@ public class GymController {
 	@Autowired
 	@Qualifier("gymService")
 	private IGymService gymService;
+	@Autowired
+	private ICoachService coachService;
 	
 	private FileUtil picUtil;
 	
@@ -429,5 +431,43 @@ public class GymController {
 		return gymService.agreeSigingApplication(g_id, c_id, state);
 	}
 	
-
+	/**
+	 * 通过场馆id查询响应签约的教练（教练向场馆发请求）
+	 * 
+	 * @param g_id
+	 * @return 响应签约的教练集合
+	 */
+	@RequestMapping("/findCoachByMyResponse.do")
+	@ResponseBody
+	public List<CoachBean> findCoachByMyResponse(String g_id) {
+		g_id = this.getGymToSession().getG_id();
+		return gymService.findCoachByMyResponse(g_id);
+	}
+	
+	/**
+	 * 通过场馆id查询请求签约的教练（场馆向教练发请求）
+	 * @param g_id
+	 * @return 已请求签约的教练集合
+	 */
+	@RequestMapping("/findCoachByMyRequest.do")
+	@ResponseBody
+	public List<CoachBean> findCoachByMyRequest(String g_id){
+		g_id = this.getGymToSession().getG_id();
+		return gymService.findCoachByMyRequest(g_id);
+	}
+	
+	/**
+	 * 通过教练id查找教练
+	 * 
+	 * @param c_id
+	 * @return
+	 */
+	@RequestMapping("/findCoachById.do")
+	public String findCoachById(String c_id,ModelMap map) {
+		System.out.println("测试：" + c_id);
+		CoachBean coach = coachService.getCoachById(c_id);
+		map.put("coach", coach);
+		// forward
+		return "html/gym/CoachMessage.html";
+	}
 }

@@ -26,7 +26,7 @@ public class StudentDaoTest extends BaseTest {
 	
 	@Test
 	public void testfindStudentbyId(){
-		String id = "s001";
+		String id = "11111";
 		StudentBean stu = dao.findStudentbyId(id);
 		System.out.println(stu);
 	}
@@ -41,7 +41,7 @@ public class StudentDaoTest extends BaseTest {
 	
 	@Test
 	public void testfindStudentbyName(){
-		String name = "";
+		String name = "zzz";
 		StudentBean stu = dao.findStudentbyName(name);
 		System.out.println(stu);
 }
@@ -80,7 +80,7 @@ public class StudentDaoTest extends BaseTest {
 	@Test 
 	public void testfindcoach(){
 		String id ="s001";
-		CoachBean coach = dao.findCoachbyStudentId(id);
+		List<CoachBean> coach = dao.findCoachbyStudentId(id);
 		System.out.println(coach);
 	}
 	
