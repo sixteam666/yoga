@@ -85,7 +85,7 @@
 								<li><a href="className.html">我的课程</a></li>
 								<li><a href="order.html">我的订单</a></li>
 								<li><a href="attention.html">我的关注</a></li>
-								<li><a href="inform.html">我的通知</a></li>
+								<li><a href="/student/findWord.do">我的通知</a></li>
 							</ul>
 						</li>
 					</ul>			
@@ -93,44 +93,31 @@
 			</div>		
 		</div>
 	</nav>
-	<div class="gtco-section border-bottom">
+	<!-- <div class="gtco-section border-bottom">
 		<div class="gtco-container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>我的通知</h2>
+					<h2>我的留言</h2>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-4">
+			
+				<div class="col-md-4" th:each="fans : ${fans}">
 					<div class="price-box">
-						<img src="../../images/imgs/13.jpg" />
+						<img src="../../images/imgs/13.jpg" th:src="@{'../../images/imgs/'+${fans.s_headimg}}" />
 						<br /><br /><br />
-						<h2 class="pricing-plan">用户名</h2>
+						<form action="/student/attention.do">
+						<h2 class="pricing-plan" th:text="${fans.s_name}">用户名</h2>
+						<input type="hidden" name="name" value="" th:attr="value=${fans.s_name}">
 						<h5>该用户关注了您</h5>
-						<button class="btn btn-primary">关注</button>
+						<input type="submit" class="btn btn-primary" value="+关注"/>
+						</form>
 					</div>
 				</div>
-				<div class="col-md-4">
-					<div class="price-box">
-						<img src="../../images/imgs/7.jpg" />
-						<br /><br /><br />
-						<h2 class="pricing-plan">用户名</h2>
-						<h5>该用户关注了您</h5>
-						<button class="btn btn-primary">关注</button>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="price-box">
-						<img src="../../images/imgs/19.jpg" />
-						<br /><br /><br />
-						<h2 class="pricing-plan">用户名</h2>
-						<h5>该用户关注了您</h5>
-						<button class="btn btn-primary">关注</button>
-					</div>
-				</div>
+				
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<div class="gtco-section border-bottom">
 		<div class="gtco-container">
 			<div class="row">
@@ -139,27 +126,15 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-16">
-						<img src="../../images/imgs/2.jpg"/>
-						<h2>用户名/昵称</h2>
-						<h4>留言内容bbbbbbbbbbbbbbbbbbbbbbb</h4>
-						<p>发表时间：2019-06-19</p>
+			 
+				<div class="col-md-16" th:each="word : ${list}">
+						<img src="../../images/imgs/2.jpg" th:src="@{'../../images/imgs/'+${word.headimg}}" />
+						<h2 th:text="${word.name}">用户名/昵称</h2>
+						<h4 th:text="${word.word}">留言内容bbbbbbbbbbbbbbbbbbbbbbb</h4>
+						<p th:text="${word.time}">发表时间：2019-06-19</p>
 						<hr>
 				</div>
-				<div class="col-md-16">
-						<img src="../../images/imgs/3.jpg"/>
-						<h2>用户名/昵称</h2>
-						<h4>动态内容aasdasdasdasdasdsadsadas</h4>
-						<p>发表时间：2019-06-19</p>
-						<hr>
-				</div>
-				<div class="col-md-16">
-						<img src="../../images/imgs/5.jpg"/>
-						<h2>用户名/昵称</h2>
-						<h4>动态内容aasdasdasdasdasdsadsadas</h4>
-						<p>发表时间：2019-06-19</p>
-						<hr>
-				</div>
+
 			</div>
 		</div>
 	</div>

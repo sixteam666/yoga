@@ -61,7 +61,6 @@ public interface ILessonDao {
 	public int updateStuNumber(LessonBean lessonBean);
 
 	
-	
 	/**
 	 * 通过学生id查询该生课程
 	 * @param id

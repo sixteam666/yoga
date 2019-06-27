@@ -99,9 +99,15 @@ public class GymServiceImpl implements IGymService {
 	}
 
 	@Override
-	public List<PictureBean> findAllPic(String gymId) {
-		List<PictureBean> list = pictureDao.findAll(gymId);
+	public List<PictureBean> findAllPic(String gymId,int type) {
+		List<PictureBean> list = pictureDao.findAll(gymId,type);
 		return list;
+	}
+	
+	@Override
+	public int updatePicture(PictureBean bean){
+		int number = pictureDao.updatePicture(bean);
+		return number;
 	}
 
 	@Override
@@ -129,6 +135,12 @@ public class GymServiceImpl implements IGymService {
 	}
 
 	@Override
+
+	public List<GymBean> findHotGym() {
+		List<GymBean> list = gymDao.findHotGym();
+		return list;
+	}
+		
 	public List<CoachBean> findCoaByNameOrPho(String g_id, String nameOrPho) {
 		CoachBean coach = new CoachBean();
 		coach.setC_g_id(g_id);

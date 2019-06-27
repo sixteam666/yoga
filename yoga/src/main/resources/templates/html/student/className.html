@@ -47,49 +47,12 @@
 		
 	<div class="gtco-loader"></div>
 	
-	<div id="page">
 
 	
-	<nav class="gtco-nav" role="navigation">
-		<div class="gtco-container">
-			
-			<div class="row" style="background-color:#09C6AB ;">
-				<div class="col-sm-4 col-xs-12">
-					<ul>
-						<li><a href="student.html" class="fon">首页</a></li>
-						<li><a href="showGym.html" class="fon">所有场馆</a></li>
-						<li><a href="showCoach.html" class="fon">认证教练</a></li>
-						<li class="has-dropdown">
-							<a href="#">动态</a>
-							<ul class="dropdown">
-								<li><a href="showMessage.html">我的关注</a></li>
-								<li><a href="showMessage.html">附近的人</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-				<div class="col-xs-8 text-right menu-1">
-					<ul>
-						<li class="has-dropdown">
-							<span  th:text="|欢迎您: ${session.stu.s_name}|" style="color: white;">欢迎您，用户名</span>
-							<a href="#">注销</a>
-						</li>
-						<li class="has-dropdown">
-							<a href="#">个人中心</a>
-							<ul class="dropdown">
-								<li><a href="my.html">个人资料</a></li>
-								<li><a href="className.html">我的课程</a></li>
-								<li><a href="order.html">我的订单</a></li>
-								<li><a href="attention.html">我的关注</a></li>
-								<li><a href="inform.html">我的通知</a></li>
-							</ul>
-						</li>
-					</ul>	
-			</div>
-			</div>
-			
-		</div>
-	</nav>
+	<div class="gtco-loader"></div>
+		<div th:replace="html/student/frag.html::common_head">
+	</div>
+	
 	
 		<div class="gtco-section">
 		<div class="gtco-container">
@@ -98,6 +61,7 @@
 					<br />
 					<h2>我的课程</h2>
 				</div>
+				
 				
 				 <!-- 公共课课表 -->
 				<div class="col-md-4 col-md-offset-2 ">
@@ -112,7 +76,7 @@
                                     <thead>
                                         <tr>
                                             <th><font ><font  >课程名称</font></font></th>
-                                            <th><font ><font  >上课名称</font></font></th>
+                                            <th><font ><font  >上课时间</font></font></th>
                                             <th><font ><font  >教练</font></font></th>
                                             <th><font><font  >场馆</font></font></th>
                                         </tr>
@@ -147,15 +111,13 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th><font ><font  >课程名称</font></font></th>
-                                            <th><font ><font  >上课名称</font></font></th>
+                                            <th><font ><font  >上课时间</font></font></th>
                                             <th><font ><font  >教练</font></font></th>
                                             <th><font><font  >场馆</font></font></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr th:each="lesson : ${lesson}">
-                                            <td><font th:text="${lesson.l_descirbe}" ><font>1</font></font></td>
                                             <td><font th:text="${lesson.l_time}"  ><font >标记</font></font></td>
                                             <td><font th:text="${lesson.coach.c_name}" ><font  >玫瑰油</font></font></td>
                                             <td><font th:text="${lesson.l_price}" ><font>@mdo</font></font></td>

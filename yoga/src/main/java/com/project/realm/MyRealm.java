@@ -64,7 +64,8 @@ public class MyRealm extends AuthorizingRealm {
 			if(username == null) {
 				return null;
 			}
-			return new SimpleAuthenticationInfo(student, student.getS_password(),this.getName());
+			ByteSource by = ByteSource.Util.bytes(student.getS_id());
+			return new SimpleAuthenticationInfo(student, student.getS_password(),by,this.getName());
 		}
 		
 		//教练身份验证

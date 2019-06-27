@@ -2,6 +2,7 @@ package com.project.service.impl;
 
 import java.util.List;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,12 @@ public class BlogServiceImpl implements IBlogService {
 
 	@Override
 	public List<DynamicBean> listFollowDynamic(String id) {
-		return blogDao.listFollowsBlog(id);
+		List<DynamicBean> listFollowsBlog = blogDao.listFollowsBlog(id);
+		for (DynamicBean dynamic : listFollowsBlog) {
+			//关注者的动态代表所有人均已关注
+			dynamic.setFollow(1);
+		}
+		return listFollowsBlog;
 	}
 
 	@Override
@@ -68,12 +74,31 @@ public class BlogServiceImpl implements IBlogService {
 
 	@Override
 	public List<DynamicBean> listFriendDynamic(String id) {
-		return blogDao.listFriendBlog(id);
+		List<DynamicBean> listFriendBlog = blogDao.listFriendBlog(id);
+		for (DynamicBean dynamic : listFriendBlog) {
+			dynamic.setFollow(1);
+		}
+		return listFriendBlog;
 	}
 
 	@Override
 	public List<DynamicBean> listAllDynamics() {
-		return blogDao.listAllBlog();
+		//String currentUserId = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		String currentUserId = "1";
+		List<DynamicBean> dynamicList = blogDao.listAllBlog();
+		for (DynamicBean dynamic : dynamicList) {
+			String userid = dynamic.getD_userid();
+			//动态属于用户自己
+			if(currentUserId == userid){
+				dynamic.setFollow(2);
+			} else {
+				Integer follow = followDao.isFollow(currentUserId, userid);
+				if(follow == 1) {
+					dynamic.setFollow(1);
+				}
+			}
+		}
+		return dynamicList;
 	}
 
 	@Override

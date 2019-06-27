@@ -15,11 +15,9 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.session.HttpServletSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +32,7 @@ import com.project.service.ICoachService;
 import com.project.service.IGymService;
 import com.project.service.IStudentService;
 import com.project.util.FileUtil;
+import com.project.util.UploadPathConstant;
 
 @Controller
 @RequestMapping("/coach")
@@ -70,7 +69,9 @@ public class CoachController {
 	                currentUser.login(token);
 	                System.out.println("认证成功");
 	                Session session = currentUser.getSession(true);
-	                session.setAttribute("coach", service.login(c_name));
+	                CoachBean coach = service.login(c_name);
+	                session.setAttribute("coach",coach);
+	                session.setAttribute("id", coach.getC_id());
 	                return "success";
 	            } catch (UnknownAccountException uae) {
 	            	System.out.println("用户名异常");
@@ -90,13 +91,12 @@ public class CoachController {
 	public CoachBean getUser(){
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession(true);
+		if (session == null)return null;
 		Object obj = session.getAttribute("coach");
-		if (obj != null) {
-			CoachBean coach = (CoachBean)obj;
-			return coach;
-		}
-		 ;
-		return null;
+		if (obj == null) return null;
+		CoachBean coach = (CoachBean)obj;
+		
+		return coach;
 	} 
 	
 	@RequestMapping("/register.do")
@@ -135,10 +135,10 @@ public class CoachController {
 	 * @param id 教练id
 	 */
 	@RequestMapping("showCoach.do")
-	public String showCoachInfoByid(String id, ModelMap map) {
-		//id从session域中获取？还是从前台传递？
+	public String showCoachInfoByid(ModelMap map) {
+		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		String id = "1";
 		CoachBean coachInfo = service.getCoachById(id);
-		System.out.println(coachInfo);
 		map.put("coachInfo", coachInfo);
 		return "html/coach/my-pan.html";
 	}
@@ -148,9 +148,10 @@ public class CoachController {
 	 * @return
 	 */
 	@RequestMapping("/showAllStu.do")
-	@ResponseBody
-	public List<StudentBean> showAllStu(){
-		return service.showAllStu();
+	public String showAllStu(ModelMap map){
+		List<StudentBean> list = service.showAllStu();
+		map.put("stuList", list);
+		return "/html/coach/showStudent.html";
 	}
 	/**
 	 * 页面显示所有场馆
@@ -158,6 +159,16 @@ public class CoachController {
 	 */
 	@RequestMapping("/showAllGym.do")
 	public String showAllGym(ModelMap map){
+		List<GymBean> list = service.showAllGym();
+		map.put("gym", list);
+		return "/html/coach/showGym.html";
+	}
+	/**
+	 * 跳转到首页
+	 * @return 返回场馆集合
+	 */
+	@RequestMapping("/showCoachPage.do")
+	public String showCoachPage(ModelMap map){
 		List<GymBean> list = service.showAllGym();
 		map.put("gym", list);
 		return "/html/coach/coach.html";
@@ -173,9 +184,7 @@ public class CoachController {
 	@ResponseBody
 	public String signGym(String r_resid){
 		String boo = "";
-		Subject currentUser = SecurityUtils.getSubject();
-		Session session = currentUser.getSession(true);
-		Object obj = session.getAttribute("coach");
+		Object obj = getUser();
 		if (obj != null) {
 			CoachBean coach = (CoachBean)obj;
 			boo = service.addRequest(coach.getC_id(), r_resid);
@@ -215,7 +224,7 @@ public class CoachController {
 	@RequestMapping("withdraw.do")
 	@ResponseBody
 	public boolean withdraw(double money, Integer cardId) {
-		//congsession中获取用户id
+		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		String id = "1";
 		Boolean res = service.updateMoney(id, money, cardId);
 		return res;
@@ -228,7 +237,7 @@ public class CoachController {
 	 */
 	@RequestMapping("myStudent.do")
 	public String showMyStudent(ModelMap map) {
-		//从session中取出用户id
+		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		String id = "1";
 		List<StudentBean> stuList = service.listMyStudent(id);
 		System.out.println(stuList);
@@ -243,7 +252,9 @@ public class CoachController {
 	 * @return
 	 */
 	@RequestMapping("personalInfo.do")
-	public String showPersonalInfo(String id, ModelMap map) {
+	public String showPersonalInfo(ModelMap map) {
+		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		String id = "1";
 		CoachBean personalInfo = service.getPersonalInfo(id);
 		map.put("personalInfo", personalInfo);
 		return "/html/coach/personalInfo.html";
@@ -257,14 +268,19 @@ public class CoachController {
 	 */
 	@RequestMapping("updatePersonalInfo.do")
 	public String updatePersonalInfo(CoachBean coach, MultipartFile file, HttpServletRequest req) {
-		//这里还有点问题，如果用户未重新上传文件情况未处理
-		String headimg = "";//session中取出
-		if(file.getOriginalFilename() != ""){
-			headimg =FileUtil.getFileName(file, req);
+		/*CoachBean c = (CoachBean) SecurityUtils.getSubject().getSession().getAttribute("coach");
+		if(c == null) {
+			throw new RuntimeException("教练个人信息更改时教练还未登录");
+		}
+		String headimg = c.getC_headimg();
+		String id = c.getC_id();*/
+		String headimg = "1.jpg";
+		String id = "1";
+		if(!"".equals(file.getOriginalFilename())){
+			headimg =FileUtil.getFileName(file, req, UploadPathConstant.HEADIMG);
 		}
 		coach.setC_headimg(headimg);
-		coach.setC_id("1");
-		System.out.println(coach);
+		coach.setC_id(id);
 		service.updatePersonalInfo(coach);
 		//重定向到个人信息显示页面
 		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
@@ -278,7 +294,9 @@ public class CoachController {
 	@RequestMapping("authentication.do")
 	@ResponseBody
 	public String coachAuthentication(CoachBean coach) {
-		coach.setC_id("1");
+		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		String id = "1";
+		coach.setC_id(id);
 		service.updateAuthentication(coach);
 		return coach.getC_id();
 	}
@@ -290,7 +308,9 @@ public class CoachController {
 	 * @return
 	 */
 	@RequestMapping("lessonInfo.do")
-	public String showLessonInfo(String id, ModelMap map) {
+	public String showLessonInfo(ModelMap map) {
+		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		String id = "1";
 		CoachBean lessonInfo = service.getLessonInfo(id);
 		map.put("lessonInfo", lessonInfo);
 		return "/html/coach/lessonInfo.html";
@@ -304,7 +324,9 @@ public class CoachController {
 	 */
 	@RequestMapping("updateLessonInfo.do")
 	public String updateLessonInfo(CoachBean coach) {
-		coach.setC_id("1");
+		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		String id = "1";
+		coach.setC_id(id);
 		System.out.println(coach);
 		service.updateLessonInfo(coach);
 		//重定向到个人信息显示页面
@@ -319,8 +341,7 @@ public class CoachController {
 	 */
 	@RequestMapping("showMoney.do")
 	public String updateLessonInfo(ModelMap map) {
-		CoachBean coach = getUser();
-		System.out.println("=========="+coach);
+		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		String id = "1";
 		Double money = service.getMoney(id);
 		List<BankCardBean> cardList = bankCardService.listBankCard(id);
@@ -382,7 +403,7 @@ public class CoachController {
 	 * @return
 	 */
 	@RequestMapping("/showStuDetail.do")
-	public String showOneStu(ModelMap map,String stuId){
+	public String showStuDetail(ModelMap map,String stuId){
 		StudentBean sb = ss.findStudentbyId(stuId);
 		map.put("sb", sb);
 		return "/html/coach/showStudentDetail.html";
@@ -398,9 +419,7 @@ public class CoachController {
 	public String sendMessage(String stuId,String message){
 		String re = "false";
 		WordsBean words = new WordsBean();
-		Subject currentUser = SecurityUtils.getSubject();
-		Session session = currentUser.getSession(true);
-		Object obj = session.getAttribute("coach");
+		Object obj = getUser();
 		if (obj != null) {
 			CoachBean coach = (CoachBean)obj;
 			words.setW_content(message);
@@ -414,4 +433,15 @@ public class CoachController {
 		}
 		return re;
 	}
+	/**
+	 * 注销
+	 * @return
+	 */
+	@RequestMapping("/loginOut.do")
+	public String loginOut(){
+		Subject currentUser = SecurityUtils.getSubject();
+		currentUser.logout();
+		return "redirect:/html/index.html";
+	}
+	
 }
