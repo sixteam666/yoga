@@ -32,9 +32,6 @@ public class ShiroConfig {
 		//注入安全管理器
 		shiroFilter.setSecurityManager(securityManager);
 		Map<String,String> map = new LinkedHashMap<String,String>();
-		map.put("/html/coach/coach.html", "authc");
-		map.put("/logout", "logout");
-		map.put("/**", "anon");
 		shiroFilter.setFilterChainDefinitionMap(map);
 		return shiroFilter;
 	}
