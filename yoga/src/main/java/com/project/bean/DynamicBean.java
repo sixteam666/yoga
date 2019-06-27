@@ -13,7 +13,12 @@ public class DynamicBean {
 	private String d_img;
 	private String d_headimg;
 	private String d_nickname;
-	private String d_type;
+	private Integer d_type;
+	/**
+	 * 判断用户关系专用字段，即当前用户是否关注了此动态的持有者
+	 * 查询出动态后，需要判断发动态的用户和当前用户的关系，以便设置加关注和已关注
+	 */
+	private boolean follow = false;
 	public int getD_id() {
 		return d_id;
 	}
@@ -56,17 +61,23 @@ public class DynamicBean {
 	public void setD_nickname(String d_nickname) {
 		this.d_nickname = d_nickname;
 	}
-	public String getD_type() {
+	public Integer getD_type() {
 		return d_type;
 	}
-	public void setD_type(String d_type) {
+	public void setD_type(Integer d_type) {
 		this.d_type = d_type;
+	}
+	public boolean isFollow() {
+		return follow;
+	}
+	public void setFollow(boolean follow) {
+		this.follow = follow;
 	}
 	@Override
 	public String toString() {
 		return "DynamicBean [d_id=" + d_id + ", d_content=" + d_content + ", d_time=" + d_time + ", d_userid="
 				+ d_userid + ", d_img=" + d_img + ", d_headimg=" + d_headimg + ", d_nickname=" + d_nickname
-				+ ", d_type=" + d_type + "]";
+				+ ", d_type=" + d_type + ", follow=" + follow + "]";
 	}
 	
 }
