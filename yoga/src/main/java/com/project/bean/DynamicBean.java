@@ -17,8 +17,9 @@ public class DynamicBean {
 	/**
 	 * 判断用户关系专用字段，即当前用户是否关注了此动态的持有者
 	 * 查询出动态后，需要判断发动态的用户和当前用户的关系，以便设置加关注和已关注
+	 * 0 表示未关注，1表示关注，2表示自己
 	 */
-	private boolean follow = false;
+	private Integer follow = 0;
 	public int getD_id() {
 		return d_id;
 	}
@@ -67,10 +68,10 @@ public class DynamicBean {
 	public void setD_type(Integer d_type) {
 		this.d_type = d_type;
 	}
-	public boolean isFollow() {
+	public Integer getFollow() {
 		return follow;
 	}
-	public void setFollow(boolean follow) {
+	public void setFollow(Integer follow) {
 		this.follow = follow;
 	}
 	@Override
