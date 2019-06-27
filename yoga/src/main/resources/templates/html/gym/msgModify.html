@@ -95,11 +95,10 @@
 						<li><a href="showStudent.html" class="fon">学员</a></li>
 					</ul>
 				</div>
-				<div class="col-xs-8 text-right menu-1">
+				<div class="col-xs-8 text-right">
 					<ul>
-						<li class="has-dropdown">
-							<span style="color: white;">欢迎您，用户名</span>
-							<a href="#">注销</a>
+						<li class="has-dropdown" id="gym_top">
+							<span style="color: white">点击登录</span>
 						</li>
 						<li class="has-dropdown">
 							<a href="#">场馆中心</a>
@@ -109,6 +108,7 @@
 								<li><a href="lesson.html">课程安排</a></li>
 								<li><a href="wallet.html">我的钱包</a></li>
 								<li><a href="myCoach.html">我的签约教练</a></li>
+								<li><a href="/gym/findCoachByMyResponse.do">我的通知</a></li>
 							</ul>
 						</li>
 					</ul>	
@@ -138,14 +138,14 @@
 					
 					
 					<form action="/gym/updateMsg.do" method="post" id="myform" enctype="multipart/form-data">
-						场馆地址：<input type="text" name="g_address" id="gym_address" th:value="${oldMsg.g_address}"/>
+						场馆地址：<input type="text" name="g_address" id="gym_address" th:attr="value=#{oldMsg.g_address}"/>
 						<span class="span error_address">*场馆地址不能为空</span><br /><br />
 						<div class="headimg">
 							<div class="headimg_txt">
 								场馆头像：
 							</div>
 							<div class="headimg_img">
-								<img src="image/1.jpg" th:src="@{../../images/imgs/}+${oldMsg.g_headimg}"/> 
+								<img src="image/1.jpg" th:src="@{../../images/imgs/}+${gymBean.g_headimg}"/>
 							</div>
 							<div class="headimg_file">
 								<input type="file" name="file" id="input_headimg" placeholder="" multiple="multiple"/>
@@ -153,14 +153,14 @@
 							
 						</div>
 						<br /><br />
-						场馆名称：<input type="text" name="g_name" id="input_name" placeholder="" th:value="${oldMsg.g_name}"/>
+						场馆名称：<input type="text" name="g_name" id="input_name" placeholder="" th:attr="value=#{oldMsg.g_name}"/>
 							<span class="span error_name">*场馆名称不能为空</span><br /><br />
 							
-						联系电话：<input type="text" name="g_contactphone" id="input_phone" placeholder="" th:value="${oldMsg.g_contactphone}"/>
+						联系电话：<input type="text" name="g_contactphone" id="input_phone" placeholder="" th:attr="value=#{oldMsg.g_contactphone}"/>
 						<span class="span error_phone">*联系电话格式不正确</span><br /><br />
 						
 						<span>&nbsp;&nbsp;&nbsp;&nbsp;q&nbsp;&nbsp;&nbsp;&nbsp;q&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>：
-						<input type="text" name="g_qq" th:value="${oldMsg.g_qq}" /><br /><br />
+						<input type="text" name="g_qq" th:attr="value=#{oldMsg.g_qq}"/><br /><br />
 						
 						<button type="submit" class="btn btn-primary msg1">保存</button>
 						<button type="reset" class="btn btn-primary msg2">取消</button>
@@ -248,7 +248,7 @@
 	<script src="../../js/main.js"></script>
 	
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=IRc5LSbvaY7NSn3IA8McK3oElyqOwY8v"></script>
-		
+	<script type="text/javascript" src="../../js/gym/getSession.js"></script>
 	<script type="text/javascript">
 		// 百度地图API功能
 		var map = new BMap.Map("allmap");

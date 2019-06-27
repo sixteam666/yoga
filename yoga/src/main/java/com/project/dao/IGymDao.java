@@ -78,7 +78,9 @@ public interface IGymDao {
 	 * @param g_id
 	 * @return 响应签约的教练集合
 	 */
-	@Select("SELECT c.* FROM t_request r JOIN t_coach c ON r.r_reqid=c.c_id WHERE r.r_state=0 AND r.r_resid=#{g_id}")
+	@Select("SELECT c_id,c_name,c_phone,c_address,c_style,c_price,r_state AS c_g_id,c_headimg,c_nickname "
+			+ "FROM t_request r JOIN t_coach c ON r.r_reqid=c.c_id "
+			+ "WHERE r.r_resid=#{g_id};")
 	public List<CoachBean> findCoachByMyResponse(String g_id);
 	
 	/**
@@ -86,7 +88,9 @@ public interface IGymDao {
 	 * @param g_id
 	 * @return 已请求签约的教练集合
 	 */
-	@Select("SELECT c.* FROM t_request r JOIN t_coach c ON r.r_reqid=c.c_id WHERE r.r_state=0 AND r.r_reqid=#{g_id}")
+	@Select("SELECT c_id,c_name,c_phone,c_address,c_style,c_price,r_state AS c_g_id,c_headimg,c_nickname "
+			+ "FROM t_request r JOIN t_coach c ON r.r_resid=c.c_id "
+			+ "WHERE r.r_reqid=#{g_id}")
 	public List<CoachBean> findCoachByMyRequest(String g_id);
 
 }

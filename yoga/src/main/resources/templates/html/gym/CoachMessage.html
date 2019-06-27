@@ -108,9 +108,11 @@
 									<td><span th:text="${coach.c_price}">0.0</span>元/节</td>
 								</tr>
 							</table>
-							<div>    <!-- 根据教练是否已签约动态显示以下标签 -->
+							<div id="div_controller">  <!-- 根据教练是否已签约动态显示以下标签 -->
 								<a href="#" th:href="'/gym/submitSigingApplication.do?' + ${coach.c_id}" th:if="${type==0}">发送签约申请</a>
 								<a href="#" th:href="'/gym/updateCoach.do?g_id=0&' + ${coach.c_id}" th:if="${type==1}">解约</a>
+								<a href="#" onclick='' th:onclick="'agreeSigingApplication('+ ${coach.c_id}+',1,'+${coach.c_name})'" th:if="${type==2}">同意</a>
+								<a href="#" onclick='' th:onclick="'agreeSigingApplication('+ ${coach.c_id}+',2,'+${coach.c_name})'" th:if="${type==2}">拒绝</a>
 							</div>
 						</div>
 					</div>
@@ -193,5 +195,22 @@
 			<script src="../../js/main.js"></script>
 			<!-- 获取Session中的数据 -->
 			<script type="text/javascript" src="../../js/gym/getSession.js"></script>
+			<script type="text/javascript">
+				// 处理签约请求
+				function agreeSigingApplication(c_id,state,c_name){
+					$.ajax({
+						url:"/gym/agreeSigingApplication.do",
+						type:"post",
+						async:true,
+						data:"c_id="+c_id+"&state="+state,
+						success:function(mes){
+							console.info(mes);
+							if(mes == 1){
+								alert("已经和   "+c_name+ "  签约");
+							}
+						}
+					});
+				}
+			</script>
 	</body>
 </html>
