@@ -13,6 +13,7 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -82,14 +83,14 @@ public class StudentController {
 	            }
 	      }
 		 StudentBean student = service.findStudentbyName(arg1);
-		 HttpSession session = request.getSession();
+		 Session session = currentUser.getSession(true);
 		 session.setAttribute("stu", student);
 		 return "认证成功";
 	}
 	
 	@RequestMapping("/login2.do")
 	@ResponseBody
-	public String phoneLogin(String arg1,String pwd,HttpServletRequest request){
+	public String phoneLogin(String arg1,String pwd){
 		//产生一个用户（门面对象）
 		//暂无盐值
 		//Object obj = new SimpleHash("MD5", pwd,"",1024);
@@ -113,7 +114,7 @@ public class StudentController {
 	            }
 	      }
 		 StudentBean student = service.findStudentbyName(arg1);
-		 HttpSession session = request.getSession();
+		 Session session = currentUser.getSession(true);
 		 session.setAttribute("stu", student);
 		 return "认证成功";
 	}
@@ -156,11 +157,9 @@ public class StudentController {
 	
 	@RequestMapping("/loginout.do")
 	@ResponseBody
-	public String logout(HttpSession session) {
-		System.out.println("正在注销");
+	public String logout() {
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
-		System.out.println(session.getAttribute("stu"));
 		return "ok";
 	}
 	
@@ -169,7 +168,7 @@ public class StudentController {
 			 * @param id 学员id
 			 */
 			@RequestMapping("/showStudent.do")
-			public String showCoachInfoByid(Model m,HttpSession session) {
+			public String showCoachInfoByid(Model m,Session session) {
 				StudentBean studentBean = (StudentBean) session.getAttribute("stu");
 				String id = studentBean.getS_id();
 				StudentBean stu = service.findStudentbyId(id);
@@ -228,7 +227,7 @@ public class StudentController {
 			 * @return
 			 */
 			@RequestMapping("/findcourse.do")
-			public String findcourse(HttpSession session,ModelMap m){
+			public String findcourse(Session session,ModelMap m){
 				StudentBean stu=(StudentBean) session.getAttribute("stu");
 				String id = stu.getS_id();
 				List<LessonBean> lessonlist = service.findcourse(id);
@@ -272,7 +271,7 @@ public class StudentController {
 			 * 留言板
 			 */
 			@RequestMapping("/findWord.do")
-			public String findWord(HttpSession session,Model model){
+			public String findWord(Session session,Model model){
 				System.out.println("进来了");
 				StudentBean bean = (StudentBean)session.getAttribute("stu");
 				List<WordsBean> wordslist = service.findWords(bean.getS_id());
@@ -298,7 +297,7 @@ public class StudentController {
 			 * 加关注
 			 */
 			@RequestMapping("/attention.do")
-			public String addAttention(HttpSession session,HttpServletRequest request){
+			public String addAttention(Session session,HttpServletRequest request){
 				String name = request.getParameter("name");
 				StudentBean bean = (StudentBean)session.getAttribute("stu");
 				System.out.println(name);
@@ -311,7 +310,7 @@ public class StudentController {
 			 * 留言
 			 */
 			@RequestMapping("/insertWord.do")
-			public String insertWord(HttpSession session,HttpServletRequest request){
+			public String insertWord(Session session,HttpServletRequest request){
 				String content = request.getParameter("name");
 				StudentBean bean = (StudentBean)session.getAttribute("stu");
 				WordsBean wordsBean = new WordsBean();
@@ -325,7 +324,7 @@ public class StudentController {
 			
 			
 			@RequestMapping("/findorder.do")
-			public String findorder(HttpSession session,ModelMap m){
+			public String findorder(Session session,ModelMap m){
 				StudentBean stu=(StudentBean) session.getAttribute("stu");
 				String id = stu.getS_id();
 				List<OrderBean> orderlist = service.findorderbyid(id);
@@ -335,7 +334,7 @@ public class StudentController {
 			}
 		
 			@RequestMapping("/mypage.do")
-			public String mypage(HttpSession session,ModelMap m){
+			public String mypage(Session session,ModelMap m){
 				StudentBean stu=(StudentBean) session.getAttribute("stu");
 				String id = stu.getS_id();
 				int fansnumber = service.countmyfans(id);
@@ -346,5 +345,10 @@ public class StudentController {
 				m.addAttribute("dynamiclist",dynamiclist);
 				
 				return "html/student/mypage.html";
+			}
+			
+			@RequestMapping("/recharge.do")
+			public String recharge(Session session,ModelMap m){
+				return "html/student/pay.html";
 			}
 }
