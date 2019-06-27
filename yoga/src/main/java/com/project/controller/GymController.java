@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,7 @@ import com.project.bean.PictureBean;
 import com.project.service.ICoachService;
 import com.project.service.IGymService;
 import com.project.util.FileUtil;
+import com.project.util.UploadPathConstant;
 
 /**
  * 会馆控制层类
@@ -153,6 +155,10 @@ public class GymController {
 		gym.setG_password(obj.toString());
 		
 		int result = gymService.register(gym);
+		if (result!=0) {
+			int number = this.addPictures(gymUUID);
+			System.out.println(number+"picture");
+		}
 		return result;
 	}
 	
@@ -214,11 +220,16 @@ public class GymController {
 			}
 			return "forward:/html/gym/msgModify.html";
 		}
-		String gymId = "1";
+		
+		String gymId = this.getGymToSession().getG_id();
 		gymBean.setG_id(gymId);
+		//gymBean.setG_id("1");
+		String imgName = this.getGymToSession().getG_headimg();
+		//String imgName = null;
+		if (file!=null) {
+			imgName = FileUtil.getFileName(file, req, UploadPathConstant.HEADIMG);
+		}
 		
-		
-		String imgName = FileUtil.getFileName(file, req);
 		gymBean.setG_headimg(imgName);
 		System.out.println(gymBean);
 		int number = gymService.updateMessage(gymBean);
@@ -233,7 +244,8 @@ public class GymController {
 	 */
 	@RequestMapping("/showOldMsg.do")
 	public String showOldMsg(ModelMap map){
-		String gymId = "1";
+		String gymId = this.getGymToSession().getG_id();
+		//String gymId = "1";
 		GymBean oldMsg =  gymService.findGymById(gymId);
 		System.out.println(oldMsg);
 		map.put("oldMsg", oldMsg);
@@ -247,65 +259,87 @@ public class GymController {
 	 */
 	@RequestMapping("/showMessage.do")
 	public String showMessage(ModelMap map){
-		String gymId = "1";
+		String gymId = this.getGymToSession().getG_id();
+		//String gymId = "1";
 		GymBean gymBean =  gymService.findGymById(gymId);
 		System.out.println(gymBean);
 		map.put("gymBean", gymBean);
 		return "/html/gym/msgShow.html";
 	}
 
-	/**
-	 * 一次添加一张图片
-	 * 
-	 * @param lists
-	 */
-	@RequestMapping("/addPictrue.do")
-	@ResponseBody
-	public int addOnePictrue(PictureBean picBean,MultipartFile file,HttpServletRequest req) {
-		//二进制传过来的文件
-		System.out.println(file);
-		//文件名
-		System.out.println(file.getOriginalFilename());
-		String imgName = picUtil.getFileName(file, req);
-		//将图片名字保存数据库
-		picBean.setP_imgname(imgName);
-		//int number = gymService.addPictrue(list);
-		return 0;
-	}
 	
 	/**
 	 * 一次添加多张图片
 	 * 
 	 * @param lists
 	 */
-	@RequestMapping("/addPictrues.do")
+	@RequestMapping("/addPictures.do")
 	@ResponseBody
-	public String addPictrues(MultipartFile[] files,HttpServletRequest req) {
-		System.out.println(files);
+	public Integer addPictures(String gymId) {
 		PictureBean picBean = new PictureBean();
+		picBean.setP_g_id(gymId);
 		List<PictureBean> list = new ArrayList<PictureBean>();
+		for(int i = 1;i<=12;i++){  
+			String imgName = i+".jpg";
+			picBean.setP_imgname(imgName);
+			list.add(picBean);
+	    }  
+		int number = gymService.addPictrue(list);
+		return number;
+	}
+	
+	/**
+	 * 显示图片
+	 * 
+	 * @param lists
+	 */
+	@RequestMapping("/showPictures.do")
+	@ResponseBody
+	public List<PictureBean> showPictures(int p_type) {
 		
-		//封装gymid
-		picBean.setP_g_id("1");
-		
-		if(files!=null && files.length>0){  
+		String gymId = this.getGymToSession().getG_id();
+		System.out.println(gymId);
+		//String gymId = "1";
+		List<PictureBean> list = gymService.findAllPic(gymId, p_type);
+		for (PictureBean pictureBean : list) {
+			System.out.println(pictureBean);
+		}
+		return list;
+	}
+	
+	/**
+	 * 修改图片
+	 * 
+	 * @param lists
+	 */
+	@RequestMapping(value="/updatePictures.do",method = RequestMethod.POST)
+	//@ResponseBody
+	public String updatePictures(Integer[] p_id,MultipartFile[] file,HttpServletRequest req) {
+		for (MultipartFile multipartFile : file) {
+			System.out.println(multipartFile);
+		}
+		for (Integer id : p_id) {
+			System.out.println(id);
+		}
+		System.out.println(p_id.length);
+		System.out.println(file.length);
+		PictureBean pictureBean = new PictureBean();
+		if(file!=null && file.length>0){  
 			//循环获取file数组中得文件  
-			for(int i = 0;i<files.length;i++){  
-			    MultipartFile file = files[i];  
-				//二进制传过来的文件
-				System.out.println(file);
-				//文件名
-				System.out.println(file.getOriginalFilename());
-				String imgName = picUtil.getFileName(file, req);
-				//将图片名字保存数据库
-				picBean.setP_imgname(imgName);
-				list.add(picBean);
+			for(int i = 0;i<file.length;i++){
+				if (file[i].getOriginalFilename()!=null && file[i].getOriginalFilename()!="") {
+					//MultipartFile file1 = file[i];  
+					//文件名
+					String imgName = picUtil.getFileName(file[i], req, UploadPathConstant.GYMIMG);
+					//将图片名字保存数据库
+					pictureBean.setP_id(p_id[i]);
+					pictureBean.setP_imgname(imgName);
+					int number = gymService.updatePicture(pictureBean);
+				}
+			   
 		    }  
 		}
-		
-		//int number = gymService.addPictrue(list);
-		//System.out.println(number);
-		return "ok";
+		return "/html/gym/index.html";
 	}
 	
 	/**
@@ -314,9 +348,10 @@ public class GymController {
 	@RequestMapping("/showLesson.do")
 	//@ResponseBody
 	public String showLesson(LessonBean lessonBean,ModelMap map){
-		//System.out.println(lessonBean);
-		String gymId = "1";
+		System.out.println(lessonBean);
+		String gymId = this.getGymToSession().getG_id();
 		lessonBean.setL_g_id(gymId); 
+		System.out.println(lessonBean);
 		List<LessonBean> list = gymService.findLesson(lessonBean);
 		if (list.isEmpty()) {
 			list.add(lessonBean);
@@ -368,9 +403,8 @@ public class GymController {
 	@RequestMapping("/findMyCoach.do")
 	@ResponseBody
 	public List<CoachBean> findMyCoach() {
-		// System.out.println(l_g_id);
-		String l_g_id = "1";
-		List<CoachBean> list = gymService.findMyCoach(l_g_id);
+		String gymId = this.getGymToSession().getG_id();
+		List<CoachBean> list = gymService.findMyCoach(gymId);
 		return list;
 	}
 	
@@ -412,7 +446,6 @@ public class GymController {
 	@RequestMapping("/submitSigingApplication.do")
 	@ResponseBody
 	public int submitSigingApplication(String g_id, String c_id) {
-		
 		return gymService.submitSigingApplication(g_id, c_id);
 	}
 	

@@ -18,7 +18,7 @@ public class PictureDaoTest extends BaseTest{
 	 */
 	@Test
 	public void findAll(){
-		List<PictureBean> list = pictureDao.findAll("1");
+		List<PictureBean> list = pictureDao.findAll("1",1);
 		for (PictureBean pictureBean : list) {
 			System.out.println(pictureBean);
 		}

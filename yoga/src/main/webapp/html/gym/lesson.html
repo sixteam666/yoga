@@ -81,11 +81,11 @@
 						<li class="has-dropdown">
 							<a href="#">场馆中心</a>
 							<ul class="dropdown">
-								<li><a href="index.html">场馆展示</a></li>
-								<li><a href="msgShow.html">场馆资料</a></li>
-								<li><a href="lesson.html">课程安排</a></li>
-								<li><a href="wallet.html">我的钱包</a></li>
-								<li><a href="myCoach.html">我的签约教练</a></li>
+								<li><a href="/html/gym/index.html">场馆展示</a></li>
+								<li><a href="/gym/showMessage.do">场馆资料</a></li>
+								<li><a href="/html/gym/lesson.html">课程安排</a></li>
+								<li><a href="/html/gym/wallet.html">我的钱包</a></li>
+								<li><a href="/html/gym/myCoach.html">我的签约教练</a></li>
 							</ul>
 						</li>
 					</ul>	
@@ -124,38 +124,24 @@
 								</div>
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/1.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/2.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/3.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/4.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/5.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/6.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/7.jpg" />
 							</td>
 						</tr>
@@ -169,38 +155,24 @@
 								</div>
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/8.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/9.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/10.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/11.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/12.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/13.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/14.jpg" />
 							</td>
 						</tr>
@@ -214,38 +186,24 @@
 								</div>
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/15.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/16.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/17.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/18.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/19.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/20.jpg" />
 							</td>
 							<td class="lesson">
-								<input type="hidden" id="hid" class="l_weekday">
-								<input type="hidden" id="hid" class="l_datetime">
 								<img src="image/21.jpg" />
 							</td>
 						</tr>
@@ -335,30 +293,18 @@
 	<script type="text/javascript" src="../../js/gym/getSession.js"></script>
 	<script>
 		var aLesson = document.getElementsByClassName("lesson");
-		var aL_weekday = document.getElementsByClassName("l_weekday");
-		var aL_datetime = document.getElementsByClassName("l_datetime");
-		//alert(parseInt(3/7))
-		//alert(Math.ceil(3/7))
-		
 		for(var i=0;i<aLesson.length;i++){
-			//aL_weekday[i].index = i;
-			
-			aL_weekday[i].value = i%7+1;
-			aL_datetime[i].value = parseInt(i/7)+1;
+		
 			aLesson[i].setAttribute("idx",i)
 	        aLesson[i].index = i;
 	        aLesson[i].onclick = function(){
 	        	var idx = this.getAttribute("idx")
-	        	
 	        	var l_weekday = idx%7+1;
 				var l_datetime = parseInt(idx/7)+1;
 	        	
 	            window.location.href = "/gym/showLesson.do?l_weekday="+l_weekday+"&l_datetime="+l_datetime;
 	        };
 	    }    
-
-
-
 	</script>
 
 	</body>
