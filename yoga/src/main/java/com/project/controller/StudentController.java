@@ -369,7 +369,11 @@ public class StudentController {
 			 */
 			
 			@RequestMapping("/alipay.do")
-			public String alipay(ModelMap m){
-				return "redirect:/jsp/index.jsp";
+			public String alipay(HttpServletRequest request){
+				String money = request.getParameter("money");
+				System.out.println(money);
+				Session session = SecurityUtils.getSubject().getSession();
+				session.setAttribute("money", money);
+				return "html/student/index.html";
 			}
 }

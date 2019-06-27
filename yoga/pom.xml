@@ -110,19 +110,18 @@
 	    	<version>3.7.110.ALL</version>
 		</dependency>
 	
-		<!-- jsp -->
-		<!--jsp页面使用jstl标签-->
-		<dependency>
+		
+		<!-- <dependency>
 		    <groupId>javax.servlet</groupId>
 		    <artifactId>jstl</artifactId>
 		</dependency>
 		
-		<!--用于编译jsp-->
+		
 		<dependency>
 		    <groupId>org.apache.tomcat.embed</groupId>
 		    <artifactId>tomcat-embed-jasper</artifactId>
 		    <scope>provided</scope>
-		</dependency>
+		</dependency> -->
 		
 	</dependencies>
 	
