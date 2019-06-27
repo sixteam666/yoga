@@ -225,8 +225,9 @@ public class GymController {
 		gymBean.setG_id(gymId);
 		//gymBean.setG_id("1");
 		String imgName = this.getGymToSession().getG_headimg();
-		//String imgName = null;
-		if (file!=null) {
+		
+		if (file.getOriginalFilename()!=null && file.getOriginalFilename()!="") {
+			System.out.println("1");
 			imgName = FileUtil.getFileName(file, req, UploadPathConstant.HEADIMG);
 		}
 		
