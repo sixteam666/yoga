@@ -1,5 +1,6 @@
 package com.project.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -139,10 +140,8 @@ public class StudentController {
 	public StudentBean getUser(){
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession(true);
-		System.out.println(session);
 		if (session == null)return null;
 		Object obj = session.getAttribute("stu");
-		System.out.println(obj);
 		if (obj == null) return null;
 		StudentBean studentBean = (StudentBean)obj;
 		
@@ -158,7 +157,6 @@ public class StudentController {
 			StudentBean student = new StudentBean();
 			student.setS_name(username);
 			student.setS_password(password);
-			System.out.println(student+"!!!!!!!!!!!!!!!!");
 			String id = UUID.randomUUID().toString();
 			student.setS_id(id);
 			Object obj = new SimpleHash("MD5",student.getS_password(),id,1024);
@@ -189,7 +187,6 @@ public class StudentController {
 				Session session = SecurityUtils.getSubject().getSession();
 				StudentBean studentBean = (StudentBean) session.getAttribute("stu");
 				String id = studentBean.getS_id();
-				System.out.println(id);
 				StudentBean stu = service.findStudentbyId(id);
 				
 				/*StudentBean stu = new StudentBean();
@@ -199,7 +196,6 @@ public class StudentController {
 				session.setAttribute("stu", stuuuu);
 				return "html/student/my.html";
 			}
-			
 			
 			
 			/**
@@ -288,7 +284,6 @@ public class StudentController {
 			 * 留言板
 			 */
 			@RequestMapping("/findWord.do")
-
 			public String findWord(Model model){
 				Session session = SecurityUtils.getSubject().getSession();
 				StudentBean bean = (StudentBean)session.getAttribute("stu");
@@ -312,6 +307,30 @@ public class StudentController {
 			}
 			
 			/**
+			 * ta的留言板
+			 */
+			@RequestMapping("/findWord2.do")
+			public String findWord2(Model model,String userid){
+				List<WordsBean> wordslist = service.findWords(userid);
+				List<ShowWordsBean> list3 = new ArrayList<ShowWordsBean>();
+				for (WordsBean wordsBean : wordslist) {
+					ShowWordsBean showWordsBean = new ShowWordsBean();
+					StudentBean bean2 = service.findStudentbyId(wordsBean.getW_userid());
+					showWordsBean.setHeadimg(bean2.getS_headimg());
+					if (bean2.getS_nickname()!=null) {
+						showWordsBean.setName(bean2.getS_nickname());
+					}else {
+						showWordsBean.setName(bean2.getS_name());
+					}
+					showWordsBean.setWord(wordsBean.getW_content());
+					showWordsBean.setTime(wordsBean.getW_time());
+					list3.add(showWordsBean);
+				}
+				model.addAttribute("list",list3);
+				return "html/student/guestbook2.html";
+			}
+			
+			/**
 			 * 加关注
 			 */
 			@RequestMapping("/attention.do")
@@ -319,20 +338,18 @@ public class StudentController {
 				Session session = SecurityUtils.getSubject().getSession();
 				String name = request.getParameter("name");
 				StudentBean bean = (StudentBean)session.getAttribute("stu");
-				System.out.println(name);
 				StudentBean studentBean = service.findStudentbyName(name);
 				service.addFollow(bean.getS_id(),studentBean.getS_id());
 				return "redirect:/student/findFans.do";
 			}
 			
 			/**
-			 * 留言
+			 * 自己留言
 			 */
 			@RequestMapping("/insertWord.do")
 			public String insertWord(HttpServletRequest request){
 				Session session = SecurityUtils.getSubject().getSession();
 				String content = request.getParameter("message");
-				System.out.println(content);
 				StudentBean bean = (StudentBean)session.getAttribute("stu");
 				WordsBean wordsBean = new WordsBean();
 				wordsBean.setW_content(content);
@@ -344,6 +361,28 @@ public class StudentController {
 				return "redirect:/student/findWord.do";				
 			}
 			
+			/**
+			 * 留言
+			 */
+			@RequestMapping("/insertWord2.do")
+			public String insertWord2(HttpServletRequest request){
+				Session session = SecurityUtils.getSubject().getSession();
+				String content = request.getParameter("message");
+				String id = request.getParameter("showid");
+				System.out.println(content);
+				System.out.println(id+"!!!!!!!!!!!!!!!okokokokokokokok");
+				StudentBean bean = (StudentBean)session.getAttribute("stu");
+				System.out.println(bean.getS_id()+"okokokoookokoo");
+				WordsBean wordsBean = new WordsBean();
+				wordsBean.setW_content(content);
+				wordsBean.setW_time("2019-06-27");
+				wordsBean.setW_userid(bean.getS_id());
+				wordsBean.setW_showid(id);
+				service.insertWords(wordsBean);
+
+				return "redirect:/student/findWord2.do?userid="+id;				
+			}
+			
 			
 			@RequestMapping("/findorder.do")
 			public String findorder(ModelMap m){
@@ -351,7 +390,6 @@ public class StudentController {
 				StudentBean stu=(StudentBean) session.getAttribute("stu");
 				String id = stu.getS_id();
 				List<OrderBean> orderlist = service.findorderbyid(id);
-				System.out.println(orderlist);
 				m.addAttribute("order", orderlist);
 				return "html/student/order.html";
 			}
@@ -369,6 +407,23 @@ public class StudentController {
 				m.addAttribute("dynamiclist",dynamiclist);
 				
 				return "html/student/mypage.html";
+			}
+			
+			/**
+			 * 跳转他的个人主页
+			 */
+			@RequestMapping("/hispage.do")
+			public String hispage(String id,Model m){
+				System.out.println(id+"!!!!!!!!!!!!!!!!");
+				int fansnumber = service.countmyfans(id);
+				int idolnumber = service.countmyattention(id);
+				m.addAttribute("fansnumber", fansnumber);
+				m.addAttribute("idolnumber", idolnumber);
+				List<DynamicBean> dynamiclist = IBlogService.listDynamicsById(id);
+				m.addAttribute("dynamiclist",dynamiclist);
+				StudentBean studentBean = service.findStudentbyId(id);
+				m.addAttribute("user",studentBean);
+				return "html/student/hispage.html";
 			}
 			
 			/**
@@ -391,7 +446,6 @@ public class StudentController {
 			@RequestMapping("/alipay.do")
 			public String alipay(HttpServletRequest request){
 				String money = request.getParameter("money");
-				System.out.println(money);
 				Session session = SecurityUtils.getSubject().getSession();
 				session.setAttribute("money", money);
 				return "html/student/index.html";
@@ -403,9 +457,6 @@ public class StudentController {
 			@RequestMapping("/showGym.do")
 			public String showGym(Model model){
 				List<GymBean> list = gymService.findAllGym();
-				for (GymBean gymBean : list) {
-					System.out.println(gymBean);
-				}
 				model.addAttribute("Gym",list);
 				return "html/student/showGym.html";
 			}
@@ -424,9 +475,6 @@ public class StudentController {
 			@RequestMapping("/showCoach.do")
 			public String showCoach(Model model){
 				List<CoachBean> list = service.findAllCoach();
-				for (CoachBean coachBean : list) {
-					System.out.println(coachBean);
-				}
 				model.addAttribute("Coach",list);
 				return "html/student/showCoach.html";
 			}
@@ -438,5 +486,4 @@ public class StudentController {
 			public String showNearByCoach(){
 				return "html/map/nearbyCoach.html";
 			}
-			
 }

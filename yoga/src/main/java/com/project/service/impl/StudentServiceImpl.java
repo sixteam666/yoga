@@ -32,6 +32,7 @@ public class StudentServiceImpl implements IStudentService{
 	private IFollowDao followDao;
 	@Autowired
 	private IWordDao wordDao;
+	@Autowired
 	private IGymDao  Gymdao;
 	
 	

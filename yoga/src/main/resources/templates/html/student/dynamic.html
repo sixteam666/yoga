@@ -93,7 +93,7 @@
 				<div th:each="dynamic : ${dynamicList}" class="col-md-10 col-md-offset-1">
 					<div class="row">
 						<div class="col-md-1">
-							<a href="#">
+							<a th:href="@{/student/hispage.do?id=}+${dynamic.d_userid}">
 								<img th:src="@{/images/imgs/}+${dynamic.d_headimg}" class="round_icon" >
 							</a>
 						</div>
