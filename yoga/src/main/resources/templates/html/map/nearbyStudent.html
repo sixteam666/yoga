@@ -21,6 +21,7 @@
 		<input id="find" type="button"  value="搜索" />
 		
 		
+		
 	</div>
 	<div id="l-map"></div>
 </body>
@@ -31,9 +32,11 @@
 	var findbox = document.getElementById("findbox")
 	var findbtn = document.getElementById("find")
 	var myIcon = new BMap.Icon("../../img/1.jpg",new BMap.Size(50,50))
-	
+	var coach_address = parent.document.getElementById("c_address").value;
 	var map = new BMap.Map("l-map");
-	map.centerAndZoom("成都", 12);
+	//map.centerAndZoom(coach_address, 12);
+	
+	
 	map.enableScrollWheelZoom(true);
 	var index = 0;
 	var myGeo = new BMap.Geocoder();
@@ -58,39 +61,40 @@
 	var opts = {
 				width : 250,     // 信息窗口宽度
 				height: 80,     // 信息窗口高度
-				title : "信息窗口" , // 信息窗口标题
+				title : "" , // 信息窗口标题
 				enableMessage:true//设置允许信息窗发送短息
 			   };
+	
 	function bdGEO(){
-		var info = ""+adds[index].s_nickname
-		var addinfo = adds[index].s_address;
+		
+		var info = "姓名:"+adds[index].s_nickname+"</br>地址："+adds[index].s_address;
 		var addid = "<input id='stuId' type='hidden' value='"+adds[index].s_id+"'>";
-		geocodeSearch(addinfo,addid);
+		geocodeSearch(info,addid);
 		index++;
 	}
 	
 	
-	function geocodeSearch(addinfo,addid){
+	function geocodeSearch(info,addid){
 		
 		if(index < adds.length-1){
 			setTimeout(window.bdGEO);
 		} 
-		 myGeo.getPoint(addinfo,function(point){
+		 myGeo.getPoint(info,function(point){
 			
 			if (point) {
 				/* document.getElementById("result").innerHTML +=   add + ":" + point.lng + "," + point.lat + "</br>"; */
 				var address = new BMap.Point(point.lng, point.lat);
-				addMarker(address,new BMap.Label(addid,{offset:new BMap.Size(20,-10)}));
+				addMarker(address,new BMap.Label(addid,{offset:new BMap.Size(20,-10)}),info);
 				
 			}
 		}, "成都市");
 	}
 	 // 编写自定义函数,创建标注
-	function addMarker(point,label){
+	function addMarker(point,label,info){
 		var marker = new BMap.Marker(point);
 		marker.onmouseover = function(e){
 			var pt = e.point;
-			openInfo("nihao",e)
+			openInfo(info,e)
 		}
 		 marker.onclick = function(){
 			var stuId = document.getElementById("stuId").value;
@@ -106,9 +110,7 @@
 	  function openInfo(content,e){
 		var p = e.target;
 		var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
-		var opts = {
-				title = "";
-		}
+		
 		var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象 
 		map.openInfoWindow(infoWindow,point); //开启信息窗口
 	}  
@@ -126,4 +128,15 @@
 		}, "成都市");
 	}
 	
+	function initAddress(){
+		
+		map.centerAndZoom(coach_address, 12);
+		myGeo.getPoint(coach_address, function(point){
+			
+			var marker = new BMap.Marker(point,{icon:myIcon})
+			map.addOverlay(marker);
+			
+		}, "成都市");
+	}
+	initAddress()
 </script>

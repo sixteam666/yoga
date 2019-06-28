@@ -81,5 +81,5 @@ public interface ILessonDao {
 	 * @return
 	 */
 	@Select("select * from t_lesson where l_c_id = #{l_c_id}")
-	public List<LessonBean> findlessonbyCoachId(String l_c_id);
+	public List<LessonBean> findlessonbyCoachId(String id);
 }
