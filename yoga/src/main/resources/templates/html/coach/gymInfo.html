@@ -131,7 +131,9 @@
 				url:"/coach/signGym.do?r_resid="+r_resid,
 				asycn:true,
 				success:function(re){
-					if (re == "isRequest") {
+					if (re == "hasGym") {
+						alert("你已有签约场馆")
+					}else if (re == "isRequest") {
 						isSign.innerHTML = "<span style='color:red;'>*你已与场馆存在签约申请，请前往个人中心查看！</span>"
 					}else if(re == "add"){
 						alert("已向场馆发出申请")

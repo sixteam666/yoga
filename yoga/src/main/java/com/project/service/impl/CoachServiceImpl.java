@@ -98,6 +98,10 @@ public class CoachServiceImpl implements ICoachService {
 	@Override
 	public String addRequest(String r_reqid, String r_resid) {
 		int row = 0;
+		//先查询是否已经签约一个场馆
+		CoachBean co = dao.findIsGym(r_reqid);
+		if (!co.getC_g_id().equals("0") ) return "hasGym";
+		
 		//先查询两个对象之间是否有申请关系
 		Object obj = reDao.findIsRequest(r_reqid, r_resid);
 		if (obj == null) {
