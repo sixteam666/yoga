@@ -74,7 +74,7 @@
 						<h5 th:text="| ${notify.r_reqname} |" align="left" class="pricing-plan">通知类型</h5>
 						<h2 th:text="${notify.reqname}" class="pricing-plan">课程名称</h2>
 						<img  th:src="@{'../../images/imgs/'+${notify.headimg}}" />
-						<p th:text="3小时前">时间</p>
+						<p th:text="${notify.r_resname}">时间</p>
 						<button style="background-color:#2fddc3;color:white;border:none" >
 							&nbsp;+&nbsp;&nbsp;关注</button>
 						

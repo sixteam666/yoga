@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
@@ -242,5 +241,11 @@ public class StudentServiceImpl implements IStudentService{
 		} 
 		
 		return list;
+	}
+
+	@Override
+	public int addRequeststu(String myid, String itid, String type,String date) {
+		int Result  = requestdao.addRequeststu(myid, itid, type, date);
+		return Result;
 	}
 }
