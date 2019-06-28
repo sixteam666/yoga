@@ -25,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.project.bean.BankCardBean;
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
+import com.project.bean.LessonBean;
+import com.project.bean.PictureBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
 import com.project.service.IBankCardService;
@@ -458,7 +460,11 @@ public class CoachController {
 	public String findSign(ModelMap map) {
 		CoachBean coach = (CoachBean) SecurityUtils.getSubject().getSession().getAttribute("coach");
 		GymBean gym = gs.findGymById(coach.getC_g_id());
+		List<PictureBean> pictureList = gs.findAllPic(coach.getC_g_id(), 1);
+		List<LessonBean> lessonList = service.listLessons(coach.getC_id());
 		map.put("gym", gym);
+		map.put("lessonList", lessonList);
+		map.put("pictureList", pictureList);
 		return "html/coach/mySign.html";
 	}
 	

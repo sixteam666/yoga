@@ -56,32 +56,45 @@
 		  justify-content: center;
 		  overflow: hidden;
 		}
+		
+		.price-box img{
+			position: absolute;
+			top:0px;
+			left:0px;
+			width:305px;
+			height:300px;
+			display:none;
+			z-index:-1;
+		}
 	</style>
 </head>
-<body>
+<body onload="changeImg()">
 	<div class="gtco-loader"></div>
 	<div id="page"></div>
 	<div th:replace="html/coach/showGym.html::coach_header"></div>	
 	
-	<div class="row" style="border: 1px solid red;height:400px;margin-top:130px">
+	<div class="row" style="margin:130px 0 0">
 		<div th:if="${gym==null}"><p>你还未签约任何场馆，赶紧<a href="/coach/showAllGym.do">去签约</a>一个吧！</p></div>
-		<div th:if="${gym!=null}" class="col-md-3 col-md-offset-1 text-center" style="border: 1px solid red;height:380px;">
-			
+		<div th:if="${gym!=null}" class="col-md-3 col-md-offset-1 text-center">
+			<div class="price-box" style="z-index:-5">
+				<img style="z-index:-2;display:inline" th:src="@{/image/gymImg/}+${pictureList[0].p_imgname}">
+				<img th:id="|img${iterStat.index}|" th:each="picture,iterStat : ${pictureList}" th:src="@{/image/gymImg/}+${picture.p_imgname}">
+				<h5 th:text="| ${gym.g_name} >|" style="text-align:left;margin-top:180px;font-size:25px;color:white" class="pricing-plan">青脉健身馆  ></h5>
+			</div>
 		</div>
-		<div th:if="${gym!=null}" class="col-md-7 text-center" style="border: 1px solid red;height:380px;">
+		<div th:if="${lessonList==null}" class="col-md-7 text-center">
+			<p>场馆还未给你安排任何课程</p>
+		</div>
+		<div th:if="${lessonList!=null}" class="col-md-7 text-center">
 			<table class="table table-bordered">
+				<caption style="text-align:center"><span style="font-size:18px">我的课程</span></caption>
 				<tr>
-					<th>课程教练</th>
-					<th>课程价格</th>
-					<th>可容纳学员人数</th>
-					<th>已有学员人数</th>
-					<th>课程描述</th>
+					<th style="text-align:center">课程价格</th>
+					<th style="text-align:center">可容纳学员人数</th>
+					<th style="text-align:center">已有学员人数</th>
+					<th style="text-align:center">课程描述</th>
 				</tr>
-				
-				<tr>
-					<input type="hidden" id="hid" th:value="${lesson.l_id}">
-					<td th:if="${lesson.coachBean!=null}" th:text="${lesson.coachBean.c_nickname}">章教练</td>
-					<td th:unless="${lesson.coachBean!=null}" th:text="暂无课程教练">章教练</td>
+				<tr th:each="lesson : ${lessonList}">
 					<td>
 						<span th:text="${lesson.l_price}">200</span>￥/节
 					</td>
@@ -181,7 +194,19 @@
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-
+	<script>
+		var count = 1;
+		function changeImg() {
+			setInterval(function(){
+				$("#img"+count).fadeIn("slow");
+				$("#img"+count).siblings("img").css("display","none");
+				if(count>=12){
+					count = 0;
+				}
+				count++;
+			},3000);
+		}
+	</script>
 	</body>
 </html>
 

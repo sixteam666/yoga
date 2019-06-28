@@ -299,9 +299,12 @@ public class CoachServiceImpl implements ICoachService {
 		return c;
 	}
 
+	/**
+	 * 返回场馆安排教练的所有课程
+	 */
 	@Override
 	public List<LessonBean> listLessons(String id) {
-		return null;
+		return lessonDao.findlessonbyCoachId(id);
 	}
 
 }
