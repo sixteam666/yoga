@@ -51,29 +51,25 @@
 			<div class="row" style="background-color:#09C6AB ;">
 				<div class="col-sm-4 col-xs-12">
 					<ul>
-						<li><a href="/html/coach/coach.html" class="fon">首页</a></li>
-						<li><a href="/html/coach/showGym.html" class="fon">场馆</a></li>
-						<li><a href="/html/coach/showStudent.html" class="fon">学员</a></li>
+						<li><a href="/html/gym/index.html" class="fon">首页</a></li>
+						<li><a href="/html/coach/showGym.html" class="fon">教练</a></li>
 						<li class="has-dropdown">
 							<a href="/dynamic/showHot.do" class="fon">动态</a>
-							<ul class="dropdown">
-								<li><a href="/dynamic/showFollow.do">我的关注</a></li>
-								<li><a href="/dynamic/showFriend.do">我的好友</a></li>
-							</ul>
 						</li>
 					</ul>
 				</div>
 				<div class="col-xs-8 text-right menu-1">
 					<ul>
 						<li class="has-dropdown">
-							<a >欢迎您，<span th:text="${session.coach.c_nickname}"></span></a>
+							<a >欢迎您，<span th:text="${session.gym.y_nickname}"></span></a>
 							<ul class="dropdown">
-								<li><a href="/coach/showCoach.do">个人资料</a></li>
-								<li><a href="/coach/myStudent.do">我的学员</a></li>
-								<li><a href="contract.html">我的签约</a></li>
+								<li><a href="/html/gym/index.html">场馆展示</a></li>
+								<li><a href="/gym/showMessage.do">场馆资料</a></li>
+								<li><a href="/html/gym/lesson.html">课程安排</a></li>
+								<li><a href="/html/gym/myCoach.html">我的签约</a></li>
 								<li><a href="/dynamic/showMy.do">我的动态</a></li>
-								<li><a href="inform.html">我的通知</a></li>
-								<li><a href="/coach/showMoney.do">我的钱包</a></li>
+								<li><a href="/html/gym/MyMessage.html">我的通知</a></li>
+								<li><a href="/html/gym/wallet.html">我的钱包</a></li>
 							</ul>
 						</li>
 						<li class="has-dropdown">

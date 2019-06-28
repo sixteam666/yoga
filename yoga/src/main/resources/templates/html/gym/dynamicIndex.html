@@ -51,40 +51,38 @@
 		  justify-content: center;
 		  overflow: hidden;
 		}
+		
 	</style>
 </head>
 <body>
 	<div class="gtco-loader"></div>
 	<div id="page"></div>
-	<!-- <div th:replace="html/coach/my-pan.html::common_head"></div>	 -->
+	<!-- <div th:replace="/html/coach/my-pan.html::common_head"></div> -->
+	
 	<div class="gtco-section border-bottom">
 		<div class="gtco-container">
-			<div class="row" style="padding:0 0 50px">
-				<div class="col-md-2 col-md-offset-1">
-					<button onclick="publish()">发表新动态</button>
+			<div class="row">
+				<div class="col-md-7 col-md-offset-5 text-left" style="padding:0 0 20px">
+					<img th:src=@{/image/headImg/}+${session.gym.g_headimg} class="round_icon"/>
+					<span th:text="${session.gym.g_nickname}" style="font-weight:bold"></span>
+				</div>
+				<div class="col-md-1 col-md-offset-4 text-center gtco-heading">
+					<!--<a th:href="@{/dynamic/follow.do}">关注&nbsp;&nbsp;&nbsp;<span th:text="${follow}"></span></a>-->
+				</div>
+				<div class="col-md-1 text-center gtco-heading" style="margin-left: -16px;">
+					<a th:href="@{/dynamic/following.do}">粉丝&nbsp;&nbsp;&nbsp;<span th:text="${following}">3</span></a>
+				</div>
+				<div class="col-md-1 text-center gtco-heading">
+					<!--<a th:href="@{/dynamic/friends.do}">好友&nbsp;&nbsp;&nbsp;<span th:text="${friends}"></span></a>-->
 				</div>
 			</div>
-			<div id="publish" class="row" style="display:none;">
-				<div class="col-md-9 col-md-offset-1" align="left" >
-					<div class="row">
-						<form action="/dynamic/addDynamic.do" method="post">
-							<div class="col-md-10">
-								<textarea name="d_content" style="width:100%;height:100px;" placeholder="说点什么吧！（30字以内）"></textarea>
-							</div> 
-							<div class="col-md-1 col-md-offset-1">
-								<input type="submit" class="btn" value="发表" style="float:right;margin-top:60px" />
-							</div>
-							<div style="height:50px" class="col-md-12"></div>
-						</form>
-					</div>
-				</div>
-			</div>
+			<hr>
 			<div class="row">
 				<div th:each="dynamic : ${dynamicList}" class="col-md-10 col-md-offset-1">
 					<div class="row">
 						<div class="col-md-1">
 							<a href="#">
-								<img th:src="@{/image/dynamicImg/}+${dynamic.d_headimg}" class="round_icon" >
+								<img th:src="@{/image/headImg/}+${dynamic.d_headimg}" width="40px" >
 							</a>
 						</div>
 						<div class="col-md-3">
@@ -93,13 +91,8 @@
 							</a>
 							<p th:text="${dynamic.d_time}">今天 13:20</p>
 						</div>
-						<div class="col-md-2 col-md-offset-5">
-							<button style="color:white;border:none" 
-								th:if="${dynamic.follow}"
-								th:onclick="">已关注</button>
-							<button style="background-color:#2fddc3;color:white;border:none" 
-							th:unless="${dynamic.follow}"
-							th:onclick="">&nbsp;+&nbsp;&nbsp;关注</button>
+						<div class="col-md-1 col-md-offset-5">
+							<button style="background-color:#2fddc3;color:white;border:none" th:onclick="| window.location.href = '/dynamic/delete.do?id=${dynamic.d_id}' |">删除</button>
 						</div>
 						<div class="col-md-12">
 							<p th:text="${dynamic.d_content}"></p>
@@ -167,7 +160,7 @@
 
 		</div>
 	</footer>
-
+	
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
 	</div>
@@ -198,11 +191,6 @@
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-	<script>
-		function publish() {
-			$("#publish").slideToggle("slow");
-		}
-	</script>
+
 	</body>
 </html>
-
