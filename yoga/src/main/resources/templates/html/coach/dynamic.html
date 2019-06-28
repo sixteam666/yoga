@@ -57,7 +57,7 @@
 	<div class="gtco-loader"></div>
 	<div id="page"></div>
 	<div th:replace="html/coach/my-pan.html::common_head"></div>	
-	<div class="gtco-section border-bottom">
+	<div class="gtco-section border-bottom" th:fragement="common_dynamic">
 		<div class="gtco-container">
 			<div class="row" style="padding:0 0 50px">
 				<div class="col-md-2 col-md-offset-1">
@@ -84,7 +84,7 @@
 					<div class="row">
 						<div class="col-md-1">
 							<a href="#">
-								<img th:src="@{/images/imgs/}+${dynamic.d_headimg}" class="round_icon" >
+								<img th:src="@{/image/headImg/}+${dynamic.d_headimg}" class="round_icon" >
 							</a>
 						</div>
 						<div class="col-md-3">
@@ -95,15 +95,14 @@
 						</div>
 						<div class="col-md-2 col-md-offset-5">
 							<button style="color:white;border:none" 
-								th:if="${dynamic.follow}"
-								th:onclick="">已关注</button>
+								th:if="${dynamic.follow == 1}">已关注</button>
 							<button style="background-color:#2fddc3;color:white;border:none" 
-							th:unless="${dynamic.follow}"
-							th:onclick="">&nbsp;+&nbsp;&nbsp;关注</button>
+							th:if="${dynamic.follow == 0}" th:value="${dynamic.d_userid}"
+							th:onclick="|addFollow(this)|">&nbsp;+&nbsp;&nbsp;关注</button>
 						</div>
 						<div class="col-md-12">
 							<p th:text="${dynamic.d_content}"></p>
-							<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/images/imgs/}+${dynamic.d_img}">
+							<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/image/dynamicImg/}+${dynamic.d_img}">
 						</div>
 					</div>
 					<hr>
@@ -199,8 +198,24 @@
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
 	<script>
+		//发布动态
 		function publish() {
 			$("#publish").slideToggle("slow");
+		}
+		
+		//添加关注
+		function addFollow(obj) {
+			var followId = $(obj).attr("value");
+			$.ajax({
+				url: "/dynamic/addFollow.do",
+				type: "post",
+				data: "followId="+followId,
+				success: function() {
+					$(obj).html("已关注");
+					$(obj).css("backgroundColor","");
+					$(obj).removeAttr("onclick");
+				}
+			});
 		}
 	</script>
 	</body>
