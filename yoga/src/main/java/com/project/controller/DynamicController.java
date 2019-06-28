@@ -63,8 +63,8 @@ public class DynamicController {
 	@RequestMapping("showFriend.do")
 	public String showFriendDynamics(ModelMap map) {
 		Session session = SecurityUtils.getSubject().getSession();
-		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		String id = "1";
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		//String id = "1";
 		List<DynamicBean> friendDynamicList = blogService.listFriendDynamic(id);
 		map.put("dynamicList", friendDynamicList);
 		//根据session判断当前登陆用户类型,分类转发
@@ -129,7 +129,8 @@ public class DynamicController {
 		Session session = SecurityUtils.getSubject().getSession();
 		GymBean gymBean = (GymBean) session.getAttribute("gym");
 		String id = gymBean.getG_id();
-		
+		gymBean = gymService.findGymById(id);
+		map.put("gymBean", gymBean);
 		List<DynamicBean> myDynamicList = blogService.listDynamicsById(id);
 		//Integer follow = blogService.countFollow(id);
 		Integer following = blogService.countFollowing(id);
@@ -186,6 +187,17 @@ public class DynamicController {
 	}
 	
 	/**
+	 * 删除场馆动态
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("deleteGymDynamic.do")
+	public String deleteGymDynamic(Integer id) {
+		blogService.delete(id);
+		return "redirect:/dynamic/gymShowMy.do";
+	}
+	
+	/**
 	 * 显示关注的人
 	 * 垃圾代码
 	 * @param map
@@ -194,10 +206,9 @@ public class DynamicController {
 	@RequestMapping("follow.do")
 	public String follows(String id, ModelMap map) {
 		if(id == null) {
-			//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-			id = "1";
+		 id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+			//id = "1";
 		}
-		
 		List<CoachBean> followCoach = blogService.listFollowCoach(id);
 		List<StudentBean> followStudent = blogService.listFollowStudent(id);
 		List<GymBean> followGym = blogService.listFollowGym(id);

@@ -27,10 +27,10 @@ public class AlipayConfig {
     public static String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzr4kbQHtlbVg7HOnP3kb+TpEzUovry47yuuU4C4HPgum6cLyWQDzL5NXtPBW01NAOtZRMoQAc1FPwfjaPCFb5EKTTyoLkdRhSD5BvFXYTk46xo50SfOPro/7jQ2vQvOR3qzjwWvrNQ+I5xR126Ep9R2RPm4SnJEzgKc379e5r6sdoAdV7+WYppTk7wHGZZEBjgFvuhNHgvpjpxBfMd2834Wmaw1hIGaeKsufGkBdXa+LH0Muxk+M5MqH7NErWtKLQvQ8CSwR7QRPStwd7O81BnzTs8DlUY8/zikoIiSEAONWVA2dfHLHxkENnbBu/xHUqY/VYtwEizrRxNMu0Qu6jQIDAQAB";
 
 	// 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	public static String notify_url = "#";//待填入！！！！！！！！！！！！！！！！！！！！！！！！！
+	public static String notify_url = "http://24810n32z2.qicp.vip:29796/ZzyShoseShop/notify_url.jsp";
 
 	// 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	public static String return_url = "#";//待填入！！！！！！！！！！！！！！！！！！！！！！！！！
+	public static String return_url = "http://24810n32z2.qicp.vip:29796/ZzyShoseShop/Web/index.jsp";
 
 	// 签名方式
 	public static String sign_type = "RSA2";

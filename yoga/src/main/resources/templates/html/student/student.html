@@ -56,16 +56,10 @@
 			<div class="row">
 				<div class="col-sm-4 col-xs-12">
 					<ul>
-						<li><a href="/student/student.do" class="fon">首页</a></li>
-						<li><a href="showGym.html" class="fon">所有场馆</a></li>
-						<li><a href="showCoach.html" class="fon">附近教练</a></li>
-						<li class="has-dropdown">
-							<a href="#">动态</a>
-							<ul class="dropdown">
-								<li><a href="showMessage.html">我的关注</a></li>
-								<li><a href="showMessage.html">附近的人</a></li>
-							</ul>
-						</li>
+						<li><a th:href="@{/student/stu.do}" class="fon">首页</a></li>
+						<li><a th:href="@{/student/showGym.do}" class="fon">所有场馆</a></li>
+						<li><a th:href="@{/student/showCoach.do}" class="fon">附近教练</a></li>
+						<li><a href="/dynamic/showHot.do">动态</a></li>
 					</ul>
 				</div>
 			<div class="col-xs-8 text-right menu-1">
@@ -77,11 +71,11 @@
 						<li class="has-dropdown">
 							<a href="#">个人中心</a>
 							<ul class="dropdown">
-								<li><a href="/student/showStudent.do">个人资料</a></li>
-								<li><a href="className.html">我的课程</a></li>
-								<li><a href="order.html">我的订单</a></li>
-								<li><a href="attention.html">我的关注</a></li>
-								<li><a href="/student/findFans.do">我的通知</a></li>
+								<li><a href="mypage.do">个人主页</a></li>
+								<li><a href="showStudent.do">个人资料</a></li>
+								<li><a href="findcourse.do">课程中心</a></li>
+								<li><a href="findorder.do">我的订单</a></li>
+								<li><a href="notify.do">我的通知</a></li>
 							</ul>
 						</li>
 					</ul>	
@@ -114,7 +108,7 @@
 			<div class="row">
 
 				<div class="col-lg-4 col-md-4 col-sm-6" th:each="hotgym : ${Gymlist}">
-					<a href="../../images/img_1.jpg" class="fh5co-card-item image-popup">
+					<a href="#" class="fh5co-card-item">
 						<figure>
 							<div class="overlay"><i class="ti-plus"></i></div>
 							<img src="../../images/img_1.jpg" th:src="@{'../../images/imgs/'+${hotgym.g_headimg}}" alt="Image" class="img-responsive">
@@ -123,7 +117,7 @@
 							<h2 th:text="${hotgym.g_name}">瑜伽馆</h2>
 							<p th:text="${hotgym.g_phone}">xxxxxxxxxxx</p>
 							<p th:text="${hotgym.g_address}">xxxxxxxxxxx</p>
-							<p><span class="btn btn-primary">点击查看大图</span></p>
+							<p><span class="btn btn-primary">点击查看详情</span></p>
 						</div>
 					</a>
 				</div>
