@@ -325,6 +325,7 @@ public class StudentController {
 					}
 					showWordsBean.setWord(wordsBean.getW_content());
 					showWordsBean.setTime(wordsBean.getW_time());
+					System.out.println(showWordsBean);
 					list3.add(showWordsBean);
 				}
 				model.addAttribute("list",list3);
@@ -370,17 +371,13 @@ public class StudentController {
 				Session session = SecurityUtils.getSubject().getSession();
 				String content = request.getParameter("message");
 				String id = request.getParameter("showid");
-				System.out.println(content);
-				System.out.println(id+"!!!!!!!!!!!!!!!okokokokokokokok");
 				StudentBean bean = (StudentBean)session.getAttribute("stu");
-				System.out.println(bean.getS_id()+"okokokoookokoo");
 				WordsBean wordsBean = new WordsBean();
 				wordsBean.setW_content(content);
 				wordsBean.setW_time("2019-06-27");
 				wordsBean.setW_userid(bean.getS_id());
 				wordsBean.setW_showid(id);
 				service.insertWords(wordsBean);
-
 				return "redirect:/student/findWord2.do?userid="+id;				
 			}
 			
@@ -415,7 +412,6 @@ public class StudentController {
 			 */
 			@RequestMapping("/hispage.do")
 			public String hispage(String id,Model m){
-				System.out.println(id+"!!!!!!!!!!!!!!!!");
 				int fansnumber = service.countmyfans(id);
 				int idolnumber = service.countmyattention(id);
 				m.addAttribute("fansnumber", fansnumber);
@@ -495,7 +491,6 @@ public class StudentController {
 				String id = stu.getS_id();
 				List<RequestBean> listnotify  =service.findallreq(id);
 				model.addAttribute("notify",listnotify );
-				System.out.println(listnotify);
 				return "html/student/inform.html";
 				
 			}
