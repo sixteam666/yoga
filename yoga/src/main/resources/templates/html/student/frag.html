@@ -1,5 +1,4 @@
 <!DOCTYPE HTML>
-
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8">
@@ -54,13 +53,7 @@
 						<li><a th:href="@{/student/stu.do}" class="fon">首页</a></li>
 						<li><a href="showGym.html" class="fon">所有场馆</a></li>
 						<li><a href="showCoach.html" class="fon">附近教练</a></li>
-						<li class="has-dropdown">
-							<a href="/dynamic/showHot.do">动态</a>
-							<ul class="dropdown">
-								<li><a href="showMessage.html">我的关注</a></li>
-								<li><a href="showMessage.html">附近的人</a></li>
-							</ul>
-						</li>
+						<li><a href="/dynamic/showHot.do">动态</a></li>
 					</ul>
 				</div>
 				<div class="col-xs-8 text-right menu-1">
@@ -72,11 +65,11 @@
 						<li class="has-dropdown">
 							<a href="#">个人中心</a>
 							<ul class="dropdown">
+								<li><a href="mypage.do">个人主页</a></li>
 								<li><a href="showStudent.do">个人资料</a></li>
 								<li><a href="findcourse.do">课程中心</a></li>
 								<li><a href="findorder.do">我的订单</a></li>
-								<li><a href="mypage.do">个人主页</a></li>
-								<li><a href="inform.do">我的通知</a></li>
+								<li><a href="notify.do">我的通知</a></li>
 							</ul>
 						</li>
 					</ul>	

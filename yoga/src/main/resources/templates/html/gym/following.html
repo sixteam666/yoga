@@ -1,9 +1,10 @@
 <!DOCTYPE HTML>
+
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
+<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>个人主页</title>
+	<title>个人中心</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -36,62 +37,69 @@
 	<!-- Modernizr JS -->
 	<script src="../../js/modernizr-2.6.2.min.js"></script>
 
-	</head>
 	<style type="text/css">
 		.fon{
 			font-family: "微软雅黑";
 		}
 		
-	</style>
-	<body>
+		#follow{
+			margin: 100px 0 40px;
+			text-align: center;
+		}
 		
+		.round_icon{
+		  width: 34px;
+		  height: 34px;
+		  display: flex;
+		  border-radius: 50%;
+		  align-items: center;
+		  justify-content: center;
+		  overflow: hidden;
+		}
+	</style>
+</head>
+<body>
 	<div class="gtco-loader"></div>
-		<div th:replace="html/student/frag.html::common_head">
+	<div id="page"></div>
+	<!-- <div th:replace="html/coach/my-pan.html::common_head"></div>	 -->
+	
+	<div id="follow">我的粉丝</div>
+	<div class="col-md-6 col-md-offset-3 text-center">
+		<table class="table">
+			<tr th:if="${coachFans!=null}" th:each="coach : ${coachFans}">
+				<td>
+					<input type="hidden" th:value="${coach.c_id}" />
+					<img class="round_icon" th:src="@{/image/headImg/}+${coach.c_headimg}" width="40px"/>
+				</td>
+				<td><span th:text="${coach.c_nickname}"></span></td>
+				<td>
+					<button style="color:white;border:none" 
+						th:if="${coach.c_privacy == -1}">已关注</button>
+					<button style="background-color:#2fddc3;color:white;border:none" 
+					th:unless="${coach.c_privacy == -1}" th:value="${coach.c_id}"
+					th:onclick="|addFollow(this)|">&nbsp;+&nbsp;&nbsp;关注</button>
+				</td>
+			</tr>
+			<tr th:if="${studentFans!=null}" th:each="stu : ${studentFans}">
+				<td>
+					<input type="hidden" th:value="${stu.s_id}" />
+					<img class="round_icon" th:src="@{/image/headImg/}+${stu.s_headimg}" width="40px"/>
+				</td>
+				<td><span th:text="${stu.s_nickname}"></span></td>
+				<td>
+					<button style="color:white;border:none" 
+						th:if="${stu.s_privacy == -1}">已关注</button>
+					<button style="background-color:#2fddc3;color:white;border:none" 
+					th:unless="${stu.s_privacy == -1}" th:value="${stu.s_id}"
+					th:onclick="|addFollow(this)|">&nbsp;+&nbsp;&nbsp;关注</button>
+				</td>
+			</tr>
+		</table>
 	</div>
 	
-	
-		<div class="gtco-section">
-		<div class="gtco-container">
-			<div class="row" style="border: 5px solid #09C6AB;border-radius: 50px;">
-				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<br />
-					<h2>个人主页</h2>
-					<div  style="text-align: center;margin-bottom:20px" >
-						<img th:src="@{'../../images/imgs/'+${session.stu.s_headimg}}"/>
-					</div>
-					<p th:text="| 关注: ${idolnumber}  粉丝: ${fansnumber}  |">关注  458  | 粉丝13753 </p>
-						<hr>
-				</div>
-				<div  class="col-md-10 col-md-offset-2 text-center gtco-heading">
-					<a class="col-md-2"  >个人资料</a>
-					<a class="col-md-2" >动态</a>
-					<a href="/student/findWord.do" class="col-md-2" >留言板</a>
-				</div>
-				<div style="font-size: 20px;" class="col-md-8 col-md-offset-2 gtco-heading" >
-					
-				<div style="border-bottom: dashed;" class="col-md-10  gtco-heading">
-					<h4>我的动态</h4>
-				</div>
-				<div th:each=" dynamic : ${dynamiclist} " id="message">
-				<div class="col-md-16">
-						<img th:src="@{'../../images/imgs/'+${dynamic.d_headimg}}"/>
-						<h3 th:text="${session.stu.s_nickname}">用户名/昵称</h3>
-						<div class="dialog_Box">
-							<span th:text="${dynamic.d_content}" >
-   									sdsd
-   							</span>
-   						</div>
-				</div>
-					<p>发表时间：2019-06-19</p>
-				</div>
-				</div>
-			</div>
-		</div>
-	</div>
-			
 	<footer id="gtco-footer" role="contentinfo">
 		<div class="gtco-container">
-			<div class="row row-p	b-md">
+			<div class="row row-p b-md">
 
 				<div class="col-md-4">
 					<div class="gtco-widget">
@@ -102,6 +110,16 @@
 
 				<div class="col-md-2 col-md-push-1"></div>
 				
+				<div class="col-md-2 col-md-push-1">
+					<div class="gtco-widget">
+						<h3 class="fon">瑜伽平台</h3>
+						<ul class="gtco-footer-links">
+							<li><a href="coachLogin.html" class="fon">成为教练</a></li>
+							<li><a href="gymLogin.html" class="fon">场馆入驻</a></li>
+						</ul>
+					</div>
+				</div>
+
 				<div class="col-md-3 col-md-push-1">
 					<div class="gtco-widget">
 						<h3>联系方式</h3>
@@ -165,7 +183,22 @@
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-
+	<script>
+		//添加关注
+		function addFollow(obj) {
+			var followId = $(obj).attr("value");
+			$.ajax({
+				url: "/dynamic/addFollow.do",
+				type: "post",
+				data: "followId="+followId,
+				success: function() {
+					$(obj).html("已关注");
+					$(obj).css("backgroundColor","");
+					$(obj).removeAttr("onclick");
+				}
+			});
+		}
+	</script>
 	</body>
 </html>
 

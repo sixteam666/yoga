@@ -75,4 +75,11 @@ public interface ILessonDao {
 	 */
 	@Select("select l_c_id  from t_lesson where l_id = #{l_id}")
 	public String findcoachidbylessonid(Integer l_id);
+	
+	/**
+	 * 通过教练id查课程
+	 * @return
+	 */
+	@Select("select * from t_lesson where l_c_id = #{l_c_id}")
+	public List<LessonBean> findlessonbyCoachId(String id);
 }

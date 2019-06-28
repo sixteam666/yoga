@@ -26,10 +26,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.bean.BankCardBean;
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.PictureBean;
+import com.project.service.IBankCardService;
 import com.project.service.ICoachService;
 import com.project.service.IGymService;
 import com.project.util.FileUtil;
@@ -49,7 +51,8 @@ public class GymController {
 	private IGymService gymService;
 	@Autowired
 	private ICoachService coachService;
-	
+	@Autowired
+	private IBankCardService bankCardService;
 	private FileUtil picUtil;
 	
 	/**
@@ -235,6 +238,10 @@ public class GymController {
 			imgName = FileUtil.getFileName(file, req, UploadPathConstant.HEADIMG);
 		}
 		gymBean.setG_headimg(imgName);
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession(false);
+		session.setAttribute("gym", gymBean);
 		System.out.println(gymBean);
 		int number = gymService.updateMessage(gymBean);
 		System.out.println(number);
@@ -280,10 +287,12 @@ public class GymController {
 	@RequestMapping("/addPictures.do")
 	@ResponseBody
 	public Integer addPictures(String gymId) {
-		PictureBean picBean = new PictureBean();
-		picBean.setP_g_id(gymId);
+		
 		List<PictureBean> list = new ArrayList<PictureBean>();
 		for(int i = 1;i<=12;i++){  
+			PictureBean picBean = new PictureBean();
+			picBean.setP_g_id(gymId);
+			picBean.setP_type(1);
 			String imgName = i+".jpg";
 			picBean.setP_imgname(imgName);
 			list.add(picBean);
@@ -542,5 +551,22 @@ public class GymController {
 		String gymId = this.getGymToSession().getG_id();
 		GymBean gymBean = gymService.findGymById(gymId);
 		return gymBean;
+	}
+	
+	/**
+	 * 查看钱包余额
+	 * @author pan
+	 * @param coach 要更新的数据
+	 * @return 返回个人信息显示页面
+	 */
+	@RequestMapping("showMoney.do")
+	public String updateLessonInfo(ModelMap map) {
+		String gymId = this.getGymToSession().getG_id();
+		GymBean gymBean = gymService.findGymById(gymId);
+		Double money = gymBean.getG_money();
+		List<BankCardBean> cardList = bankCardService.listBankCard(gymId);
+		map.put("cardList", cardList);
+		map.put("money", money);
+		return "/html/gym/money.html";
 	}
 }
