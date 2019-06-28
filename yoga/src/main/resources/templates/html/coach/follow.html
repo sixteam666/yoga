@@ -65,30 +65,30 @@
 	
 	<div id="follow">我的关注</div>
 	<div class="col-md-6 col-md-offset-3 text-center">
-		<table class="table table-bordered">
+		<table class="table">
 			<tr th:each="coach : ${followCoach}">
 				<td>
 					<input type="hidden" th:value="${coach.c_id}" />
-					<img src="@{/images/imgs/}+${coach.c_headimg}" />
+					<img class="round_icon" th:src="@{/image/headImg/}+${coach.c_headimg}" width="40px"/>
 				</td>
 				<td><span th:text="${coach.c_nickname}"></span></td>
-				<td><button>取消关注</button></td>
+				<td><button style="color:white;border:none">已关注</button></td>
 			</tr>
 			<tr th:each="stu : ${followStudent}">
 				<td>
 					<input type="hidden" th:value="${stu.s_id}" />
-					<img src="@{/images/imgs/}+${stu.s_headimg}" />
+					<img class="round_icon" th:src="@{/image/headImg/}+${stu.s_headimg}" width="40px"/>
 				</td>
 				<td><span th:text="${stu.s_nickname}"></span></td>
-				<td><button>取消关注</button></td>
+				<td><button style="color:white;border:none">已关注</button></td>
 			</tr>
 			<tr th:each="gym : ${followGym}">
 				<td>
 					<input type="hidden" th:value="${gym.g_id}" />
-					<img src="@{/images/imgs/}+${gym.g_headimg}" />
+					<img class="round_icon" th:src="@{/image/headImg/}+${gym.g_headimg}" width="40px"/>
 				</td>
 				<td><span th:text="${gym.g_nickname}"></span></td>
-				<td><button>取消关注</button></td>
+				<td><button style="color:white;border:none">已关注</button></td>
 			</tr>
 		</table>
 	</div>

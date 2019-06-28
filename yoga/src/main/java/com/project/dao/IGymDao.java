@@ -78,7 +78,7 @@ public interface IGymDao {
 	 * @param gymBean
 	 * @return
 	 */
-	@Update("update t_gym set g_address=#{g_address},g_contactphone=#{g_contactphone},g_name=#{g_name},g_headimg=#{g_headimg} where g_id=#{g_id}")
+	@Update("update t_gym set g_address=#{g_address},g_contactphone=#{g_contactphone},g_name=#{g_name},g_headimg=#{g_headimg},g_qq=#{g_qq},g_message=#{g_message} where g_id=#{g_id}")
 	public int updateMessage(GymBean gymBean);
 	
 	/**

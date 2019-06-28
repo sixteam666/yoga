@@ -52,49 +52,45 @@
 		}*/
 		.btn{
 			width: 300px;
-			margin-top: 50px;
+			margin-top: 200px;
 			margin-left: 540px;
 		}
 	</style>
 	
-	
 	<style>
-		.preview{
-			
-			width: 200px;
-			height: 250px;
-			margin-left: 50PX;
-		}
-		
-		.preview img {
-			width: 100%;
-			height: 100%;
-		}
-		
-		.imgshow{
-			z-index: 1;
-		}
-		
-		.file {
-			position: absolute;
-			display: block;
-			width: 200px;
-			height: 250px;
-			background: #9acd32;
-			overflow: hidden;
-			z-index: 2;
-			top: 50px;
-			left: 65px;
-			opacity:0;/*透明度设置*/
-		}
-		.file input {
-			position: absolute;
-			font-size: 75pt;
-			right: 0;
-			top: 0;
-			opacity: 0
-		}
-	</style>
+	    *{
+	      margin: 0;
+	      padding: 0;
+	    }
+	    body {
+	      background-color: whitesmoke;
+	    }
+	    #box{
+	      width:133px;
+	      height: 200px;
+	      margin: 100px auto;
+	      position:relative;
+	      /* border: 1px solid #fff; 测试用到*/
+	      transform-style: preserve-3d;
+	      /*2.transform–style属性指定嵌套元素是在三维空间中呈现。(使用此属性必须先使用transform 属性)*/
+	      /*perspective:800px;*/
+	      /*3.设置透视距离*/
+	      transform:perspective(800px) rotateX(-15deg) rotateY(0deg) ;                                                   }
+	    #box img{
+	      position: absolute;
+	      top:0;
+	      left: 0;
+	      width: 100%;
+	      height: 100%;
+	      border-radius: 3px;
+	      box-shadow: 0px 0px 5px #fff;
+	      /*4.设置图片阴影*/
+	      -webkit-box-reflect:below 10px -webkit-linear-gradient(transparent,transparent 50%,rgba(0,0,0,.6));
+	      /*方法2-webkit-box-reflect:below 8px -webkit-linear-gradient(top,rgba(0,0,0,0)40%,rgba(0,0,0,.5)100%);*/
+	      /*5.设置图片倒影:直接记住吧(3个值。1. direction 定义方向，取值包括 above 、 below 、 left 、 right。);2. offset定义反射偏移的距离;3.mask-box-image定义遮罩图像，该图像将覆盖投影区域。如果省略该参数值，则默认为无遮罩图像。*/
+	    }
+	  </style>
+	
 	
 	<body>
 		
@@ -119,12 +115,13 @@
 						<li class="has-dropdown">
 							<a href="#">场馆中心</a>
 							<ul class="dropdown">
-								<li><a href="index.html">场馆展示</a></li>
-								<li><a href="msgShow.html">场馆资料</a></li>
-								<li><a href="lesson.html">课程安排</a></li>
-								<li><a href="wallet.html">我的钱包</a></li>
-								<li><a href="myCoach.html">我的签约教练</a></li>
+								<li><a href="/html/gym/index.html">场馆展示</a></li>
+								<li><a href="/gym/showMessage.do">场馆资料</a></li>
+								<li><a href="/html/gym/lesson.html">课程安排</a></li>
+								<li><a href="/html/gym/wallet.html">我的钱包</a></li>
+								<li><a href="/html/gym/myCoach.html">我的签约教练</a></li>
 								<li><a href="/gym/findCoachByMyResponse.do">我的通知</a></li>
+
 							</ul>
 						</li>
 					</ul>	
@@ -137,50 +134,55 @@
 	
 	
 	<div class="gtco-section">
-		<div class="gtco-container">
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>场馆风采展示</h2>
+		<form action="/gym/updatePictures.do" method="post" enctype="multipart/form-data">
+			<div class="gtco-container">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+						<h2>场馆风采展示</h2>
+					</div>
+				</div>
+				<div class="row showPicture">
+					<div id="box">
+					  <!-- <img src="image/1.jpg" >
+					  <img src="image/2.jpg" >
+					  <img src="image/3.jpg" >
+					  <img src="image/4.jpg" >
+					  <img src="image/5.jpg" >
+					  <img src="image/6.jpg" >
+					  <img src="image/7.jpg" >
+					  <img src="image/8.jpg" >
+					  <img src="image/9.jpg" >
+					  <img src="image/10.jpg" >
+					  <img src="image/11.jpg" >
+					  <img src="image/12.jpg" > -->
+					</div>
 					
 				</div>
 			</div>
-			<div class="row showPicture">
-				<!-- <div class="col-lg-4 col-md-4 col-sm-6">
-					<a href="javascript:;" class="file">
-						<span>选择文件</span>
-						<input type="file" onchange="preview(this)" />
-					</a>
-					<span class="fh5co-card-item imgshow" style="height: 350px;width: 300px;">
-						<figure style="text-align: center;top:50px">
-							<div class="preview">
-								<img src="/html/gym/image/1.jpg" alt="Image">
-							</div>
-						</figure>
-					</span>
-				</div>
-				
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<a href="javascript:;" class="file">
-						<span>选择文件</span>
-						<input type="file" onchange="preview(this)" />
-					</a>
-					<span class="fh5co-card-item imgshow" style="height: 350px;width: 300px;">
-						<figure style="text-align: center;top:50px">
-							<div class="preview">
-								<img src="/html/gym/image/1.jpg" alt="Image">
-							</div>
-						</figure>
-					</span>
-				</div>
-				 -->
-				
-			</div>
-		</div>
-		
-		<button class="btn btn-primary " onclick="updatePictures()">上传替换图片</button>
+			<a class="btn btn-primary" href="pictureModify.html">修改展示图片</a>
+		</form>	
 	</div>	
 	
-			
+	<div class="gtco-section">
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<h2>场馆简介</h2>
+				</div>
+			</div>
+			<div class="row gym_message" >
+				<h4 style="line-height: 30px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					宋柳平表示，“如果知识产权沦为政客的工具，将伤害人们对专利保护制度的信心。
+					如果某些政府选择性剥夺一些公司的知识产权，将会摧毁全球创新的根基。”
+				这份白皮书名为《尊重和保护知识产权是创新的必由之路》，详细介绍了华为公司在创新
+				与知识产权保护上实践与贡献。除了自身专利外，华为累计对外支付超过60亿美元专利费用于
+				合法使用其他公司的专利，其中近80%支付给美国公司。
+				宋柳平表示，知识产权是受到法律保护的私有财产，华为主张通过法律程序来解决知识产权纠纷。
+				在华为过去30多年的经营和发展历程中，没有一起案件被法庭认定存在恶意窃取知识产权的行为
+				，华为也没有因此被法庭判决承担赔偿责任。</h4>
+			</div>
+		</div>
+	</div>			
 	<footer id="gtco-footer" role="contentinfo">
 		<div class="gtco-container">
 			<div class="row row-p	b-md">
@@ -270,68 +272,114 @@
 					str = "";
 					if (mes.length>0 && mes!="") {
 						for(var i=0;i<mes.length;i++){
-							str+="<div class='col-lg-4 col-md-4 col-sm-6'>"+
-							"<input type='hidden' id='hid' value='"+mes[i].p_id+"'>"+
-							"<a href='javascript:;' class='file'>"+
-								"<span>选择文件</span>"+
-								"<input type='file' onchange='preview(this)' />"+
-							"</a>"+
-							"<span class='fh5co-card-item imgshow' style='height: 350px;width: 300px;'>"+
-								"<figure style='text-align: center;top:50px'>"+
-									"<div class='preview'>"+
-										"<img src='/html/gym/image/"+mes[i].p_imgname+"' alt='Image'>"+
-									"</div>"+
-								"</figure>"+
-							"</span>"+
-						"</div>";
+							str+="<img src='/image/gymImg/"+mes[i].p_imgname+"'>"
 						}
 					}
-					$(".showPicture").html(str);
+					
+					$("#box").html(str);
 				}
 			});
 		}
 		showPictures(1) 
 		
-		var OPrevDiv = document.getElementsByClassName('preview');
-		var OFile = document.getElementsByClassName('file');
-		var prevDiv = OPrevDiv[0];
-		var id = 0;
-		var map = {};
-		for(var i = 0; i < OFile.length; i++){
-			(function(i){
-				OFile[i].onclick = function(){
-					//alert('当前点击第'+ i+'个');
-					id = $(OFile[i]).prev().val();
-					prevDiv = OPrevDiv[i];
-				}
-			})(i);
-		}
-		function preview(file) { //预览图片得到图片base64
-			if(file.files && file.files[0]) {
-				var reader = new FileReader();
-				reader.onload = function(evt) {
-					prevDiv.innerHTML = '<img src="' + evt.target.result + '" alt="Image"/>';
-					map[id] = file.files[0];
-					console.info(map) 
-				}
-				reader.readAsDataURL(file.files[0]);
-			} 
-		}
-	
-		function updatePictures(){
+		function showMsg(){
 			$.ajax({
-				url:"/gym/updatePictures.do",
-				data:JSON.stringify(map),
-			    type:"post",
-			    dataType:"json",
-			    contentType:"application/json",
+				type:"get",
+				async:false,
+				url:"/gym/getGymToSession.do",
+				//data:"p_type="+p_type, 
 				success:function(mes){
 					console.info(mes);
-					
+					str = "";
+					str+="<h4 style='line-height: 30px;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+					if (mes!=null && mes!="") {
+						if (mes.g_message!=null && mes.g_message!="") {
+							str+=mes.g_message+"</h4>"
+						}else{
+							str+="暂无场馆简介信息，去<a href='/gym/showMessage.do'>场馆资料</a>添加信息！</h4>"
+						}
+					}
+					$(".gym_message").html(str);
 				}
 			});
 		}
-		
+		showMsg() 
+	</script>
+	<script>
+		//   //js动态添加11个img标签
+		//  //创建11个img标签的办法
+		//   var box=document.getElementById('box');
+		//   for(var i=1;i<=11;i++){//有多少张图就循环多少次
+		//  var imgs= document.createElement('img');
+		//  imgs.setAttribute("src", "img/"+i+".jpg");
+		//  box.appendChild(imgs);}
+		//当页面加载完毕后再执行代码
+		window.onload = function() {
+			//1.获取元素
+			var oWrap = document.getElementById('box');
+			var oImg = oWrap.children;
+			// var oImgLen=oImg.length;
+			var deg = 360 / oImg.length; //3.每个需要旋转的度数
+			// 定义一个开始的度数
+			var roX = -10;
+			var roY = 0;
+			var x, y, x_, y_, xN, yN, time = null;
+			//2.遍历所有的img标签
+			for(var i = 0; i < oImg.length; i++) {
+				// oImg[i].style.cssText='transform:rotateY('+i*deg+'deg ) translateZ(350px);transition:1s'+ (oImgLen-i)*0.1 +'s;';
+				oImg[i].style.transform = 'rotateY(' + i * deg + 'deg) translateZ(350px)';
+				oImg[i].style.transition = ' all 1s ' + (oImg.length - i - 1) * 0.1 + 's';
+				//transition:设置过渡
+				oImg[i].ondragstart = function() {
+					return false;
+				}
+			}
+			//3.事件处理
+			document.onmousedown = function(e) {
+				clearInterval(time);
+				e = e || window.event;
+				x_ = e.clientX;
+				y_ = e.clientY;
+				// console.log ( "鼠标按下了" )
+				this.onmousemove = function(e) {
+					e = e || window.event;
+					//获取滚动的X和Y轴
+					//client:鼠标触发点相对于页面可视区域左上角距离
+					x = e.clientX;
+					y = e.clientY;
+					//两点之间的差值:第一次走的时候两值相等,第二次走的时候x已经更新,但x_没更新,所以两个差值就是xN;
+					xN = x - x_;
+					yN = y - y_;
+					//差值拼接到旋转的Y里面去
+					roY += xN * 0.2; //水平拖影响Y轴;
+					roX -= yN * 0.2;
+					oWrap.style.transform = 'perspective(800px) rotateX(' + roX + 'deg) rotateY(' + roY + 'deg)';
+					// var oDiv =document.createElement('div');
+					// this.body.appendChild(oDiv);
+					// oDiv.style.cssText='width:5px;height:5px; background:red;position:absolute;left:'+x+"px;top:"+y+"px";这三行是测试用的
+					x_ = e.clientX;
+					y_ = e.clientY;
+				}
+				this.onmouseup = function() {
+					// console.log ( "鼠标抬起了" )
+					this.onmousemove = null;
+					//设置一个定时器,实现后面惯性效果8
+					time = setInterval(function() {
+						//无限乘以零点95它会接近0的状态
+						xN *= 0.95;
+						yN *= 0.95;
+						//当它小到0.1时停止计时器
+						if(Math.abs(xN) < 0.1 && Math.abs(yN) < 0.1) { //Math.abs()是返回绝对值
+							clearInterval(time);
+						}
+						//差值拼接到旋转的Y里面去
+						roY += xN * 0.2; //水平拖影响Y轴;
+						roX -= yN * 0.2;
+						oWrap.style.transform = 'perspective(800px) rotateX(' + roX + 'deg) rotateY(' + roY + 'deg)';
+					}, 30)
+				}
+			}
+		}
 	</script>
 	</body>
 </html>

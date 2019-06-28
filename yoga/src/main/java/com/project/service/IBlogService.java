@@ -86,6 +86,20 @@ public interface IBlogService {
 	List<CoachBean> listCoachFans(String id);
 	
 	/**
+	 * 显示用户的学员好友
+	 * @param id
+	 * @return
+	 */
+	List<StudentBean> listStudentFriends(String id);
+	
+	/**
+	 * 显示用户的教练好友
+	 * @param id
+	 * @return
+	 */
+	List<CoachBean> listCoachFriends(String id);
+	
+	/**
 	 * 当前用户粉丝人数统计
 	 * @param id
 	 * @return
@@ -99,4 +113,32 @@ public interface IBlogService {
 	 */
 	Integer countFollowing(String id);
 	
+	/**
+	 * 当前用户好友人数统计
+	 * @param id
+	 * @return
+	 */
+	Integer countFriends(String id);
+	
+	/**
+	 * 添加关注
+	 * @param followId
+	 * @return
+	 */
+	Integer addFollow(String followId);
+	
+	/**
+	 * 取消关注
+	 * @param followId
+	 * @return
+	 */
+	Integer cancelFollow(String followId);
+	
+	/**
+	 * 关注判断
+	 * @param fanId
+	 * @param idolId
+	 * @return
+	 */
+	boolean isFollow(String fanId, String idolId);
 }
