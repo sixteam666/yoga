@@ -45,16 +45,16 @@
 
 	
 	<!-- <div class="page-inner"> -->
-	<nav class="gtco-nav" role="navigation" th:fragment="header">
+	<nav class="gtco-nav" role="navigation">
 		<div class="gtco-container">
 			
 			<div class="row">
 				<div class="col-sm-4 col-xs-12">
 					<ul>
-						<li><a href="/coach/showCoachPage.do" class="fon">首页</a></li>
+						<li><a href="/coach/showCoachHome.do" class="fon">首页</a></li>
 						<li><a href="/coach/showAllGym.do" class="fon">场馆</a></li>
 						<li><a href="/coach/showAllStu.do" class="fon">学员</a></li>
-						<li><a href="/html/coach/showMessage.html" class="fon">动态</a></li>
+						<li><a href="/dynamic/showHot.do" class="fon">动态</a></li>
 					</ul>
 				</div>
 			<div class="col-xs-8 text-right">
@@ -110,20 +110,18 @@
 			</div>
 			<div class="row">
 				<div class="col-lg-4 col-md-4 col-sm-6" th:each="gy,iterStat : ${gym}">
-					<a href="../../images/img_1.jpg" class="fh5co-card-item image-popup">
-						<figure>
-							<div class="overlay"><i class="ti-plus"></i></div>
-							<img src="../../images/img_1.jpg" alt="Image" class="img-responsive">
-						</figure>
-						<div class="fh5co-text">
-							<h2 th:text="${gy.g_name}">瑜伽馆</h2>
-							<p th:text="${gy.g_phone}">xxxxxxxxxxx</p>
-							<p><span class="btn btn-primary" th:href="@{/coach/showGymDetail.do?gymId=}+${gy.g_id}">点击查看详细信息</span></p>
-						</div>
-					</a>
+				<a th:href="@{/coach/showGymDetail.do?gymId=}+${gy.g_id}" class="fh5co-card-item">
+					<figure>
+						<div class="overlay"><i class="ti-plus"></i></div>
+						<img src="../../images/img_1.jpg" alt="Image" class="img-responsive">
+					</figure>
+					<div class="fh5co-text">
+						<h2 th:text="${gy.g_name}">瑜伽馆</h2>
+						<p th:text="${gy.g_phone}">xxxxxxxxxxx</p>
+						<span>点击查看场馆信息</span>
+					</div>
+				</a>
 				</div>
-					
-				
 			</div>
 		</div>
 	</div>

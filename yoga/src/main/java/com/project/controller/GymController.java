@@ -226,13 +226,14 @@ public class GymController {
 		String gymId = this.getGymToSession().getG_id();
 		gymBean.setG_id(gymId);
 		//gymBean.setG_id("1");
-		String imgName = this.getGymToSession().getG_headimg();
-		
+		GymBean gymBean2 = gymService.findGymById(gymId);
+		//String imgName = this.getGymToSession().getG_headimg();
+		String imgName = gymBean2.getG_headimg();
+		System.out.println(imgName);
 		if (file.getOriginalFilename()!=null && file.getOriginalFilename()!="") {
-			System.out.println("1");
+			
 			imgName = FileUtil.getFileName(file, req, UploadPathConstant.HEADIMG);
 		}
-		
 		gymBean.setG_headimg(imgName);
 		System.out.println(gymBean);
 		int number = gymService.updateMessage(gymBean);
@@ -528,5 +529,18 @@ public class GymController {
 	public List<CoachBean> findAllCoach(){
 		List<CoachBean> coachList = gymService.findAllCoach();
 		return coachList;
+	}
+	
+	/**
+	 * 查找所有教练
+	 * 
+	 * @return 教练对象集合
+	 */
+	@RequestMapping("/findGymById.do")
+	@ResponseBody
+	public GymBean findGymById(){
+		String gymId = this.getGymToSession().getG_id();
+		GymBean gymBean = gymService.findGymById(gymId);
+		return gymBean;
 	}
 }
