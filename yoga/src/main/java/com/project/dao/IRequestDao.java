@@ -1,5 +1,7 @@
 package com.project.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -33,4 +35,16 @@ public interface IRequestDao {
 	 */
 	@Select("select * from t_request where r_reqid = #{req} and r_resid = #{res} or r_reqid = #{res} and r_resid = #{req}")
 	public RequestBean findIsRequest(@Param("req")String r_reqid, @Param("res")String r_resid);
+
+	/**
+	 * 查询自己的通知
+	 * @param id
+	 * @return
+	 */
+	@Select("select * from t_request where r_resid = #{id}")
+	public List<RequestBean> listrequest(String id);
+	
+	
+
+
 }

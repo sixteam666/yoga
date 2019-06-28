@@ -4,17 +4,20 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
+import com.project.bean.RequestBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
 import com.project.dao.ICoachDao;
 import com.project.dao.IFollowDao;
 import com.project.dao.IGymDao;
 import com.project.dao.ILessonDao;
+import com.project.dao.IRequestDao;
 import com.project.dao.IStudentDao;
 import com.project.dao.IWordDao;
 import com.project.service.IStudentService;
@@ -34,6 +37,8 @@ public class StudentServiceImpl implements IStudentService{
 	private IWordDao wordDao;
 	@Autowired
 	private IGymDao  Gymdao;
+	@Autowired
+	private IRequestDao requestdao;
 	
 	
 	@Override
@@ -209,5 +214,33 @@ public class StudentServiceImpl implements IStudentService{
 	@Override
 	public List<CoachBean> findAllCoach() {
 		return CoachDao.findAll();
+	}
+	
+	@Override
+	public List<RequestBean> findallreq(String id) {
+		List<RequestBean> list = requestdao.listrequest(id);
+		for (RequestBean requestBean : list) {
+			String reqid = requestBean.getR_reqid();
+			if (dao.findStudentbyId(reqid)!=null) {
+				StudentBean stu = dao.findStudentbyId(reqid);
+				requestBean.setReqid(stu.getS_id());
+				requestBean.setReqname(stu.getS_nickname());
+				requestBean.setHeadimg(stu.getS_headimg());
+			}else if (CoachDao.getCoachById(reqid)!=null) {
+				CoachBean coach = CoachDao.getCoachById(reqid);
+				requestBean.setReqid(coach.getC_id());
+				requestBean.setReqname(coach.getC_nickname());;
+				requestBean.setHeadimg(coach.getC_headimg());
+			}else {
+				GymBean  gym  = Gymdao.findGymById(reqid);
+				requestBean.setHeadimg(gym.getG_headimg());
+				requestBean.setReqid(gym.getG_id());
+				requestBean.setReqname(gym.getG_name());
+			}{
+				
+			}
+		} 
+		
+		return list;
 	}
 }

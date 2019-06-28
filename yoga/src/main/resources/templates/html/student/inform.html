@@ -50,89 +50,37 @@
 	<body>
 		
 	<div class="gtco-loader"></div>
+		<div th:replace="html/student/frag.html::common_head">
+	</div>
 	
-	<div id="page">
-
-	
-	<nav class="gtco-nav" role="navigation">
-		<div class="gtco-container">
-			
-			<div class="row" style="background-color:#09C6AB ;">
-				<div class="col-sm-4 col-xs-12">
-					<ul>
-						<li><a href="student.html" class="fon">首页</a></li>
-						<li><a href="showGym.html" class="fon">所有场馆</a></li>
-						<li><a href="showCoach.html" class="fon">认证教练</a></li>
-						<li class="has-dropdown">
-							<a href="#">动态</a>
-							<ul class="dropdown">
-								<li><a href="showMessage.html">我的关注</a></li>
-								<li><a href="showMessage.html">附近的人</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-				<div class="col-xs-8 text-right menu-1">
-					<ul>
-						<li class="has-dropdown">
-							<span style="color: white;">欢迎您，用户名</span>
-							<a href="#">注销</a>
-						</li>
-						<li class="has-dropdown">
-							<a href="#">个人中心</a>
-							<ul class="dropdown">
-								<li><a href="my.html">个人资料</a></li>
-								<li><a href="className.html">我的课程</a></li>
-								<li><a href="order.html">我的订单</a></li>
-								<li><a href="attention.html">我的关注</a></li>
-								<li><a href="/student/findWord.do">我的通知</a></li>
-							</ul>
-						</li>
-					</ul>			
-			</div>
-			</div>		
-		</div>
-	</nav>
-	<!-- <div class="gtco-section border-bottom">
-		<div class="gtco-container">
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>我的留言</h2>
-				</div>
-			</div>
-			<div class="row">
-			
-				<div class="col-md-4" th:each="fans : ${fans}">
-					<div class="price-box">
-						<img src="../../images/imgs/13.jpg" th:src="@{'../../images/imgs/'+${fans.s_headimg}}" />
-						<br /><br /><br />
-						<form action="/student/attention.do">
-						<h2 class="pricing-plan" th:text="${fans.s_name}">用户名</h2>
-						<input type="hidden" name="name" value="" th:attr="value=${fans.s_name}">
-						<h5>该用户关注了您</h5>
-						<input type="submit" class="btn btn-primary" value="+关注"/>
-						</form>
-					</div>
-				</div>
-				
-			</div>
-		</div>
-	</div> -->
 	<div class="gtco-section border-bottom">
 		<div class="gtco-container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>我的留言</h2>
+					<h2>通知</h2>
 				</div>
 			</div>
 			<div class="row">
 			 
-				<div class="col-md-16" th:each="word : ${list}">
-						<img src="../../images/imgs/2.jpg" th:src="@{'../../images/imgs/'+${word.headimg}}" />
-						<h2 th:text="${word.name}">用户名/昵称</h2>
-						<h4 th:text="${word.word}">留言内容bbbbbbbbbbbbbbbbbbbbbbb</h4>
-						<p th:text="${word.time}">发表时间：2019-06-19</p>
+				<!-- <div  class="col-md-16" th:each=" notify : ${notify}">
+						<img style="display:block;"  th:src="@{'../../images/imgs/'+${notify.headimg}}" />
+						<h2 class="col-md-4"  th:text="${notify.reqname}">通知者昵称</h2>
+						<h4 class="col-md-4" th:text="${notify.r_reqname}">通知内容</h4>
+						<input type="hidden" th:value="${notify.reqid}">
+				</div>
+				 -->
+				<div th:each=" notify : ${notify}" class="col-md-4">
+					<div  class="price-box">
+						<h5 th:text="| ${notify.r_reqname} |" align="left" class="pricing-plan">通知类型</h5>
+						<h2 th:text="${notify.reqname}" class="pricing-plan">课程名称</h2>
+						<img  th:src="@{'../../images/imgs/'+${notify.headimg}}" />
+						<p th:text="3小时前">时间</p>
+						<button style="background-color:#2fddc3;color:white;border:none" >
+							&nbsp;+&nbsp;&nbsp;关注</button>
+						
 						<hr>
+						
+					</div>
 				</div>
 
 			</div>

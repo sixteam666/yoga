@@ -5,6 +5,7 @@ import java.util.List;
 import com.project.bean.CoachBean;
 import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
+import com.project.bean.RequestBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
 
@@ -177,4 +178,10 @@ public interface IStudentService{
 	 * @return
 	 */
 	public List<CoachBean> findAllCoach();
+	
+	 /** 查询个人通知
+	 * @param id
+	 * @return
+	 */
+	public List<RequestBean> findallreq(String id);
 }

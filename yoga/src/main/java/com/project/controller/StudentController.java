@@ -31,6 +31,7 @@ import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
+import com.project.bean.RequestBean;
 import com.project.bean.ShowWordsBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
@@ -174,7 +175,7 @@ public class StudentController {
 		//Session session = SecurityUtils.getSubject().getSession();
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
-		return "html/index.html";
+		return "redirect:/html/index.html";
 	}
 	
 			/**
@@ -334,13 +335,13 @@ public class StudentController {
 			 * 加关注
 			 */
 			@RequestMapping("/attention.do")
-			public String addAttention(HttpServletRequest request){
+			@ResponseBody
+			public String addAttention(String idolid){
 				Session session = SecurityUtils.getSubject().getSession();
-				String name = request.getParameter("name");
-				StudentBean bean = (StudentBean)session.getAttribute("stu");
-				StudentBean studentBean = service.findStudentbyName(name);
-				service.addFollow(bean.getS_id(),studentBean.getS_id());
-				return "redirect:/student/findFans.do";
+				StudentBean stu = (StudentBean)session.getAttribute("stu");
+				String myid = stu.getS_id();
+				service.addFollow(myid,idolid);
+				return "ok";
 			}
 			
 			/**
@@ -486,4 +487,18 @@ public class StudentController {
 			public String showNearByCoach(){
 				return "html/map/nearbyCoach.html";
 			}
+			
+			@RequestMapping("/notify.do")
+			public String  notify(Model model){
+				Session session = SecurityUtils.getSubject().getSession();
+				StudentBean stu=(StudentBean) session.getAttribute("stu");
+				String id = stu.getS_id();
+				List<RequestBean> listnotify  =service.findallreq(id);
+				model.addAttribute("notify",listnotify );
+				System.out.println(listnotify);
+				return "html/student/inform.html";
+				
+			}
+			
+			
 }
