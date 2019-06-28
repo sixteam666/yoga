@@ -7,6 +7,27 @@ public class RequestBean {
 	private String r_reqname;
 	private String r_resname;
 	private int r_state;
+	private String reqname;
+	private String headimg;
+	public String getHeadimg() {
+		return headimg;
+	}
+	public void setHeadimg(String headimg) {
+		this.headimg = headimg;
+	}
+	private String reqid;
+	public String getReqname() {
+		return reqname;
+	}
+	public void setReqname(String reqname) {
+		this.reqname = reqname;
+	}
+	public String getReqid() {
+		return reqid;
+	}
+	public void setReqid(String reqid) {
+		this.reqid = reqid;
+	}
 	public int getR_id() {
 		return r_id;
 	}

@@ -9,12 +9,14 @@ import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
+import com.project.bean.RequestBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
 import com.project.dao.ICoachDao;
 import com.project.dao.IFollowDao;
 import com.project.dao.IGymDao;
 import com.project.dao.ILessonDao;
+import com.project.dao.IRequestDao;
 import com.project.dao.IStudentDao;
 import com.project.dao.IWordDao;
 import com.project.service.IStudentService;
@@ -32,7 +34,10 @@ public class StudentServiceImpl implements IStudentService{
 	private IFollowDao followDao;
 	@Autowired
 	private IWordDao wordDao;
+	@Autowired
 	private IGymDao  Gymdao;
+	@Autowired
+	private IRequestDao requestdao;
 	
 	
 	@Override
@@ -203,5 +208,17 @@ public class StudentServiceImpl implements IStudentService{
 	public int countmyfans(String id) {
 		int result = followDao.countFollowing(id);
 		return result;
+	}
+
+	@Override
+	public List<RequestBean> findallreq(String id) {
+		List<RequestBean> list = requestdao.listrequest(id);
+		for (RequestBean requestBean : list) {
+			String reqid = requestBean.getR_reqid();
+			if (dao.findStudentbyId(reqid)!=null) {
+				
+			}
+		} 
+		return null;
 	}
 }

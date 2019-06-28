@@ -363,4 +363,13 @@ public class StudentController {
 				
 				return "html/student/showGym.html";
 			}
+			
+			@RequestMapping("/notify.do")
+			public String  notify(Model model){
+				
+				return "html/student/inform.html";
+				
+			};
+			
+			
 }

@@ -138,10 +138,9 @@ public class DynamicController {
 	@RequestMapping("follow.do")
 	public String follows(String id, ModelMap map) {
 		if(id == null) {
-			//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-			id = "1";
+		 id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+			//id = "1";
 		}
-		
 		List<CoachBean> followCoach = blogService.listFollowCoach(id);
 		List<StudentBean> followStudent = blogService.listFollowStudent(id);
 		List<GymBean> followGym = blogService.listFollowGym(id);
