@@ -436,7 +436,7 @@ public class GymController {
 	@RequestMapping("/updateCoach.do")
 	@ResponseBody
 	public int updateCoach(String g_id, String c_id) {
-		if(g_id != "0") {
+		if(!"0".equals(g_id)) {
 			g_id = this.getGymToSession().getG_id();
 		}
 		int number = gymService.updateCoachBean(g_id, c_id);
@@ -448,7 +448,7 @@ public class GymController {
 	 * 
 	 * @param g_id 提交申请的场馆id
 	 * @param c_id 被申请的教练id
-	 * @return 数据库签约申请表影响行数
+	 * @return 返回值   0:请求失败 1:请求成功 2：重复请求 3：教练已向你发送请求;
 	 */
 	@RequestMapping("/submitSigingApplication.do")
 	@ResponseBody

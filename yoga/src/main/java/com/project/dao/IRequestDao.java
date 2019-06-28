@@ -14,7 +14,7 @@ public interface IRequestDao {
 	 * @param r_resid 被申请方 id
 	 * @return 影响行数
 	 */
-	@Insert("insert into t_request(r_reqid,r_resid) values(#{r_reqid},#{r_resid})")
+	@Insert("insert into t_request(r_reqid,r_resid,r_state) values(#{r_reqid},#{r_resid},0)")
 	public int addRequest(@Param("r_reqid")String r_reqid,@Param("r_resid")String r_resid);
 	/**
 	 * 修改申请
