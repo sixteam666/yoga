@@ -60,7 +60,6 @@ public class CoachController {
 		//产生一个用户（门面对象）
 		Subject currentUser = SecurityUtils.getSubject();
 		 if (!currentUser.isAuthenticated()) {
-			 System.out.println("jin");
 	            UsernamePasswordToken token = new UsernamePasswordToken("c"+c_name,c_password);
 	            try {
 	            	if (remenber != null && remenber == 1) {
@@ -87,7 +86,6 @@ public class CoachController {
 	               return "user_lock";
 	            }
 	      }
-		 System.out.println("budenglu");
 		return "success";
 	}
 	@RequestMapping("/getUser.do")
@@ -155,6 +153,7 @@ public class CoachController {
 	 */
 	@RequestMapping("/showAllStu.do")
 	public String showAllStu(ModelMap map){
+		
 		return "html/coach/showStudent.html";
 	}
 	/**
@@ -371,7 +370,6 @@ public class CoachController {
 	@RequestMapping("/showGymDetail.do")
 	public String showGymDetail(ModelMap map,String gymId){
 		GymBean gb = gs.findGymById(gymId);
-		System.out.println(gb);
 		map.put("gymBean", gb);
 		return "/html/coach/gymInfo.html";
 	} 
@@ -459,5 +457,4 @@ public class CoachController {
 		currentUser.logout();
 		return "redirect:/html/index.html";
 	}
-	
 }
