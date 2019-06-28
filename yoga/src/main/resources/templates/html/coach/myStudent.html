@@ -96,7 +96,7 @@
 			<div class="row">
 				<div class="col-md-4">
 					<div th:each="myStu : ${myStuList}" class="price-box">
-						<img th:src="@{/images/imgs/}+${myStu.s_headimg}" src="../../images/imgs/19.jpg" />
+						<img th:src="@{/image/headImg/}+${myStu.s_headimg}" src="../../images/imgs/19.jpg" />
 						<br /><br /><br />
 						<h2 class="pricing-plan" th:text="${myStu.s_nickname}">用户名</h2>
 					</div>

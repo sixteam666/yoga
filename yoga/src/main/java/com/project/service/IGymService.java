@@ -130,7 +130,14 @@ public interface IGymService {
 	 * @param gymId
 	 * @return
 	 */
-	public List<PictureBean> findAllPic(String gymId);
+	public List<PictureBean> findAllPic(String gymId,int type);
+	
+	/**
+	 * 修改图片
+	 * @param bean
+	 * @return
+	 */
+	public int updatePicture(PictureBean bean); 
 	
 	/**
 	 * 删除图片
@@ -175,5 +182,12 @@ public interface IGymService {
 	 * @return 已请求签约的教练集合
 	 */
 	public List<CoachBean> findCoachByMyRequest(String g_id);
+	
+	/**
+	 * 查找所有教练
+	 * 
+	 * @return
+	 */
+	public List<CoachBean> findAllCoach();
 	
 }

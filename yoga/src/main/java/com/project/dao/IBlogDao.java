@@ -17,8 +17,8 @@ public interface IBlogDao {
 	 * @param dynamic
 	 */
 	@Insert("insert into "
-			+ "t_dynamic(d_content,d_time,d_userid,d_img,d_heading,d_nickname,d_type) "
-			+ "values(#{d_content},#{d_time},#{d_userid},#{d_img},#{d_heading},"
+			+ "t_dynamic(d_content,d_time,d_userid,d_img,d_headimg,d_nickname,d_type) "
+			+ "values(#{d_content},#{d_time},#{d_userid},#{d_img},#{d_headimg},"
 			+ "#{d_nickname},#{d_type})")
 	Integer insert(DynamicBean dynamic);
 	
@@ -34,7 +34,7 @@ public interface IBlogDao {
 	 * 查询所有动态
 	 * @return
 	 */
-	@Select("select * from t_dynamic")
+	@Select("select * from t_dynamic order by d_time desc")
 	List<DynamicBean> listAllBlog();
 	
 	/**
@@ -42,7 +42,7 @@ public interface IBlogDao {
 	 * @param id
 	 * @return
 	 */
-	@Select("select * from t_dynamic where d_userid = #{id}")
+	@Select("select * from t_dynamic where d_userid = #{id} order by d_time desc")
 	List<DynamicBean> listAllBlogByUserId(String id);
 	
 	/**
@@ -54,7 +54,7 @@ public interface IBlogDao {
 			+ "select a_myid from t_attention where a_myid in("
 			+ "select a_idolid from t_attention where a_myid = #{id})"
 			+ "and a_idolid = #{id})"
-			+ "order by d_time limit 0,5")
+			+ "order by d_time desc limit 0,5")
 	List<DynamicBean> listFriendBlog(@Param("id") String id);
 	
 	/**
@@ -63,7 +63,7 @@ public interface IBlogDao {
 	 */
 	@Select("select * from t_dynamic where d_userid in("
 			+ "select a_idolid from t_attention where a_myid = #{id})"
-			+ " order by d_time limit 0,5")
+			+ " order by d_time desc limit 0,5")
 	List<DynamicBean> listFollowsBlog(String id);
 	
 	/**
