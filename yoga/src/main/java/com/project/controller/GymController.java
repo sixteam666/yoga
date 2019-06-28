@@ -238,6 +238,10 @@ public class GymController {
 			imgName = FileUtil.getFileName(file, req, UploadPathConstant.HEADIMG);
 		}
 		gymBean.setG_headimg(imgName);
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession(false);
+		session.setAttribute("gym", gymBean);
 		System.out.println(gymBean);
 		int number = gymService.updateMessage(gymBean);
 		System.out.println(number);
@@ -283,10 +287,12 @@ public class GymController {
 	@RequestMapping("/addPictures.do")
 	@ResponseBody
 	public Integer addPictures(String gymId) {
-		PictureBean picBean = new PictureBean();
-		picBean.setP_g_id(gymId);
+		
 		List<PictureBean> list = new ArrayList<PictureBean>();
 		for(int i = 1;i<=12;i++){  
+			PictureBean picBean = new PictureBean();
+			picBean.setP_g_id(gymId);
+			picBean.setP_type(1);
 			String imgName = i+".jpg";
 			picBean.setP_imgname(imgName);
 			list.add(picBean);

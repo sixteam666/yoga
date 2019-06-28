@@ -129,7 +129,8 @@ public class DynamicController {
 		Session session = SecurityUtils.getSubject().getSession();
 		GymBean gymBean = (GymBean) session.getAttribute("gym");
 		String id = gymBean.getG_id();
-		
+		gymBean = gymService.findGymById(id);
+		map.put("gymBean", gymBean);
 		List<DynamicBean> myDynamicList = blogService.listDynamicsById(id);
 		//Integer follow = blogService.countFollow(id);
 		Integer following = blogService.countFollowing(id);
@@ -183,6 +184,17 @@ public class DynamicController {
 	public String deleteDynamic(Integer id) {
 		blogService.delete(id);
 		return "redirect:/dynamic/showMy.do";
+	}
+	
+	/**
+	 * 删除场馆动态
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("deleteGymDynamic.do")
+	public String deleteGymDynamic(Integer id) {
+		blogService.delete(id);
+		return "redirect:/dynamic/gymShowMy.do";
 	}
 	
 	/**

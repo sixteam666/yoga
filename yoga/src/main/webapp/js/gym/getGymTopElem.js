@@ -3,7 +3,7 @@ function getGymTopElem(){
 	$.ajax({
 		url:"/gym/getGymToSession.do",
 		type:"post",
-		async:true,
+		async:false,
 		success:function(mes){
 			console.info(mes);
 			var topElem = "<div class='col-sm-4 col-xs-12'>"+
@@ -31,9 +31,9 @@ function getGymTopElem(){
 									"<li><a href='/gym/showMessage.do'>场馆资料</a></li>"+
 									"<li><a href='/html/gym/lesson.html'>课程安排</a></li>"+
 									"<li><a href='/html/gym/myCoach.html'>我的签约</a></li>"+
-									"<li><a href='/dynamic/showMy.do'>我的动态</a></li>"+
+									"<li><a href='/dynamic/gymShowMy.do'>我的动态</a></li>"+
 									"<li><a href='/html/gym/SignTheSign.html'>我的通知</a></li>"+
-									"<li><a href='/html/gym/wallet.html'>我的钱包</a></li>"+
+									"<li><a href='/gym/showMoney.do'>我的钱包</a></li>"+
 								"</ul>"+
 							"</li>"+
 						"</ul>"+
