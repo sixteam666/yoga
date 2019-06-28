@@ -168,7 +168,7 @@ public class StudentController {
 		//Session session = SecurityUtils.getSubject().getSession();
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
-		return "html/index.html";
+		return "redirect:/html/index.html";
 	}
 	
 			/**
@@ -304,14 +304,13 @@ public class StudentController {
 			 * 加关注
 			 */
 			@RequestMapping("/attention.do")
-			public String addAttention(HttpServletRequest request){
+			@ResponseBody
+			public String addAttention(String idolid){
 				Session session = SecurityUtils.getSubject().getSession();
-				String name = request.getParameter("name");
-				StudentBean bean = (StudentBean)session.getAttribute("stu");
-				System.out.println(name);
-				StudentBean studentBean = service.findStudentbyName(name);
-				service.addFollow(bean.getS_id(),studentBean.getS_id());
-				return "redirect:/student/findFans.do";
+				StudentBean stu = (StudentBean)session.getAttribute("stu");
+				String myid = stu.getS_id();
+				service.addFollow(myid,idolid);
+				return "ok";
 			}
 			
 			/**
@@ -356,5 +355,12 @@ public class StudentController {
 				m.addAttribute("dynamiclist",dynamiclist);
 				
 				return "html/student/mypage.html";
+			}
+			
+			
+			@RequestMapping("/showGym.do")
+			public String showGym(ModelMap m){
+				
+				return "html/student/showGym.html";
 			}
 }

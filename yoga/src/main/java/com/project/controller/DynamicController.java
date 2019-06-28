@@ -57,8 +57,8 @@ public class DynamicController {
 	@RequestMapping("showFriend.do")
 	public String showFriendDynamics(ModelMap map) {
 		Session session = SecurityUtils.getSubject().getSession();
-		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		String id = "1";
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		//String id = "1";
 		List<DynamicBean> friendDynamicList = blogService.listFriendDynamic(id);
 		map.put("dynamicList", friendDynamicList);
 		//根据session判断当前登陆用户类型,分类转发

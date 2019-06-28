@@ -109,7 +109,8 @@
 								th:onclick="">已关注</button>
 							<button style="background-color:#2fddc3;color:white;border:none" 
 							th:unless="${dynamic.follow}"
-							th:onclick="">&nbsp;+&nbsp;&nbsp;关注</button>
+							th:onclick="addattention('+${dynamic.d_userid}+')">&nbsp;+&nbsp;&nbsp;关注
+							</button>
 						</div>
 						<div class="col-md-12">
 							<p th:text="${dynamic.d_content}"></p>
@@ -123,9 +124,10 @@
 	</div>
 	
 	<footer id="gtco-footer" role="contentinfo">
+	
+	
 		<div class="gtco-container">
 			<div class="row row-p b-md">
-
 				<div class="col-md-4">
 					<div class="gtco-widget">
 						<h3>关于我们</h3>
@@ -212,6 +214,28 @@
 		function publish() {
 			$("#publish").slideToggle("slow");
 		}
+	</script>
+	
+	<script type="text/javascript" th:inline="javascript">
+	
+	//关注
+	function addattention(idolid){
+	}
+		$ajax({
+			url:"attention.do"
+				type:"post",
+				dataType:"json",
+				data:{"idolid":idolid},
+				success: function(msg){
+					/* if(mes){
+						alert("添加成功!")
+					}else {
+						alert("添加失败")
+					} */
+					alert("success")
+				}
+		})
+	}
 	</script>
 	</body>
 </html>
