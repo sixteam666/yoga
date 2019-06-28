@@ -184,4 +184,13 @@ public interface IStudentService{
 	 * @return
 	 */
 	public List<RequestBean> findallreq(String id);
+	
+	/**
+	 * 增加通知
+	 * @param myid
+	 * @param itid
+	 * @param status
+	 * @return
+	 */
+	public int addRequeststu(String myid, String itid, String type,String date);
 }

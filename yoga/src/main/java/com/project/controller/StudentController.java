@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.unit.DataUnit;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,10 +36,12 @@ import com.project.bean.RequestBean;
 import com.project.bean.ShowWordsBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
+import com.project.dao.IRequestDao;
 import com.project.service.IBlogService;
 import com.project.service.ICoachService;
 import com.project.service.IGymService;
 import com.project.service.IStudentService;
+import com.project.util.DateUtil;
 
 @Controller
 @RequestMapping("/student")
@@ -368,16 +371,19 @@ public class StudentController {
 			 */
 			@RequestMapping("/insertWord2.do")
 			public String insertWord2(HttpServletRequest request){
+				String date2String = DateUtil.Date2String(new java.util.Date(), "yy-MM-dd HH:mm:ss");
 				Session session = SecurityUtils.getSubject().getSession();
+				StudentBean bean = (StudentBean)session.getAttribute("stu");
 				String content = request.getParameter("message");
 				String id = request.getParameter("showid");
-				StudentBean bean = (StudentBean)session.getAttribute("stu");
 				WordsBean wordsBean = new WordsBean();
 				wordsBean.setW_content(content);
-				wordsBean.setW_time("2019-06-27");
 				wordsBean.setW_userid(bean.getS_id());
 				wordsBean.setW_showid(id);
+				wordsBean.setW_time(date2String);
 				service.insertWords(wordsBean);
+				service.addRequeststu(bean.getS_id(), id, "新增留言", date2String);
+
 				return "redirect:/student/findWord2.do?userid="+id;				
 			}
 			

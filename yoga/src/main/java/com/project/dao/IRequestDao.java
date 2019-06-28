@@ -19,14 +19,13 @@ public interface IRequestDao {
 	@Insert("insert into t_request(r_reqid,r_resid) values(#{r_reqid},#{r_resid})")
 	public int addRequest(@Param("r_reqid")String r_reqid,@Param("r_resid")String r_resid);
 	
-	/**
-	 * 学生用通知
+	 /** 添加申请
 	 * @param r_reqid 申请方  id
 	 * @param r_resid 被申请方 id
 	 * @return 影响行数
 	 */
-	@Insert("insert into t_request(r_reqid,r_resid,r_reqname) values(#{r_reqid},#{r_resid},#{r_reqname})")
-	public int addRequeststu(@Param("r_reqid")String r_reqid,@Param("r_resid")String r_resid,@Param("r_reqname")String r_reqname);
+	@Insert("insert into t_request(r_reqid,r_resid,r_reqname,r_resname) values(#{r_reqid},#{r_resid},#{r_reqname},#{r_resname})")
+	public int addRequeststu(@Param("r_reqid")String r_reqid,@Param("r_resid")String r_resid,@Param("r_reqname") String r_reqname ,@Param("r_resname") String r_resname);
 	
 	/**
 	 * 修改申请
