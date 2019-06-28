@@ -57,7 +57,7 @@
 					<br />
 					<h2>个人主页</h2>
 					<div  style="text-align: center;margin-bottom:20px" >
-						<img th:src="@{'../../images/imgs/'+${session.stu.s_headimg}}"/>
+						<img th:src="@{'../../images/imgs/'+${user.s_headimg}}"/>
 					</div>
 					<p th:text="| 关注: ${idolnumber}  粉丝: ${fansnumber}  |">关注  458  | 粉丝13753 </p>
 						<hr>
@@ -65,7 +65,7 @@
 				<div  class="col-md-10 col-md-offset-2 text-center gtco-heading">
 					<a class="col-md-2"  >个人资料</a>
 					<a class="col-md-2" >动态</a>
-					<a href="/student/findWord.do" class="col-md-2" >留言板</a>
+					<a th:href="@{/student/findWord2.do?userid=}+${user.s_id}" class="col-md-2">留言板</a>
 				</div>
 				<div style="font-size: 20px;" class="col-md-8 col-md-offset-2 gtco-heading" >
 					
@@ -75,7 +75,7 @@
 				<div th:each=" dynamic : ${dynamiclist} " id="message">
 				<div class="col-md-16">
 						<img th:src="@{'../../images/imgs/'+${dynamic.d_headimg}}"/>
-						<h3 th:text="${session.stu.s_nickname}">用户名/昵称</h3>
+						<h3 th:text="${dynamic.d_nickname}">用户名/昵称</h3>
 						<div class="dialog_Box">
 							<span th:text="${dynamic.d_content}" >
    									sdsd
