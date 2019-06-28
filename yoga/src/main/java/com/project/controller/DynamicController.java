@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 import com.project.service.IBlogService;
 import com.project.service.ICoachService;
+import com.project.service.IGymService;
 import com.project.util.DateUtil;
 
 @Controller
@@ -29,6 +31,9 @@ public class DynamicController {
 	private IBlogService blogService;
 	@Autowired
 	private ICoachService coachService;
+	@Autowired
+	@Qualifier("gymService")
+	private IGymService gymService;
 	/**
 	 * 查询所有动态
 	 * @param map 
@@ -41,11 +46,11 @@ public class DynamicController {
 		map.put("dynamicList", dynamicList);
 		//根据session判断当前登陆用户类型,分类转发
 		if (session.getAttribute("stu")!=null) {
-			return "html/student/dynamic.html";
+			return "/html/student/dynamic.html";
 		}else if (session.getAttribute("coach")!=null) {
-			return "html/coach/dynamic.html";
+			return "/html/coach/dynamic.html";
 		}else if (session.getAttribute("gym")!=null) {
-			return "html/gym/dynamic.html";
+			return "/html/gym/dynamic.html";
 		}else {
 			throw new RuntimeException("显示热门动态时未找到当前用户！");
 		}
@@ -117,6 +122,23 @@ public class DynamicController {
 		map.put("following", following);
 		map.put("friends", friends);
 		return "/html/coach/dynamicIndex.html";
+	}
+	
+	@RequestMapping("gymShowMy.do")
+	public String gymShowMyDyn(ModelMap map) {
+		Session session = SecurityUtils.getSubject().getSession();
+		GymBean gymBean = (GymBean) session.getAttribute("gym");
+		String id = gymBean.getG_id();
+		
+		List<DynamicBean> myDynamicList = blogService.listDynamicsById(id);
+		//Integer follow = blogService.countFollow(id);
+		Integer following = blogService.countFollowing(id);
+		//Integer friends = blogService.countFriends(id);
+		map.put("dynamicList", myDynamicList);
+		//map.put("follow", follow);
+		map.put("following", following);
+		//map.put("friends", friends);
+		return "/html/gym/dynamicIndex.html";
 	}
 	
 	/**
@@ -207,6 +229,25 @@ public class DynamicController {
 	}
 	
 	/**
+	 * 显示粉丝
+	 * 垃圾代码
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("gymFollowing.do")
+	public String gymFollowing(ModelMap map) {
+		Session session = SecurityUtils.getSubject().getSession();
+		GymBean gymBean = (GymBean) session.getAttribute("gym");
+		String id = gymBean.getG_id();
+		List<CoachBean> coachFans = blogService.listCoachFans(id);
+		List<StudentBean> studentFans = blogService.listStudentFans(id);
+		map.put("coachFans", coachFans);
+		map.put("studentFans", studentFans);
+		
+		return "/html/gym/following.html";
+	}
+	
+	/**
 	 * 显示好友
 	 * 垃圾代码
 	 * @param map
@@ -257,7 +298,10 @@ public class DynamicController {
 				GymBean gym = (GymBean) SecurityUtils.getSubject().getSession().getAttribute("gym");
 				if(gym != null) {
 					d_userId = gym.getG_id();
-					d_headimg = gym.getG_headimg();
+					GymBean gymBean = gymService.findGymById(d_userId);
+					d_headimg = gymBean.getG_headimg();
+					//d_headimg = gym.getG_headimg();
+					
 					d_nickname = gym.getG_name();
 					d_type = 2;
 				} else {

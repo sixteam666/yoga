@@ -16,6 +16,7 @@ public class GymBean {
 	private String g_message;
 	private String g_qq;
 	private String g_headimg;
+	private double g_money;
 	public String getG_id() {
 		return g_id;
 	}
@@ -76,11 +77,19 @@ public class GymBean {
 	public void setG_headimg(String g_headimg) {
 		this.g_headimg = g_headimg;
 	}
+	
+	public double getG_money() {
+		return g_money;
+	}
+	public void setG_money(double g_money) {
+		this.g_money = g_money;
+	}
 	@Override
 	public String toString() {
 		return "GymBean [g_id=" + g_id + ", g_email=" + g_email + ", g_password=" + g_password + ", g_name=" + g_name
 				+ ", g_phone=" + g_phone + ", g_contactphone=" + g_contactphone + ", g_address=" + g_address
-				+ ", g_message=" + g_message + ", g_qq=" + g_qq + ", g_headimg=" + g_headimg + "]";
+				+ ", g_message=" + g_message + ", g_qq=" + g_qq + ", g_headimg=" + g_headimg + ", g_money=" + g_money
+				+ "]";
 	}
 	
 
