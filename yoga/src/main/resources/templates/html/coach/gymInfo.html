@@ -42,6 +42,7 @@
 		.fon{
 			font-family: "微软雅黑";
 		}
+		.info{border:2px solid #09C6AB;border-radius:25px; }
 	</style>
 	<body>
 		
@@ -49,9 +50,9 @@
 	
 	<div id="page">
 
-	
+		<nav class="gtco-nav" role="navigation" th:replace="/html/coach/showGym.html::coach_header"></nav>>
 		<div class="gtco-section">
-		<div class="gtco-container">
+		<div class="gtco-container info">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
 					<h2>场馆资料</h2>
@@ -125,7 +126,6 @@
 			//被申请人id
 			var r_resid = document.getElementById("r_resid").value
 			var isSign = document.getElementById("isSign")
-			alert(r_resid)
 			$.ajax({
 				type:"get",
 				url:"/coach/signGym.do?r_resid="+r_resid,
@@ -140,12 +140,7 @@
 				}
 			})
 		}
-		function update(){
-			var update = parent.document.getElementById("nearGym")
-			update.innerHTML = ""
-		}
 		
-		update();
 	</script>
 	</body>
 </html>

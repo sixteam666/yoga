@@ -182,8 +182,6 @@ public class CoachController {
 	 */
 	@RequestMapping("/showCoachHome.do")
 	public String showCoachHome(ModelMap map){
-		Object obj = getUser();
-		System.out.println(obj);
 		List<GymBean> list = service.showAllGym();
 		map.put("gym", list);
 		return "/html/coach/coach.html";
@@ -372,7 +370,10 @@ public class CoachController {
 	 */
 	@RequestMapping("/showGymDetail.do")
 	public String showGymDetail(ModelMap map,String gymId){
-		return "";
+		GymBean gb = gs.findGymById(gymId);
+		System.out.println(gb);
+		map.put("gymBean", gb);
+		return "/html/coach/gymInfo.html";
 	} 
 	
 	@RequestMapping("showToOther.do")

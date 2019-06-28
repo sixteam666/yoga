@@ -83,7 +83,7 @@ public class CoachServiceImpl implements ICoachService {
 
 	@Override
 	public List<GymBean> showAllGym() {
-		return gymDao.findAllGym();
+		return gymDao.findHotGym();
 	}
 
 	@Override

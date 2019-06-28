@@ -100,7 +100,7 @@
 		</div>
 	</header>
 	
-			<div class="gtco-section">
+	<div class="gtco-section">
 		<div class="gtco-container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
@@ -110,20 +110,18 @@
 			</div>
 			<div class="row">
 				<div class="col-lg-4 col-md-4 col-sm-6" th:each="gy,iterStat : ${gym}">
-					<a href="../../images/img_1.jpg" class="fh5co-card-item image-popup">
-						<figure>
-							<div class="overlay"><i class="ti-plus"></i></div>
-							<img src="../../images/img_1.jpg" alt="Image" class="img-responsive">
-						</figure>
-						<div class="fh5co-text">
-							<h2 th:text="${gy.g_name}">瑜伽馆</h2>
-							<p th:text="${gy.g_phone}">xxxxxxxxxxx</p>
-							<p><span class="btn btn-primary" th:href="@{/coach/showGymDetail.do?gymId=}+${gy.g_id}">点击查看详细信息</span></p>
-						</div>
-					</a>
+				<a th:href="@{/coach/showGymDetail.do?gymId=}+${gy.g_id}" class="fh5co-card-item">
+					<figure>
+						<div class="overlay"><i class="ti-plus"></i></div>
+						<img src="../../images/img_1.jpg" alt="Image" class="img-responsive">
+					</figure>
+					<div class="fh5co-text">
+						<h2 th:text="${gy.g_name}">瑜伽馆</h2>
+						<p th:text="${gy.g_phone}">xxxxxxxxxxx</p>
+						<span>点击查看场馆信息</span>
+					</div>
+				</a>
 				</div>
-					
-				
 			</div>
 		</div>
 	</div>
