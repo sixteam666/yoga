@@ -183,4 +183,11 @@ public interface IGymService {
 	 */
 	public List<CoachBean> findCoachByMyRequest(String g_id);
 	
+	/**
+	 * 查找所有教练
+	 * 
+	 * @return
+	 */
+	public List<CoachBean> findAllCoach();
+	
 }

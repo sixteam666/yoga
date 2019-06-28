@@ -9,6 +9,7 @@
 		#l-map{height:80%;width:100%;}
 		#r-result{width:100%; font-size:14px;line-height:20px;}
 		select{width: 50px;}
+		label{border: 0px blue!important;}
 	</style>
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=20ohGQGQ43DuaaIWIBfKkfM0xxzU4xbj"></script>
 </head>
@@ -43,7 +44,7 @@
 	function getStu(){
 		$.ajax({
 			type:"get",
-			url:"/coach/showAllStu.do",
+			url:"/coach/findAllStu.do",
 			asycn:true,
 			success:function(re){
 				for (var i = 0; i < re.length; i++) {
@@ -61,15 +62,16 @@
 				enableMessage:true//设置允许信息窗发送短息
 			   };
 	function bdGEO(){
-		var add = adds[index].s_nickname;
+		var content = "姓名："+adds[index].s_nickname+"</br>"+"地址："+adds[index].s_address;
+		var info = ""+adds[index].s_nickname;
 		var addinfo = adds[index].s_address;
 		var addid = "<input id='stuId' type='hidden' value='"+adds[index].s_id+"'>";
-		geocodeSearch(add,addinfo,addid);
+		geocodeSearch(addinfo,addid,content);
 		index++;
 	}
 	
 	
-	function geocodeSearch(add,addinfo,addid){
+	function geocodeSearch(addinfo,addid,content){
 		
 		if(index < adds.length-1){
 			setTimeout(window.bdGEO);
@@ -79,17 +81,22 @@
 			if (point) {
 				/* document.getElementById("result").innerHTML +=   add + ":" + point.lng + "," + point.lat + "</br>"; */
 				var address = new BMap.Point(point.lng, point.lat);
-				addMarker(address,new BMap.Label(add+addid,{offset:new BMap.Size(20,-10)}));
+				addMarker(address,new BMap.Label(addid,{offset:new BMap.Size(20,-10)}),content);
+				
 			}
 		}, "成都市");
 	}
 	 // 编写自定义函数,创建标注
-	function addMarker(point,label){
+	function addMarker(point,label,content){
 		var marker = new BMap.Marker(point);
-		marker.onclick = function(){
+		marker.onmouseover = function(e){
+			var pt = e.point;
+			openInfo(content,e)
+		}
+		 marker.onclick = function(){
 			var stuId = document.getElementById("stuId").value;
 			parent.location.href = "/coach/showStuDetail.do?stuId="+stuId;
-		}
+		} 
 		
 		marker.setLabel(label);
 		map.addOverlay(marker);
@@ -100,7 +107,10 @@
 	  function openInfo(content,e){
 		var p = e.target;
 		var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+		
 		var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象 
+		infoWindow.setTitle("")
+		infoWindow.setHeight(50)
 		map.openInfoWindow(infoWindow,point); //开启信息窗口
 	}  
 	

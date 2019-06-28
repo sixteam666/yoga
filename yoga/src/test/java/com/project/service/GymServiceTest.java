@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.run.BaseTest;
 
@@ -100,5 +101,19 @@ public class GymServiceTest extends BaseTest{
 	@Test
 	public void findLesson(){
 		
+	}
+
+	@Test
+	public void findCoachByMyResponse() {
+		String g_id = "1ebc8c0c-e3f0-484b-b836-90e240793338";
+		List<CoachBean> coachList = gymService.findCoachByMyResponse(g_id);
+		System.out.println(coachList);
+	}
+
+	@Test
+	public void findCoachByMyRequest() {
+		String g_id = "1ebc8c0c-e3f0-484b-b836-90e240793338";
+		List<CoachBean> coachList = gymService.findCoachByMyRequest(g_id);
+		System.out.println("测试：" + coachList);
 	}
 }

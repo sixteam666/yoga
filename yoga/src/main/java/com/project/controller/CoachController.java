@@ -60,6 +60,7 @@ public class CoachController {
 		//产生一个用户（门面对象）
 		Subject currentUser = SecurityUtils.getSubject();
 		 if (!currentUser.isAuthenticated()) {
+			 System.out.println("jin");
 	            UsernamePasswordToken token = new UsernamePasswordToken("c"+c_name,c_password);
 	            try {
 	            	if (remenber != null && remenber == 1) {
@@ -69,8 +70,10 @@ public class CoachController {
 	                currentUser.login(token);
 	                System.out.println("认证成功");
 	                Session session = currentUser.getSession(true);
+	                
 	                CoachBean coach = service.login(c_name);
 	                session.setAttribute("coach",coach);
+	                
 	                session.setAttribute("id", coach.getC_id());
 	                return "success";
 	            } catch (UnknownAccountException uae) {
@@ -84,6 +87,7 @@ public class CoachController {
 	               return "user_lock";
 	            }
 	      }
+		 System.out.println("budenglu");
 		return "success";
 	}
 	@RequestMapping("/getUser.do")
@@ -91,8 +95,10 @@ public class CoachController {
 	public CoachBean getUser(){
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession(true);
+		System.out.println(session);
 		if (session == null)return null;
 		Object obj = session.getAttribute("coach");
+		System.out.println(obj);
 		if (obj == null) return null;
 		CoachBean coach = (CoachBean)obj;
 		
@@ -149,9 +155,16 @@ public class CoachController {
 	 */
 	@RequestMapping("/showAllStu.do")
 	public String showAllStu(ModelMap map){
-		List<StudentBean> list = service.showAllStu();
-		map.put("stuList", list);
-		return "/html/coach/showStudent.html";
+		return "html/coach/showStudent.html";
+	}
+	/**
+	 * 查询所有学生
+	 * @return
+	 */
+	@RequestMapping("/findAllStu.do")
+	@ResponseBody
+	public List<StudentBean> findAllStu(){
+		return service.showAllStu();
 	}
 	/**
 	 * 页面显示所有场馆
@@ -167,8 +180,8 @@ public class CoachController {
 	 * 跳转到首页
 	 * @return 返回场馆集合
 	 */
-	@RequestMapping("/showCoachPage.do")
-	public String showCoachPage(ModelMap map){
+	@RequestMapping("/showCoachHome.do")
+	public String showCoachHome(ModelMap map){
 		List<GymBean> list = service.showAllGym();
 		map.put("gym", list);
 		return "/html/coach/coach.html";
@@ -357,7 +370,10 @@ public class CoachController {
 	 */
 	@RequestMapping("/showGymDetail.do")
 	public String showGymDetail(ModelMap map,String gymId){
-		return "";
+		GymBean gb = gs.findGymById(gymId);
+		System.out.println(gb);
+		map.put("gymBean", gb);
+		return "/html/coach/gymInfo.html";
 	} 
 	
 	@RequestMapping("showToOther.do")
@@ -428,7 +444,7 @@ public class CoachController {
 			SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String date = sp.format(new Date());
 			words.setW_time(date);
-			//words.setW_showid(stuId);
+			words.setW_showid(stuId);
 			re = service.sendMessage(words);
 		}
 		return re;

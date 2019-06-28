@@ -166,4 +166,9 @@ public class GymServiceImpl implements IGymService {
 	public List<CoachBean> findCoachByMyRequest(String g_id) {
 		return gymDao.findCoachByMyRequest(g_id);
 	}
+
+	@Override
+	public List<CoachBean> findAllCoach() {
+		return coachDao.findAll();
+	}
 }

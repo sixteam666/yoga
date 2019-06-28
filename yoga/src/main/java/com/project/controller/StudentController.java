@@ -133,32 +133,50 @@ public class StudentController {
 		model.addAttribute("Coach",coachBeans);
 		return "html/student/student.html";
 	}
+	
+	@RequestMapping("/getUser.do")
+	@ResponseBody
+	public StudentBean getUser(){
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession(true);
+		System.out.println(session);
+		if (session == null)return null;
+		Object obj = session.getAttribute("stu");
+		System.out.println(obj);
+		if (obj == null) return null;
+		StudentBean studentBean = (StudentBean)obj;
+		
+		return studentBean;
+	} 
 		
 	@RequestMapping("/register.do")
 	@ResponseBody
-		public String register(StudentBean student){
+		public String register(String username,String password){
 			/**
 			 * 未确定加盐值
 			 */
-		
+			StudentBean student = new StudentBean();
+			student.setS_name(username);
+			student.setS_password(password);
+			System.out.println(student+"!!!!!!!!!!!!!!!!");
 			String id = UUID.randomUUID().toString();
 			student.setS_id(id);
 			Object obj = new SimpleHash("MD5",student.getS_password(),id,1024);
 			student.setS_password(obj.toString());
 			Boolean boo = service.regist(student);
 			if (boo) {
-				return "yes";
+				return "success";
 			}else {
-				return "no";
+				return "false";
 			}	
 		}	
 	
-	@RequestMapping("/loginout.do")
-	@ResponseBody
+	@RequestMapping("/logout.do")
 	public String logout() {
+		//Session session = SecurityUtils.getSubject().getSession();
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
-		return "ok";
+		return "html/index.html";
 	}
 	
 			/**
