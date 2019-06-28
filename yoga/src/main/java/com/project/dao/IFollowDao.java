@@ -19,7 +19,7 @@ public interface IFollowDao {
 	 * @param idolid
 	 * @return
 	 */
-	@Insert("insert into t_attention(a_myid, a_idolid) values(#{idolid},#{myid})")
+	@Insert("insert into t_attention(a_myid, a_idolid) values(#{myid},#{idolid})")
 	Integer insert(@Param("myid") String myid, @Param("idolid") String idolid);
 	
 	/**
@@ -106,7 +106,7 @@ public interface IFollowDao {
 			+ "select a_myid from t_attention where a_myid in("
 			+ "select a_idolid from t_attention where a_myid = #{id})"
 			+ "and a_idolid = #{id})")
-	List<StudentBean> listFriendCoach(String id);
+	List<CoachBean> listFriendCoach(String id);
 	
 	/**
 	 * 查询场馆好友（没有的功能别在意，peace and love）
@@ -134,6 +134,16 @@ public interface IFollowDao {
 	 */
 	@Select("select count(1) from t_attention where a_idolid = #{id}")
 	Integer countFollowing(String id);
+	
+	/**
+	 * 查询好友数量
+	 * @param id
+	 * @return
+	 */
+	@Select("select count(1) from t_attention where a_myid in("
+			+ "select a_idolid from t_attention where a_myid = #{id})"
+			+ "and a_idolid = #{id}")
+	Integer countFriends(String id);
 	
 	/**
 	 * 判断是否关注某人

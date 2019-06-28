@@ -49,12 +49,26 @@ public class BlogServiceImpl implements IBlogService {
 
 	@Override
 	public List<StudentBean> listStudentFans(String id) {
-		return followDao.listFollowingStudent(id);
+		List<StudentBean> followingStudent = followDao.listFollowingStudent(id);
+		for (StudentBean s : followingStudent) {
+			Integer follow = followDao.isFollow(id, s.getS_id());
+			if(follow == 1) {
+				s.setS_privacy(-1);
+			}
+		}
+		return followingStudent;
 	}
 
 	@Override
 	public List<CoachBean> listCoachFans(String id) {
-		return followDao.listFollowingCoach(id);
+		List<CoachBean> followingCoach = followDao.listFollowingCoach(id);
+		for (CoachBean c : followingCoach) {
+			Integer follow = followDao.isFollow(id, c.getC_id());
+			if(follow == 1) {
+				c.setC_privacy(-1);
+			}
+		}
+		return followingCoach;
 	}
 
 	@Override
@@ -89,7 +103,7 @@ public class BlogServiceImpl implements IBlogService {
 		for (DynamicBean dynamic : dynamicList) {
 			String userid = dynamic.getD_userid();
 			//动态属于用户自己
-			if(currentUserId == userid){
+			if(currentUserId.equals(userid)){
 				dynamic.setFollow(2);
 			} else {
 				Integer follow = followDao.isFollow(currentUserId, userid);
@@ -109,6 +123,36 @@ public class BlogServiceImpl implements IBlogService {
 	@Override
 	public Integer delete(Integer id) {
 		return blogDao.delete(id);
+	}
+	
+	public Integer addFollow(String followId) {
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		return followDao.insert(id, followId);
+	}
+	
+	public Integer cancelFollow(String followId) {
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		return followDao.delete(id, followId);
+	}
+
+	@Override
+	public Integer countFriends(String id) {
+		return followDao.countFriends(id);
+	}
+
+	@Override
+	public List<StudentBean> listStudentFriends(String id) {
+		return followDao.listFriendStudent(id);
+	}
+
+	@Override
+	public List<CoachBean> listCoachFriends(String id) {
+		return followDao.listFriendCoach(id);
+	}
+
+	@Override
+	public boolean isFollow(String fanId, String idolId) {
+		return followDao.isFollow(fanId, idolId) == 1;
 	}
 	
 }
