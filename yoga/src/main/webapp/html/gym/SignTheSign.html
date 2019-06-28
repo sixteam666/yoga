@@ -97,7 +97,7 @@
 									<li><a href="/html/gym/lesson.html">课程安排</a></li>
 									<li><a href="/html/gym/wallet.html">我的钱包</a></li>
 									<li><a href="/html/gym/myCoach.html">我的签约教练</a></li>
-									<li><a href="/gym/findCoachByMyResponse.do">我的通知</a></li>
+									<li><a href="/html/gym/SignTheSign.html">我的通知</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -111,22 +111,22 @@
 					<h2>签约通知</h2>
 				</div>
 				<div class="coach_message">
-					<table class="table coach table-striped">
+ 					<table id="MySign" class="table coach table-striped">
 					
-						<tr th:each="coach:${coachList}">
+<!-- 						<tr>
 							<td>
-								<div><img class="coach_headimg" onclick="getCoachMessage()" th:src="'/image/headImg/'+${coach.c_headimg}" src="/html/gym/image/1.jpg" /></div>
+								<div><img class="coach_headimg" src="#" /></div>
 								<div>&nbsp;&nbsp;&nbsp;
-									<span class="coach_name" th:text="${coach.c_nickname}">null</span>
+									<span class="coach_name">null</span>
 									<span class="coach_tips">&nbsp;&nbsp;&nbsp;（点击头像查看教练个人信息）</span><br><br/>
 									<span class="coach_sms">&nbsp;&nbsp;&nbsp;&nbsp;对方对你的场馆很感兴趣，希望和您签约，赶快回复他</span>
 								</div>
-								<div id="coach_controller">
-									<input type="button" value="同意" onclick="agreeSigingApplication(1)"/>&nbsp;&nbsp;&nbsp;&nbsp;
-									<input type="button" value="拒绝" onclick="agreeSigingApplication(2)"/>
+ 								<div id="coach_controller">
+									<input type="button" value="同意"/>&nbsp;&nbsp;&nbsp;&nbsp;
+									<input type="button" value="拒绝"/>
 								</div>
 							</td>
-						</tr>
+						</tr> -->
 						
 					</table>
 				</div>
@@ -209,31 +209,6 @@
 		<script src="../../js/main.js"></script>
 		<!-- 获取Session中的数据 -->
 		<script type="text/javascript" src="../../js/gym/getSession.js"></script>
-		
-		<script type="text/javascript" th:inline="javascript">
-			var c_id = /*[[${coach.c_id}]]*/ null;
-			var c_nickname = /*[[${coach.c_nickname}]]*/ null;
-			// 前往教练详情页
-			function getCoachMessage(){
-				console.info(c_id);
-				window.location.href="/gym/findCoachById.do?type=2&c_id="+c_id;
-			}
-			
-			// 处理签约请求
-			function agreeSigingApplication(state){
-				$.ajax({
-					url:"/gym/agreeSigingApplication.do",
-					type:"post",
-					async:true,
-					data:"c_id="+c_id+"&state="+state,
-					success:function(mes){
-						console.info(mes);
-						if(mes == 1){
-							alert("已经和   "+c_nickname+ "  签约");
-						}
-					}
-				});
-			}
-		</script>
+  		<script type="text/javascript" src="../../js/gym/MySign.js"></script>
 	</body>
 </html>

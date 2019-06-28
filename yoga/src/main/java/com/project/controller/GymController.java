@@ -96,7 +96,9 @@ public class GymController {
 			try {
 				currentUser.login(token); // 调用login进行认证
 				Session session = currentUser.getSession(true);
-				session.setAttribute("gym", gymService.login(arg)); // 将gym用户放在Session中
+				GymBean gym = gymService.login(arg);
+				session.setAttribute("gym", gym); // 将gym用户放在Session中
+				session.setAttribute("id", gym.getG_id()); // 将gym用户id放在Session中
 				System.out.println("认证成功");
 				return 1; // 登录成功
 			}
@@ -475,15 +477,15 @@ public class GymController {
 	 * 通过场馆id查询响应签约的教练（教练向场馆发请求）
 	 * 
 	 * @param g_id
-	 * @return 教练详情页面
+	 * @return 教练的对象集合 c_g_id为签约状态
 	 */
 	@RequestMapping("/findCoachByMyResponse.do")
-	public String findCoachByMyResponse(String g_id,ModelMap map) {
+	@ResponseBody
+	public List<CoachBean> findCoachByMyResponse(String g_id) {
 		g_id = this.getGymToSession().getG_id();
 		List<CoachBean> coachList = gymService.findCoachByMyResponse(g_id);
 		System.out.println("测试：" + coachList);
-		map.addAttribute("coachList", coachList);
-		return "html/gym/SignTheSign.html";
+		return coachList;
 	}
 	
 	/**
