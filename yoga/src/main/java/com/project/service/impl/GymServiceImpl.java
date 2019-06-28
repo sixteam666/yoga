@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
@@ -75,6 +78,7 @@ public class GymServiceImpl implements IGymService {
 	}
 
 	@Override
+	@Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
 	public int updateCoachBean(String g_id, String c_id) {
 		int number = 0;
 		if (g_id == "0") {

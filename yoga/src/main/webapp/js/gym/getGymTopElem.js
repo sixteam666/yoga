@@ -23,7 +23,7 @@ function getGymTopElem(){
 				topElem += "<li class='has-dropdown' id='gym_top'>" +
 								"<input type='hidden' value='" + mes.g_id +"'>" +
 								"<span style='color: white'>欢迎您，"+ mes.g_name +"</span>" +
-								"<a href='/logout'>注销</a>" +
+								"<a href='/gym/logout.do'>注销</a>" +
 						  "</li>";
 			}				
 			topElem += "<li class='has-dropdown'><a href='#'>场馆中心</a>"+
@@ -43,4 +43,3 @@ function getGymTopElem(){
 	});
 }
 getGymTopElem();
-
