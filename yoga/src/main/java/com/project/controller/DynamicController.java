@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.bean.CoachBean;
 import com.project.bean.DynamicBean;
@@ -110,12 +111,45 @@ public class DynamicController {
 		List<DynamicBean> myDynamicList = blogService.listDynamicsById(id);
 		Integer follow = blogService.countFollow(id);
 		Integer following = blogService.countFollowing(id);
+		Integer friends = blogService.countFriends(id);
+		map.put("dynamicList", myDynamicList);
+		map.put("follow", follow);
+		map.put("following", following);
+		map.put("friends", friends);
+		return "/html/coach/dynamicIndex.html";
+	}
+	
+	/**
+	 * 向他人展示动态页面
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("showOther.do")
+	public String showMyDynamics(String id,ModelMap map) {
+		String currentId = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		if(id.equals(currentId)) {
+			return "redirect:/dynamic/showMy.do";
+		}
+		
+		//还可能是学员，或场馆
 		CoachBean coach = coachService.getCoachById(id);
+		
+		
+		if(blogService.isFollow(currentId, id)){
+			coach.setC_privacy(-1);
+		}
+		
+		
+		List<DynamicBean> myDynamicList = blogService.listDynamicsById(id);
+		Integer follow = blogService.countFollow(id);
+		Integer following = blogService.countFollowing(id);
+		Integer friends = blogService.countFriends(id);
 		map.put("coach", coach);
 		map.put("dynamicList", myDynamicList);
 		map.put("follow", follow);
 		map.put("following", following);
-		return "/html/coach/dynamicIndex.html";
+		map.put("friends", friends);
+		return "/html/coach/dynamicToOther.html";
 	}
 	
 	/**
@@ -172,6 +206,32 @@ public class DynamicController {
 		return "html/coach/following.html";
 	}
 	
+	/**
+	 * 显示好友
+	 * 垃圾代码
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("friends.do")
+	public String friends(String id, ModelMap map) {
+		if(id == null) {
+			//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+			id = "1";
+		}
+		
+		List<CoachBean> coachFriends = blogService.listCoachFriends(id);
+		List<StudentBean> studentFriends = blogService.listStudentFriends(id);
+		map.put("coachFriends", coachFriends);
+		map.put("studentFriends", studentFriends);
+		
+		return "html/coach/friends.html";
+	}
+	
+	/**
+	 * 添加动态
+	 * @param dynamic
+	 * @return
+	 */
 	@RequestMapping("/addDynamic.do")
 	public String addDynamic(DynamicBean dynamic) {
 		String d_time = DateUtil.Date2String(new Date(), "yyyy-MM-dd hh:mm:ss");
@@ -212,5 +272,23 @@ public class DynamicController {
 		dynamic.setD_time(d_time);
 		blogService.insert(dynamic);
 		return "redirect:/dynamic/showHot.do";
+	}
+	
+	/**
+	 * 添加关注
+	 * @param followId 关注人id
+	 */
+	@RequestMapping("addFollow.do")
+	@ResponseBody
+	public void addFollow(String followId) {
+		blogService.addFollow(followId);
+	}
+	
+	/**
+	 * 取消关注
+	 * @param followId
+	 */
+	public void cancelFollow(String followId) {
+		blogService.cancelFollow(followId);
 	}
 }

@@ -57,13 +57,13 @@
 <body>
 	<div class="gtco-loader"></div>
 	<div id="page"></div>
-	<div th:replace="/html/coach/my-pan.html::common_head"></div>
+	<div th:replace="/html/coach/showGym.html::coach_header"></div>
 	
 	<div class="gtco-section border-bottom">
 		<div class="gtco-container">
 			<div class="row">
 				<div class="col-md-7 col-md-offset-5 text-left" style="padding:0 0 20px">
-					<img th:src=@{/images/imgs/}+${coach.c_headimg} class="round_icon"/>
+					<img th:src=@{/image/headImg/}+${session.coach.c_headimg} class="round_icon"/>
 					<span th:text="${session.coach.c_nickname}" style="font-weight:bold"></span>
 				</div>
 				<div class="col-md-1 col-md-offset-4 text-center gtco-heading">
@@ -73,7 +73,7 @@
 					<a th:href="@{/dynamic/following.do}">粉丝&nbsp;&nbsp;&nbsp;<span th:text="${following}"></span></a>
 				</div>
 				<div class="col-md-1 text-center gtco-heading">
-					<a th:href="@{/dynamic/following.do}">好友&nbsp;&nbsp;&nbsp;<span th:text="${following}"></span></a>
+					<a th:href="@{/dynamic/friends.do}">好友&nbsp;&nbsp;&nbsp;<span th:text="${friends}"></span></a>
 				</div>
 			</div>
 			<hr>
@@ -82,7 +82,7 @@
 					<div class="row">
 						<div class="col-md-1">
 							<a href="#">
-								<img th:src="@{/images/imgs/}+${dynamic.d_headimg}" width="40px" >
+								<img th:src="@{/image/headImg/}+${dynamic.d_headimg}" width="40px" >
 							</a>
 						</div>
 						<div class="col-md-3">
@@ -96,7 +96,7 @@
 						</div>
 						<div class="col-md-12">
 							<p th:text="${dynamic.d_content}"></p>
-							<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/images/imgs/}+${dynamic.d_img}">
+							<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/image/dynamicImg/}+${dynamic.d_img}">
 						</div>
 					</div>
 					<hr>

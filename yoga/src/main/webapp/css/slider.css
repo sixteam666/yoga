@@ -1,0 +1,49 @@
+/*  轮播图    */
+#show{
+	width: 1200px;
+	margin:0 auto;
+	overflow: hidden;
+}
+.slider{
+	width: 1200px;/* 设置一个默认值，防止用户禁用js而现实异常，具体数值由js设定 */
+	height: 375px;
+	overflow: hidden;
+}
+.slider .item{
+	float: left;
+	width: 20%;
+	height: 100%;
+}
+.item img{
+	width: 100%;
+}
+/* end  */
+/* 商品种类名片 */
+.types{
+	height: 220px;
+	width: 1200px;
+}
+.type-item:hover{
+	background-color: #ddd;
+	cursor: pointer;
+}
+.type-item{
+	width: 20%;
+	height: 100%;
+	border:1px solid #ccc;
+	float: left;
+	box-sizing: border-box;
+	
+}
+.type-img{
+	height: 130px;
+	text-align: center;
+}
+.type-content{
+	height: 70px;
+	padding:0 10px;
+	box-sizing: border-box;
+}
+.type-content h3{
+	margin:0;
+}

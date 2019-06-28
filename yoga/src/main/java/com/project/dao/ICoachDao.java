@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.project.bean.CoachBean;
-import com.project.bean.RequestBean;
+import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 
 public interface ICoachDao {
@@ -206,4 +206,11 @@ public interface ICoachDao {
 	 */
 	@Select("select * from t_coach")
 	public List<CoachBean> findAll();
+	/**
+	 * 查询教练是否有签约场馆
+	 * @param r_resid
+	 * @return
+	 */
+	@Select("select * from t_coach where c_id=#{r_reqid}")
+	public CoachBean findIsGym(String r_reqid);
 }

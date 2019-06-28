@@ -1,0 +1,342 @@
+html{
+	height: 100%;
+}
+body{
+	margin:0;
+	padding:0;
+	padding-top:100px ;
+	font-family: '微软雅黑','黑体',serif;
+	height:100%;
+	box-sizing: border-box;
+	
+}
+span{
+	background-repeat: nrepeat;
+}
+a{
+	text-decoration: none;
+}
+
+a:link,a:visited{
+	color:black;
+}
+a:hover{
+	color:cornflowerblue;
+	text-decoration: underline;
+}
+ul{
+	list-style: none;
+	padding:0;
+	margin: 0;
+}
+
+.inline-block{
+	display: inline-block;
+}
+
+
+/* 头部 */
+#header{	
+	width: 100%;
+	position: fixed;
+	height: 60px;
+	background-color: blue;
+	top:0px;
+	background-color: #f8f8f8;
+	box-shadow: 0 0 5px #333;
+}
+/* 表示id为header的HTML标签的所有直接子元素（div） */
+#header > div{
+	float: left;
+	line-height: 60px;
+	
+}
+#header #logo{
+	margin-left: 30px;
+	font-size: 24px;
+	font-weight: bold;
+	
+}
+#header #logo a{
+	color: #666;
+}
+#header #userzoom{
+	float: right;
+	margin-right: 30px;
+}
+#header #userzoom a{
+	font-size: 16px;
+	margin-left: 15px;
+	padding-left:25px;
+	
+}
+
+/* 版权信息 */
+#footer{
+	height: 50px;
+	background-color:#F8F8F8;
+	width: 100%;
+	text-align: center;
+	line-height: 50px;
+	font-size: 16px;
+	color:#999;
+	box-shadow:  0 0 5px #333;
+	bottom: 0px;
+	position:fixed;
+	
+}
+
+
+/* 登录 和注册 */
+#login,#register{
+	width: 400px;
+	height: 350px;
+	border: 1px solid #ccc;
+	box-shadow: 0 0 10px #000;
+	padding:10px;
+	box-sizing: border-box;
+	border-radius: 6px;
+	position: fixed;
+	top:20px;
+	left: 50%;
+	margin-left: -200px;	
+	background-color: #fff;
+	display: none;
+}
+.login-title,.register-title{
+	text-align: center;
+	height: 50px;
+	line-height: 50px;
+}
+
+.login-form,.register-form{
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+}
+
+/* 注册框 */
+#register{
+	height: 450px;
+}
+
+
+
+
+.form-group{
+	padding:12px 5px;
+	margin:10px 0px;
+	
+}
+.f-input{
+	padding:10px 15px;
+	font-size: 16px;
+	border-radius: 0 4px 4px 0;
+	border: 1px solid #ccc;
+	outline: none;
+	height: 40px;
+	box-sizing: border-box;
+	margin-top:-1px;
+	margin-left: 60px;
+	width: 300px;
+	transition: all 0.5s;
+}
+.f-input:focus{
+	border: 1px solid #1E90FF;
+	box-shadow: 0 0 5px #1E90FF;
+}
+.l-btn{
+	margin-top:20px;
+	text-align: right;
+	
+}
+.l-btn button{
+	font-size: 16px;
+	width: 100px;
+}
+
+/* 关闭 */
+.close{
+	height: 50px;
+	line-height: 50px;
+	width: 25px;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	padding-right: 10px;
+}
+.close img{
+	vertical-align: middle;
+}
+.close img:hover{
+	cursor: pointer;
+}
+/* end */
+
+
+/* 邮寄地址列表 */
+.title{
+	border-bottom: 1px solid #ccc;
+	font-size: 20px;
+	padding:5px 10px;
+	
+	
+}
+.a-list{
+	overflow: auto;
+	max-height: 300px;
+}
+.a-item{
+	padding:5px 10px;
+	box-sizing: border-box;
+	border-bottom:1px solid #f1f1f1;
+	border-radius: 5px;
+	overflow: hidden;
+	transition: all 0.5s;
+	position: relative;
+}
+.a-item:hover{
+	background-color: #f1f1f1;
+}
+
+.a-item .i-info{
+	height: 30px;
+	font-size: 14px;
+	
+}
+.a-item .i-s-title{
+	font-size: 16px;
+	font-weight: bold;
+	display: inline-block;
+	margin-right: 20px;
+}
+.a-item .i-address{
+	font-size: 14px;
+	color: #666666;
+}
+.add{
+	padding:5px 30px;
+	background-position: 10px 8px;
+}
+
+
+
+
+
+
+/* 通用按钮设置 */
+.btn{
+	display: inline-block;
+	padding:6px 12px;
+	text-align: center;
+	color: white;
+	line-height: 1.42857143;/* 行高为数字和字体尺寸相乘的数值 */
+	margin:0;
+	border-radius: 4px;
+	vertical-align: middle;
+	cursor: pointer;
+	white-space: nowrap;/* 文字不换行 */
+	border: none;
+	outline: none;
+	text-shadow:0px 1px 0px #2f6627;
+}
+.btn:active{
+	top:1px;
+	position:relative;
+}
+/* 一般按钮 */
+.btn-info{
+	background-color: dodgerblue;
+	font-size: 14px;
+}
+/* 字体变大*/
+.btn-lg{
+	font-size: 26px;
+}
+/* 红色按钮 */
+.btn-danger{
+	background-color: darkred;
+}
+/* ends */
+
+
+/* 遮幕 */
+
+#page-black{
+	width: 100%;
+	height: 100%;
+	background-color:rgba(0,0,0,0.6);
+	position: fixed;
+	top:0;
+	left: 0;
+	z-index:2;
+	display: none;
+}
+.outer-black{
+	z-index: 99;
+}
+
+
+
+/* icon 设置  */
+.icon{
+	background-repeat: no-repeat;
+	background-position: left center;
+}
+.i-user{
+	background-image: url(../icon/登录.png);
+}
+.i-register{
+	background-image: url(../icon/注册.png);
+}
+.i-loginout{
+	background-image: url(../icon/注销.png);
+}
+.i-order{
+	background-image: url(../icon/订单.png);
+}
+.i-shopcar{
+	background-image: url(../icon/购物车空.png);
+}
+.i-userinfo{
+	background-image: url(../icon/用户.png);
+}
+.i-password{
+	background-image: url(../icon/密码.png);
+}
+.i-add{
+	background-image: url(../icon/add-small.png);
+}
+
+/* 
+ span 一般样式
+ 
+ */
+
+.s-money{
+	color:darkred;
+	font-weight: bold;
+}
+/* 针对form */
+.f-span{
+	display: inline-block;
+	width: 60px;
+	height: 38px;
+	background-color: #CCCCCC;
+	background-position: center center;
+	border:1px solid #ccc;
+	border-radius: 4px 0 0 4px;
+	
+}
+
+/* 字体 */
+.f-white{
+	color:white!important;
+}
+
+/**
+ * 点击背景颜色字体颜色转换
+ */
+.active{
+	background-color: #1E90FF!important;
+	color: white;
+}

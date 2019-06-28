@@ -46,31 +46,53 @@
 			margin: 100px 0 40px;
 			text-align: center;
 		}
+		
+		.round_icon{
+		  width: 34px;
+		  height: 34px;
+		  display: flex;
+		  border-radius: 50%;
+		  align-items: center;
+		  justify-content: center;
+		  overflow: hidden;
+		}
 	</style>
 </head>
 <body>
 	<div class="gtco-loader"></div>
 	<div id="page"></div>
-	<div th:replace="html/coach/my-pan.html::common_head"></div>	
+	<div th:replace="/html/coach/showGym.html::coach_header"></div>	
 	
-	<div id="follow">我的粉丝</div>
+	<div id="follow">我的好友</div>
 	<div class="col-md-6 col-md-offset-3 text-center">
-		<table class="table table-bordered">
+		<table class="table">
 			<tr th:each="coach : ${coachFans}">
 				<td>
 					<input type="hidden" th:value="${coach.c_id}" />
-					<img src="@{/images/imgs/}+${coach.c_headimg}" />
+					<img class="round_icon" th:src="@{/image/headImg/}+${coach.c_headimg}" width="40px"/>
 				</td>
 				<td><span th:text="${coach.c_nickname}"></span></td>
-				<td><button>+关注</button></td>
+				<td>
+					<button style="color:white;border:none" 
+						th:if="${coach.c_privacy == -1}">已关注</button>
+					<button style="background-color:#2fddc3;color:white;border:none" 
+					th:unless="${coach.c_privacy == -1}" th:value="${coach.c_id}"
+					th:onclick="|addFollow(this)|">&nbsp;+&nbsp;&nbsp;关注</button>
+				</td>
 			</tr>
 			<tr th:each="stu : ${studentFans}">
 				<td>
 					<input type="hidden" th:value="${stu.s_id}" />
-					<img src="@{/images/imgs/}+${stu.s_headimg}" />
+					<img class="round_icon" th:src="@{/image/headImg/}+${stu.s_headimg}" width="40px"/>
 				</td>
 				<td><span th:text="${stu.s_nickname}"></span></td>
-				<td><button>+关注</button></td>
+				<td>
+					<button style="color:white;border:none" 
+						th:if="${stu.s_privacy == -1}">已关注</button>
+					<button style="background-color:#2fddc3;color:white;border:none" 
+					th:unless="${stu.s_privacy == -1}" th:value="${stu.s_id}"
+					th:onclick="|addFollow(this)|">&nbsp;+&nbsp;&nbsp;关注</button>
+				</td>
 			</tr>
 		</table>
 	</div>
@@ -161,7 +183,22 @@
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-
+	<script>
+		//添加关注
+		function addFollow(obj) {
+			var followId = $(obj).attr("value");
+			$.ajax({
+				url: "/dynamic/addFollow.do",
+				type: "post",
+				data: "followId="+followId,
+				success: function() {
+					$(obj).html("已关注");
+					$(obj).css("backgroundColor","");
+					$(obj).removeAttr("onclick");
+				}
+			});
+		}
+	</script>
 	</body>
 </html>
 

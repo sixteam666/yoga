@@ -44,46 +44,39 @@
 </head>
 <body>
 
-	<div th:replace="html/coach/my-pan.html::common_head"></div>
+	<div th:replace="/html/coach/showGym.html::coach_header"></div>
 
 	<div style="height:100px"></div>
-	<div class="col-md-8 col-md-offset-2 text-left text-center ">
-		<h3>我的钱包</h3>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-3 text-left">
+			<h2>当前余额：</h2>
+		</div>
+		<div class="col-md-2">
+			<h2 th:text="${money}+'元'"></h2>
+		</div>
+		<div class="col-md-3 text-center">
+			<button class="btn btn-info" data-toggle="modal" data-target="#myModal">提取</button>
+		</div>
+		<div style="height:50px;" class="col-md-12"></div>
+		<div class="col-md-9 col-md-offset-3 text-left" style="font-size:20px;font-weigth:700px;height:50px">
+			<span>我的银行卡：</span>
+		</div>
+		<div class="col-md-6 col-md-offset-3 text-left">
+			<table class="table table-bordered table-striped">
+				<tr th:each="card : ${cardList}">
+					<td th:text="${card.b_carid}">6220219784455</td>
+					<td th:text=${card.b_bank}>建设银行</td>
+					<td>
+						<a href="javascript:void(0)" th:value="${card.id}" onclick="removeCard(this)">删除</a>
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
-	<div class="col-md-6 col-md-offset-3">
-		<table class="table">
-			<tr>
-				<td align="right">当前余额：</td>
-				<td align="left">
-					<span th:text="${money}+'元'"></span>
-				</td>
-				<td>
-					<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">提取</button>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="1" align=right>我的银行卡：</td>
-				<td colspan="2">
-					<table class="table table-bordered">
-						<tr th:each="card : ${cardList}">
-							<td th:text="${card.b_carid}">6220219784455</td>
-							<td th:text=${card.b_bank}>建设银行</td>
-							<td>
-								<a href="javascript:void(0)" th:value="${card.id}" onclick="removeCard(this)">删除</a>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="3">
-								<button class="btn btn-primary" data-toggle="modal" data-target="#myModal2">添加银行卡</button>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-	</div>
+
 	<div class="col-md-8 col-md-offset-2 text-left text-center">
-		<a class="btn btn-primary" onclick="history.back(-1)">返回上一页</a>
+		<button class="btn btn-info" data-toggle="modal" data-target="#myModal2">添加银行卡</button>
+		<a class="btn" onclick="history.back(-1)">返回上一页</a>
 	</div>
 	
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
@@ -228,7 +221,7 @@
 			$("#cashNullError").css("display","none");
 			var balance = parseInt($("#balance").html());
 			var cash = parseInt($("#cash").val());
-			if(cash == "" || cash == null) {
+			if($("#cash").val() == "" || $("#cash").val() == null) {
 				$("#cashNullError").css("display","inline");
 				return false;
 			}

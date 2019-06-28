@@ -69,8 +69,10 @@ public class CoachController {
 	                currentUser.login(token);
 	                System.out.println("认证成功");
 	                Session session = currentUser.getSession(true);
+	                
 	                CoachBean coach = service.login(c_name);
 	                session.setAttribute("coach",coach);
+	                
 	                session.setAttribute("id", coach.getC_id());
 	                return "success";
 	            } catch (UnknownAccountException uae) {
@@ -91,8 +93,10 @@ public class CoachController {
 	public CoachBean getUser(){
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession(true);
+		System.out.println(session);
 		if (session == null)return null;
 		Object obj = session.getAttribute("coach");
+		System.out.println(obj);
 		if (obj == null) return null;
 		CoachBean coach = (CoachBean)obj;
 		
@@ -136,11 +140,10 @@ public class CoachController {
 	 */
 	@RequestMapping("showCoach.do")
 	public String showCoachInfoByid(ModelMap map) {
-		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		String id = "1";
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		CoachBean coachInfo = service.getCoachById(id);
 		map.put("coachInfo", coachInfo);
-		return "html/coach/my-pan.html";
+		return "html/coach/coachDetail.html";
 	}
 	
 	/**
@@ -149,9 +152,17 @@ public class CoachController {
 	 */
 	@RequestMapping("/showAllStu.do")
 	public String showAllStu(ModelMap map){
-		List<StudentBean> list = service.showAllStu();
-		map.put("stuList", list);
-		return "/html/coach/showStudent.html";
+		
+		return "html/coach/showStudent.html";
+	}
+	/**
+	 * 查询所有学生
+	 * @return
+	 */
+	@RequestMapping("/findAllStu.do")
+	@ResponseBody
+	public List<StudentBean> findAllStu(){
+		return service.showAllStu();
 	}
 	/**
 	 * 页面显示所有场馆
@@ -167,8 +178,8 @@ public class CoachController {
 	 * 跳转到首页
 	 * @return 返回场馆集合
 	 */
-	@RequestMapping("/showCoachPage.do")
-	public String showCoachPage(ModelMap map){
+	@RequestMapping("/showCoachHome.do")
+	public String showCoachHome(ModelMap map){
 		List<GymBean> list = service.showAllGym();
 		map.put("gym", list);
 		return "/html/coach/coach.html";
@@ -224,8 +235,7 @@ public class CoachController {
 	@RequestMapping("withdraw.do")
 	@ResponseBody
 	public boolean withdraw(double money, Integer cardId) {
-		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		String id = "1";
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		Boolean res = service.updateMoney(id, money, cardId);
 		return res;
 	}
@@ -237,8 +247,7 @@ public class CoachController {
 	 */
 	@RequestMapping("myStudent.do")
 	public String showMyStudent(ModelMap map) {
-		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		String id = "1";
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		List<StudentBean> stuList = service.listMyStudent(id);
 		System.out.println(stuList);
 		map.put("myStuList", stuList);
@@ -253,8 +262,7 @@ public class CoachController {
 	 */
 	@RequestMapping("personalInfo.do")
 	public String showPersonalInfo(ModelMap map) {
-		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		String id = "1";
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		CoachBean personalInfo = service.getPersonalInfo(id);
 		map.put("personalInfo", personalInfo);
 		return "/html/coach/personalInfo.html";
@@ -268,14 +276,11 @@ public class CoachController {
 	 */
 	@RequestMapping("updatePersonalInfo.do")
 	public String updatePersonalInfo(CoachBean coach, MultipartFile file, HttpServletRequest req) {
-		/*CoachBean c = (CoachBean) SecurityUtils.getSubject().getSession().getAttribute("coach");
-		if(c == null) {
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		if(id == null) {
 			throw new RuntimeException("教练个人信息更改时教练还未登录");
 		}
-		String headimg = c.getC_headimg();
-		String id = c.getC_id();*/
-		String headimg = "1.jpg";
-		String id = "1";
+		String headimg = service.getCoachById(id).getC_headimg();
 		if(!"".equals(file.getOriginalFilename())){
 			headimg =FileUtil.getFileName(file, req, UploadPathConstant.HEADIMG);
 		}
@@ -283,7 +288,7 @@ public class CoachController {
 		coach.setC_id(id);
 		service.updatePersonalInfo(coach);
 		//重定向到个人信息显示页面
-		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
+		return "redirect:/coach/showCoach.do";
 	}
 	
 	/**
@@ -293,12 +298,10 @@ public class CoachController {
 	 */
 	@RequestMapping("authentication.do")
 	@ResponseBody
-	public String coachAuthentication(CoachBean coach) {
-		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		String id = "1";
+	public void coachAuthentication(CoachBean coach) {
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		coach.setC_id(id);
 		service.updateAuthentication(coach);
-		return coach.getC_id();
 	}
 	
 	/**
@@ -309,8 +312,7 @@ public class CoachController {
 	 */
 	@RequestMapping("lessonInfo.do")
 	public String showLessonInfo(ModelMap map) {
-		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		String id = "1";
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		CoachBean lessonInfo = service.getLessonInfo(id);
 		map.put("lessonInfo", lessonInfo);
 		return "/html/coach/lessonInfo.html";
@@ -324,13 +326,11 @@ public class CoachController {
 	 */
 	@RequestMapping("updateLessonInfo.do")
 	public String updateLessonInfo(CoachBean coach) {
-		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		String id = "1";
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		coach.setC_id(id);
-		System.out.println(coach);
 		service.updateLessonInfo(coach);
 		//重定向到个人信息显示页面
-		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
+		return "redirect:/coach/showCoach.do";
 	}
 	
 	/**
@@ -341,8 +341,7 @@ public class CoachController {
 	 */
 	@RequestMapping("showMoney.do")
 	public String updateLessonInfo(ModelMap map) {
-		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		String id = "1";
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		Double money = service.getMoney(id);
 		List<BankCardBean> cardList = bankCardService.listBankCard(id);
 		map.put("cardList", cardList);
@@ -357,9 +356,16 @@ public class CoachController {
 	 */
 	@RequestMapping("/showGymDetail.do")
 	public String showGymDetail(ModelMap map,String gymId){
-		return "";
+		GymBean gb = gs.findGymById(gymId);
+		map.put("gymBean", gb);
+		return "/html/coach/gymInfo.html";
 	} 
 	
+	/**
+	 * 向他人展示我的资料
+	 * @param coachId
+	 * @return
+	 */
 	@RequestMapping("showToOther.do")
 	@ResponseBody
 	public CoachBean showToOtherUser(String coachId) {
@@ -428,7 +434,7 @@ public class CoachController {
 			SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String date = sp.format(new Date());
 			words.setW_time(date);
-			//words.setW_showid(stuId);
+			words.setW_showid(stuId);
 			re = service.sendMessage(words);
 		}
 		return re;
@@ -444,4 +450,23 @@ public class CoachController {
 		return "redirect:/html/index.html";
 	}
 	
+	/**
+	 * 显示我的签约
+	 * @return
+	 */
+	@RequestMapping("findSign.do")
+	public String findSign() {
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		return "html/coach/mySign.html";
+	}
+	
+	/**
+	 * 显示我的通知
+	 * @return
+	 */
+	@RequestMapping("myAdvise.do")
+	public String myAdivse() {
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		return "";
+	}
 }

@@ -17,20 +17,15 @@
 		<link rel="stylesheet" href="../../css/themify-icons.css">
 		<!-- Bootstrap  -->
 		<link rel="stylesheet" href="../../css/bootstrap.css">
-	
 		<!-- Magnific Popup -->
 		<link rel="stylesheet" href="../../css/magnific-popup.css">
-	
 		<!-- Magnific Popup -->
 		<link rel="stylesheet" href="../../css/bootstrap-datepicker.min.css">
-	
 		<!-- Owl Carousel  -->
 		<link rel="stylesheet" href="../../css/owl.carousel.min.css">
 		<link rel="stylesheet" href="../../css/owl.theme.default.min.css">
-	
 		<!-- Theme style  -->
 		<link rel="stylesheet" href="../../css/style.css">
-	
 		<!-- Modernizr JS -->
 		<script src="../../js/modernizr-2.6.2.min.js"></script>
 	</head>
@@ -47,15 +42,12 @@
 			cursor:pointer;
 		}
 		#form-sms{
-			width: 57%;
-			float: left;
+		    /* float: left; */
 		}
 		#button-sms{
-			width: 40%;
-			float: left;
+			width: 50%;
+			/* float: left; */
 			margin-top: 0.625rem;
-			margin-left: 0.8rem;
-			background-color: ;
 		}
 	</style>
 	<body>
@@ -92,12 +84,12 @@
 										
 										<div class="tab-content">
 											<div class="tab-content-inner active" data-content="signup">
-												<h3><span id="fon">场馆入驻&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span id="change_reg"> 使用手机号注册</span></h3>
+												<h3><span id="fon">场馆入驻&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span id="change_reg" > >>使用邮箱注册</span></h3>
 												<form id="form_reg">
 												<!-- 	<div class="row form-group">
 														<div class="col-md-12">
 															<label for="fullname"><span class="fon">邮箱&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="regPrompt name_0"></span></label>
-															<input type="text" id="fullname" class="form-control" placeholder="请输入邮箱">
+															<input type="text" id="reg_email" class="form-control" placeholder="请输入邮箱">
 														</div>
 													</div>
 													
@@ -123,35 +115,36 @@
 													<div class="row form-group">
 														<div class="col-md-12">
 															<label for="fullname"><span class="fon">手机号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="regPrompt name_0"></span></label>
-															<input type="text" id="fullname" class="form-control" placeholder="请输入手机号">
+															<input type="text" id="reg_phone" class="form-control" placeholder="请输入手机号" onblur='phoneVerfication()' onfocus="inputFocus('#reg_phone')">
 														</div>
 													</div>
 													
 													<div class="row form-group">
 														<div class="col-md-12">
-															<label for="fullname"><span class="fon"></span><span class="regPrompt name_0"></span></label>
-															<input type="text" id="form-sms" class="form-control" placeholder="请输入6位短信验证码">
-															<input id="button-sms" type="button" value="获取短信验证码"></button>
+															<label for="fullname"><span class="fon">短信验证码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="regPrompt sms"></span></label>
+															<input type="text" id="form-sms" class="form-control" placeholder="请输入短信验证码" onblur='smsVerfication()' onfocus="inputFocus('#form-sms')">
+															<button type="button" id="button-sms" onclick="timing()">获取短信验证码</button>
+															<input type="hidden" id="sms_time" value="0">
 														</div>
 													</div>
 													
 													<div class="row form-group">
 														<div class="col-md-12">
 															<label for="date-start"><span class="fon">密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="regPrompt pwd_1"></span></label>
-															<input type="password" id="password_1" class="form-control" placeholder="请输入密码">
+															<input type="password" id="password_1" class="form-control" placeholder="请输入密码" onblur='passwordVerfication()' onfocus="inputFocus('#password_1')"  />
 														</div>
 													</div>
 													
 													<div class="row form-group">
 														<div class="col-md-12">
 															<label for="date-start"><span class="fon">确认密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="regPrompt pwd_2"></span></label>
-															<input type="password" id="password_2" class="form-control" placeholder="请输入密码">
+															<input type="password" id="password_2" class="form-control" placeholder="请输入密码" onblur='pwdVerfication2()' onfocus="inputFocus('#password_2')">
 														</div>
 													</div>
 														
 													<div class="row form-group">
 														<div class="col-md-12">
-															<input type="button" id="gymReg" class="btn btn-primary btn-block" value="注册">
+															<input type="button" id="gymReg" class="btn btn-primary btn-block" onclick="register('#reg_phone')" value="注册">
 														</div>
 													</div>
 												</form>
@@ -191,71 +184,6 @@
 		<!-- Main -->
 		<script src="../../js/main.js"></script>
 	</body>
-	<script type="text/javascript">
-		var mailRegForm = "<div class='row form-group'><div class='col-md-12'><label for='fullname'><span class='fon'>邮箱&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='regPrompt name_0'></span></label><input type='text' id='fullname' class='form-control' placeholder='请输入邮箱'><input type='password' id='password_1' class='form-control' placeholder='请输入密码'></div></div><div class='row form-group'><div class='col-md-12'><label for='date-start'><span class='fon'>确认密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class='regPrompt pwd_2'></span></label><input type='password' id='password_2' class='form-control' placeholder='请输入密码'></div></div><div class='row form-group'><div class='col-md-12'><input type='button' id='gymReg' class='btn btn-primary btn-block' value='注册'></div></div>";
-		var phoneRegForm = "";
-		var mailTest = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
-		var pwdTest = new RegExp("^[a-z0-9]{8,}$");
-		// var phone= /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
-		
-		/* 注册 */
-		$("#gymReg").click(function(){
-			var loginName = $("#fullname").val();
-			var g_password = $("#password_1").val();
-			var g_password_2 = $("#password_2").val();
-			if(g_password != g_password_2 || g_password_1 != pwdTest || g_password_2 != pwdTest || loginName != mailTest){
-				return;
-			}
-			$.ajax({
-				url:"/gym/reg.do",
-				type:"post",
-				async:true,
-				data:"loginName="+loginName + "&g_password=" + g_password,
-				success:function(mes){ }
-			});
-		});
-		
-		// 邮箱注册验证
-		$("#fullname").blur(function(){
-			var value = $("#fullname").val();
-			console.info("离开:" + value);
-			if(value == ""){
-				$(".col-md-12 .regPrompt.name_0").text("邮箱不能为空");
-			}else if(!mailTest.test(value)){
-				$(".col-md-12 .regPrompt.name_0").text("邮箱格式错误");
-			}
-		});
-		
-		// 密码验证
-		$("#password_1").blur(function(){
-			var pwd_1 = $("#password_1").val();
-			console.info("离开:" + pwd_1);
-			if(pwd_1 == ""){
-				$(".col-md-12 .regPrompt.pwd_1").text("密码不能为空");
-			}else if(!pwdTest.test(pwd_1)){
-				$(".col-md-12 .regPrompt.pwd_1").text("密码必须包含字母和数字且长度不小于8位");
-			}
-		});
-		
-		// 密码二次验证
-		$("#password_2").blur(function(){
-			var pwd_1 = $("#password_1").val();
-			var pwd_2 = $("#password_2").val();
-			if(pwd_1 != pwd_2){
-				$(".col-md-12 .regPrompt.pwd_2").text("两次输入的密码不一致");
-			}else if(pwd_2 == "" && pwd_1 != ''){
-				$(".col-md-12 .regPrompt.pwd_2").text("请再次输入密码");
-			}else if(pwd_2 == "" && pwd_1 == ''){
-				$(".col-md-12 .regPrompt.pwd_2").text("密码不能为空");
-			}
-		});
-		
-		$(".form-control").focus(function(){
-			console.info("移入并点击");
-			$(this).prev().children(".regPrompt").text("");
-		});
-		
-		
-		
-	</script>
+	<script type="text/javascript" src="../../js/gym/gymReg.js"></script>
+	
 </html>
