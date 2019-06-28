@@ -192,9 +192,9 @@
 						<span>&nbsp;&nbsp;&nbsp;&nbsp;q&nbsp;&nbsp;&nbsp;&nbsp;q&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>：
 						<input type="text" name="g_qq" th:value="${oldMsg.g_qq}" /><br /><br />
 						
-						场馆简介：<textarea style="width: 350px;height: 60px;" name="g_message" th:value="${oldMsg.g_message}" ></textarea><br /><br />
+						场馆简介：<textarea style="width: 350px;height: 60px;" name="g_message" th:text="${oldMsg.g_message}" ></textarea><br /><br />
 						<button type="submit" class="btn btn-primary msg1">保存</button>
-						<button type="reset" class="btn btn-primary msg2">取消</button>
+						<a class="btn btn-primary msg2" href="/gym/showMessage.do">返回</a>
 					</form>
 					
 				</div>

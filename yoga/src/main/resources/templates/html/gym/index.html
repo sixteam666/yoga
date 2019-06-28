@@ -182,6 +182,7 @@
 				，华为也没有因此被法庭判决承担赔偿责任。</h4>
 			</div>
 		</div>
+		<a class="btn btn-primary" href="/gym/showMessage.do">修改场馆简介</a>
 	</div>			
 	<footer id="gtco-footer" role="contentinfo">
 		<div class="gtco-container">
@@ -286,7 +287,7 @@
 			$.ajax({
 				type:"get",
 				async:false,
-				url:"/gym/getGymToSession.do",
+				url:"/gym/findGymById.do",
 				//data:"p_type="+p_type, 
 				success:function(mes){
 					console.info(mes);
