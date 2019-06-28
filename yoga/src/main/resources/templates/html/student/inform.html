@@ -62,12 +62,25 @@
 			</div>
 			<div class="row">
 			 
-				<div class="col-md-16" th:each="word : ${list}">
-						<img src="../../images/imgs/2.jpg" th:src="@{'../../images/imgs/'+${word.headimg}}" />
-						<h2 th:text="${word.name}">用户名/昵称</h2>
-						<h4 th:text="${word.word}">留言内容bbbbbbbbbbbbbbbbbbbbbbb</h4>
-						<p th:text="${word.time}">发表时间：2019-06-19</p>
+				<!-- <div  class="col-md-16" th:each=" notify : ${notify}">
+						<img style="display:block;"  th:src="@{'../../images/imgs/'+${notify.headimg}}" />
+						<h2 class="col-md-4"  th:text="${notify.reqname}">通知者昵称</h2>
+						<h4 class="col-md-4" th:text="${notify.r_reqname}">通知内容</h4>
+						<input type="hidden" th:value="${notify.reqid}">
+				</div>
+				 -->
+				<div th:each=" notify : ${notify}" class="col-md-4">
+					<div  class="price-box">
+						<h5 th:text="| ${notify.r_reqname} |" align="left" class="pricing-plan">通知类型</h5>
+						<h2 th:text="${notify.reqname}" class="pricing-plan">课程名称</h2>
+						<img  th:src="@{'../../images/imgs/'+${notify.headimg}}" />
+						<p th:text="3小时前">时间</p>
+						<button style="background-color:#2fddc3;color:white;border:none" >
+							&nbsp;+&nbsp;&nbsp;关注</button>
+						
 						<hr>
+						
+					</div>
 				</div>
 
 			</div>

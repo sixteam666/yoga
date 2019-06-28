@@ -30,6 +30,7 @@ import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
+import com.project.bean.RequestBean;
 import com.project.bean.ShowWordsBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
@@ -366,7 +367,12 @@ public class StudentController {
 			
 			@RequestMapping("/notify.do")
 			public String  notify(Model model){
-				
+				Session session = SecurityUtils.getSubject().getSession();
+				StudentBean stu=(StudentBean) session.getAttribute("stu");
+				String id = stu.getS_id();
+				List<RequestBean> listnotify  =service.findallreq(id);
+				model.addAttribute("notify",listnotify );
+				System.out.println(listnotify);
 				return "html/student/inform.html";
 				
 			};

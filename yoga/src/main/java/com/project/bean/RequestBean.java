@@ -7,6 +7,7 @@ public class RequestBean {
 	private String r_reqname;
 	private String r_resname;
 	private int r_state;
+	private String reqid;
 	private String reqname;
 	private String headimg;
 	public String getHeadimg() {
@@ -15,7 +16,6 @@ public class RequestBean {
 	public void setHeadimg(String headimg) {
 		this.headimg = headimg;
 	}
-	private String reqid;
 	public String getReqname() {
 		return reqname;
 	}
@@ -67,7 +67,9 @@ public class RequestBean {
 	@Override
 	public String toString() {
 		return "RequestBean [r_id=" + r_id + ", r_reqid=" + r_reqid + ", r_resid=" + r_resid + ", r_reqname="
-				+ r_reqname + ", r_resname=" + r_resname + ", r_state=" + r_state + "]";
+				+ r_reqname + ", r_resname=" + r_resname + ", r_state=" + r_state + ", reqid=" + reqid + ", reqname="
+				+ reqname + ", headimg=" + headimg + "]";
 	}
+	
 	
 }

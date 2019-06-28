@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
@@ -216,9 +217,25 @@ public class StudentServiceImpl implements IStudentService{
 		for (RequestBean requestBean : list) {
 			String reqid = requestBean.getR_reqid();
 			if (dao.findStudentbyId(reqid)!=null) {
+				StudentBean stu = dao.findStudentbyId(reqid);
+				requestBean.setReqid(stu.getS_id());
+				requestBean.setReqname(stu.getS_nickname());
+				requestBean.setHeadimg(stu.getS_headimg());
+			}else if (CoachDao.getCoachById(reqid)!=null) {
+				CoachBean coach = CoachDao.getCoachById(reqid);
+				requestBean.setReqid(coach.getC_id());
+				requestBean.setReqname(coach.getC_nickname());;
+				requestBean.setHeadimg(coach.getC_headimg());
+			}else {
+				GymBean  gym  = Gymdao.findGymById(reqid);
+				requestBean.setHeadimg(gym.getG_headimg());
+				requestBean.setReqid(gym.getG_id());
+				requestBean.setReqname(gym.getG_name());
+			}{
 				
 			}
 		} 
-		return null;
+		
+		return list;
 	}
 }
