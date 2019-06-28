@@ -456,8 +456,10 @@ public class CoachController {
 	 * @return
 	 */
 	@RequestMapping("findSign.do")
-	public String findSign() {
-		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+	public String findSign(ModelMap map) {
+		CoachBean coach = (CoachBean) SecurityUtils.getSubject().getSession().getAttribute("coach");
+		GymBean gym = gs.findGymById(coach.getC_g_id());
+		map.put("gym", gym);
 		return "html/coach/mySign.html";
 	}
 	

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.project.bean.CoachBean;
 import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
+import com.project.bean.LessonBean;
 import com.project.bean.RequestBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
@@ -21,6 +22,7 @@ import com.project.dao.IBlogDao;
 import com.project.dao.ICoachDao;
 import com.project.dao.IFollowDao;
 import com.project.dao.IGymDao;
+import com.project.dao.ILessonDao;
 import com.project.dao.IRequestDao;
 import com.project.dao.IStudentDao;
 import com.project.dao.IWordDao;
@@ -44,6 +46,8 @@ public class CoachServiceImpl implements ICoachService {
 	private IBankCardDao bankDao;
 	@Autowired
 	private IWordDao wd;
+	@Autowired
+	private ILessonDao lessonDao;
 	
 	@Override
 	public Boolean register(CoachBean coach) {
@@ -289,6 +293,11 @@ public class CoachServiceImpl implements ICoachService {
 		c.setC_phone("****");
 		c.setC_qq("****");
 		return c;
+	}
+
+	@Override
+	public List<LessonBean> listLessons(String id) {
+		return null;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.project.controller;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +25,8 @@ public class BankCardController {
 	@RequestMapping("addCard.do")
 	@ResponseBody
 	public void addCard(BankCardBean bankCard) {
-		//获取到用户session
-		//bankCard.setUserId(b_userId);
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		bankCard.setUserId(id);
 		bandCardService.insertBankCard(bankCard);
 	}
 	

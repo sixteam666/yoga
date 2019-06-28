@@ -5,6 +5,7 @@ import java.util.List;
 import com.project.bean.CoachBean;
 import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
+import com.project.bean.LessonBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
 
@@ -227,4 +228,11 @@ public interface ICoachService {
 	 * @return 教练对象
 	 */
 	public CoachBean showToOtherUser(String currentUserId, String coachId, Integer type);
+	
+	/**
+	 * 查询我的所有课程
+	 * @param id
+	 * @return
+	 */
+	List<LessonBean> listLessons(String id);
 }

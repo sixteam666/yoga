@@ -97,8 +97,7 @@ public class BlogServiceImpl implements IBlogService {
 
 	@Override
 	public List<DynamicBean> listAllDynamics() {
-		//String currentUserId = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		String currentUserId = "1";
+		String currentUserId = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		List<DynamicBean> dynamicList = blogDao.listAllBlog();
 		for (DynamicBean dynamic : dynamicList) {
 			String userid = dynamic.getD_userid();

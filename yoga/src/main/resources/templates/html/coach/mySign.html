@@ -61,29 +61,39 @@
 <body>
 	<div class="gtco-loader"></div>
 	<div id="page"></div>
-	<div th:replace="html/coach/my-pan.html::common_head"></div>	
+	<div th:replace="html/coach/showGym.html::coach_header"></div>	
 	
-	<div id="follow">我的好友</div>
-	<div class="col-md-6 col-md-offset-3 text-center">
-		<table class="table">
-			<tr th:each="coach : ${coachFriends}">
-				<td>
-					<input type="hidden" th:value="${coach.c_id}" />
-					<img class="round_icon" th:src="@{/image/headImg/}+${coach.c_headimg}" width="40px"/>
-				</td>
-				<td><span th:text="${coach.c_nickname}"></span></td>
-				<td><button style="color:white;border:none">已关注</button></td>
-			</tr>
-			<tr th:each="stu : ${studentFriends}">
-				<td>
-					<input type="hidden" th:value="${stu.s_id}" />
-					<img class="round_icon" th:src="@{/image/headImg/}+${stu.s_headimg}" width="40px"/>
-				</td>
-				<td><span th:text="${stu.s_nickname}"></span></td>
-				<td><button style="color:white;border:none">已关注</button></td>
-			</tr>
-		</table>
+	<div class="row" style="border: 1px solid red;height:400px;margin-top:130px">
+		<div th:if="${gym==null}"><p>你还未签约任何场馆，赶紧<a href="/coach/showAllGym.do">去签约</a>一个吧！</p></div>
+		<div th:if="${gym!=null}" class="col-md-3 col-md-offset-1 text-center" style="border: 1px solid red;height:380px;">
+			
+		</div>
+		<div th:if="${gym!=null}" class="col-md-7 text-center" style="border: 1px solid red;height:380px;">
+			<table class="table table-bordered">
+				<tr>
+					<th>课程教练</th>
+					<th>课程价格</th>
+					<th>可容纳学员人数</th>
+					<th>已有学员人数</th>
+					<th>课程描述</th>
+				</tr>
+				
+				<tr>
+					<input type="hidden" id="hid" th:value="${lesson.l_id}">
+					<td th:if="${lesson.coachBean!=null}" th:text="${lesson.coachBean.c_nickname}">章教练</td>
+					<td th:unless="${lesson.coachBean!=null}" th:text="暂无课程教练">章教练</td>
+					<td>
+						<span th:text="${lesson.l_price}">200</span>￥/节
+					</td>
+					<td th:text="${lesson.l_size}">10</td>
+					<td th:text="${lesson.l_s_number}">0</td>
+					<td th:text="${lesson.l_descirbe}">瘦身</td>
+				</tr>
+			</table>
+		</div>
+	
 	</div>
+	
 	
 	<footer id="gtco-footer" role="contentinfo">
 		<div class="gtco-container">

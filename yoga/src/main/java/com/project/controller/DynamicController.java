@@ -235,7 +235,7 @@ public class DynamicController {
 	 */
 	@RequestMapping("/addDynamic.do")
 	public String addDynamic(DynamicBean dynamic) {
-		String d_time = DateUtil.Date2String(new Date(), "yyyy-MM-dd hh:mm:ss");
+		String d_time = DateUtil.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss");
 		String d_userId = "";
 		String d_headimg = "";
 		String d_nickname = "";
