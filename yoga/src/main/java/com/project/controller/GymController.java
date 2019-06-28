@@ -26,10 +26,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.bean.BankCardBean;
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.PictureBean;
+import com.project.service.IBankCardService;
 import com.project.service.ICoachService;
 import com.project.service.IGymService;
 import com.project.util.FileUtil;
@@ -49,7 +51,8 @@ public class GymController {
 	private IGymService gymService;
 	@Autowired
 	private ICoachService coachService;
-	
+	@Autowired
+	private IBankCardService bankCardService;
 	private FileUtil picUtil;
 	
 	/**
@@ -541,4 +544,21 @@ public class GymController {
 		GymBean gymBean = gymService.findGymById(gymId);
 		return gymBean;
 	}
+	
+	/**
+	 * 查看钱包余额
+	 * @author pan
+	 * @param coach 要更新的数据
+	 * @return 返回个人信息显示页面
+	 */
+	/*@RequestMapping("showMoney.do")
+	public String updateLessonInfo(ModelMap map) {
+		String gymId = this.getGymToSession().getG_id();
+		GymBean gymBean = gymService.findGymById(gymId);
+		//Double money = service.getMoney(gymBean.get);
+		List<BankCardBean> cardList = bankCardService.listBankCard(id);
+		map.put("cardList", cardList);
+		map.put("money", money);
+		return "/html/coach/money.html";
+	} */
 }
