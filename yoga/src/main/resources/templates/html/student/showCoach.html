@@ -49,6 +49,39 @@
 	</div>
 	
 	
+	
+	<div class="gtco-section">
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<h2>认证教练</h2>
+					<p>想让自己变得更加完美，就从瑜伽开始吧.</p>
+				</div>
+			</div>
+			<div class="row">
+			
+				<div class="col-lg-4 col-md-4 col-sm-6" th:each="Coach : ${Coach}">
+					<a href="#" class="fh5co-card-item">
+						<figure style="text-align: center;top:50px">
+							<img src="../../images/imgs/39.jpg" th:src="@{'../../images/imgs/'+${Coach.c_headimg}}" alt="Image">
+						</figure>
+						<div class="fh5co-text">
+							<h2>瑜伽教练：<span th:text="${Coach.c_name}">a</span></h2>
+							<h2>流派：<span th:text="${Coach.c_style}">a</span></h2>
+							<h2>课时费标准：<span th:text="${Coach.c_price}">200</span>/节</h2>
+							<h2>电话：<span th:text="${Coach.c_phone}">a</span></h2>
+						</div>
+					</a>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	
 	<div class="gtco-section" align="center">
 		<div class="gtco-container">
 			<div class="row">
@@ -57,7 +90,7 @@
 				</div>
 			</div>
 		</div>
-		<iframe src="../map/nearbyCoach.html" width="1100" height="750" frameborder="0" scrolling="no"></iframe>
+		<iframe src="/student/nearbyCoach.do" width="1100" height="750" frameborder="0" scrolling="no"></iframe>
 	</div>
 				
 	<footer id="gtco-footer" role="contentinfo">

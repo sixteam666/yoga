@@ -313,13 +313,15 @@ public class StudentController {
 			@RequestMapping("/insertWord.do")
 			public String insertWord(HttpServletRequest request){
 				Session session = SecurityUtils.getSubject().getSession();
-				String content = request.getParameter("name");
+				String content = request.getParameter("message");
+				System.out.println(content);
 				StudentBean bean = (StudentBean)session.getAttribute("stu");
 				WordsBean wordsBean = new WordsBean();
 				wordsBean.setW_content(content);
 				wordsBean.setW_time("2019-06-27");
 				wordsBean.setW_userid(bean.getS_id());
-				wordsBean.setW_showid("sadasd");
+				wordsBean.setW_showid(bean.getS_id());
+				service.insertWords(wordsBean);
 
 				return "redirect:/student/findWord.do";				
 			}
@@ -376,4 +378,47 @@ public class StudentController {
 				session.setAttribute("money", money);
 				return "html/student/index.html";
 			}
+			
+			/**
+			 * 所有场馆
+			 */
+			@RequestMapping("/showGym.do")
+			public String showGym(Model model){
+				List<GymBean> list = gymService.findAllGym();
+				for (GymBean gymBean : list) {
+					System.out.println(gymBean);
+				}
+				model.addAttribute("Gym",list);
+				return "html/student/showGym.html";
+			}
+			
+			/**
+			 * 附近场馆
+			 */
+			@RequestMapping("/nearbyGym.do")
+			public String showNearByGym(){
+				return "html/map/nearbyGym.html";
+			}
+			
+			/**
+			 * 认证教练
+			 */
+			@RequestMapping("/showCoach.do")
+			public String showCoach(Model model){
+				List<CoachBean> list = service.findAllCoach();
+				for (CoachBean coachBean : list) {
+					System.out.println(coachBean);
+				}
+				model.addAttribute("Coach",list);
+				return "html/student/showCoach.html";
+			}
+			
+			/**
+			 * 附近场馆
+			 */
+			@RequestMapping("/nearbyCoach.do")
+			public String showNearByCoach(){
+				return "html/map/nearbyCoach.html";
+			}
+			
 }

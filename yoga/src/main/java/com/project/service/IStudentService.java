@@ -170,4 +170,11 @@ public interface IStudentService{
 	 * @return
 	 */
 	public boolean addFollow(String myid,String idolid);
+	
+	/**
+	 * 查找所有教练
+	 * @param id
+	 * @return
+	 */
+	public List<CoachBean> findAllCoach();
 }

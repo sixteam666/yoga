@@ -204,4 +204,9 @@ public class StudentServiceImpl implements IStudentService{
 		int result = followDao.countFollowing(id);
 		return result;
 	}
+
+	@Override
+	public List<CoachBean> findAllCoach() {
+		return CoachDao.findAll();
+	}
 }
