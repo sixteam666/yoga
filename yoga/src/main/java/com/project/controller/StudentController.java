@@ -155,12 +155,20 @@ public class StudentController {
 	
 	@RequestMapping("/loginout.do")
 	@ResponseBody
-	public String logout(HttpSession session) {
+	public String loginout(HttpSession session) {
 		System.out.println("正在注销");
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
 		System.out.println(session.getAttribute("stu"));
 		return "ok";
+	}
+	
+	@RequestMapping("/logout.do")
+	public String logout() {
+		//Session session = SecurityUtils.getSubject().getSession();
+		Subject currentUser = SecurityUtils.getSubject();
+		currentUser.logout();
+		return "html/index.html";
 	}
 	
 			/**

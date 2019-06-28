@@ -1,36 +1,182 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
-		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-		<title>百度地图子窗口</title>
-		<link rel="stylesheet" href="/css/baidumap/baidumap.css" />
-		<style type="text/css">
-		</style>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>教练个人信息</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
+		<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
+		<meta name="author" content="FreeHTML5.co" />
+		<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+		<!-- Animate.css -->
+		<link rel="stylesheet" href="../../css/animate.css">
+		<!-- Icomoon Icon Fonts-->
+		<link rel="stylesheet" href="../../css/icomoon.css">
+		<!-- Themify Icons-->
+		<link rel="stylesheet" href="../../css/themify-icons.css">
+		<!-- Bootstrap  -->
+		<link rel="stylesheet" href="../../css/bootstrap.css">
+		<!-- Magnific Popup -->
+		<link rel="stylesheet" href="../../css/magnific-popup.css">
+		<!-- Magnific Popup -->
+		<link rel="stylesheet" href="../../css/bootstrap-datepicker.min.css">
+		<!-- Owl Carousel  -->
+		<link rel="stylesheet" href="../../css/owl.carousel.min.css">
+		<link rel="stylesheet" href="../../css/owl.theme.default.min.css">
+		<!-- Theme style  -->
+		<link rel="stylesheet" href="../../css/style.css">
+		<link rel="stylesheet" href="../../css/baidumap/baidumap.css" />
+		<!-- Modernizr JS -->
+		<script type="text/javascript" src="../../js/modernizr-2.6.2.min.js"></script>
 		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=YYXMCpSms6hDBtGu09ZhLmx0jNTOXeqd"></script>
 	</head>
+	<style type="text/css">
+		.fon {
+			font-family: "微软雅黑";
+		}
+		label{
+			background-color: transparent !important;
+			border-color: transparent !important;
+		}
+	</style>
 	<body>
-		<div id="r-result">
-			搜索:<input type="text" id="suggestId" size="20" style="width:150px;" /><br><br>
-			<label for="province">省份:</label>
-			<select class="form-control" id="cmbProvince" name="cmbProvince"></select>
-			<label for="city">城市:</label>
-			<select class="form-control" id="cmbCity" name="cmbCity"></select>
-			<label for="county">区县:</label>
-			<select class="form-control" id="cmbArea" name="cmbArea"></select>
-			<input id="address_mes" type="text" />
-			<!-- 		<input type="button" onclick="add_control();" value="添加控件" />
-		<input type="button" onclick="delete_control();" value="删除控件" /> -->
-			<!-- <div id="result"></div> -->
+		<div class="gtco-loader"></div>
+		<nav class="gtco-nav" role="navigation">
+			<div class="gtco-container">
+
+				<div class="row" style="background-color: #09C6AB;">
+					<div class="col-sm-4 col-xs-12">
+						<ul>
+							<li><a href="gym.html" class="fon">首页</a></li>
+							<li><a href="showCoach.html" class="fon">教练</a></li>
+							<li><a href="showStudent.html" class="fon">学员</a></li>
+						</ul>
+					</div>
+					<div class="col-xs-8 text-right">
+						<ul>
+							<li class="has-dropdown" id="gym_top"><span style="color: white">点击登录</span></li>
+							<li class="has-dropdown"><a href="#">场馆中心</a>
+								<ul class="dropdown">
+									<li><a href="index.html">场馆展示</a></li>
+									<li><a href="msgShow.html">场馆资料</a></li>
+									<li><a href="lesson.html">课程安排</a></li>
+									<li><a href="wallet.html">我的钱包</a></li>
+									<li><a href="myCoach.html">我的签约教练</a></li>
+									<li><a href="/gym/findCoachByMyResponse.do">我的通知</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<div class="gtco-section">
+			<div class="gtco-container">
+				<div>
+					<div class="col-md-8 col-md-offset-2 text-center">
+						<h2>地图查看</h2>
+					</div>
+					<div class="col-md-8" style="font-size: 20px;width: 1000px;height: 600px;">
+						<div id="r-result" style="display: none">
+							搜索:<input type="text" id="suggestId" size="20" style="width:150px;" /><br><br>
+							<label for="province">省份:</label>
+							<select class="form-control" id="cmbProvince" name="cmbProvince"></select>
+							<label for="city">城市:</label>
+							<select class="form-control" id="cmbCity" name="cmbCity"></select>
+							<label for="county">区县:</label>
+							<select class="form-control" id="cmbArea" name="cmbArea"></select>
+							<input id="address_mes" type="text" />
+						</div>
+						<div id="BaiduMap"></div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div id="BaiduMap"></div>
+
+		<footer id="gtco-footer" role="contentinfo">
+			<div class="gtco-container">
+				<div class="row row-p	b-md">
+					<div class="col-md-4">
+						<div class="gtco-widget">
+							<h3>关于我们</h3>
+							<p>蜗牛46期第六组项目，由项目负责人温攀，会长文然，技术负责人黄仁杰，产品经理滕伟，后台管理刘勇，前端张正宇负责</p>
+						</div>
+					</div>
+					<div class="col-md-2 col-md-push-1"></div>
+
+					<div class="col-md-2 col-md-push-1">
+						<div class="gtco-widget">
+							<h3 class="fon">瑜伽平台</h3>
+							<ul class="gtco-footer-links">
+								<li><a href="coachLogin.html" class="fon">成为教练</a></li>
+								<li><a href="gymLogin.html" class="fon">场馆入驻</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-3 col-md-push-1">
+						<div class="gtco-widget">
+							<h3>联系方式</h3>
+							<ul class="gtco-quick-contact">
+								<li><a href="#"><i class="icon-phone"></i> 15002881866</a></li>
+								<li><a href="#"><i class="icon-mail2"></i>shinoda@live.cn</a></li>
+								<li><a href="#"><i class="icon-chat"></i> Zzy19951117</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="row copyright">
+					<div class="col-md-12">
+						<p class="pull-left">
+							<small class="block">&copy; 2019 在蜗牛46期写出来的.</small> <small class="block">模板都是网上找的，描述都是自己瞎BB的</small>
+						</p>
+						<p class="pull-right">
+							<ul class="gtco-social-icons pull-right">
+								<li><a href="#"><i class="icon-twitter"></i></a></li>
+								<li><a href="#"><i class="icon-facebook"></i></a></li>
+								<li><a href="#"><i class="icon-linkedin"></i></a></li>
+								<li><a href="#"><i class="icon-dribbble"></i></a></li>
+							</ul>
+						</p>
+					</div>
+				</div>
+
+			</div>
+		</footer>
+		<div class="gototop js-top">
+			<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+		</div>
+
+		<!-- jQuery -->
+		<script src="../../js/jquery.min.js"></script>
+		<!-- jQuery Easing -->
+		<script src="../../js/jquery.easing.1.3.js"></script>
+		<!-- Bootstrap -->
+		<script src="../../js/bootstrap.min.js"></script>
+		<!-- Waypoints -->
+		<script src="../../js/jquery.waypoints.min.js"></script>
+		<!-- Carousel -->
+		<script src="../../js/owl.carousel.min.js"></script>
+		<!-- countTo -->
+		<script src="../../js/jquery.countTo.js"></script>
+		<!-- Stellar Parallax -->
+		<script src="../../js/jquery.stellar.min.js"></script>
+		<!-- Magnific Popup -->
+		<script src="../../js/jquery.magnific-popup.min.js"></script>
+		<script src="../../js/magnific-popup-options.js"></script>
+		<!-- Datepicker -->
+		<script src="../../js/bootstrap-datepicker.min.js"></script>
+		<!-- Main -->
+		<script src="../../js/main.js"></script>
+		<!-- 获取Session中的数据 -->
+		<script type="text/javascript" src="../../js/gym/getSession.js"></script>
+		
+		<!-- 添加或删除缩放控件 -->
+		<!-- <script type="text/javascript" src="js/BaiduMapJs/ControlButton.js"></script> -->
+		<!-- 地图定位   其他地图的js文件需放在此代码之后-->
+		<script type="text/javascript" src="../../js/BaiduMapJs/location.js"></script>
+		<script type="text/javascript" src="../../js/BaiduMapJs/search.js"></script>
+		<script type="text/javascript" src="../../js/BaiduMapJs/Address.js"></script>
+		<script type="text/javascript" src="../../js/BaiduMapJs/baidumap.js"></script>
 	</body>
-	<script type="text/javascript" src="../../js/jquery.min.js"></script>
-	<!-- 添加或删除缩放控件 -->
-	<!-- <script type="text/javascript" src="js/BaiduMapJs/ControlButton.js"></script> -->
-	<!-- 地图定位   其他地图的js文件需放在此代码之后-->
-	<script type="text/javascript" src="../../js/BaiduMapJs/location.js"></script>
-	<script type="text/javascript" src="../../js/BaiduMapJs/search.js"></script>
-	<script type="text/javascript" src="../../js/BaiduMapJs/Address.js"></script>
-	<script type="text/javascript" src="../../js/BaiduMapJs/baidumap.js"></script>
 </html>

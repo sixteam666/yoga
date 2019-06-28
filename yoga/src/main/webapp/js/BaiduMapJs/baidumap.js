@@ -4,7 +4,7 @@
 	// 点击图标进入详情页
 	function goMessage(c_id) {
 		console.info(c_id);
-		window.location.href="/gym/findCoachById.do?c_id="+c_id;
+		window.location.href="/gym/findCoachById.do?type=1&c_id="+c_id;
 	}
 	
 	// 获取我的签约教练数据
