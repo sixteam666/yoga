@@ -163,7 +163,7 @@
 					
 					
 					<form action="/gym/updateMsg.do" method="post" id="myform" enctype="multipart/form-data">
-						场馆地址：<input type="text" name="g_address" id="gym_address" th:attr="value=#{oldMsg.g_address}"/>
+						场馆地址：<input type="text" name="g_address" id="gym_address" th:value="${oldMsg.g_address}"/>
 						<span class="span error_address">*场馆地址不能为空</span><br /><br />
 						<div class="headimg">
 							<div class="headimg_txt">
@@ -182,18 +182,18 @@
 							</div>
 						</div>
 						<br /><br />
-						场馆名称：<input type="text" name="g_name" id="input_name" placeholder="" th:attr="value=#{oldMsg.g_name}"/>
+						场馆名称：<input type="text" name="g_name" id="input_name" placeholder="" th:value="${oldMsg.g_name}"/>
 							<span class="span error_name">*场馆名称不能为空</span><br /><br />
 							
-						联系电话：<input type="text" name="g_contactphone" id="input_phone" placeholder="" th:attr="value=#{oldMsg.g_contactphone}"/>
+						联系电话：<input type="text" name="g_contactphone" id="input_phone" placeholder="" th:value="${oldMsg.g_contactphone}"/>
 						<span class="span error_phone">*联系电话格式不正确</span><br /><br />
 						
 						<span>&nbsp;&nbsp;&nbsp;&nbsp;q&nbsp;&nbsp;&nbsp;&nbsp;q&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>：
-						<input type="text" name="g_qq" th:attr="value=#{oldMsg.g_qq}"/><br /><br />
+						<input type="text" name="g_qq" th:value="${oldMsg.g_qq}"/><br /><br />
 						
-						场馆简介：<textarea style="width: 350px;height: 60px;" name="g_message" th:value="${oldMsg.g_message}" ></textarea><br /><br />
+						场馆简介：<textarea style="width: 350px;height: 60px;" name="g_message" th:text="${oldMsg.g_message}" ></textarea><br /><br />
 						<button type="submit" class="btn btn-primary msg1">保存</button>
-						<button type="reset" class="btn btn-primary msg2">取消</button>
+						<a class="btn btn-primary msg2" href="/gym/showMessage.do">返回</a>
 					</form>
 					
 				</div>

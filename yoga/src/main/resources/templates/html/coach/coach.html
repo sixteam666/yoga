@@ -60,19 +60,28 @@
 			<div class="col-xs-8 text-right">
 					<ul>
 						<li class="has-dropdown">
+<<<<<<< HEAD
 							<span id="welcome" style="color: white;" >欢迎您，<span th:text="${session.coach.c_name}"></span></span>
 							<a href="/coach/loginOut.do">【注销】</a>
 							
 						</li>
 						<li class="has-dropdown">
 							
+=======
+							<a>
+								<span id="welcome" style="color: white;" th:text="${session.coach.c_name}">rwer</span>
+							</a>
+>>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 							<ul class="dropdown">
-								<li><a href="my.html">个人资料</a></li>
-								<li><a href="myStudent.html">我的学员</a></li>
-								<li><a href="contract.html">我的签约</a></li>
-								<li><a href="attention.html">我的关注</a></li>
-								<li><a href="inform.html">我的通知</a></li>
+								<li><a href="/coach/showCoach.do">个人资料</a></li>
+								<li><a href="/coach/myStudent.do">我的学员</a></li>
+								<li><a href="/dynamic/showMy.do">我的主页</a></li>
+								<li><a href="/coach/showMoney.do">我的钱包</a></li>
+								<li><a href="/coach/myAdvise.do">我的通知</a></li>
 							</ul>
+						</li>
+						<li>
+							<a href="/coach/loginOut.do">【注销】</a>
 						</li>
 					</ul>	
 			</div>

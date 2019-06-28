@@ -96,7 +96,9 @@ public class GymController {
 			try {
 				currentUser.login(token); // 调用login进行认证
 				Session session = currentUser.getSession(true);
-				session.setAttribute("gym", gymService.login(arg)); // 将gym用户放在Session中
+				GymBean gym = gymService.login(arg);
+				session.setAttribute("gym", gym); // 将gym用户放在Session中
+				session.setAttribute("id", gym.getG_id()); // 将gym用户id放在Session中
 				System.out.println("认证成功");
 				return 1; // 登录成功
 			}
@@ -224,13 +226,14 @@ public class GymController {
 		String gymId = this.getGymToSession().getG_id();
 		gymBean.setG_id(gymId);
 		//gymBean.setG_id("1");
-		String imgName = this.getGymToSession().getG_headimg();
-		
+		GymBean gymBean2 = gymService.findGymById(gymId);
+		//String imgName = this.getGymToSession().getG_headimg();
+		String imgName = gymBean2.getG_headimg();
+		System.out.println(imgName);
 		if (file.getOriginalFilename()!=null && file.getOriginalFilename()!="") {
-			System.out.println("1");
+			
 			imgName = FileUtil.getFileName(file, req, UploadPathConstant.HEADIMG);
 		}
-		
 		gymBean.setG_headimg(imgName);
 		System.out.println(gymBean);
 		int number = gymService.updateMessage(gymBean);
@@ -475,15 +478,15 @@ public class GymController {
 	 * 通过场馆id查询响应签约的教练（教练向场馆发请求）
 	 * 
 	 * @param g_id
-	 * @return 教练详情页面
+	 * @return 教练的对象集合 c_g_id为签约状态
 	 */
 	@RequestMapping("/findCoachByMyResponse.do")
-	public String findCoachByMyResponse(String g_id,ModelMap map) {
+	@ResponseBody
+	public List<CoachBean> findCoachByMyResponse(String g_id) {
 		g_id = this.getGymToSession().getG_id();
 		List<CoachBean> coachList = gymService.findCoachByMyResponse(g_id);
 		System.out.println("测试：" + coachList);
-		map.addAttribute("coachList", coachList);
-		return "html/gym/SignTheSign.html";
+		return coachList;
 	}
 	
 	/**
@@ -526,5 +529,18 @@ public class GymController {
 	public List<CoachBean> findAllCoach(){
 		List<CoachBean> coachList = gymService.findAllCoach();
 		return coachList;
+	}
+	
+	/**
+	 * 查找所有教练
+	 * 
+	 * @return 教练对象集合
+	 */
+	@RequestMapping("/findGymById.do")
+	@ResponseBody
+	public GymBean findGymById(){
+		String gymId = this.getGymToSession().getG_id();
+		GymBean gymBean = gymService.findGymById(gymId);
+		return gymBean;
 	}
 }
