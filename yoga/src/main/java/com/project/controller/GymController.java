@@ -466,6 +466,7 @@ public class GymController {
 	@ResponseBody
 	public int agreeSigingApplication(String g_id, String c_id,Integer state) {
 		g_id = this.getGymToSession().getG_id();
+		System.out.println("测试：" + g_id);
 		return gymService.agreeSigingApplication(g_id, c_id, state);
 	}
 	
@@ -481,7 +482,7 @@ public class GymController {
 		List<CoachBean> coachList = gymService.findCoachByMyResponse(g_id);
 		System.out.println("测试：" + coachList);
 		map.addAttribute("coachList", coachList);
-		return "html/gym/SignToSign.html";
+		return "html/gym/SignTheSign.html";
 	}
 	
 	/**
