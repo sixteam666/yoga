@@ -5,22 +5,30 @@ import java.util.List;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.bean.CoachBean;
+import com.project.bean.DPictureBean;
 import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 import com.project.dao.IBlogDao;
+import com.project.dao.IDpictureDao;
 import com.project.dao.IFollowDao;
 import com.project.service.IBlogService;
 
 @Service
+@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
 public class BlogServiceImpl implements IBlogService {
 
 	@Autowired
 	IBlogDao blogDao;
 	@Autowired
 	IFollowDao followDao;
+	@Autowired
+	IDpictureDao dpictureDao;
 
 	@Override
 	public List<DynamicBean> listFollowDynamic(String id) {
@@ -97,8 +105,7 @@ public class BlogServiceImpl implements IBlogService {
 
 	@Override
 	public List<DynamicBean> listAllDynamics() {
-		//String currentUserId = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		String currentUserId = "1";
+		String currentUserId = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		List<DynamicBean> dynamicList = blogDao.listAllBlog();
 		for (DynamicBean dynamic : dynamicList) {
 			String userid = dynamic.getD_userid();
@@ -116,13 +123,24 @@ public class BlogServiceImpl implements IBlogService {
 	}
 
 	@Override
-	public Integer insert(DynamicBean dynamic) {
-		return blogDao.insert(dynamic);
+	public Integer insert(DynamicBean dynamic,List<DPictureBean> list) {
+		int number = blogDao.insert(dynamic);
+		
+		if (!list.isEmpty()) {
+			for (DPictureBean dPictureBean : list) {
+				dPictureBean.setDp_d_id(dynamic.getD_id());
+			}
+			dpictureDao.addPicture(list);
+		}
+		
+		return number;
 	}
 
 	@Override
-	public Integer delete(Integer id) {
-		return blogDao.delete(id);
+	public boolean delete(Integer id) {
+		Integer deleteDynamic = blogDao.delete(id);
+		Integer deleteDynamicImages = blogDao.deleteDynamicImages(id);
+		return deleteDynamic == 1 && deleteDynamicImages > 0 && deleteDynamicImages < 10;
 	}
 	
 	public Integer addFollow(String followId) {

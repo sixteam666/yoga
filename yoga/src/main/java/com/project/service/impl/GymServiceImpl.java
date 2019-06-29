@@ -1,9 +1,14 @@
 package com.project.service.impl;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
@@ -16,6 +21,7 @@ import com.project.dao.ILessonDao;
 import com.project.dao.IPictureDao;
 import com.project.dao.IRequestDao;
 import com.project.service.IGymService;
+import com.project.util.DateUtil;
 
 @Service(value = "gymService")
 public class GymServiceImpl implements IGymService {
@@ -75,19 +81,48 @@ public class GymServiceImpl implements IGymService {
 	}
 
 	@Override
+	@Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
 	public int updateCoachBean(String g_id, String c_id) {
-		int number = coachDao.updateCoachGymId(g_id, c_id);
+		int number = 0;
+		if (g_id == "0") {
+			int sum = requestDao.updateRequestState(g_id, c_id, 2);
+			sum += requestDao.updateRequestState(c_id, g_id, 2);
+			if (sum < 1) {
+				return 0;
+			}
+		}
+		number = coachDao.updateCoachGymId(g_id, c_id);
 		return number;
 	}
 
-	@Override
+	@Override // 返回值 0:请求失败 1:请求成功 2：重复请求 3：教练已向你发送请求;
 	public int submitSigingApplication(String g_id, String c_id) {
-		return requestDao.addRequest(g_id, c_id);
+		RequestBean requestBean = requestDao.findIsRequest(g_id, c_id);
+		if(requestBean == null) {
+			String r_date = DateUtil.Date2String(new Date(), "yyyy-MM-dd");
+			return requestDao.addRequest(g_id, c_id,r_date);
+		}
+		int state = requestBean.getR_state();
+		String r_reqid = requestBean.getR_reqid();
+		String r_resid = requestBean.getR_resid();
+		if(state == 0 || g_id.equals(r_reqid)) {
+			System.out.println("场馆已经向该教练发送签约请求");
+			return 2;
+		}else if(state == 0 || c_id.equals(r_reqid)){
+			System.out.println("该教练已经向场馆发送签约请求");
+			return 3;
+		}else {
+			return requestDao.updateRequestState(r_reqid, r_resid, 0);
+		}
 	}
 
 	@Override
 	public int agreeSigingApplication(String g_id, String c_id, int state) {
-		return requestDao.updateRequestState(c_id, g_id, state);
+		int num = coachDao.updateCoachGymId(g_id, c_id);
+		if (num == 1) {
+			return requestDao.updateRequestState(c_id, g_id, state);
+		}
+		return num;
 	}
 	
 	

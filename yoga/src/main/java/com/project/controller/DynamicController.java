@@ -1,8 +1,10 @@
 package com.project.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
@@ -13,8 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.bean.CoachBean;
+import com.project.bean.DPictureBean;
 import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
@@ -22,6 +26,8 @@ import com.project.service.IBlogService;
 import com.project.service.ICoachService;
 import com.project.service.IGymService;
 import com.project.util.DateUtil;
+import com.project.util.FileUtil;
+import com.project.util.UploadPathConstant;
 
 @Controller
 @RequestMapping("dynamic")
@@ -34,6 +40,8 @@ public class DynamicController {
 	@Autowired
 	@Qualifier("gymService")
 	private IGymService gymService;
+	
+	private FileUtil picUtil;
 	/**
 	 * 查询所有动态
 	 * @param map 
@@ -110,8 +118,7 @@ public class DynamicController {
 	 */
 	@RequestMapping("showMy.do")
 	public String showMyDynamics(ModelMap map) {
-		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		String id = "1";
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		
 		List<DynamicBean> myDynamicList = blogService.listDynamicsById(id);
 		Integer follow = blogService.countFollow(id);
@@ -129,7 +136,8 @@ public class DynamicController {
 		Session session = SecurityUtils.getSubject().getSession();
 		GymBean gymBean = (GymBean) session.getAttribute("gym");
 		String id = gymBean.getG_id();
-		
+		gymBean = gymService.findGymById(id);
+		map.put("gymBean", gymBean);
 		List<DynamicBean> myDynamicList = blogService.listDynamicsById(id);
 		//Integer follow = blogService.countFollow(id);
 		Integer following = blogService.countFollowing(id);
@@ -183,6 +191,17 @@ public class DynamicController {
 	public String deleteDynamic(Integer id) {
 		blogService.delete(id);
 		return "redirect:/dynamic/showMy.do";
+	}
+	
+	/**
+	 * 删除场馆动态
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("deleteGymDynamic.do")
+	public String deleteGymDynamic(Integer id) {
+		blogService.delete(id);
+		return "redirect:/dynamic/gymShowMy.do";
 	}
 	
 	/**
@@ -256,8 +275,7 @@ public class DynamicController {
 	@RequestMapping("friends.do")
 	public String friends(String id, ModelMap map) {
 		if(id == null) {
-			//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-			id = "1";
+			id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		}
 		
 		List<CoachBean> coachFriends = blogService.listCoachFriends(id);
@@ -274,14 +292,30 @@ public class DynamicController {
 	 * @return
 	 */
 	@RequestMapping("/addDynamic.do")
-	public String addDynamic(DynamicBean dynamic) {
-		String d_time = DateUtil.Date2String(new Date(), "yyyy-MM-dd hh:mm:ss");
+	public String addDynamic(DynamicBean dynamic,MultipartFile[] dynamicImg,HttpServletRequest req) {
+		
+		List<DPictureBean> list = new ArrayList<DPictureBean>();
+		if(dynamicImg!=null && dynamicImg.length>0){  
+			//循环获取file数组中得文件  
+			for(int i = 0;i<dynamicImg.length;i++){
+				if (dynamicImg[i].getOriginalFilename()!=null && dynamicImg[i].getOriginalFilename()!="") {
+					//文件名
+					String imgName = picUtil.getFileName(dynamicImg[i], req, UploadPathConstant.DYNAMICIMG);
+					//将图片名字保存数据库
+					System.out.println("imgName"+imgName);
+					DPictureBean dPictureBean = new DPictureBean();
+					dPictureBean.setDp_img(imgName);
+					list.add(dPictureBean);
+				}
+		    } 
+		}
+		
+		String d_time = DateUtil.Date2String(new Date(), "yyyy-MM-dd HH:mm:ss");
 		String d_userId = "";
 		String d_headimg = "";
 		String d_nickname = "";
 		Integer d_type = null;
 		CoachBean coach = (CoachBean) SecurityUtils.getSubject().getSession().getAttribute("coach");
-		System.out.println("===========***"+coach);
 		if(coach != null) {
 			d_userId = coach.getC_id();
 			d_headimg = coach.getC_headimg();
@@ -314,7 +348,7 @@ public class DynamicController {
 		dynamic.setD_nickname(d_nickname);
 		dynamic.setD_type(d_type);
 		dynamic.setD_time(d_time);
-		blogService.insert(dynamic);
+		blogService.insert(dynamic, list);
 		return "redirect:/dynamic/showHot.do";
 	}
 	

@@ -2,7 +2,6 @@ package com.project.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -139,7 +138,7 @@ public class GymController {
 	@RequestMapping("/reg.do")
 	@ResponseBody
 	public int register(String regName, String g_password) {
-		String emailTest = "^[0-9a-z]+\\w*@([0-9a-z]+\\.)+[0-9a-z]+$"; // 邮箱正则表达式
+		String emailTest = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";  // 邮箱正则表达式
 		String phoneTest = "^1[3|4|5|7|8][0-9]\\\\d{4,8}$"; // 电话正则表达式
 		if(gymService.login(regName) != null) {
 			return -2; // 邮箱或电话已注册
@@ -147,9 +146,10 @@ public class GymController {
 		String gymUUID = UUID.randomUUID().toString();
 		GymBean gym = new GymBean();
 		gym.setG_id(gymUUID);
-		gym.setG_password(g_password);
-		
-		if(regName.contains("@")) {
+		if(g_password.length() < 8) {
+			return -1; // 格式不符合要求
+		}
+		if(regName.contains("@") && regName.length()>3) {
 			gym.setG_email(regName);
 		}else if(regName.length() == 11) {
 			gym.setG_phone(regName);
@@ -238,6 +238,10 @@ public class GymController {
 			imgName = FileUtil.getFileName(file, req, UploadPathConstant.HEADIMG);
 		}
 		gymBean.setG_headimg(imgName);
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession(false);
+		session.setAttribute("gym", gymBean);
 		System.out.println(gymBean);
 		int number = gymService.updateMessage(gymBean);
 		System.out.println(number);
@@ -283,10 +287,12 @@ public class GymController {
 	@RequestMapping("/addPictures.do")
 	@ResponseBody
 	public Integer addPictures(String gymId) {
-		PictureBean picBean = new PictureBean();
-		picBean.setP_g_id(gymId);
+		
 		List<PictureBean> list = new ArrayList<PictureBean>();
 		for(int i = 1;i<=12;i++){  
+			PictureBean picBean = new PictureBean();
+			picBean.setP_g_id(gymId);
+			picBean.setP_type(1);
 			String imgName = i+".jpg";
 			picBean.setP_imgname(imgName);
 			list.add(picBean);
@@ -322,14 +328,6 @@ public class GymController {
 	@RequestMapping(value="/updatePictures.do",method = RequestMethod.POST)
 	//@ResponseBody
 	public String updatePictures(Integer[] p_id,MultipartFile[] file,HttpServletRequest req) {
-		for (MultipartFile multipartFile : file) {
-			System.out.println(multipartFile);
-		}
-		for (Integer id : p_id) {
-			System.out.println(id);
-		}
-		System.out.println(p_id.length);
-		System.out.println(file.length);
 		PictureBean pictureBean = new PictureBean();
 		if(file!=null && file.length>0){  
 			//循环获取file数组中得文件  
@@ -439,7 +437,7 @@ public class GymController {
 	@RequestMapping("/updateCoach.do")
 	@ResponseBody
 	public int updateCoach(String g_id, String c_id) {
-		if(g_id != "0") {
+		if(!"0".equals(g_id)) {
 			g_id = this.getGymToSession().getG_id();
 		}
 		int number = gymService.updateCoachBean(g_id, c_id);
@@ -451,7 +449,7 @@ public class GymController {
 	 * 
 	 * @param g_id 提交申请的场馆id
 	 * @param c_id 被申请的教练id
-	 * @return 数据库签约申请表影响行数
+	 * @return 返回值   0:请求失败 1:请求成功 2：重复请求 3：教练已向你发送请求;
 	 */
 	@RequestMapping("/submitSigingApplication.do")
 	@ResponseBody

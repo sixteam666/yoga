@@ -34,14 +34,21 @@
 		<!-- Modernizr JS -->
 		<script src="../../js/modernizr-2.6.2.min.js"></script>
 	</head>
-	<style type="text/css">
-		.fon {
-			font-family: "微软雅黑";
-		}
-	</style>
+		<style type="text/css">
+			.fon {
+				font-family: "微软雅黑";
+			}
+			#div_controller{
+				/* border: 1px solid rgb(9,198,171)!important; */
+				text-align: center;
+				margin: 0 auto !important;
+			}
+			#div_controlle button{
+				border-radius: 10px !important;
+			}
+		</style>
 	<body>
 		<div class="gtco-loader"></div>
-		<div id="page"></div>
 			<nav class="gtco-nav" role="navigation">
 				<div class="gtco-container">
 
@@ -74,7 +81,7 @@
 			<div class="gtco-section">
 				<div class="gtco-container">
 					<div class="row">
-						<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+						<div class="col-md-8 col-md-offset-2 text-center">
 							<h2>教练个人信息</h2>
 						</div>
 						<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
@@ -84,7 +91,7 @@
 									<td width="140"><span th:text="${coach.c_name}">未设置</span></td>
 									<td></td>
 									<td width="140">头像:</td>
-									<td width="140"><img th:src="@{/html/coach/image/headimg/}+${coach.c_headimg}" src="../../images/imgs/1.jpg" /></td>
+									<td width="140"><img th:src="@{/image/headImg/}+${coach.c_headimg}" src="../../images/imgs/1.jpg" /></td>
 								</tr>
 								<tr align="center">
 									<td>昵称：</td>
@@ -109,10 +116,10 @@
 								</tr>
 							</table>
 							<div id="div_controller">  <!-- 根据教练是否已签约动态显示以下标签 -->
-								<a href="#" th:href="'/gym/submitSigingApplication.do?' + ${coach.c_id}" th:if="${type==0}">发送签约申请</a>
-								<a href="#" th:href="'/gym/updateCoach.do?g_id=0&' + ${coach.c_id}" th:if="${type==1}">解约</a>
-								<a href="#" onclick="agreeSigingApplication(1)" th:if="${type==2}">同意</a>
-								<a href="#" onclick="agreeSigingApplication(2)" th:if="${type==2}">拒绝</a>
+								<button onclick="addRequest()" th:if="${type==0}">发送签约申请</button>
+								<button onclick="updateCoach()" th:if="${type==1}">解约</button>
+								<button onclick="agreeSigingApplication(1)" th:if="${type==2}">同意</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<button onclick="agreeSigingApplication(2)" th:if="${type==2}">拒绝</button>
 							</div>
 						</div>
 					</div>
@@ -196,26 +203,9 @@
 			<!-- Main -->
 			<script src="../../js/main.js"></script>
 			<script type="text/javascript" th:inline="javascript">
-				// 处理签约请求
-				function agreeSigingApplication(state){
-					var c_id = /*[[${coach.c_id}]]*/ null;
-					var c_nickname = /*[[${coach.c_nickname}]]*/ null;
-					console.info("测试：" +c_id+","+c_nickname);
-					$.ajax({
-						url:"/gym/agreeSigingApplication.do",
-						type:"post",
-						async:true,
-						data:"c_id="+c_id+"&state="+state,
-						success:function(mes){
-							console.info("处理请求结果：" + mes);
-							if(mes > 0){
-								alert("已经和   "+c_nickname+ "  签约");
-							}else{
-								alert("失败");
-							}
-						}
-					});
-				}
+				var c_id = /*[[${coach.c_id}]]*/ null;
+				var c_nickname = /*[[${coach.c_nickname}]]*/ null;
 			</script>
+			<script type="text/javascript" src="../../js/gym/ControllerSign.js"></script>
 	</body>
 </html>

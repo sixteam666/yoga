@@ -14,6 +14,8 @@
 	
 	<!-- Animate.css -->
 	<link rel="stylesheet" href="../../css/animate.css">
+	<!-- GymTopElem -->
+	<script src="../../js/gym/getGymTopElem.js"></script>
 	<!-- Icomoon Icon Fonts-->
 	<link rel="stylesheet" href="../../css/icomoon.css">
 	<!-- Themify Icons-->
@@ -52,11 +54,115 @@
 		  overflow: hidden;
 		}
 	</style>
+	<style>
+		.nineImg{
+			margin-top: -4px;
+			margin-left: 10px;
+			z-index: 0;
+		}
+		.img_1{
+			position: relative;
+			float: left;
+			width: 70px;
+			height: 70px;
+			z-index: 2;
+		}
+		.span1{
+			color: black;
+			position: absolute;
+			top: -8px;
+			left: 53px;
+			z-index: 3;
+		}
+		
+		.img_add{
+			margin-top: -66px;
+			z-index: -2;
+		}
+		.nineImg img{
+			padding: 4px;
+			float: left;
+			width: 70px;
+			height: 70px;
+		}
+	</style>
+	<style>
+		.img9{
+			padding: 4px;
+			float: left;
+			width: 70px;
+			height: 70px;
+		}
+		.preview{
+			position: absolute;
+			z-index: 2;
+		}
+		.preview img{
+			/*margin-top: -70px;*/
+			width: 70px;
+			height: 70px;
+			/*z-index: 3;*/
+		}
+		
+		
+		#file {
+			position: relative;
+			display: block;
+			width: 62px;
+			height: 62px;
+			background: red;
+			overflow: hidden;
+			z-index: 1;
+			left: 5px;
+			opacity:0;/*透明度设置*/
+		}
+		#file input {
+			position: absolute;
+			font-size: 15pt;
+			width: 62px;
+			height: 62px;
+			right: 0;
+			top: 0;
+			opacity: 0
+			z-index: 1;
+		}
+	</style>
 </head>
 <body>
 	<div class="gtco-loader"></div>
 	<div id="page"></div>
 	<!-- <div th:replace="html/coach/my-pan.html::common_head"></div>	 -->
+	<nav class="gtco-nav" role="navigation">
+		<div class="gtco-container">
+			
+			<div class="row" style="background-color:#09C6AB ;">
+				<div class="col-sm-4 col-xs-12">
+					<ul>
+						<li><a href="gym.html" class="fon">首页</a></li>
+						<li><a href="showCoach.html" class="fon">教练</a></li>
+						<li><a href="showStudent.html" class="fon">学员</a></li>
+					</ul>
+				</div>
+				<div class="col-xs-8 text-right">
+					<ul>
+						<li class="has-dropdown" id="gym_top"><span style="color: white">点击登录</span></li>
+						<li class="has-dropdown">
+							<a href="#">场馆中心</a>
+							<ul class="dropdown">
+								<li><a href="/html/gym/index.html">场馆展示</a></li>
+								<li><a href="/gym/showMessage.do">场馆资料</a></li>
+								<li><a href="/html/gym/lesson.html">课程安排</a></li>
+								<li><a href="/html/gym/wallet.html">我的钱包</a></li>
+								<li><a href="/html/gym/myCoach.html">我的签约教练</a></li>
+								<li><a href="/html/gym/SignTheSign.html">我的通知</a></li>
+							</ul>
+						</li>
+					</ul>	
+			</div>
+			</div>
+			
+		</div>
+	</nav>
 	<div class="gtco-section border-bottom">
 		<div class="gtco-container">
 			<div class="row" style="padding:0 0 50px">
@@ -67,13 +173,42 @@
 			<div id="publish" class="row" style="display:none;">
 				<div class="col-md-9 col-md-offset-1" align="left" >
 					<div class="row">
-						<form action="/dynamic/addDynamic.do" method="post">
-							<div class="col-md-10">
-								<textarea name="d_content" style="width:100%;height:100px;" placeholder="说点什么吧！（30字以内）"></textarea>
+						<form action="/dynamic/addDynamic.do" method="post" enctype="multipart/form-data">
+							<div class="" style="width:500px;height:200px;float: left;" >
+								<textarea name="d_content" style="width:500px;height:200px;" placeholder="说点什么吧！（30字以内）"></textarea>
 							</div> 
-							<div class="col-md-1 col-md-offset-1">
-								<input type="submit" class="btn" value="发表" style="float:right;margin-top:60px" />
+							<div class="nineImg" style="float: left;width:230px;height:200px;">
+								
+								<div class="img_1">
+									<span class="span1" onclick="deleteImg(this)"></span>
+									<a href="javascript:;" id="file">
+										<span>选择文件</span>
+										<input type="file" onchange="preview(this)" name="dynamicImg"/>
+									</a>
+									<div class="img_add">
+										<img src="/image/dynamicImg/add.jpg" />
+									</div>
+									<div class="preview">
+										<!--<img src="image/1.jpg" />-->
+									</div>
+								</div>
+								<!--<div class="img9">
+									<a href="javascript:;" id="file">
+										<span>选择文件</span>
+										<input type="file" onchange="preview(this)" style="background: blue ;"/>
+									</a>
+									<div class="preview">
+										<img src="image/add.jpg" />
+									</div>
+								</div>-->
+								<div class="img_null">
+									
+								</div>
 							</div>
+							<div class="col-md-1 col-md-offset-1" >
+								<input type="submit" class="btn" value="发表" style="float:left;margin-top:30px;margin-left: -580px;" />
+							</div>
+							
 							<div style="height:50px" class="col-md-12"></div>
 						</form>
 					</div>
@@ -200,8 +335,69 @@
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
 	<script>
+		
 		function publish() {
 			$("#publish").slideToggle("slow");
+		}
+	</script>
+	<script>
+		
+		function preview(file) { //预览图片得到图片base64
+			//var prevDiv = document.getElementsByClassName('img9')[0];
+			if(file.files && file.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(evt) {
+					var str1 = '';
+					var str2 = 'x';
+					var str3 = '';
+					str1+='<div class="img_1">'+
+						'<span class="span1" onclick="deleteImg(this)"></span>'+
+						'<a href="javascript:;" id="file">'+
+							'<span>选择文件</span>'+
+							'<input type="file" onchange="preview(this)" name="dynamicImg"/>'+
+						'</a>'+
+						'<div class="img_add">'+
+							'<img src="/image/dynamicImg/add.jpg" />'+
+						'</div>'+
+						'<div class="preview">'+
+						'</div>'+
+					'</div>';
+					str3 +='<img src="' + evt.target.result + '"/>'
+					
+					
+					if ($(".img_1").length<9) {
+						$(".img_null").before(str1);
+						$(file).parent().prev().html(str2);
+						$(file).parent().next().next().html(str3);
+					}else if($(".img_1").length==9){
+						$(file).parent().prev().html(str2);
+						$(file).parent().next().next().html(str3);
+					}
+				}
+				reader.readAsDataURL(file.files[0]);
+			} 
+		}
+		function deleteImg(obj){
+			var str = '';
+			str+='<div class="img_1">'+
+				'<span class="span1" onclick="deleteImg(this)"></span>'+
+				'<a href="javascript:;" id="file">'+
+					'<span>选择文件</span>'+
+					'<input type="file" onchange="preview(this)" name="dynamicImg"/>'+
+				'</a>'+
+				'<div class="img_add">'+
+					'<img src="/image/dynamicImg/add.jpg" />'+
+				'</div>'+
+				'<div class="preview">'+
+				'</div>'+
+			'</div>';
+			$(obj).parent().remove();
+			if ($(".img_1").length==8 ) {
+				if($(".img_1").eq(7).find("span").html()=="x"){
+					$(".img_null").before(str);
+				}
+				
+			}
 		}
 	</script>
 	</body>

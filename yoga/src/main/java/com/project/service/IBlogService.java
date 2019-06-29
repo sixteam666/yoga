@@ -3,6 +3,7 @@ package com.project.service;
 import java.util.List;
 
 import com.project.bean.CoachBean;
+import com.project.bean.DPictureBean;
 import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
@@ -14,14 +15,14 @@ public interface IBlogService {
 	 * @param dynamic
 	 * @return
 	 */
-	Integer insert(DynamicBean dynamic);
+	Integer insert(DynamicBean dynamic,List<DPictureBean> list);
 	
 	/**
 	 * 删除动态
 	 * @param id
 	 * @return
 	 */
-	Integer delete(Integer id);
+	boolean delete(Integer id);
 	
 	/**
 	 * 展示热门动态
