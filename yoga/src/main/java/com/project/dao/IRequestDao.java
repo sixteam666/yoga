@@ -16,9 +16,10 @@ public interface IRequestDao {
 	 * 添加申请
 	 * @param r_reqid 申请方  id
 	 * @param r_resid 被申请方 id
+	 * @param r_date 申请时间
 	 * @return 影响行数
 	 */
-	@Insert("insert into t_request(r_reqid,r_resid,r_resname) values(#{r_reqid},#{r_resid},#{r_date})")
+	@Insert("insert into t_request(r_reqid,r_resid,r_date) values(#{r_reqid},#{r_resid},#{r_date})")
 	public int addRequest(@Param("r_reqid")String r_reqid,@Param("r_resid")String r_resid,@Param("r_date")String r_date);
 
 	/**
