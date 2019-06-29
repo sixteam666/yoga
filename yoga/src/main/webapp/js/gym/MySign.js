@@ -12,10 +12,9 @@ function agreeSigingApplication(state,c_id,c_nickname){
 		async:true,
 		data:"c_id="+c_id+"&state="+state,
 		success:function(mes){
-			console.info(mes);
+			console.info("处理请求结果：" + mes);
 			if(mes == 0){
-				alert("失败");
-				return;
+				alert("失败");return;
 			}
 			if(state == 1){
 				alert("已经和   "+c_nickname+ "  签约");
@@ -24,6 +23,10 @@ function agreeSigingApplication(state,c_id,c_nickname){
 			}
 			var elem=document.getElementById(c_id);
 			elem.parentNode.removeChild(elem);
+			var tableElem = document.getElementById("MySign");
+			if(!$("#MySign").is(":empty")){
+				$("#MySign").html("<tr align='center'><td>暂无通知</td></tr>");
+			}
 		}
 	});
 }
@@ -48,13 +51,23 @@ function getMySign(){
 						"<span class='coach_tips'>&nbsp;&nbsp;&nbsp;（点击头像查看教练个人信息）</span><br><br/>"+
 						"<span class='coach_sms'>&nbsp;&nbsp;&nbsp;&nbsp;对方对你的场馆很感兴趣，希望和您签约，赶快回复他</span>"+
 					"</div>"+
-						"<div id='coach_controller'>"+
-						"<input type='button' value='同意' onclick=\"agreeSigingApplication(1,'"+ mes[i].c_id +"','"+ mes[i].c_nickname +"')\" />&nbsp;&nbsp;&nbsp;&nbsp;"+
-						"<input type='button' value='拒绝' onclick=\"agreeSigingApplication(2,'"+ mes[i].c_id +"','"+ mes[i].c_nickname +"')\" />"+
-					"</div>"+
-				"</td></tr>";
+					"<div id='coach_controller'>"+
+						   "<span id='signTime'>2019年2月2日</span><br></br></br>";
+				if(mes[i].c_g_id == 0){
+					elm += "<input type='button' value='同意' onclick=\"agreeSigingApplication(1,'"+ mes[i].c_id +"','"+ mes[i].c_nickname +"')\" />&nbsp;&nbsp;&nbsp;&nbsp;"+
+						   "<input type='button' value='拒绝' onclick=\"agreeSigingApplication(2,'"+ mes[i].c_id +"','"+ mes[i].c_nickname +"')\" />";
+				}else if(mes[i].c_g_id == 1){
+					elm += "<span>对方已同意</span>";
+				}else if(mes[i].c_g_id == 2){
+					elm += "<span>对方已拒绝</span>";
+				}
+				elm += "</div></td></tr>";
 			}
-			$("#MySign").html(elm);
+			if(elm == ""){
+				$("#MySign").html("<tr align='center' ><td>暂无通知</td></tr>");
+			}else{
+				$("#MySign").html(elm);
+			}
 		} 
 	});
 }
