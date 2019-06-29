@@ -69,6 +69,32 @@
             overflow: auto; 
             text-align:center;
         }
+        }
+		.preview{
+			z-index: 1;
+		}
+		img{
+			width: 100px;
+			height: 100px;
+		}
+		.file {
+			position: absolute;
+			display: block;
+			width: 100px;
+			height: 100px;
+			background: #9acd32;
+			overflow: hidden;
+			z-index: 2;
+			margin-top: -100px;
+			opacity:0;/*透明度设置*/
+		}
+		.file input {
+			position: absolute;
+			font-size: 75px;
+			right: 0;
+			top: 0;
+			opacity: 0
+		}
      
 	</style>
 	<body>
@@ -83,18 +109,26 @@
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
 					<h2>修改个人资料</h2>
 				</div>
-				<form  th:action="@{update.do}" th:object="${stuafter}" method="post">	
+				<form  th:action="@{update.do}" th:object="${stuafter}" method="post" enctype="multipart/form-data">	
 				<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
 					<table border="0" cellspacing="0" cellpadding="0" style="width: 700px;height: 500px;">
 						<tr align="center">
-							<td width="140">
+							<td width="140" colspan="2" align="right">
 								<div class="headimg_txt">
 									头像：
 								</div>
 							</td>
-							<td width="140" colspan="2">
+							<td colspan="2" align="left">
+								<div class="headimg_img preview">
+									<img src="image/1.jpg" th:src="@{/image/headImg/}+${stu.s_headimg}"/>
+								</div>
 								<div class="headimg_file">
-									<input type="file" name="file" id="input_headimg" placeholder="上传头像" multiple="multiple"/>
+									<div style="font-size: 10px;">点击图片更换头像</div>
+									<a href="javascript:;" align="left" class="file">
+										<span>选择文件</span>
+										<input type="file" name="file" onchange="preview(this)" />
+									</a>
+									<!--<input type="file" name="file" id="input_headimg" placeholder="" multiple="multiple"/>-->
 								</div>
 							</td>
 						</tr>
@@ -255,6 +289,20 @@
 	            document.getElementById('light').style.display='none';
 	            document.getElementById('fade').style.display='none';
 	    }
+	    
+		var prevDiv = document.getElementsByClassName('preview')[0];
+		var OFile = document.getElementsByClassName('file')[0];
+		
+		function preview(file) { //预览图片得到图片base64
+			
+			if(file.files && file.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(evt) {
+					prevDiv.innerHTML = '<img src="' + evt.target.result + '" alt="Image"/>';
+				}
+				reader.readAsDataURL(file.files[0]);
+			} 
+		}
 	</script>
 	</body>
 </html>

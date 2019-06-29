@@ -1,12 +1,11 @@
 package com.project.controller;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -20,12 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.unit.DataUnit;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.bean.CoachBean;
 import com.project.bean.DynamicBean;
@@ -36,12 +36,13 @@ import com.project.bean.RequestBean;
 import com.project.bean.ShowWordsBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
-import com.project.dao.IRequestDao;
 import com.project.service.IBlogService;
 import com.project.service.ICoachService;
 import com.project.service.IGymService;
 import com.project.service.IStudentService;
 import com.project.util.DateUtil;
+import com.project.util.FileUtil;
+import com.project.util.UploadPathConstant;
 
 @Controller
 @RequestMapping("/student")
@@ -175,7 +176,6 @@ public class StudentController {
 	
 	@RequestMapping("/logout.do")
 	public String logout() {
-		//Session session = SecurityUtils.getSubject().getSession();
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
 		return "redirect:/html/index.html";
@@ -229,10 +229,20 @@ public class StudentController {
 			}
 			
 			@PostMapping("/update.do")
-			public String update(@ModelAttribute StudentBean stuafter,Model m){
-						service.update(stuafter);
-						m.addAttribute("stu", stuafter);
-						return "redirect:/student/showStudent.do";
+			public String update(@ModelAttribute StudentBean stuafter,Model m,MultipartFile file,HttpServletRequest req){
+				Session session = SecurityUtils.getSubject().getSession();
+				StudentBean stu=(StudentBean) session.getAttribute("stu");
+					if(stu.getS_id() == null) {
+						throw new RuntimeException("学员个人信息更改时教练还未登录");
+					}
+					String headimg = service.findStudentbyId(stu.getS_id()).getS_headimg();
+					if(!"".equals(file.getOriginalFilename())){
+						headimg = FileUtil.getFileName(file, req, UploadPathConstant.HEADIMG);
+					}
+					stuafter.setS_headimg(headimg);
+					service.update(stuafter);
+					m.addAttribute("stu", stuafter);
+					return "redirect:/student/showStudent.do";
 			}
 
 			

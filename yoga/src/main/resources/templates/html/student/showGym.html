@@ -35,12 +35,17 @@
 
 	<!-- Modernizr JS -->
 	<script src="../../js/modernizr-2.6.2.min.js"></script>
-
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=YYXMCpSms6hDBtGu09ZhLmx0jNTOXeqd"></script>
+	
 	</head>
 	<style type="text/css">
 		.fon{
 			text-align: center;
 			font-family: "微软雅黑";
+		}
+		label{
+			background-color: transparent !important;
+			border-color: transparent !important;
 		}
 	</style>
 	<body>
@@ -79,9 +84,11 @@
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
 					<h2>附近场馆</h2>
+					<input type="hidden" id="s_address" th:value="${session.stu.s_address}">
 				</div>
 			</div>
 		</div>
+		
 		<iframe src="/student/nearbyGym.do" width="800" height="500" frameborder="0" scrolling="no"></iframe>
 	</div>
 		
@@ -164,6 +171,12 @@
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
+	
+	<!-- 地图 -->
+	<script type="text/javascript" src="../../js/BaiduMapJs/location.js"></script>
+	<script type="text/javascript" src="../../js/BaiduMapJs/search.js"></script>
+	<script type="text/javascript" src="../../js/BaiduMapJs/Address.js"></script>
+	<script type="text/javascript" src="../../js/BaiduMapJs/baidumap.js"></script>
 
 	</body>
 </html>
