@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.bean.CoachBean;
+import com.project.bean.DPictureBean;
 import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.StudentBean;
 import com.project.dao.IBlogDao;
+import com.project.dao.IDpictureDao;
 import com.project.dao.IFollowDao;
 import com.project.service.IBlogService;
 
@@ -21,6 +23,8 @@ public class BlogServiceImpl implements IBlogService {
 	IBlogDao blogDao;
 	@Autowired
 	IFollowDao followDao;
+	@Autowired
+	IDpictureDao dpictureDao;
 
 	@Override
 	public List<DynamicBean> listFollowDynamic(String id) {
@@ -116,8 +120,17 @@ public class BlogServiceImpl implements IBlogService {
 	}
 
 	@Override
-	public Integer insert(DynamicBean dynamic) {
-		return blogDao.insert(dynamic);
+	public Integer insert(DynamicBean dynamic,List<DPictureBean> list) {
+		int number = blogDao.insert(dynamic);
+		
+		if (!list.isEmpty()) {
+			for (DPictureBean dPictureBean : list) {
+				dPictureBean.setDp_d_id(dynamic.getD_id());
+			}
+			dpictureDao.addPicture(list);
+		}
+		
+		return number;
 	}
 
 	@Override
