@@ -328,14 +328,6 @@ public class GymController {
 	@RequestMapping(value="/updatePictures.do",method = RequestMethod.POST)
 	//@ResponseBody
 	public String updatePictures(Integer[] p_id,MultipartFile[] file,HttpServletRequest req) {
-		for (MultipartFile multipartFile : file) {
-			System.out.println(multipartFile);
-		}
-		for (Integer id : p_id) {
-			System.out.println(id);
-		}
-		System.out.println(p_id.length);
-		System.out.println(file.length);
 		PictureBean pictureBean = new PictureBean();
 		if(file!=null && file.length>0){  
 			//循环获取file数组中得文件  

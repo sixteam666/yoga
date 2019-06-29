@@ -37,6 +37,7 @@
 		index++;
 	}
 	bdGEO(); // 批量地址解析
+	
 	function geocodeSearch(add) {
 		if (index < coachList.length) {
 			setTimeout(window.bdGEO, 400);
@@ -46,8 +47,12 @@
 				// document.getElementById("result").innerHTML += index + "、" + add + add + ":" + point.lng + "," + point.lat +"</br>";
 				var address = new BMap.Point(point.lng, point.lat);
 				// 图标描述自定义
-				var mapLabel = new BMap.Label("<div class='div_coach' onclick=\"goMessage('" + coachList[index].c_id +"')\">" + coachList[index].c_nickname + "</div>", 
-						{offset: new BMap.Size(20, -10)});
+				var mapLabel = new BMap.Label(
+					"<div class='div_coach' onclick=\"goMessage('" + coachList[index].c_id +"')\">" + 
+						"<table>" +
+							"<tr><td>"+ coachList[index].c_nickname +"</td></tr>" +
+						"</table>"+
+					"</div>",{offset: new BMap.Size(20, -10)});
 				addMarker(address, mapLabel);
 			}
 		}, "成都市");
