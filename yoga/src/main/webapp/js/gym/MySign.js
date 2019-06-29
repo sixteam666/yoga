@@ -13,13 +13,17 @@ function agreeSigingApplication(state,c_id,c_nickname){
 		data:"c_id="+c_id+"&state="+state,
 		success:function(mes){
 			console.info(mes);
-			if(mes > 0){
-				alert("已经和   "+c_nickname+ "  签约");
-				var elem=document.getElementById(c_id);
-				elem.parentNode.removeChild(elem);
-			}else{
+			if(mes == 0){
 				alert("失败");
+				return;
 			}
+			if(state == 1){
+				alert("已经和   "+c_nickname+ "  签约");
+			}else{
+				alert("已拒绝  "+c_nickname+ "  的签约请求");
+			}
+			var elem=document.getElementById(c_id);
+			elem.parentNode.removeChild(elem);
 		}
 	});
 }
