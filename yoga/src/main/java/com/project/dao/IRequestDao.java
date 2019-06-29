@@ -21,9 +21,6 @@ public interface IRequestDao {
 	@Insert("insert into t_request(r_reqid,r_resid,r_resname) values(#{r_reqid},#{r_resid},#{r_date})")
 	public int addRequest(@Param("r_reqid")String r_reqid,@Param("r_resid")String r_resid,@Param("r_date")String r_date);
 
-	@Insert("insert into t_request(r_reqid,r_resid,r_state) values(#{r_reqid},#{r_resid},0)")
-	public int addRequest(@Param("r_reqid")String r_reqid,@Param("r_resid")String r_resid);
-	
 	/**
 	 * 添加申请
 	 * @param r_reqid 申请方  id
