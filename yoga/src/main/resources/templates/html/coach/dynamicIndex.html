@@ -162,8 +162,14 @@
 								</div> -->
 								<div class="col-md-12">
 									<p th:text="${dynamic.d_content}"></p>
-									<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/image/dynamicImg/}+${dynamic.d_img}">
 								</div>
+								<div class="col-md-5" th:if="${dynamic.pictures != null}">
+									<ul class="mainmenu">
+								        <li th:each="picture : ${dynamic.pictures}">
+								        	<img th:src="|@{/image/dynamicImg/}${picture.dp_img}|" />
+								        </li>
+								    </ul>
+							    </div>
 							</div>
 							<hr>
 						</div>

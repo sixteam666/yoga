@@ -31,7 +31,6 @@ import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
 import com.project.service.IBankCardService;
 import com.project.service.ICoachService;
-import com.project.service.ICommentService;
 import com.project.service.IGymService;
 import com.project.service.IStudentService;
 import com.project.util.FileUtil;
@@ -130,7 +129,7 @@ public class CoachController {
 	@RequestMapping("updateInfo.do")
 	public String updateCoachDetailInfo(CoachBean coach) {
 		System.out.println("测试进入详情更新控制层方法>>>>>>>>>>>>>>>>>>>>>>>>");
-		boolean boo = service.updateCoachDetailInfo(coach);
+		service.updateCoachDetailInfo(coach);
 		//更新后的逻辑...
 		//更新后转发至进行查询业务
 		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
@@ -196,14 +195,40 @@ public class CoachController {
 	 */
 	@RequestMapping("/signGym.do")
 	@ResponseBody
-	public String signGym(String r_resid){
-		String boo = "";
+	public String signGym(String r_resid,int r_state){
+		String str = "";
 		Object obj = getUser();
 		if (obj != null) {
 			CoachBean coach = (CoachBean)obj;
-			boo = service.addRequest(coach.getC_id(), r_resid);
+			str = service.addRequest(coach.getC_id(), r_resid,r_state);
 		}
-		return boo;
+		return str;
+	}
+	/**
+	 * 处理学员请求
+	 * @param r_resid
+	 * @param r_state
+	 * @return
+	 */
+	@RequestMapping("/dealStuRequest.do")
+	@ResponseBody
+	public String dealStuRequest(String r_reqid,int r_state){
+		String str = "";
+		Boolean boo = false;
+		Object obj = getUser();
+		if (obj != null) {
+			CoachBean coach = (CoachBean)obj;
+			boo = service.updateRequest(r_reqid,coach.getC_id(),r_state);
+		}
+		//同意
+		if (r_state==1) {
+			if (boo)return "accept";
+			return "network_error";
+		}else if(r_state==2){
+			if (boo) return "noaccept";
+			return "network_error";
+		}
+		return str;
 	}
 	/**
 	 * 处理申请
@@ -361,7 +386,7 @@ public class CoachController {
 	public String showGymDetail(ModelMap map,String gymId){
 		GymBean gb = gs.findGymById(gymId);
 		map.put("gymBean", gb);
-		return "/html/coach/gymInfo.html";
+		return "/html/coach/gymIndex.html";
 	} 
 	
 	/**
@@ -477,8 +502,37 @@ public class CoachController {
 	 * @return
 	 */
 	@RequestMapping("myAdvise.do")
-	public String myAdivse() {
-		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		return "";
+	public String myAdivse(ModelMap map) {	
+		String resid = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+		//场馆的通知
+		List<GymBean> list = service.findMyAdvise(resid);
+		map.put("gymList", list);
+		//学员的通知
+		List<StudentBean> list2 = service.findMyAdviseStu(resid);
+		map.put("stuList", list2);
+		return "/html/coach/myAdvise.html";
+	}
+	/**
+	 * 显示图片
+	 * 
+	 * @param lists
+	 */
+	@RequestMapping("/showPictures.do")
+	@ResponseBody
+	public List<PictureBean> showPictures(int p_type,String gymId) {
+		
+		List<PictureBean> list = gs.findAllPic(gymId, p_type);
+		
+		return list;
+	}
+	@RequestMapping("/showLesson.do")
+	//@ResponseBody
+	public String showLesson(LessonBean lessonBean,ModelMap map){ 
+		List<LessonBean> list = gs.findLesson(lessonBean);
+		if (list.isEmpty()) {
+			list.add(lessonBean);
+		}
+		map.put("list", list);
+		return "/html/coach/addLesson.html";
 	}
 }

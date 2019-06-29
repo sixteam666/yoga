@@ -96,7 +96,8 @@ public class GymServiceImpl implements IGymService {
 	public int submitSigingApplication(String g_id, String c_id) {
 		RequestBean requestBean = requestDao.findIsRequest(g_id, c_id);
 		if(requestBean == null) {
-			return requestDao.addRequest(g_id, c_id);
+			String r_date = "2019-2-20";
+			return requestDao.addRequest(g_id, c_id,r_date);
 		}
 		int state = requestBean.getR_state();
 		String r_reqid = requestBean.getR_reqid();

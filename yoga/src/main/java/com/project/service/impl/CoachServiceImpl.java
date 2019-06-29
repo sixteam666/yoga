@@ -1,5 +1,6 @@
 package com.project.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,6 +28,7 @@ import com.project.dao.IRequestDao;
 import com.project.dao.IStudentDao;
 import com.project.dao.IWordDao;
 import com.project.service.ICoachService;
+import com.project.util.DateUtil;
 @Service
 public class CoachServiceImpl implements ICoachService {
 	@Autowired
@@ -96,7 +98,8 @@ public class CoachServiceImpl implements ICoachService {
 	}
 
 	@Override
-	public String addRequest(String r_reqid, String r_resid) {
+	@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED)
+	public String addRequest(String r_reqid, String r_resid,int r_state) {
 		int row = 0;
 		//先查询是否已经签约一个场馆
 		CoachBean co = dao.findIsGym(r_reqid);
@@ -105,18 +108,29 @@ public class CoachServiceImpl implements ICoachService {
 		//先查询两个对象之间是否有申请关系
 		Object obj = reDao.findIsRequest(r_reqid, r_resid);
 		if (obj == null) {
-			row = reDao.addRequest(r_reqid, r_resid);
+			String time = DateUtil.Date2String(new Date(), "yyyy-MM-dd HH-mm-ss");
+			row = reDao.addRequest(r_reqid, r_resid,time);
 		}else{
 			RequestBean rb = (RequestBean) obj;
 			//已有申请关系
-			if (rb.getR_state()==0) return "isRequest";
+			if (rb.getR_state()==0){
+				//自己已申请
+				if (rb.getR_reqid().equals(r_reqid))return "isRequest";
+				//对方申请
+				if (rb.getR_reqid().equals(r_resid) && updateRequest(r_resid,r_reqid,r_state) && r_state==1 && dao.updateCoachGymId(r_resid, r_reqid)>0) return "accept";
+				return "noaccept";
+			}else if(rb.getR_state()==2){
+				//存在数据（拒绝）,申请
+				if (updateRequest(r_reqid,r_resid,r_state))return "add";
+			}
+				
 		}
 		//申请成功
 		if(row>0)return "add";
 		//申请失败
 		return "false";
 	}
-
+	
 	@Override
 	public Boolean updateRequest(String r_reqid, String r_resid,int r_state) {
 		int row = reDao.updateRequestState(r_reqid, r_resid,r_state);
@@ -311,5 +325,19 @@ public class CoachServiceImpl implements ICoachService {
 	public List<LessonBean> listLessons(String id) {
 		return lessonDao.findlessonbyCoachId(id);
 	}
+
+	@Override
+	public List<GymBean> findMyAdvise(String resid) {
+		List<GymBean> list = reDao.findOtherToMe(resid);
+		return list;
+	}
+
+	@Override
+	public List<StudentBean> findMyAdviseStu(String resid) {
+		List<StudentBean> list = reDao.findStuToMe(resid);
+		return list;
+	}
+
+	
 
 }

@@ -6,6 +6,7 @@ import com.project.bean.CoachBean;
 import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
+import com.project.bean.RequestBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
 
@@ -161,7 +162,7 @@ public interface ICoachService {
 	 * @param r_resid 被申请人id
 	 * @return true:添加成功；false：添加失败
 	 */
-	String addRequest(String r_reqid,String r_resid);
+	String addRequest(String r_reqid,String r_resid,int r_state);
 	/**
 	 * 处理申请
 	 * @param r_reqid 申请人id
@@ -235,4 +236,16 @@ public interface ICoachService {
 	 * @return
 	 */
 	List<LessonBean> listLessons(String id);
+	/**
+	 * 查看我的场馆通知
+	 * @param resid
+	 */
+	public List<GymBean> findMyAdvise(String resid);
+	/**
+	 * 查看我的学员通知
+	 * @param resid
+	 * @return
+	 */
+	public List<StudentBean> findMyAdviseStu(String resid);
+	
 }
