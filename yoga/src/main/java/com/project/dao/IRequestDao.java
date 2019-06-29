@@ -18,6 +18,8 @@ public interface IRequestDao {
 	 * @param r_resid 被申请方 id
 	 * @param r_date 申请时间
 	 * @return 影响行数
+	 /** 添加申请
+	  * 
 	 */
 	@Insert("insert into t_request(r_reqid,r_resid,r_date) values(#{r_reqid},#{r_resid},#{r_date})")
 	public int addRequest(@Param("r_reqid")String r_reqid,@Param("r_resid")String r_resid,@Param("r_date")String r_date);
@@ -30,7 +32,6 @@ public interface IRequestDao {
 	 */
 	@Insert("insert into t_request(r_reqid,r_resid,r_reqname,r_resname) values(#{r_reqid},#{r_resid},#{r_reqname},#{r_resname})")
 	public int addRequeststu(@Param("r_reqid")String r_reqid,@Param("r_resid")String r_resid,@Param("r_reqname") String r_reqname ,@Param("r_resname") String r_resname);
-
 	/**
 	 * 修改申请
 	 * @param r_reqid 申请方  id
