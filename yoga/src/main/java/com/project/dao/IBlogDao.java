@@ -6,11 +6,13 @@ import java.util.Set;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Many;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
+import com.project.bean.DPictureBean;
 import com.project.bean.DynamicBean;
 
 public interface IBlogDao {
@@ -23,6 +25,7 @@ public interface IBlogDao {
 			+ "t_dynamic(d_content,d_time,d_userid,d_img,d_headimg,d_nickname,d_type) "
 			+ "values(#{d_content},#{d_time},#{d_userid},#{d_img},#{d_headimg},"
 			+ "#{d_nickname},#{d_type})")
+	@Options(useGeneratedKeys=true, keyProperty="d_id", keyColumn="d_id")
 	Integer insert(DynamicBean dynamic);
 	
 	/**
@@ -40,7 +43,6 @@ public interface IBlogDao {
 	@Delete("delete from t_dpicture where dp_d_id = #{id}")
 	Integer deleteDynamicImages(Integer dynamicId);
 
-	void listDynamicPictures(Integer dynamicId);
 	/**
 	 * 查询所有动态
 	 * @return
@@ -54,8 +56,8 @@ public interface IBlogDao {
 		@Result(property = "d_headimg", column = "d_headimg"),
 		@Result(property = "d_nickname", column = "d_nickname"),
 		@Result(property = "d_type", column = "d_type"),
-		@Result(property = "d_imgList", column = "d_id", 
-			many = @Many(select = "com.project.dao.IBlogDao.listDynamicPictures"))
+		@Result(property = "pictures", column = "d_id", 
+			many = @Many(select = "com.project.dao.IDpictureDao.findAll"))
 	})
 	List<DynamicBean> listAllBlog();
 	
@@ -73,8 +75,8 @@ public interface IBlogDao {
 		@Result(property = "d_headimg", column = "d_headimg"),
 		@Result(property = "d_nickname", column = "d_nickname"),
 		@Result(property = "d_type", column = "d_type"),
-		@Result(property = "d_imgList", column = "d_id", 
-			many = @Many(select = "com.project.dao.IBlogDao.listDynamicPictures"))
+		@Result(property = "pictures", column = "d_id", 
+			many = @Many(select = "com.project.dao.IDpictureDao.findAll"))
 	})
 	List<DynamicBean> listAllBlogByUserId(String id);
 	
@@ -96,8 +98,8 @@ public interface IBlogDao {
 		@Result(property = "d_headimg", column = "d_headimg"),
 		@Result(property = "d_nickname", column = "d_nickname"),
 		@Result(property = "d_type", column = "d_type"),
-		@Result(property = "d_imgList", column = "d_id", 
-			many = @Many(select = "com.project.dao.IBlogDao.listDynamicPictures"))
+		@Result(property = "pictures", column = "d_id", 
+			many = @Many(select = "com.project.dao.IDpictureDao.findAll"))
 	})
 	List<DynamicBean> listFriendBlog(@Param("id") String id);
 	
@@ -116,8 +118,8 @@ public interface IBlogDao {
 		@Result(property = "d_headimg", column = "d_headimg"),
 		@Result(property = "d_nickname", column = "d_nickname"),
 		@Result(property = "d_type", column = "d_type"),
-		@Result(property = "d_imgList", column = "d_id", 
-			many = @Many(select = "com.project.dao.IBlogDao.listDynamicPictures"))
+		@Result(property = "pictures", column = "d_id", 
+			many = @Many(select = "com.project.dao.IDpictureDao.findAll"))
 	})
 	List<DynamicBean> listFollowsBlog(String id);
 	

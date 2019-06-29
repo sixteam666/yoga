@@ -53,13 +53,13 @@
 		}
 		
 		.round_icon2{
-		  width: 30px;
-		  height: 30px;
+		  width: 40px;
+		  height: 40px;
 		  border-radius: 50%;
 		  align-items: center;
 		  justify-content: center;
 		  overflow: hidden;
-		  opacity: 0.5;
+		  opacity: 0.75;
 		}
 		
 		.border {
@@ -67,7 +67,7 @@
 		}
 		.little {
 			font-size: 14px;
-			line-height: 34px;
+			line-height: 20px;
 		}
 		.zhuanyou {
 			color:#777777;
@@ -142,25 +142,24 @@
 					th:onclick="|addFollow(this)|">&nbsp;+&nbsp;&nbsp;关注</button>
 				</div>
 				
-				
-				<div class="col-md-8 col-md-offset-1" style="margin-top:30px">
+				<div class="col-md-9">
 					<div class="row">
-						<div th:each="dynamic : ${dynamicList}" class="col-md-10 col-md-offset-1">
+						<div th:each="dynamic : ${dynamicList}" class="col-md-12">
 							<div class="row">
 								<div class="col-md-1">
 									<a href="#">
-										<img th:src="@{/image/headImg/}+${dynamic.d_headimg}" width="40px" >
+										<img th:src="@{/image/headImg/}+${dynamic.d_headimg}" class="round_icon2">
 									</a>
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-6 little">
 									<a href="#">
 										<span th:text="${dynamic.d_nickname}">猜猜我是谁</span>
 									</a>
 									<p th:text="${dynamic.d_time}">今天 13:20</p>
 								</div>
-								<div class="col-md-1 col-md-offset-5">
+								<!-- <div class="col-md-2 col-md-offset-2">
 									<button style="background-color:#2fddc3;color:white;border:none" th:onclick="| window.location.href = '/dynamic/delete.do?id=${dynamic.d_id}' |">删除</button>
-								</div>
+								</div> -->
 								<div class="col-md-12">
 									<p th:text="${dynamic.d_content}"></p>
 									<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/image/dynamicImg/}+${dynamic.d_img}">

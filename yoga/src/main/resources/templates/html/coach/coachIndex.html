@@ -83,7 +83,7 @@
 		
 		.personInfo {
 			list-style: none;
-			margin: 30px 0 0 0;
+			margin: 20px 0 0 0;
 			padding: 0;
 		}
 		.personInfo li {
@@ -129,7 +129,10 @@
 					<ul class="personInfo">
 						<li>电话：<span th:text="${coach.c_phone}">15266872134</span></li>
 						<li>QQ：<span th:text="${coach.c_qq}">741422706</span></li>
+					</ul>
+					<ul class="personInfo">
 						<li>空闲时间：全天空闲</li>
+						<li>课程价格：<span th:text="${coach.c_price}">70.00</span> 元/节</li>
 					</ul>
 					<br><br>
 					<button style="background-color:#ccdfcd;color:white;border:none;font-size:25px">约私教</button>
