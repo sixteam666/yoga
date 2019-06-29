@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymaleaf.org">
+<head>
+<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>钱包管理</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
+	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
+	<meta name="author" content="FreeHTML5.co" />
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="../../css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="../../css/icomoon.css">
+	<!-- Themify Icons-->
+	<link rel="stylesheet" href="../../css/themify-icons.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="../../css/bootstrap.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../../css/magnific-popup.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../../css/bootstrap-datepicker.min.css">
+
+	<!-- Owl Carousel  -->
+	<link rel="stylesheet" href="../../css/owl.carousel.min.css">
+	<link rel="stylesheet" href="../../css/owl.theme.default.min.css">
+
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="../../css/style.css">
+
+	<!-- Modernizr JS -->
+	<script src="../../js/modernizr-2.6.2.min.js"></script>
+
+	<style type="text/css">
+		.fon{
+			font-family: "微软雅黑";
+		}
+	</style>
+</head>
+<body>
+
+	<div class="gtco-loader"></div>
+	
+	<div id="page"></div>
+
+	<nav class="gtco-nav" role="navigation">
+		<div class="gtco-container">
+			
+			<div class="row" style="background-color:#09C6AB ;">
+				<div class="col-sm-4 col-xs-12">
+					<ul>
+						<li><a href="gym.html" class="fon">首页</a></li>
+						<li><a href="showCoach.html" class="fon">教练</a></li>
+						<li><a href="showStudent.html" class="fon">学员</a></li>
+					</ul>
+				</div>
+				<div class="col-xs-8 text-right">
+					<ul>
+						<li class="has-dropdown" id="gym_top"><span style="color: white">点击登录</span></li>
+						<li class="has-dropdown">
+							<a href="#">场馆中心</a>
+							<ul class="dropdown">
+								<li><a href="/html/gym/index.html">场馆展示</a></li>
+								<li><a href="/gym/showMessage.do">场馆资料</a></li>
+								<li><a href="/html/gym/lesson.html">课程安排</a></li>
+								<li><a href="/html/gym/wallet.html">我的钱包</a></li>
+								<li><a href="/html/gym/myCoach.html">我的签约教练</a></li>
+								<li><a href="/html/gym/SignTheSign.html">我的通知</a></li>
+							</ul>
+						</li>
+					</ul>	
+			</div>
+			</div>
+			
+		</div>
+	</nav>
+
+	<div style="height:100px"></div>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-3 text-left">
+			<h2>当前余额：</h2>
+		</div>
+		<div class="col-md-2">
+			<h2 th:text="${money}+'元'"></h2>
+		</div>
+		<div class="col-md-3 text-center">
+			<button class="btn btn-info" data-toggle="modal" data-target="#myModal">提取</button>
+		</div>
+		<div style="height:50px;" class="col-md-12"></div>
+		<div class="col-md-9 col-md-offset-3 text-left" style="font-size:20px;font-weigth:700px;height:50px">
+			<span>我的银行卡：</span>
+		</div>
+		<div class="col-md-6 col-md-offset-3 text-left">
+			<table class="table table-bordered table-striped">
+				<tr th:each="card : ${cardList}">
+					<td th:text="${card.b_carid}">6220219784455</td>
+					<td th:text=${card.b_bank}>建设银行</td>
+					<td>
+						<a href="javascript:void(0)" th:value="${card.id}" onclick="removeCard(this)">删除</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div class="col-md-8 col-md-offset-2 text-left text-center">
+		<button class="btn btn-info" data-toggle="modal" data-target="#myModal2">添加银行卡</button>
+		<a class="btn" onclick="history.back(-1)">返回上一页</a>
+	</div>
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
+	    <div class="modal-dialog" role="document">  
+	        <div class="modal-content">  
+	            <div class="modal-header">  
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+	                    <span aria-hidden="true">×</span>  
+	                </button>  
+	                <h4 class="modal-title" id="myModalLabel">现金提取</h4>  
+	            </div>  
+	            <div class="modal-body">
+	            	<label>最大提现金额：</label>&nbsp;&nbsp;&nbsp;&nbsp;
+	            	<span id="balance"  th:text="${money}">500.00</span>
+	            	<br><br>
+	            	<label for="cash">请输入提款金额：</label>
+	            	<input id="cash" type="text" onblur="checkBalance()">
+	            	<span id="cashNullError" style="color:red;display:none">请输入提现金额</span>
+	            	<span id="cashError" style="color:red;display:none">余额不足</span><br><br>
+	            	<label for="bankCard">请选择银行卡：</label>&nbsp;&nbsp;&nbsp;&nbsp;
+	            	<select id="bankCard" onblur="checkCard()">
+	            		<option value="0">--请选择--</option>
+	            		<option th:each="card : ${cardList}" th:text="${card.b_bank}+':'+${card.b_carid}" th:value="${card.id}"></option>
+	            	</select>
+	            	<span id="cardError" style="color:red;display:none">请选择银行卡</span>
+	            </div>  
+	            <div class="modal-footer">  
+	                <button id="aa" type="button" class="btn btn-primary" onclick="withdraw()" >提取</button>  
+	                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
+	            </div>  
+	        </div>  
+	    </div>  
+	</div>
+	
+	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
+	    <div class="modal-dialog" role="document">  
+	        <div class="modal-content">  
+	            <div class="modal-header">  
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+	                    <span aria-hidden="true">×</span>  
+	                </button>  
+	                <h4 class="modal-title" id="myModalLabel">绑定银行卡</h4>  
+	            </div>  
+	            <div class="modal-body">
+	            	<table class="table table-striped table-hover table-condensed">
+	            		<tr>
+	            			<td align="right">
+				            	<label for="cardCode">请输入卡号：</label>
+	            			</td>
+	            			<td align="left">
+				            	<input id="cardCode" type="text" onblur="checkNumber()">
+	            			</td>
+	            		</tr>
+	            		<tr>
+		            		<td align="right">
+		            			<span id="cardError" style="color:red;display:none">卡号格式错误</span>
+		            		</td>
+		            		<td></td>
+	            		</tr>
+	            		<tr>
+	            			<td align="right">
+				            	<label for="bank">选择银行：</label>
+	            			</td>
+	            			<td align="left">
+				            	<select id="bank" onblur="checkBank()">
+				            		<option value="0">--请选择--</option>
+				            		<option value="工商银行">工商银行</option>
+				            		<option value="农业银行">农业银行</option>
+				            		<option value="建设银行">建设银行</option>
+				            		<option value="中国银行">中国银行</option>
+				            	</select>
+	            			</td>
+	            		</tr>
+	            		<tr>
+		            		<td align="right">
+				            	<span id="bankError" style="color:red;display:none">请选择一个银行</span>
+		            		</td>
+		            		<td></td>
+	            		</tr>
+	            		<tr>
+	            			<td align="right">
+				                <button id="aa" type="button" class="btn btn-primary" onclick="addCard()" >确定</button>  
+	            			</td>
+	            			<td align="left">
+				                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
+	            			</td>
+	            		</tr>
+	            	</table>
+	            </div>  
+	        </div>  
+	    </div>  
+	</div> 
+	
+	<script src="../../js/jquery.min.js"></script>
+	<!-- GymTopElem -->
+	<script src="../../js/gym/getGymTopElem.js"></script>
+	<!-- jQuery Easing -->
+	<script src="../../js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="../../js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="../../js/jquery.waypoints.min.js"></script>
+	<!-- Carousel -->
+	<script src="../../js/owl.carousel.min.js"></script>
+	<!-- countTo -->
+	<script src="../../js/jquery.countTo.js"></script>
+	<!-- Stellar Parallax -->
+	<script src="../../js/jquery.stellar.min.js"></script>
+	<!-- Magnific Popup -->
+	<script src="../../js/jquery.magnific-popup.min.js"></script>
+	<script src="../../js/magnific-popup-options.js"></script>
+	<!-- Datepicker -->
+	<script src="../../js/bootstrap-datepicker.min.js"></script>
+	<!-- Main -->
+	<script src="../../js/main.js"></script>
+	<script>
+		//提现操作
+		function withdraw() {
+			if(!(checkBalance() && checkCard())) {
+				return false;
+			}
+			var cash = $("#cash").val();
+			var id = $("#bankCard option:selected").attr("value");
+			$.ajax({
+				url: "/coach/withdraw.do",
+				type: "post",
+				data: "money="+cash+"&cardId="+id,
+				success: function(data) {
+					if(data) {
+						alert("申请已提交，资金将在24小时内到账");
+						window.location.href = "/gym/showMoney.do";
+					}else{
+						alert("余额不足");
+					}
+				},
+				error: function() {
+					alert("网络错误！");
+				}
+			});
+		}
+		//余额校验
+		function checkBalance() {
+			$("#cashError").css("display","none");
+			$("#cashNullError").css("display","none");
+			var balance = parseInt($("#balance").html());
+			var cash = parseInt($("#cash").val());
+			if($("#cash").val() == "" || $("#cash").val() == null) {
+				$("#cashNullError").css("display","inline");
+				return false;
+			}
+			if((cash < 0) || (cash > balance)) {
+				$("#cashError").css("display","inline");
+				return false;
+			}
+			return true;
+		}
+		//选择银行卡校验
+		function checkCard() {
+			$("#cardError").css("display","none");
+			var bank = $("#bankCard option:selected").val();
+			if(bank == 0) {
+				$("#cardError").css("display","inline");
+				return false;
+			}
+			return true;
+		}
+		
+		//卡号校验
+		function checkNumber() {
+			$("#cardError").css("display","none");
+			var number = $("#cardCode").val();
+			if(/^[0-9]+$/.test(number)) {
+				return true;
+			}
+			$("#cardError").css("display","inline");
+			return false;
+		}
+		//银行校验
+		function checkBank() {
+			$("#bankError").css("display","none");
+			var bank = $("#bank option:selected").val();
+			if(bank == 0) {
+				$("#bankError").css("display","inline");
+				return false;
+			}
+			return true;
+		}
+		
+		//删除银行卡
+		function removeCard(object) {
+			var cardId = $(object).attr("value");
+			if(confirm("确认删除当前银行卡吗？")){
+				$.ajax({
+					url: "/card/removeCard.do",
+					type: "post",
+					data: "id="+cardId,
+					success: function() {
+						window.location.href = "/gym/showMoney.do";
+					}
+				});
+			}
+		}
+		
+		//添加银行卡
+		function addCard() {
+			if(!(checkNumber() && checkBank()))
+				return false;
+			var cardCode = $("#cardCode").val();
+			var bank = $("#bank option:selected").val();
+			$.ajax({
+				url: "/card/addCard.do",
+				type: "post",
+				data: "b_carid="+cardCode+"&b_bank="+bank,
+				dateType: "json",
+				success: function(data) {
+					window.location.href = "/gym/showMoney.do";
+				},
+				error: function() {
+					alert("网络错误！");
+				}
+			});
+		}
+	</script>
+</body>
+</html>

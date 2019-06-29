@@ -213,6 +213,8 @@
 	
 	<!-- jQuery -->
 	<script src="../../js/jquery.min.js"></script>
+	<!-- GymTopElem -->
+	<script src="../../js/gym/getGymTopElem.js"></script>
 	<!-- jQuery Easing -->
 	<script src="../../js/jquery.easing.1.3.js"></script>
 	<!-- Bootstrap -->
@@ -236,7 +238,6 @@
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-	<script type="text/javascript" src="../../js/gym/getSession.js"></script>
 	<script type="text/javascript">
 		// 查看教练详情
 		function getCoachData(c_id){
@@ -259,7 +260,7 @@
 							str+="<div class='col-lg-4 col-md-4 col-sm-6' >"+
 								"<span class='fh5co-card-item'>"+
 									"<figure style='text-align: center;top:50px'>"+
-										"<img src='../../images/imgs/"+mes[i].c_headimg+"' alt='Image'>"+
+										"<img src='/image/headImg/"+mes[i].c_headimg+"'>"+
 									"</figure>"+
 									"<div class='fh5co-text'>"+
 										"<input type='hidden' value='"+ mes[i].c_id +"'/>"+

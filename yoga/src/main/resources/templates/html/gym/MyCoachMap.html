@@ -44,31 +44,7 @@
 		<div class="gtco-loader"></div>
 		<nav class="gtco-nav" role="navigation">
 			<div class="gtco-container">
-
-				<div class="row" style="background-color: #09C6AB;">
-					<div class="col-sm-4 col-xs-12">
-						<ul>
-							<li><a href="gym.html" class="fon">首页</a></li>
-							<li><a href="showCoach.html" class="fon">教练</a></li>
-							<li><a href="showStudent.html" class="fon">学员</a></li>
-						</ul>
-					</div>
-					<div class="col-xs-8 text-right">
-						<ul>
-							<li class="has-dropdown" id="gym_top"><span style="color: white">点击登录</span></li>
-							<li class="has-dropdown"><a href="#">场馆中心</a>
-								<ul class="dropdown">
-									<li><a href="index.html">场馆展示</a></li>
-									<li><a href="msgShow.html">场馆资料</a></li>
-									<li><a href="lesson.html">课程安排</a></li>
-									<li><a href="wallet.html">我的钱包</a></li>
-									<li><a href="myCoach.html">我的签约教练</a></li>
-									<li><a href="/gym/findCoachByMyResponse.do">我的通知</a></li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</div>
+				<div class="row" style="background-color: #09C6AB;"></div>
 			</div>
 		</nav>
 		<div class="gtco-section">
@@ -88,7 +64,7 @@
 							<select class="form-control" id="cmbArea" name="cmbArea"></select>
 							<input id="address_mes" type="text" />
 						</div>
-						<div id="BaiduMap"></div>
+						<div id="BaiduMap"></div><!-- 百度地图主窗口 -->
 					</div>
 				</div>
 			</div>
@@ -149,6 +125,8 @@
 
 		<!-- jQuery -->
 		<script src="../../js/jquery.min.js"></script>
+		<!-- GymTopElem -->
+		<script src="../../js/gym/getGymTopElem.js"></script>
 		<!-- jQuery Easing -->
 		<script src="../../js/jquery.easing.1.3.js"></script>
 		<!-- Bootstrap -->
@@ -168,8 +146,6 @@
 		<script src="../../js/bootstrap-datepicker.min.js"></script>
 		<!-- Main -->
 		<script src="../../js/main.js"></script>
-		<!-- 获取Session中的数据 -->
-		<script type="text/javascript" src="../../js/gym/getSession.js"></script>
 		
 		<!-- 添加或删除缩放控件 -->
 		<!-- <script type="text/javascript" src="js/BaiduMapJs/ControlButton.js"></script> -->

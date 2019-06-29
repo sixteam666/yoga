@@ -26,10 +26,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.bean.BankCardBean;
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.PictureBean;
+import com.project.service.IBankCardService;
 import com.project.service.ICoachService;
 import com.project.service.IGymService;
 import com.project.util.FileUtil;
@@ -49,7 +51,8 @@ public class GymController {
 	private IGymService gymService;
 	@Autowired
 	private ICoachService coachService;
-	
+	@Autowired
+	private IBankCardService bankCardService;
 	private FileUtil picUtil;
 	
 	/**
@@ -235,6 +238,10 @@ public class GymController {
 			imgName = FileUtil.getFileName(file, req, UploadPathConstant.HEADIMG);
 		}
 		gymBean.setG_headimg(imgName);
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession(false);
+		session.setAttribute("gym", gymBean);
 		System.out.println(gymBean);
 		int number = gymService.updateMessage(gymBean);
 		System.out.println(number);
@@ -280,10 +287,12 @@ public class GymController {
 	@RequestMapping("/addPictures.do")
 	@ResponseBody
 	public Integer addPictures(String gymId) {
-		PictureBean picBean = new PictureBean();
-		picBean.setP_g_id(gymId);
+		
 		List<PictureBean> list = new ArrayList<PictureBean>();
 		for(int i = 1;i<=12;i++){  
+			PictureBean picBean = new PictureBean();
+			picBean.setP_g_id(gymId);
+			picBean.setP_type(1);
 			String imgName = i+".jpg";
 			picBean.setP_imgname(imgName);
 			list.add(picBean);
@@ -319,14 +328,6 @@ public class GymController {
 	@RequestMapping(value="/updatePictures.do",method = RequestMethod.POST)
 	//@ResponseBody
 	public String updatePictures(Integer[] p_id,MultipartFile[] file,HttpServletRequest req) {
-		for (MultipartFile multipartFile : file) {
-			System.out.println(multipartFile);
-		}
-		for (Integer id : p_id) {
-			System.out.println(id);
-		}
-		System.out.println(p_id.length);
-		System.out.println(file.length);
 		PictureBean pictureBean = new PictureBean();
 		if(file!=null && file.length>0){  
 			//循环获取file数组中得文件  
@@ -436,7 +437,7 @@ public class GymController {
 	@RequestMapping("/updateCoach.do")
 	@ResponseBody
 	public int updateCoach(String g_id, String c_id) {
-		if(g_id != "0") {
+		if(!"0".equals(g_id)) {
 			g_id = this.getGymToSession().getG_id();
 		}
 		int number = gymService.updateCoachBean(g_id, c_id);
@@ -448,7 +449,7 @@ public class GymController {
 	 * 
 	 * @param g_id 提交申请的场馆id
 	 * @param c_id 被申请的教练id
-	 * @return 数据库签约申请表影响行数
+	 * @return 返回值   0:请求失败 1:请求成功 2：重复请求 3：教练已向你发送请求;
 	 */
 	@RequestMapping("/submitSigingApplication.do")
 	@ResponseBody
@@ -542,5 +543,22 @@ public class GymController {
 		String gymId = this.getGymToSession().getG_id();
 		GymBean gymBean = gymService.findGymById(gymId);
 		return gymBean;
+	}
+	
+	/**
+	 * 查看钱包余额
+	 * @author pan
+	 * @param coach 要更新的数据
+	 * @return 返回个人信息显示页面
+	 */
+	@RequestMapping("showMoney.do")
+	public String updateLessonInfo(ModelMap map) {
+		String gymId = this.getGymToSession().getG_id();
+		GymBean gymBean = gymService.findGymById(gymId);
+		Double money = gymBean.getG_money();
+		List<BankCardBean> cardList = bankCardService.listBankCard(gymId);
+		map.put("cardList", cardList);
+		map.put("money", money);
+		return "/html/gym/money.html";
 	}
 }

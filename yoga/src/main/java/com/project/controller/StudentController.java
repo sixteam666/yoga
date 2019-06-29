@@ -1,5 +1,6 @@
 package com.project.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.unit.DataUnit;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,13 +32,16 @@ import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
+import com.project.bean.RequestBean;
 import com.project.bean.ShowWordsBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
+import com.project.dao.IRequestDao;
 import com.project.service.IBlogService;
 import com.project.service.ICoachService;
 import com.project.service.IGymService;
 import com.project.service.IStudentService;
+import com.project.util.DateUtil;
 
 @Controller
 @RequestMapping("/student")
@@ -83,14 +88,14 @@ public class StudentController {
 	            }
 	      }
 		 StudentBean student = service.findStudentbyName(arg1);
-		 HttpSession session = request.getSession();
+		 Session session = currentUser.getSession(true);
 		 session.setAttribute("stu", student);
 		 return "认证成功";
 	}
 	
 	@RequestMapping("/login2.do")
 	@ResponseBody
-	public String phoneLogin(String arg1,String pwd,HttpServletRequest request){
+	public String phoneLogin(String arg1,String pwd){
 		//产生一个用户（门面对象）
 		//暂无盐值
 		//Object obj = new SimpleHash("MD5", pwd,"",1024);
@@ -114,7 +119,7 @@ public class StudentController {
 	            }
 	      }
 		 StudentBean student = service.findStudentbyName(arg1);
-		 HttpSession session = request.getSession();
+		 Session session = currentUser.getSession(true);
 		 session.setAttribute("stu", student);
 		 return "认证成功";
 	}
@@ -133,42 +138,47 @@ public class StudentController {
 		model.addAttribute("Coach",coachBeans);
 		return "html/student/student.html";
 	}
+	
+	@RequestMapping("/getUser.do")
+	@ResponseBody
+	public StudentBean getUser(){
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession(true);
+		if (session == null)return null;
+		Object obj = session.getAttribute("stu");
+		if (obj == null) return null;
+		StudentBean studentBean = (StudentBean)obj;
+		
+		return studentBean;
+	} 
 		
 	@RequestMapping("/register.do")
 	@ResponseBody
-		public String register(StudentBean student){
+		public String register(String username,String password){
 			/**
 			 * 未确定加盐值
 			 */
-		
+			StudentBean student = new StudentBean();
+			student.setS_name(username);
+			student.setS_password(password);
 			String id = UUID.randomUUID().toString();
 			student.setS_id(id);
 			Object obj = new SimpleHash("MD5",student.getS_password(),id,1024);
 			student.setS_password(obj.toString());
 			Boolean boo = service.regist(student);
 			if (boo) {
-				return "yes";
+				return "success";
 			}else {
-				return "no";
+				return "false";
 			}	
 		}	
-	
-	@RequestMapping("/loginout.do")
-	@ResponseBody
-	public String loginout(HttpSession session) {
-		System.out.println("正在注销");
-		Subject currentUser = SecurityUtils.getSubject();
-		currentUser.logout();
-		System.out.println(session.getAttribute("stu"));
-		return "ok";
-	}
 	
 	@RequestMapping("/logout.do")
 	public String logout() {
 		//Session session = SecurityUtils.getSubject().getSession();
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
-		return "html/index.html";
+		return "redirect:/html/index.html";
 	}
 	
 			/**
@@ -176,6 +186,7 @@ public class StudentController {
 			 * @param id 学员id
 			 */
 			@RequestMapping("/showStudent.do")
+
 			public String showCoachInfoByid(Model m) {
 				Session session = SecurityUtils.getSubject().getSession();
 				StudentBean studentBean = (StudentBean) session.getAttribute("stu");
@@ -189,7 +200,6 @@ public class StudentController {
 				session.setAttribute("stu", stuuuu);
 				return "html/student/my.html";
 			}
-			
 			
 			
 			/**
@@ -301,34 +311,79 @@ public class StudentController {
 			}
 			
 			/**
-			 * 加关注
+			 * ta的留言板
 			 */
-			@RequestMapping("/attention.do")
-			public String addAttention(HttpServletRequest request){
-				Session session = SecurityUtils.getSubject().getSession();
-				String name = request.getParameter("name");
-				StudentBean bean = (StudentBean)session.getAttribute("stu");
-				System.out.println(name);
-				StudentBean studentBean = service.findStudentbyName(name);
-				service.addFollow(bean.getS_id(),studentBean.getS_id());
-				return "redirect:/student/findFans.do";
+			@RequestMapping("/findWord2.do")
+			public String findWord2(Model model,String userid){
+				List<WordsBean> wordslist = service.findWords(userid);
+				List<ShowWordsBean> list3 = new ArrayList<ShowWordsBean>();
+				for (WordsBean wordsBean : wordslist) {
+					ShowWordsBean showWordsBean = new ShowWordsBean();
+					StudentBean bean2 = service.findStudentbyId(wordsBean.getW_userid());
+					showWordsBean.setHeadimg(bean2.getS_headimg());
+					if (bean2.getS_nickname()!=null) {
+						showWordsBean.setName(bean2.getS_nickname());
+					}else {
+						showWordsBean.setName(bean2.getS_name());
+					}
+					showWordsBean.setWord(wordsBean.getW_content());
+					showWordsBean.setTime(wordsBean.getW_time());
+					list3.add(showWordsBean);
+				}
+				model.addAttribute("list",list3);
+				return "html/student/guestbook2.html";
 			}
 			
 			/**
-			 * 留言
+			 * 加关注
+			 */
+			@RequestMapping("/attention.do")
+			@ResponseBody
+			public String addAttention(String idolid){
+				Session session = SecurityUtils.getSubject().getSession();
+				StudentBean stu = (StudentBean)session.getAttribute("stu");
+				String myid = stu.getS_id();
+				service.addFollow(myid,idolid);
+				return "ok";
+			}
+			
+			/**
+			 * 自己留言
 			 */
 			@RequestMapping("/insertWord.do")
 			public String insertWord(HttpServletRequest request){
 				Session session = SecurityUtils.getSubject().getSession();
-				String content = request.getParameter("name");
+				String content = request.getParameter("message");
 				StudentBean bean = (StudentBean)session.getAttribute("stu");
 				WordsBean wordsBean = new WordsBean();
 				wordsBean.setW_content(content);
 				wordsBean.setW_time("2019-06-27");
 				wordsBean.setW_userid(bean.getS_id());
-				wordsBean.setW_showid("sadasd");
+				wordsBean.setW_showid(bean.getS_id());
+				service.insertWords(wordsBean);
 
 				return "redirect:/student/findWord.do";				
+			}
+			
+			/**
+			 * 留言
+			 */
+			@RequestMapping("/insertWord2.do")
+			public String insertWord2(HttpServletRequest request){
+				String date2String = DateUtil.Date2String(new java.util.Date(), "yy-MM-dd HH:mm:ss");
+				Session session = SecurityUtils.getSubject().getSession();
+				StudentBean bean = (StudentBean)session.getAttribute("stu");
+				String content = request.getParameter("message");
+				String id = request.getParameter("showid");
+				WordsBean wordsBean = new WordsBean();
+				wordsBean.setW_content(content);
+				wordsBean.setW_userid(bean.getS_id());
+				wordsBean.setW_showid(id);
+				wordsBean.setW_time(date2String);
+					service.insertWords(wordsBean);
+					service.addRequeststu(bean.getS_id(), id, "新增留言", date2String);
+
+				return "redirect:/student/findWord2.do?userid="+id;				
 			}
 			
 			
@@ -338,7 +393,6 @@ public class StudentController {
 				StudentBean stu=(StudentBean) session.getAttribute("stu");
 				String id = stu.getS_id();
 				List<OrderBean> orderlist = service.findorderbyid(id);
-				System.out.println(orderlist);
 				m.addAttribute("order", orderlist);
 				return "html/student/order.html";
 			}
@@ -357,4 +411,96 @@ public class StudentController {
 				
 				return "html/student/mypage.html";
 			}
+			
+			/**
+			 * 跳转他的个人主页
+			 */
+			@RequestMapping("/hispage.do")
+			public String hispage(String id,Model m){
+				System.out.println(id+"!!!!!!!!!!!!!!!!");
+				int fansnumber = service.countmyfans(id);
+				int idolnumber = service.countmyattention(id);
+				m.addAttribute("fansnumber", fansnumber);
+				m.addAttribute("idolnumber", idolnumber);
+				List<DynamicBean> dynamiclist = IBlogService.listDynamicsById(id);
+				m.addAttribute("dynamiclist",dynamiclist);
+				StudentBean studentBean = service.findStudentbyId(id);
+				m.addAttribute("user",studentBean);
+				return "html/student/hispage.html";
+			}
+			
+			/**
+			 * 跳转充值页面
+			 * @param m
+			 * @return
+			 */
+			@RequestMapping("/recharge.do")
+			public String recharge(ModelMap m){
+				return "html/student/pay.html";
+			}
+			
+			/**
+			 * 跳转支付宝支付页面
+			 * @param session
+			 * @param m
+			 * @return
+			 */
+			
+			@RequestMapping("/alipay.do")
+			public String alipay(HttpServletRequest request){
+				String money = request.getParameter("money");
+				Session session = SecurityUtils.getSubject().getSession();
+				session.setAttribute("money", money);
+				return "html/student/index.html";
+			}
+			
+			/**
+			 * 所有场馆
+			 */
+			@RequestMapping("/showGym.do")
+			public String showGym(Model model){
+				List<GymBean> list = gymService.findAllGym();
+				model.addAttribute("Gym",list);
+				return "html/student/showGym.html";
+			}
+			
+			/**
+			 * 附近场馆
+			 */
+			@RequestMapping("/nearbyGym.do")
+			public String showNearByGym(){
+				return "html/map/nearbyGym.html";
+			}
+			
+			/**
+			 * 认证教练
+			 */
+			@RequestMapping("/showCoach.do")
+			public String showCoach(Model model){
+				List<CoachBean> list = service.findAllCoach();
+				model.addAttribute("Coach",list);
+				return "html/student/showCoach.html";
+			}
+			
+			/**
+			 * 附近场馆
+			 */
+			@RequestMapping("/nearbyCoach.do")
+			public String showNearByCoach(){
+				return "html/map/nearbyCoach.html";
+			}
+			
+			@RequestMapping("/notify.do")
+			public String  notify(Model model){
+				Session session = SecurityUtils.getSubject().getSession();
+				StudentBean stu=(StudentBean) session.getAttribute("stu");
+				String id = stu.getS_id();
+				List<RequestBean> listnotify  =service.findallreq(id);
+				model.addAttribute("notify",listnotify );
+				System.out.println(listnotify);
+				return "html/student/inform.html";
+				
+			}
+			
+			
 }

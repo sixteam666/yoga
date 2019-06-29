@@ -48,7 +48,31 @@
 	<div class="gtco-loader"></div>
 		<div th:replace="html/student/frag.html::common_head">
 	</div>
-	
+	<div class="gtco-section">
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<h2>所有场馆</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-6" th:each="gym : ${Gym}">
+					<a href="#" class="fh5co-card-item">
+						<figure>
+							<div class="overlay"><i class="ti-plus"></i></div>
+							<img src="../../images/img_1.jpg" th:src="@{'../../images/imgs/'+${gym.g_headimg}}" alt="Image" class="img-responsive">
+						</figure>
+						<div class="fh5co-text">
+							<h2 th:text="${gym.g_name}">瑜伽馆</h2>
+							<p th:text="${gym.g_phone}">xxxxxxxxxxx</p>
+							<p th:text="${gym.g_address}">xxxxxxxxxxx</p>
+							<p><span class="btn btn-primary">点击查看详情</span></p>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 	<div class="gtco-section" align="center">
 		<div class="gtco-container">
@@ -58,31 +82,9 @@
 				</div>
 			</div>
 		</div>
-		<iframe src="../map/nearbyGym.html" width="800" height="500" frameborder="0" scrolling="no"></iframe>
+		<iframe src="/student/nearbyGym.do" width="800" height="500" frameborder="0" scrolling="no"></iframe>
 	</div>
-		<div class="gtco-section">
-		<div class="gtco-container">
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>所有场馆</h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<span class="fh5co-card-item">
-						<figure>
-							<img src="../../images/img_1.jpg" alt="Image" class="img-responsive">
-						</figure>
-						<div class="fh5co-text">
-							<h2>瑜伽馆</h2>
-							<p>xxxxxxxxxxx</p>
-							<p><a href="showGymInformation.html" class="btn btn-primary">点击查看详情</a></p>
-						</div>
-					</span>
-				</div>
-			</div>
-		</div>
-	</div>
+		
 	<footer id="gtco-footer" role="contentinfo">
 		<div class="gtco-container">
 			<div class="row row-p	b-md">
@@ -129,7 +131,6 @@
 
 		</div>
 	</footer>
-	<!-- </div> -->
 
 	</div>
 
