@@ -435,6 +435,11 @@ public class StudentController {
 				List<DynamicBean> dynamiclist = IBlogService.listDynamicsById(id);
 				m.addAttribute("dynamiclist",dynamiclist);
 				StudentBean studentBean = service.findStudentbyId(id);
+				if (studentBean == null) {
+					CoachBean coachBean = coachService.getCoachById(id);
+					m.addAttribute("user",coachBean);
+					return "/coach/showToOther.do  ";
+				}
 				m.addAttribute("user",studentBean);
 				return "html/student/hispage.html";
 			}
@@ -509,6 +514,29 @@ public class StudentController {
 				model.addAttribute("notify",listnotify );
 				return "html/student/inform.html";
 				
+			}
+			
+			/**
+			 * 查所有场馆
+			 * @return
+			 */
+			@RequestMapping("/findAllGym.do")
+			@ResponseBody
+			public List<GymBean> findAllGym(){
+				return gymService.findAllGym();
+			}
+			
+			/**
+			 * 显示某个场馆详细信息
+			 * @param map
+			 * @param stuId
+			 * @return
+			 */
+			@RequestMapping("/showGymDetail.do")
+			public String showGymDetail(ModelMap map,String stuId){
+				StudentBean sb = service.findStudentbyId(stuId);
+				map.put("sb", sb);
+				return "/html/student/hispage.html";
 			}
 			
 			

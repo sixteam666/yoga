@@ -35,7 +35,6 @@
 
 	<!-- Modernizr JS -->
 	<script src="../../js/modernizr-2.6.2.min.js"></script>
-	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=YYXMCpSms6hDBtGu09ZhLmx0jNTOXeqd"></script>
 	
 	</head>
 	<style type="text/css">
@@ -43,17 +42,14 @@
 			text-align: center;
 			font-family: "微软雅黑";
 		}
-		label{
-			background-color: transparent !important;
-			border-color: transparent !important;
-		}
+		
 	</style>
 	<body>
 		
 	<div class="gtco-loader"></div>
 		<div th:replace="html/student/frag.html::common_head">
 	</div>
-	<div class="gtco-section">
+	<div class="gtco-section" align="center">
 		<div class="gtco-container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
@@ -83,7 +79,7 @@
 		<div class="gtco-container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>附近场馆</h2>
+					<h2 id="nearGym">附近场馆</h2>
 					<input type="hidden" id="s_address" th:value="${session.stu.s_address}">
 				</div>
 			</div>
@@ -176,7 +172,7 @@
 	<script type="text/javascript" src="../../js/BaiduMapJs/location.js"></script>
 	<script type="text/javascript" src="../../js/BaiduMapJs/search.js"></script>
 	<script type="text/javascript" src="../../js/BaiduMapJs/Address.js"></script>
-	<script type="text/javascript" src="../../js/BaiduMapJs/baidumap.js"></script>
+	<script type="text/javascript" src="../../js/BaiduMapJs/baidumapStu.js"></script>
 
 	</body>
 </html>

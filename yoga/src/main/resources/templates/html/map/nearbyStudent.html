@@ -25,7 +25,7 @@
 	</div>
 	<div id="l-map"></div>
 </body>
-
+</html>
 <script src="../../js/jquery.min.js"></script>
 <script type="text/javascript">
 	// 百度地图API功能
@@ -110,9 +110,7 @@
 	  function openInfo(content,e){
 		var p = e.target;
 		var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
-		var opts = {
-				title = "";
-		}
+		
 		var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象 
 		map.openInfoWindow(infoWindow,point); //开启信息窗口
 	}  
@@ -142,4 +140,3 @@
 	}
 	initAddress()
 </script>
-</html>

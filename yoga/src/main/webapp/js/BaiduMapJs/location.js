@@ -3,7 +3,7 @@ var lat = ""; // 地图纬度
 // 自定义当前位置的图标
 // var myIcon = new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/fox.gif", new BMap.Size(300, 157));
 var myIcon = { // 指定Marker的icon属性为Symbol
-			icon: new BMap.Symbol(BMap_Symbol_SHAPE_FORWARD_CLOSED_ARROW, {
+			icon: new BMap.Symbol(BMap_Symbol_SHAPE_FORWARD_CLOSED_ARROW,{
 				scale: 1.5, //图标缩放大小
 				fillColor: "red", //填充颜色
 				fillOpacity: 0.8 //填充透明度
