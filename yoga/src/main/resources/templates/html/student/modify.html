@@ -38,6 +38,10 @@
 
 	</head>
 	<style type="text/css">
+		select{
+			width:150px;
+		}
+		
 		.fon{
 			font-family: "微软雅黑";
 		}
@@ -55,12 +59,12 @@
             filter: alpha(opacity=88); 
         } 
         .white_content { 
-            display: none; 
+        	display:none;
             position: absolute; 
             top: 25%; 
-            left: 35%; 
-            width: 600px; 
-            height: 500px; 
+            left: 55%; 
+            width: 400px; 
+            height: 300px; 
             padding: 20px; 
             border-radius:20px;
             border: 5px solid #09C6AB; 
@@ -151,14 +155,14 @@
 						<tr align="center">
 							<td width="140">地址：</td>
 							<td width="140">
-								<input type="text" onclick = "openDialog()" name="address" id="address" th:field="*{s_address}"/>
+								<input type="text" onclick = "openDialog()"  name="address" id="address" class="address" th:field="*{s_address}"/>
 							</td>
 						</tr>
 					</table>
 					
 					
-				<div id="light" class="white_content">
-           			<div id="add-address">
+				<div id="light"  class="white_content address ">
+           			<div id="add-address" >
 						<div class="add-form-group inline-block">
 							<label for="province">省份:</label>
 							<select id="sheng" name="province">
@@ -184,11 +188,11 @@
 							</select>
 						</div>
 					</div>
-		         	<input type="button" onclick = "" value="保存" class="btn btn-primary">	
+		         	<input type="button" id="saveadd"  value="保存" class="btn btn-primary">	
 		            <input type="button" onclick = "closeDialog()" value="关闭" class="btn btn-primary">
 		        </div> 
 					<br /><br />
-					<input type="submit" class="btn btn-primary btn-block" value="保存"/>
+					<input type="submit" class="btn btn-primary btn-block"  value="保存"/>
 				</div>
 				</form>
 			</div>
@@ -280,15 +284,7 @@
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
 	<script type="text/javascript">
-		 function openDialog(){
-	            document.getElementById('light').style.display='block';
-	            document.getElementById('fade').style.display='block';
-	    }
-	    
-	    function closeDialog(){
-	            document.getElementById('light').style.display='none';
-	            document.getElementById('fade').style.display='none';
-	    }
+	    <!--预览图片-->
 	    
 		var prevDiv = document.getElementsByClassName('preview')[0];
 		var OFile = document.getElementsByClassName('file')[0];
@@ -303,6 +299,32 @@
 				reader.readAsDataURL(file.files[0]);
 			} 
 		}
+		
+		$("#saveadd").click(function(){
+			var str = $("#sheng").val()+$("#shi").val()+$("#xian").val()+$("#xiang").val();
+			$("#address").val(str) 
+			$("#light").fadeOut();  	
+			});
+		
+		/* 点击外部淡出 */
+		$(".address").click(function(event){  
+		    event=event||window.event;  
+		    event.stopPropagation();  
+		});  
+		$(document).click(function(e){                       
+		    $("#light").fadeOut();  
+		}); 
+	
+		
+		
+	 function openDialog(){
+	         $("#light").fadeIn();
+	 }
+	 
+	 function closeDialog(){
+		   $("#light").fadeOut();
+	 }
+ 
 	</script>
 	</body>
 </html>
