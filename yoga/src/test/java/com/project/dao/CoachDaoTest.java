@@ -69,11 +69,7 @@ public class CoachDaoTest extends BaseTest {
 		System.out.println(dao.listStudentByCoachId(id));
 	}
 
-	//测试申请签约场馆
-	@Test
-	public void addRequest(){
-		reDao.addRequest("a", "b","2019-02-20");
-	}
+	
 	//测试修改申请状态
 	@Test
 	public void updateRequest(){
