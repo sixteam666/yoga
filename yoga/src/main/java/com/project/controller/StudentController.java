@@ -438,7 +438,7 @@ public class StudentController {
 				if (studentBean == null) {
 					CoachBean coachBean = coachService.getCoachById(id);
 					m.addAttribute("user",coachBean);
-					return "/coach/showToOther.do  ";
+					return "/coach/showToOther.do";
 				}
 				m.addAttribute("user",studentBean);
 				return "html/student/hispage.html";
