@@ -9,7 +9,7 @@ function getGymTopElem(){
 			var topElem = "<div class='col-sm-4 col-xs-12'>"+
 								"<ul>"+
 									"<li><a href='/html/gym/index.html' class='fon'>首页</a></li>"+
-									"<li><a href='showCoach.html' class='fon'>教练</a></li>"+
+									"<li><a href='/html/gym/showCoach.html' class='fon'>教练</a></li>"+
 									"<li><a href='/dynamic/showHot.do' class='fon'>动态</a></li>"+
 								"</ul>"+
 							"</div>"+

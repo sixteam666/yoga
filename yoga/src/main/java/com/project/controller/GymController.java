@@ -2,7 +2,6 @@ package com.project.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -139,7 +138,7 @@ public class GymController {
 	@RequestMapping("/reg.do")
 	@ResponseBody
 	public int register(String regName, String g_password) {
-		String emailTest = "^[0-9a-z]+\\w*@([0-9a-z]+\\.)+[0-9a-z]+$"; // 邮箱正则表达式
+		String emailTest = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";  // 邮箱正则表达式
 		String phoneTest = "^1[3|4|5|7|8][0-9]\\\\d{4,8}$"; // 电话正则表达式
 		if(gymService.login(regName) != null) {
 			return -2; // 邮箱或电话已注册
@@ -147,9 +146,10 @@ public class GymController {
 		String gymUUID = UUID.randomUUID().toString();
 		GymBean gym = new GymBean();
 		gym.setG_id(gymUUID);
-		gym.setG_password(g_password);
-		
-		if(regName.contains("@")) {
+		if(g_password.length() < 8) {
+			return -1; // 格式不符合要求
+		}
+		if(regName.contains("@") && regName.length()>3) {
 			gym.setG_email(regName);
 		}else if(regName.length() == 11) {
 			gym.setG_phone(regName);
