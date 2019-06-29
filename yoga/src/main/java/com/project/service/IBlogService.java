@@ -21,7 +21,7 @@ public interface IBlogService {
 	 * @param id
 	 * @return
 	 */
-	Integer delete(Integer id);
+	boolean delete(Integer id);
 	
 	/**
 	 * 展示热门动态

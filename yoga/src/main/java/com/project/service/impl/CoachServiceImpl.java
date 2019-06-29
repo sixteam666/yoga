@@ -282,20 +282,25 @@ public class CoachServiceImpl implements ICoachService {
 			}
 			if(type == 2) {
 				//判断是否与我签约
-				
+				if(currentUserId.equals(c.getC_g_id())) {
+					return c;
+				}
 			}
 			if(type == 0) {
 				//判断是否是我的学员
+				/*if(stuDao.contract(currentUserId,coachId))) {
+					return c;
+				}*/
 			}
 		}
 		//如果是场馆或学员，则默认开放手机号，方便其约私教或与我签约
 		if(type == 0 || type == 2) {
-			c.setC_qq("****");
+			c.setC_qq("********");
 			return c;
 		}
 		//如果教练信息保密
-		c.setC_phone("****");
-		c.setC_qq("****");
+		c.setC_phone("********");
+		c.setC_qq("********");
 		return c;
 	}
 

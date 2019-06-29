@@ -43,8 +43,8 @@
 		}
 		
 		.round_icon{
-		  width: 60px;
-		  height: 60px;
+		  width: 100px;
+		  height: 100px;
 		  /* display: flex; */
 		  border-radius: 50%;
 		  align-items: center;
@@ -52,54 +52,123 @@
 		  overflow: hidden;
 		}
 		
+		.round_icon2{
+		  width: 30px;
+		  height: 30px;
+		  border-radius: 50%;
+		  align-items: center;
+		  justify-content: center;
+		  overflow: hidden;
+		  opacity: 0.5;
+		}
+		
+		.border {
+			border: 1px solid red;
+		}
+		.little {
+			font-size: 14px;
+			line-height: 34px;
+		}
+		.zhuanyou {
+			color:#777777;
+			width:100px;
+			height: 50px;
+			text-align: center;
+			padding: 5px 0 0 0;
+			font-weight: bold;
+		}
+		
+		.personInfo {
+			list-style: none;
+			margin: 30px 0 0 0;
+			padding: 0;
+		}
+		.personInfo li {
+			padding: 0 20px;
+		}
+		.comment {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+		.comment li {
+			background-color:#ee9f7b;
+			display: block;
+			padding: 5px 20px;
+			margin: 20px 30px 0 0;
+			float: left;
+		}
+		.comment li a {
+			color: white;
+		}
+		.comment li:hover {
+			background-color:skyblue;
+		}
 	</style>
 </head>
 <body>
 	<div class="gtco-loader"></div>
 	<div id="page"></div>
 	<div th:replace="/html/coach/showGym.html::coach_header"></div>
-	
-	<div class="gtco-section border-bottom">
-		<div class="gtco-container">
+	<div style="height:100px"></div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2 ">
 			<div class="row">
-				<div class="col-md-7 col-md-offset-5 text-left" style="padding:0 0 20px">
+				<div class="col-md-3 text-left">
 					<img th:src=@{/image/headImg/}+${session.coach.c_headimg} class="round_icon"/>
-					<span th:text="${session.coach.c_nickname}" style="font-weight:bold"></span>
+					<div class="zhuanyou">
+						<span th:text="${session.coach.c_nickname}"></span>
+					</div>
+					<p><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他的主页</a></p>
+					<ul class="personInfo">
+						<li>
+							<a th:href="@{/dynamic/follow.do}">关注&nbsp;&nbsp;&nbsp;
+								<span th:text="${follow}"></span>
+							</a>
+						</li>
+						<li>
+							<a th:href="@{/dynamic/following.do}">粉丝&nbsp;&nbsp;&nbsp;
+								<span th:text="${following}"></span>
+							</a>
+						</li>
+						<li>
+							<a th:href="@{/dynamic/friends.do}">好友&nbsp;&nbsp;&nbsp;
+								<span th:text="${friends}"></span>
+							</a>
+						</li>
+					</ul>
+					<br>
+					<button style="background-color:#2fddc3;color:white;border:none;margin-left:15px"
+					th:onclick="|addFollow(this)|">&nbsp;+&nbsp;&nbsp;关注</button>
 				</div>
-				<div class="col-md-1 col-md-offset-4 text-center gtco-heading">
-					<a th:href="@{/dynamic/follow.do}">关注&nbsp;&nbsp;&nbsp;<span th:text="${follow}"></span></a>
-				</div>
-				<div class="col-md-1 text-center gtco-heading">
-					<a th:href="@{/dynamic/following.do}">粉丝&nbsp;&nbsp;&nbsp;<span th:text="${following}"></span></a>
-				</div>
-				<div class="col-md-1 text-center gtco-heading">
-					<a th:href="@{/dynamic/friends.do}">好友&nbsp;&nbsp;&nbsp;<span th:text="${friends}"></span></a>
-				</div>
-			</div>
-			<hr>
-			<div class="row">
-				<div th:each="dynamic : ${dynamicList}" class="col-md-10 col-md-offset-1">
+				
+				
+				<div class="col-md-8 col-md-offset-1" style="margin-top:30px">
 					<div class="row">
-						<div class="col-md-1">
-							<a href="#">
-								<img th:src="@{/image/headImg/}+${dynamic.d_headimg}" width="40px" >
-							</a>
-						</div>
-						<div class="col-md-3">
-							<a href="#">
-								<span th:text="${dynamic.d_nickname}">猜猜我是谁</span>
-							</a>
-							<p th:text="${dynamic.d_time}">今天 13:20</p>
-						</div>
-						<div class="col-md-1 col-md-offset-5">
-							<button style="background-color:#2fddc3;color:white;border:none" th:onclick="| window.location.href = '/dynamic/delete.do?id=${dynamic.d_id}' |">删除</button>
-						</div>
-						<div class="col-md-12">
-							<p th:text="${dynamic.d_content}"></p>
-							<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/image/dynamicImg/}+${dynamic.d_img}">
+						<div th:each="dynamic : ${dynamicList}" class="col-md-10 col-md-offset-1">
+							<div class="row">
+								<div class="col-md-1">
+									<a href="#">
+										<img th:src="@{/image/headImg/}+${dynamic.d_headimg}" width="40px" >
+									</a>
+								</div>
+								<div class="col-md-3">
+									<a href="#">
+										<span th:text="${dynamic.d_nickname}">猜猜我是谁</span>
+									</a>
+									<p th:text="${dynamic.d_time}">今天 13:20</p>
+								</div>
+								<div class="col-md-1 col-md-offset-5">
+									<button style="background-color:#2fddc3;color:white;border:none" th:onclick="| window.location.href = '/dynamic/delete.do?id=${dynamic.d_id}' |">删除</button>
+								</div>
+								<div class="col-md-12">
+									<p th:text="${dynamic.d_content}"></p>
+									<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/image/dynamicImg/}+${dynamic.d_img}">
+								</div>
+							</div>
+							<hr>
 						</div>
 					</div>
-					<hr>
 				</div>
 			</div>
 		</div>

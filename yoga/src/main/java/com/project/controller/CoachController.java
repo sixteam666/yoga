@@ -31,6 +31,7 @@ import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
 import com.project.service.IBankCardService;
 import com.project.service.ICoachService;
+import com.project.service.ICommentService;
 import com.project.service.IGymService;
 import com.project.service.IStudentService;
 import com.project.util.FileUtil;
@@ -369,8 +370,8 @@ public class CoachController {
 	 * @return
 	 */
 	@RequestMapping("showToOther.do")
-	@ResponseBody
-	public CoachBean showToOtherUser(String coachId) {
+	public String showToOtherUser(String coachId,ModelMap map) {
+		
 		 String currentUserId = "";
 		 Integer type = null;
 		 Session session = SecurityUtils.getSubject().getSession(false);
@@ -394,7 +395,10 @@ public class CoachController {
 			 type = 0;
 		 }
 		 CoachBean c = service.showToOtherUser(currentUserId,coachId,type);
-		 return c;
+		 map.put("coach", c);
+		 map.put("type", type);
+		 
+		 return "html/coach/coachIndex.html";
 	}
 	
 	

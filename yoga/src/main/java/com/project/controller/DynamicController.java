@@ -110,8 +110,7 @@ public class DynamicController {
 	 */
 	@RequestMapping("showMy.do")
 	public String showMyDynamics(ModelMap map) {
-		//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		String id = "1";
+		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		
 		List<DynamicBean> myDynamicList = blogService.listDynamicsById(id);
 		Integer follow = blogService.countFollow(id);
@@ -268,8 +267,7 @@ public class DynamicController {
 	@RequestMapping("friends.do")
 	public String friends(String id, ModelMap map) {
 		if(id == null) {
-			//String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-			id = "1";
+			id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		}
 		
 		List<CoachBean> coachFriends = blogService.listCoachFriends(id);

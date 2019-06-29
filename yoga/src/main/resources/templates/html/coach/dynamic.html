@@ -51,6 +51,24 @@
 		  justify-content: center;
 		  overflow: hidden;
 		}
+		
+		/*九宫格显示图片*/
+	    ul { list-style: none outside none; margin:0; padding: 0; }
+	    body .mainmenu:after { clear: both; content: " "; display: block; }
+	
+	    body .mainmenu li{ 
+	        float:left;
+	        width: 30%;  
+	        border-radius:3px; 
+	        overflow:hidden;
+	    }
+	    
+	    body .mainmenu li img{ 
+	        margin: 0 9px 10px;
+	        width: 100px;
+	        height: 100px;
+	    }
+
 	</style>
 </head>
 <body>
@@ -95,7 +113,8 @@
 							</a>
 							<p th:text="${dynamic.d_time}">今天 13:20</p>
 						</div>
-						<div class="col-md-2 col-md-offset-5">
+						<div class="col-md-5" style="height:74px"></div>
+						<div class="col-md-2">
 							<button style="color:white;border:none" 
 								th:if="${dynamic.follow == 1}">已关注</button>
 							<button style="background-color:#2fddc3;color:white;border:none" 
@@ -104,8 +123,14 @@
 						</div>
 						<div class="col-md-10">
 							<p th:text="${dynamic.d_content}"></p>
-							<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/image/dynamicImg/}+${dynamic.d_img}">
 						</div>
+						<div class="col-md-5" th:if="${dynamic.pictures != null}">
+							<ul class="mainmenu">
+						        <li th:each="picture : ${dynamic.pictures}">
+						        	<img src="|@{/image/dynamicImg/}${picture.dp_img}|" />
+						        </li>
+						    </ul>
+					    </div>
 					</div>
 					<hr>
 				</div>
