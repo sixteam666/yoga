@@ -128,7 +128,7 @@ public class DynamicController {
 		map.put("follow", follow);
 		map.put("following", following);
 		map.put("friends", friends);
-		return "/html/coach/dynamicIndex.html";
+		return "/html/coach/personalDynamic.html";
 	}
 	
 	@RequestMapping("gymShowMy.do")
@@ -179,7 +179,7 @@ public class DynamicController {
 		map.put("follow", follow);
 		map.put("following", following);
 		map.put("friends", friends);
-		return "/html/coach/dynamicToOther.html";
+		return "/html/coach/dynamicIndex.html";
 	}
 	
 	/**
