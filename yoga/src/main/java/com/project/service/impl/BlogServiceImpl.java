@@ -5,6 +5,9 @@ import java.util.List;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.bean.CoachBean;
 import com.project.bean.DPictureBean;
@@ -17,6 +20,7 @@ import com.project.dao.IFollowDao;
 import com.project.service.IBlogService;
 
 @Service
+@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
 public class BlogServiceImpl implements IBlogService {
 
 	@Autowired
@@ -101,8 +105,7 @@ public class BlogServiceImpl implements IBlogService {
 
 	@Override
 	public List<DynamicBean> listAllDynamics() {
-		//String currentUserId = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		String currentUserId = "1";
+		String currentUserId = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		List<DynamicBean> dynamicList = blogDao.listAllBlog();
 		for (DynamicBean dynamic : dynamicList) {
 			String userid = dynamic.getD_userid();
@@ -134,8 +137,10 @@ public class BlogServiceImpl implements IBlogService {
 	}
 
 	@Override
-	public Integer delete(Integer id) {
-		return blogDao.delete(id);
+	public boolean delete(Integer id) {
+		Integer deleteDynamic = blogDao.delete(id);
+		Integer deleteDynamicImages = blogDao.deleteDynamicImages(id);
+		return deleteDynamic == 1 && deleteDynamicImages > 0 && deleteDynamicImages < 10;
 	}
 	
 	public Integer addFollow(String followId) {

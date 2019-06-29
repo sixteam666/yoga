@@ -50,7 +50,7 @@
 		.coach_message .table div{
 			float: left;
 		}
-		.table.coach tr,td{
+		.table.coach tr td{
 			border-radius: 10px;
 		}
 		
@@ -70,13 +70,13 @@
 		#coach_controller{
 			float: right;
 			height: 80%;
-			margin-top: 10px;
+			margin-top: 60px;
 		}
 	</style>
 	<body>
 		<div class="gtco-loader"></div>
 		<div id="page"></div>
-		<nav class="gtco-nav" role="navigation">
+		<nav class="gtco-nav" role="navigation" th:replace="/html/coach/showGym.html::coach_header">
 			<div class="gtco-container">
 
 				<div class="row" style="background-color: #09C6AB;">
@@ -92,12 +92,7 @@
 							<li class="has-dropdown" id="gym_top"><span style="color: white">点击登录</span></li>
 							<li class="has-dropdown"><a href="#">场馆中心</a>
 								<ul class="dropdown">
-									<li><a href="/html/gym/index.html">场馆展示</a></li>
-									<li><a href="/html/gym/msgShow.html">场馆资料</a></li>
-									<li><a href="/html/gym/lesson.html">课程安排</a></li>
-									<li><a href="/html/gym/wallet.html">我的钱包</a></li>
-									<li><a href="/html/gym/myCoach.html">我的签约教练</a></li>
-									<li><a href="/gym/findCoachByMyResponse.do">我的通知</a></li>
+									
 								</ul>
 							</li>
 						</ul>
@@ -106,33 +101,55 @@
 			</div>
 		</nav>
 		<div class="gtco-section">
+			
 			<div class="gtco-container">
 				<div class="message_top">
 					<h2>签约通知</h2>
 				</div>
 				<div class="coach_message">
-					<table id="MySign" class="table coach table-striped">
-					
-<!-- 						<tr>
+					<table id="MySign" class="table coach table-striped MySign">
+						<tr th:each="gy,iterStat : ${gymList}">
 							<td>
-								<div><img class="coach_headimg" src="#"></div>
+								<div><img class="gym_headimg" th:src="@{../../images/imgs/}+${gy.g_headimg}"></div>
 								<div>&nbsp;&nbsp;&nbsp;
-									<span class="coach_name">null</span>
-									<span class="coach_tips">&nbsp;&nbsp;&nbsp;（点击头像查看教练个人信息）</span><br><br/>
-									<span class="coach_sms">&nbsp;&nbsp;&nbsp;&nbsp;对方对你的场馆很感兴趣，希望和您签约，赶快回复他</span>
+									<span class="gym_name" th:text="${gy.g_name}">null</span>
+									<a class="gym_tips" th:href="@{/coach/showGymDetail.do?gymId=}+${gy.g_id}">（点击头像查看场馆信息）</a><br><br/>
+									<span class="gym_sms">&nbsp;&nbsp;&nbsp;&nbsp;该场馆很欣赏你，希望和您签约，赶快回复他</span></br>
 								</div>
  								<div id="coach_controller">
-									<input type="button" value="同意"/>&nbsp;&nbsp;&nbsp;&nbsp;
-									<input type="button" value="拒绝"/>
+ 									
+									<button  idx="1" th:value="${gy.g_id}" th:onclick="deal_gym(this)" th:text="同意"></button>&nbsp;&nbsp;&nbsp;&nbsp;
+									<button  idx="2" th:value="${gy.g_id}" th:onclick="deal_gym(this)" th:text="拒绝"></button>
 								</div>
 							</td>
-						</tr> -->
-						
+						</tr>
 					</table>
 				</div>
 			</div>
 		</div>
-
+		<div class="gtco-container">
+				<div class="message_top">
+					<h2>学员约课</h2>
+				</div>
+				<div class="coach_message">
+					<table id="MySign2" class="table coach table-striped MySign" >
+						<tr th:each="st,iterStat : ${stuList}">
+							<td>
+								<div><img class="coach_headimg" th:src="@{../../images/imgs/}+${st.s_headimg}"></div>
+								<div>&nbsp;&nbsp;&nbsp;
+									<span class="student_name" th:text="${st.s_name}">null</span>
+									<a class="student_tips" th:href="@{/coach/showStuDetail.do?stuId=}+${st.s_id}">（点击头像查看学员个人信息）</a><br><br/>
+									<span class="student_sms">&nbsp;&nbsp;&nbsp;&nbsp;对方对你很感兴趣，希望选您的课程，赶快回复他</span>
+								</div>
+ 								<div id="coach_controller">
+ 									<button idx="1" th:value="${st.s_id}" th:onclick="deal_stu(this)" th:text="同意"></button>&nbsp;&nbsp;&nbsp;&nbsp;
+									<button idx="2" th:value="${st.s_id}" th:onclick="deal_stu(this)" th:text="拒绝"></button>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
 		<footer id="gtco-footer" role="contentinfo">
 			<div class="gtco-container">
 				<div class="row row-p	b-md">
@@ -188,8 +205,6 @@
 
 		<!-- jQuery -->
 		<script src="../../js/jquery.min.js"></script>
-		<!-- GymTopElem -->
-		<script src="../../js/gym/getGymTopElem.js"></script>
 		<!-- jQuery Easing -->
 		<script src="../../js/jquery.easing.1.3.js"></script>
 		<!-- Bootstrap -->
@@ -209,6 +224,69 @@
 		<script src="../../js/bootstrap-datepicker.min.js"></script>
 		<!-- Main -->
 		<script src="../../js/main.js"></script>
-		<script type="text/javascript" src="../../js/gym/MySign.js"></script>
+		<!-- 获取Session中的数据 -->
+		<script type="text/javascript">
+			//若table内为空，则显示无通知
+			function isNull(){
+				if ($("#MySign").children().html()==undefined) {
+					$("#MySign").text("暂无申请通知")
+				}
+				if ($("#MySign2").children().html()==undefined) {
+					$("#MySign2").text("暂无申请通知")
+				}
+				
+			}
+			isNull()
+			//处理场馆申请
+			function deal_gym(obj){
+				var r_resid = $(obj).attr("value")
+				var r_state = $(obj).attr("idx")
+				alert(r_state)
+				$.ajax({
+					type:"post",
+					url:"/coach/signGym.do?r_resid="+r_resid+"&r_state="+r_state,
+					asycn:true,
+					success:function(re){
+						if (re == "hasGym") {
+							alert("你已有签约场馆")
+						}else if (re == "accept") {
+							$(obj).parents("tr").remove()
+							alert("签约成功")
+						}else if(re == "add" || re == "isRequest"){
+							alert("已向场馆发出申请")
+						}else if(re == "false"){
+							alert("申请失败")
+						}else{
+							$(obj).parents("tr").remove()
+						}
+						
+					}
+				})
+			}
+			//处理学员请求
+			function deal_stu(obj){
+				alert()
+				var r_reqid = $(obj).attr("value")
+				var r_state = $(obj).attr("idx")
+				alert(r_state)
+				$.ajax({
+					type:"post",
+					url:"/coach/dealStuRequest.do?r_reqid="+r_reqid+"&r_state="+r_state,
+					asycn:true,
+					success:function(re){
+						if (re == "accept") {
+							alert("已同意")
+							$(obj).parents("tr").remove()
+						}else if (re == "noaccept") {
+							$(obj).parents("tr").remove()
+						}else if(re == "network_error"){
+							alert("网络异常")
+						}
+						
+					}
+				})
+			}
+			
+		</script>
 	</body>
 </html>

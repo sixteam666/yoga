@@ -89,16 +89,14 @@
 	<div class="gtco-section border-bottom">
 		<div class="gtco-container">
 			<div class="row">
-				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>我的学员</h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4">
-					<div th:each="myStu : ${myStuList}" class="price-box">
-						<img th:src="@{/image/headImg/}+${myStu.s_headimg}" src="../../images/imgs/19.jpg" />
-						<br /><br /><br />
-						<h2 class="pricing-plan" th:text="${myStu.s_nickname}">用户名</h2>
+				<div th:each="myStu : ${myStuList}" class="col-md-4">
+					<div  class="price-box">
+						<h4 th:text="${myStu.s_nickname}" class="pricing-plan">课程名称</h4>
+						<img th:src="@{/image/headImg/}+${myStu.s_headimg}" width="100px" height="120px"/>
+						<br/><br/>
+						<ul class="pricing-info">
+							<li th:text="| 签约时间: ${myStu.s_nickname}|">下单时间：xxx</li>
+						</ul>
 					</div>
 				</div>
 			</div>

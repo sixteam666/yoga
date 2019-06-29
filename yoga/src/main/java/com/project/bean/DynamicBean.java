@@ -1,5 +1,7 @@
 package com.project.bean;
 
+import java.util.List;
+
 /**
  * 动态对象
  * @author Administrator
@@ -14,6 +16,7 @@ public class DynamicBean {
 	private String d_headimg;
 	private String d_nickname;
 	private Integer d_type;
+	private List<DPictureBean> pictures;
 	/**
 	 * 判断用户关系专用字段，即当前用户是否关注了此动态的持有者
 	 * 查询出动态后，需要判断发动态的用户和当前用户的关系，以便设置加关注和已关注
@@ -73,6 +76,12 @@ public class DynamicBean {
 	}
 	public void setFollow(Integer follow) {
 		this.follow = follow;
+	}
+	public List<DPictureBean> getPictures() {
+		return pictures;
+	}
+	public void setPictures(List<DPictureBean> pictures) {
+		this.pictures = pictures;
 	}
 	@Override
 	public String toString() {

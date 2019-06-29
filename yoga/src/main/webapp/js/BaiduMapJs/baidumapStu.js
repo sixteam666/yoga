@@ -22,7 +22,7 @@
 	getMyCoachData();
 
 	/* 将后台数据显示在地图上 */
-	// var map1 = new BMap.Map("BaiduMap");
+	var map = new BMap.Map("BaiduMap");
 	// 当前位置坐标 (参数：经度，纬度，缩放比列)
 	map.centerAndZoom(new BMap.Point(lng, lat), 14);
 	map.enableScrollWheelZoom(true);
