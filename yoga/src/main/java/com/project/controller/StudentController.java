@@ -1,12 +1,10 @@
 package com.project.controller;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -20,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.unit.DataUnit;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +33,6 @@ import com.project.bean.RequestBean;
 import com.project.bean.ShowWordsBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
-import com.project.dao.IRequestDao;
 import com.project.service.IBlogService;
 import com.project.service.ICoachService;
 import com.project.service.IGymService;
@@ -387,6 +383,11 @@ public class StudentController {
 			}
 			
 			
+			/**
+			 * 我的订单
+			 * @param m
+			 * @return
+			 */
 			@RequestMapping("/findorder.do")
 			public String findorder(ModelMap m){
 				Session session = SecurityUtils.getSubject().getSession();
@@ -397,6 +398,11 @@ public class StudentController {
 				return "html/student/order.html";
 			}
 		
+			/**
+			 * 跳转个人主页
+			 * @param m
+			 * @return
+			 */
 			@RequestMapping("/mypage.do")
 			public String mypage(ModelMap m){
 				Session session = SecurityUtils.getSubject().getSession();
@@ -499,6 +505,88 @@ public class StudentController {
 				model.addAttribute("notify",listnotify );
 				System.out.println(listnotify);
 				return "html/student/inform.html";
+				
+			}
+			
+			@RequestMapping("gym.do")
+			public String findgym(HttpServletRequest request){
+				String gymid = request.getParameter("gymid");
+				 GymBean gymBean = gymService.findGymById(gymid);
+				 Session session = SecurityUtils.getSubject().getSession();
+				 session.setAttribute("gym", gymBean);
+				return "html/student/gymIndex.html";
+			}
+			
+			
+			
+			/**
+			 * 获取Session中的数据
+			 * 
+			 * @return
+			 */
+			@RequestMapping("/getGymToSession.do")
+			@ResponseBody
+			public GymBean getGymToSession() {
+				// System.out.println("正在获取Session");
+				Subject currentUser = SecurityUtils.getSubject();
+				Session session = currentUser.getSession(false);
+				if (session == null) {
+					System.out.println("Session:null");
+					return null;
+				}
+				Object object = session.getAttribute("gym");
+				if (object == null) {
+					System.out.println("gym:null");
+					return null;
+				}
+				GymBean gymBean = (GymBean) object;
+				// System.out.println(gymBean);
+				return gymBean;
+			}
+			
+			
+			/**
+			 * 选择课程
+			 */
+			@RequestMapping("/pickLesson.do")
+			//@ResponseBody
+			public String showLesson(LessonBean lessonBean,ModelMap map){
+				System.out.println(lessonBean);
+				String gymId = this.getGymToSession().getG_id();
+				lessonBean.setL_g_id(gymId); 
+				System.out.println(lessonBean);
+				List<LessonBean> list = gymService.findLesson(lessonBean);
+				if (list.isEmpty()) {
+					list.add(lessonBean);
+				}
+				map.put("list", list);
+				return "/html/student/addLesson.html";
+			}
+			
+			@RequestMapping("/order.do")
+			@ResponseBody
+			public boolean purchase(int lessonid){
+				Session session = SecurityUtils.getSubject().getSession();
+				StudentBean stu=(StudentBean) session.getAttribute("stu");
+				String stuid = stu.getS_id();
+				System.out.println(lessonid);
+				LessonBean lessonbean = service.findlessonbyid(lessonid);
+				if (stu.getS_money()>=lessonbean.getL_price()) {
+					String date2String = DateUtil.Date2String(new java.util.Date(), "yy-MM-dd HH:mm:ss");
+					OrderBean order =  new OrderBean();
+					order.setCode("订单号");
+					order.setO_l_id(lessonid);
+					order.setO_price(lessonbean.getL_price());
+					order.setO_s_id(stuid);
+					order.setO_time(date2String);
+					service.addorder(order);
+					return true;
+				}
+				else {
+					
+					return false;
+				}
+				
 				
 			}
 			

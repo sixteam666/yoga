@@ -248,4 +248,10 @@ public class StudentServiceImpl implements IStudentService{
 		int Result  = requestdao.addRequeststu(myid, itid, type, date);
 		return Result;
 	}
+
+	@Override
+	public LessonBean findlessonbyid(int id) {
+		 LessonBean findlessonbyid = lessondao.findlessonbyid(id);
+		return findlessonbyid;
+	}
 }

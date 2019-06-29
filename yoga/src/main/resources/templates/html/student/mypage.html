@@ -55,18 +55,14 @@
 			<div class="row" style="border: 5px solid #09C6AB;border-radius: 50px;">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
 					<br />
-					<h2>个人主页</h2>
+					
 					<div  style="text-align: center;margin-bottom:20px" >
 						<img th:src="@{'../../images/imgs/'+${session.stu.s_headimg}}"/>
 					</div>
 					<p th:text="| 关注: ${idolnumber}  粉丝: ${fansnumber}  |">关注  458  | 粉丝13753 </p>
 						<hr>
 				</div>
-				<div  class="col-md-10 col-md-offset-2 text-center gtco-heading">
-					<a class="col-md-2"  >个人资料</a>
-					<a class="col-md-2" >动态</a>
-					<a href="/student/findWord.do" class="col-md-2" >留言板</a>
-				</div>
+			
 				<div style="font-size: 20px;" class="col-md-8 col-md-offset-2 gtco-heading" >
 					
 				<div style="border-bottom: dashed;" class="col-md-10  gtco-heading">

@@ -57,7 +57,7 @@ public interface IStudentDao {
 	public List<CoachBean> findCoachbyStudentId(String id);
 	
 	//    生成订单
-	@Insert("insert into t_order VALUES (null,#{o_status},#{o_time},#{o_s_id},#{o_l_id},#{o_price})")
+	@Insert("insert into t_order (o_time,o_s_id,o_l_id,o_price,code) VALUES (#{o_time},#{o_s_id},#{o_l_id},#{o_price},#{code})")
 	public  int addorder(OrderBean order);
 	
 	
@@ -72,6 +72,7 @@ public interface IStudentDao {
 	
 	
 	//     通过地图查询学生员
+	
 	
 
 }

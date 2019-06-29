@@ -186,6 +186,13 @@ public interface IStudentService{
 	public List<RequestBean> findallreq(String id);
 	
 	/**
+	 * 根据id查询课程
+	 * @param id
+	 * @return
+	 */
+	public LessonBean findlessonbyid(int id);
+	
+	/**
 	 * 增加通知
 	 * @param myid
 	 * @param itid
