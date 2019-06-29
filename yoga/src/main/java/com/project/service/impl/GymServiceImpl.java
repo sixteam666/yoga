@@ -1,5 +1,7 @@
 package com.project.service.impl;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import com.project.dao.ILessonDao;
 import com.project.dao.IPictureDao;
 import com.project.dao.IRequestDao;
 import com.project.service.IGymService;
+import com.project.util.DateUtil;
 
 @Service(value = "gymService")
 public class GymServiceImpl implements IGymService {
@@ -96,7 +99,7 @@ public class GymServiceImpl implements IGymService {
 	public int submitSigingApplication(String g_id, String c_id) {
 		RequestBean requestBean = requestDao.findIsRequest(g_id, c_id);
 		if(requestBean == null) {
-			String r_date = "2019-2-20";
+			String r_date = DateUtil.Date2String(new Date(), "yyyy-MM-dd");
 			return requestDao.addRequest(g_id, c_id,r_date);
 		}
 		int state = requestBean.getR_state();

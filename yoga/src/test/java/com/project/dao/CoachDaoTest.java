@@ -72,7 +72,7 @@ public class CoachDaoTest extends BaseTest {
 	//测试申请签约场馆
 	@Test
 	public void addRequest(){
-		reDao.addRequest("a", "b");
+		reDao.addRequest("a", "b","2019-02-20");
 	}
 	//测试修改申请状态
 	@Test
