@@ -359,9 +359,11 @@ public class GymController {
 		System.out.println(lessonBean);
 		List<LessonBean> list = gymService.findLesson(lessonBean);
 		if (list.isEmpty()) {
-			list.add(lessonBean);
+			list = null;
+			map.put("lessonBean", lessonBean);
 		}
 		map.put("list", list);
+		
 		return "/html/gym/lessonModify.html";
 	}
 	

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.project.bean.CoachBean;
 import com.project.bean.DynamicBean;
@@ -447,11 +448,12 @@ public class StudentController {
 			 */
 			
 			@RequestMapping("/alipay.do")
+			//@ResponseBody
 			public String alipay(HttpServletRequest request){
 				String money = request.getParameter("money");
 				Session session = SecurityUtils.getSubject().getSession();
 				session.setAttribute("money", money);
-				return "html/student/index.html";
+				return "redirect:/jsp/index.jsp";
 			}
 			
 			/**
@@ -502,5 +504,44 @@ public class StudentController {
 				
 			}
 			
-			
+			/**
+			 * 充值
+			 * @param model
+			 * @return
+			 */
+			@RequestMapping("/investMoney.do")
+			public String  investMoney(Model model){
+				Session session = SecurityUtils.getSubject().getSession();
+				StudentBean stu=(StudentBean) session.getAttribute("stu");
+				double money = (double) session.getAttribute("money");
+				String id = stu.getS_id();
+				StudentBean stu2 = service.findStudentbyId(id);
+				stu2.setS_money(stu2.getS_money()+money);
+				return "redirect:/student/showStudent.do";
+			}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
