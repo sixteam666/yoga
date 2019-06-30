@@ -248,7 +248,7 @@ public class DynamicController {
 	}
 	
 	/**
-	 * 显示粉丝
+	 * 显示场馆粉丝
 	 * 垃圾代码
 	 * @param map
 	 * @return

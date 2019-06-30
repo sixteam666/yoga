@@ -53,6 +53,23 @@
 		  justify-content: center;
 		  overflow: hidden;
 		}
+		/*九宫格显示图片*/
+	    ul { list-style: none outside none; margin:0; padding: 0; }
+	    body .mainmenu:after { clear: both; content: " "; display: block; }
+	
+	    body .mainmenu li{ 
+	        float:left;
+	        width: 30%;  
+	        border-radius:3px; 
+	        overflow:hidden;
+	    }
+	    
+	    body .mainmenu li img{ 
+	        margin: 0 9px 10px;
+	        width: 100px;
+	        height: 100px;
+	    }
+		
 	</style>
 	<style>
 		.nineImg{
@@ -173,9 +190,9 @@
 			<div id="publish" class="row" style="display:none;">
 				<div class="col-md-9 col-md-offset-1" align="left" >
 					<div class="row">
-						<form action="/dynamic/addDynamic.do" method="post" enctype="multipart/form-data">
+						<form action="/dynamic/addDynamic.do" method="post" enctype="multipart/form-data" onsubmit="return checkContent()">
 							<div class="" style="width:500px;height:200px;float: left;" >
-								<textarea name="d_content" style="width:500px;height:200px;" placeholder="说点什么吧！（30字以内）"></textarea>
+								<textarea id="dcontent" name="d_content" style="width:500px;height:200px;" placeholder="说点什么吧！（30字以内）"></textarea>
 							</div> 
 							<div class="nineImg" style="float: left;width:230px;height:200px;">
 								
@@ -228,7 +245,8 @@
 							</a>
 							<p th:text="${dynamic.d_time}">今天 13:20</p>
 						</div>
-						<div class="col-md-2 col-md-offset-5">
+						<div class="col-md-5" style="height:74px"></div>
+						<div class="col-md-2">
 							<!-- <button style="color:white;border:none" 
 								th:if="${dynamic.follow}"
 								th:onclick="">已关注</button>
@@ -236,10 +254,17 @@
 							th:unless="${dynamic.follow}"
 							th:onclick="">&nbsp;+&nbsp;&nbsp;关注</button> -->
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-10">
 							<p th:text="${dynamic.d_content}"></p>
-							<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/image/dynamicImg/}+${dynamic.d_img}">
+							<!-- <img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/image/dynamicImg/}+${dynamic.d_img}"> -->
 						</div>
+						<div class="col-md-5" th:if="${dynamic.pictures != null}">
+							<ul class="mainmenu">
+						        <li th:each="picture : ${dynamic.pictures}">
+						        	<img th:src="|@{/image/dynamicImg/}${picture.dp_img}|" />
+						        </li>
+						    </ul>
+					    </div>
 					</div>
 					<hr>
 				</div>
@@ -397,6 +422,16 @@
 					$(".img_null").before(str);
 				}
 				
+			}
+		}
+		
+		//无内容时无法发表
+		function checkContent() {
+			var dcontent = $("#dcontent").val();
+			//alert(dcontent)
+			if(dcontent == null || dcontent == "") {
+				//alert(dcontent)
+				return false;
 			}
 		}
 	</script>

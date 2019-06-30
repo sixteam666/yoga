@@ -133,11 +133,14 @@
 							<td>课程描述</td>
 							
 						</tr>
+						<tr align="center" class="gradeX" th:if="${list==null}">
+							<td colspan="5">此时段暂无课程信息！</td>
+						</tr>
+						<tr align="center" class="gradeX" th:if="${list!=null}" th:each="lesson,iterStat : ${list}">
 						
-						<tr align="center" class="gradeX" th:each="lesson,iterStat : ${list}">
 							<input type="hidden" id="hid" th:value="${lesson.l_id}">
 							<td th:if="${lesson.coachBean!=null}" th:text="${lesson.coachBean.c_nickname}">章教练</td>
-							<td th:unless="${lesson.coachBean!=null}" th:text="暂无课程教练">章教练</td>
+							<!-- <td th:unless="${lesson.coachBean!=null}" th:text="暂无课程教练">章教练</td> -->
 							<td>
 								<span th:text="${lesson.l_price}">200</span>￥/节
 							</td>
@@ -190,9 +193,9 @@
 	            </div> 
 	            
 	            <form action="/gym/addLesson.do"  id="myform">
-		            <input type="hidden" id="hid_add" name="l_g_id" th:value="${list[0].l_g_id}">
-		            <input type="hidden" id="hid_add" name="l_weekday" th:value="${list[0].l_weekday}">
-		            <input type="hidden" id="hid_add" name="l_datetime" th:value="${list[0].l_datetime}">
+		            <input type="hidden" id="hid_add" name="l_g_id" th:value="${lessonBean.l_g_id}">
+		            <input type="hidden" id="hid_add" name="l_weekday" th:value="${lessonBean.l_weekday}">
+		            <input type="hidden" id="hid_add" name="l_datetime" th:value="${lessonBean.l_datetime}">
 		            <div class="modal-body">
 		            	
 		            	<table border="1" cellspacing="0" cellpadding="0" style="width: 500px;">
@@ -327,9 +330,9 @@
 	<script src="../../js/main.js"></script>
 	<script th:inline="javascript">
 		
-		var l_g_id = /*[[${list[0].l_g_id}]]*/"";
-		var l_weekday = /*[[${list[0].l_weekday}]]*/0;
-		var l_datetime = /*[[${list[0].l_datetime}]]*/0;
+		var l_g_id = /*[[${lessonBean.l_g_id}]]*/"";
+		var l_weekday = /*[[${lessonBean.l_weekday}]]*/0;
+		var l_datetime = /*[[${lessonBean.l_datetime}]]*/0;
 		
 		//显示我的签约教练
 		function findMyCoach(){

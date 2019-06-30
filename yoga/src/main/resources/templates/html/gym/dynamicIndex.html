@@ -52,6 +52,25 @@
 		  overflow: hidden;
 		}
 		
+		
+		
+		
+		/*九宫格显示图片*/
+	    ul { list-style: none outside none; margin:0; padding: 0; }
+	    body .mainmenu:after { clear: both; content: " "; display: block; }
+	
+	    body .mainmenu li{ 
+	        float:left;
+	        width: 30%;  
+	        border-radius:3px; 
+	        overflow:hidden;
+	    }
+	    
+	    body .mainmenu li img{ 
+	        margin: 0 9px 10px;
+	        width: 100px;
+	        height: 100px;
+	    }
 	</style>
 </head>
 <body>
@@ -100,7 +119,7 @@
 					<!--<a th:href="@{/dynamic/follow.do}">关注&nbsp;&nbsp;&nbsp;<span th:text="${follow}"></span></a>-->
 				</div>
 				<div class="col-md-1 text-center gtco-heading" style="margin-left: -16px;">
-					<a th:href="@{/dynamic/following.do}">粉丝&nbsp;&nbsp;&nbsp;<span th:text="${following}">3</span></a>
+					<a th:href="@{/dynamic/gymFollowing.do}">粉丝&nbsp;&nbsp;&nbsp;<span th:text="${following}">3</span></a>
 				</div>
 				<div class="col-md-1 text-center gtco-heading">
 					<!--<a th:href="@{/dynamic/friends.do}">好友&nbsp;&nbsp;&nbsp;<span th:text="${friends}"></span></a>-->
@@ -126,8 +145,14 @@
 						</div>
 						<div class="col-md-12">
 							<p th:text="${dynamic.d_content}"></p>
-							<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/image/dynamicImg/}+${dynamic.d_img}">
-						</div>
+							<!-- <img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/image/dynamicImg/}+${dynamic.d_img}"> -->
+						</div><div class="col-md-7" th:if="${dynamic.pictures != null}">
+							<ul class="mainmenu">
+						        <li th:each="picture : ${dynamic.pictures}">
+						        	<img th:src="|@{/image/dynamicImg/}${picture.dp_img}|" />
+						        </li>
+						    </ul>
+					    </div>
 					</div>
 					<hr>
 				</div>

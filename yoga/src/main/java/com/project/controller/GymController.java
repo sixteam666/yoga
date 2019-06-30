@@ -207,8 +207,8 @@ public class GymController {
 	 * @param gymBean
 	 */
 	@RequestMapping(value="/updateMsg.do",method = RequestMethod.POST)
-	//@ResponseBody
-	public String updateMessage(Model model,ModelMap map,@Validated GymBean gymBean,
+	//@ResponseBody//@Validated
+	public String updateMessage(Model model,ModelMap map, GymBean gymBean,
 			MultipartFile file,HttpServletRequest req,BindingResult result) {
 		model.addAttribute("gymBean", gymBean);
 		System.out.println(file);
@@ -355,9 +355,11 @@ public class GymController {
 		System.out.println(lessonBean);
 		List<LessonBean> list = gymService.findLesson(lessonBean);
 		if (list.isEmpty()) {
-			list.add(lessonBean);
+			list = null;
+			map.put("lessonBean", lessonBean);
 		}
 		map.put("list", list);
+		
 		return "/html/gym/lessonModify.html";
 	}
 	
