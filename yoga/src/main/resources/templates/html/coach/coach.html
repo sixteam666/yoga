@@ -35,7 +35,12 @@
 
 	<!-- Modernizr JS -->
 	<script src="../../js/modernizr-2.6.2.min.js"></script>
-
+	<link rel="stylesheet" href="../../css/slider.css">
+	<link rel="stylesheet" href="../../css/basic.css">
+	<link rel="stylesheet" href="../../css/index.css">
+	<style type="text/css">
+		body{margin-top:-100px;}
+	</style>
 	</head>
 	<body>
 		
@@ -57,34 +62,25 @@
 						<li><a href="/dynamic/showHot.do" class="fon">动态</a></li>
 					</ul>
 				</div>
-			<div class="col-xs-8 text-right">
+				<div class="col-xs-8 text-right">
 					<ul>
 						<li class="has-dropdown">
-<<<<<<< HEAD
 							<span id="welcome" style="color: white;" >欢迎您，<span th:text="${session.coach.c_name}"></span></span>
 							<a href="/coach/loginOut.do">【注销】</a>
 							
 						</li>
 						<li class="has-dropdown">
-							
-=======
-							<a>
-								<span id="welcome" style="color: white;" th:text="${session.coach.c_name}">rwer</span>
-							</a>
->>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 							<ul class="dropdown">
 								<li><a href="/coach/showCoach.do">个人资料</a></li>
 								<li><a href="/coach/myStudent.do">我的学员</a></li>
 								<li><a href="/dynamic/showMy.do">我的主页</a></li>
 								<li><a href="/coach/showMoney.do">我的钱包</a></li>
 								<li><a href="/coach/myAdvise.do">我的通知</a></li>
+								<li><a href="/coach/findSign.do">我的签约</a></li>
 							</ul>
 						</li>
-						<li>
-							<a href="/coach/loginOut.do">【注销】</a>
-						</li>
 					</ul>	
-			</div>
+				</div>
 			</div>
 			
 		</div>
@@ -108,7 +104,17 @@
 			</div>
 		</div>
 	</header>
-	
+	<div id="show" style="width: 100%;">
+		<ul class="slider">
+			<li class="item"><img src="/image/lunbo/1.jpg" ></li>
+			<li class="item"><img src="/image/lunbo/2.jpg" ></li>
+			<li class="item"><img src="/image/lunbo/3.jpg" ></li>
+			<li class="item"><img src="/image/lunbo/4.jpg" ></li>
+			<li class="item"><img src="/image/lunbo/5.jpg" ></li>
+		</ul>
+		<ul class="types" style="height:0px;">
+		</ul>
+	</div>
 	<div class="gtco-section">
 		<div class="gtco-container">
 			<div class="row">
@@ -117,6 +123,7 @@
 					<p>瑜伽是身体的锻炼，是心的旅行，是生活的方式，更是探索生命意义的文化.</p>
 				</div>
 			</div>
+			
 			<div class="row">
 				<div class="col-lg-4 col-md-4 col-sm-6" th:each="gy,iterStat : ${gym}">
 				<a th:href="@{/coach/showGymDetail.do?gymId=}+${gy.g_id}" class="fh5co-card-item">
@@ -128,6 +135,7 @@
 						<h2 th:text="${gy.g_name}">瑜伽馆</h2>
 						<p th:text="${gy.g_phone}">xxxxxxxxxxx</p>
 						<span>点击查看场馆信息</span>
+						
 					</div>
 				</a>
 				</div>
@@ -161,7 +169,6 @@
 			</div>
 		</div>
 	</div>
-	
 	
 	<footer id="gtco-footer" role="contentinfo">
 		<div class="gtco-container">
@@ -249,7 +256,9 @@
 	<!-- Datepicker -->
 	<script src="../../js/bootstrap-datepicker.min.js"></script>
 	
-
+	<script src="../../js/index.js" ></script>
+	<script src="../../js/Slider.js" ></script>
+	<script src="../../js/basic.js" ></script>
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
 	<script type="text/javascript">

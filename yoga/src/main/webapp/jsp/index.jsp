@@ -394,8 +394,9 @@ h2 {
 		sNow += String(vNow.getSeconds());
 		sNow += String(vNow.getMilliseconds());
 		document.getElementById("WIDout_trade_no").value =  sNow;
-		document.getElementById("WIDsubject").value = "20190514";
-		document.getElementById("WIDtotal_amount").value = ""+GetQueryString("totalmoney");
+		document.getElementById("WIDsubject").value = "20190701";
+		//document.getElementById("WIDtotal_amount").value = ""+GetQueryString("totalmoney");
+		document.getElementById("WIDtotal_amount").value = ${money};
 	}
 	GetDateNow();
 	

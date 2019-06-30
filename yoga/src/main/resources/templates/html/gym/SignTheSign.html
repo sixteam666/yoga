@@ -50,14 +50,13 @@
 		.coach_message .table div{
 			float: left;
 		}
-		.table.coach tr td{
+		.table.coach tr,td{
 			border-radius: 10px;
 		}
 		
 		.table.coach tr:hover{
 			background-color: rgb(9,198,171);
 		}
-		
 		.coach_name{
 			color: black;
 			font-weight:bold;
@@ -70,7 +69,11 @@
 		#coach_controller{
 			float: right;
 			height: 80%;
-			margin-top: 60px;
+			margin-top: 10px;
+		}
+		.coach_headimg{
+			width: 120px !important;
+			height: 120px !important;
 		}
 	</style>
 	<body>
@@ -78,61 +81,24 @@
 		<div id="page"></div>
 		<nav class="gtco-nav" role="navigation">
 			<div class="gtco-container">
-
 				<div class="row" style="background-color: #09C6AB;">
-					<div class="col-sm-4 col-xs-12">
-						<ul>
-							<li><a href="gym.html" class="fon">首页</a></li>
-							<li><a href="showCoach.html" class="fon">教练</a></li>
-							<li><a href="showStudent.html" class="fon">学员</a></li>
-						</ul>
-					</div>
-					<div class="col-xs-8 text-right">
-						<ul>
-							<li class="has-dropdown" id="gym_top"><span style="color: white">点击登录</span></li>
-							<li class="has-dropdown"><a href="#">场馆中心</a>
-								<ul class="dropdown">
-									<li><a href="/html/gym/index.html">场馆展示</a></li>
-									<li><a href="/html/gym/msgShow.html">场馆资料</a></li>
-									<li><a href="/html/gym/lesson.html">课程安排</a></li>
-									<li><a href="/html/gym/wallet.html">我的钱包</a></li>
-									<li><a href="/html/gym/myCoach.html">我的签约教练</a></li>
-									<li><a href="/gym/findCoachByMyResponse.do">我的通知</a></li>
-								</ul>
-							</li>
-						</ul>
-					</div>
+					<div class="col-sm-4 col-xs-12"></div>
+					<div class="col-xs-8 text-right"></div>
 				</div>
 			</div>
 		</nav>
 		<div class="gtco-section">
+		
 			<div class="gtco-container">
 				<div class="message_top">
-					<h2>签约通知</h2>
+					<h2><span id="span_0" onclick="changeTable(0)">签约请求</span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="span_1" onclick="changeTable(1)">签约通知</span></h2>
 				</div>
 				<div class="coach_message">
-					<table id="MySign" class="table coach table-striped">
-					
-<!-- 						<tr>
-							<td>
-								<div><img class="coach_headimg" src="#"></div>
-								<div>&nbsp;&nbsp;&nbsp;
-									<span class="coach_name">null</span>
-									<span class="coach_tips">&nbsp;&nbsp;&nbsp;（点击头像查看教练个人信息）</span><br><br/>
-									<span class="coach_sms">&nbsp;&nbsp;&nbsp;&nbsp;对方对你的场馆很感兴趣，希望和您签约，赶快回复他</span>
-								</div>
- 								<div id="coach_controller">
-									<input type="button" value="同意"/>&nbsp;&nbsp;&nbsp;&nbsp;
-									<input type="button" value="拒绝"/>
-								</div>
-							</td>
-						</tr> -->
-						
-					</table>
+ 					<table id="MySignResponse" class="table coach table-striped"></table>
 				</div>
 			</div>
+			
 		</div>
-
 		<footer id="gtco-footer" role="contentinfo">
 			<div class="gtco-container">
 				<div class="row row-p	b-md">

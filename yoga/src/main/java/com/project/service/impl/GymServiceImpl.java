@@ -1,5 +1,6 @@
 package com.project.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import com.project.dao.ILessonDao;
 import com.project.dao.IPictureDao;
 import com.project.dao.IRequestDao;
 import com.project.service.IGymService;
+import com.project.util.DateUtil;
 
 @Service(value = "gymService")
 public class GymServiceImpl implements IGymService {
@@ -96,16 +98,17 @@ public class GymServiceImpl implements IGymService {
 	public int submitSigingApplication(String g_id, String c_id) {
 		RequestBean requestBean = requestDao.findIsRequest(g_id, c_id);
 		if(requestBean == null) {
-			return requestDao.addRequest(g_id, c_id);
+			String r_date = DateUtil.Date2String(new Date(), "yyyy年MM月dd日 HH:mm");
+			return requestDao.addRequest(g_id, c_id,r_date);
 		}
 		int state = requestBean.getR_state();
 		String r_reqid = requestBean.getR_reqid();
 		String r_resid = requestBean.getR_resid();
 		if(state == 0 || g_id.equals(r_reqid)) {
-			System.out.println("场馆已经向该教练发送签约请求");
+			// System.out.println("场馆已经向该教练发送签约请求");
 			return 2;
 		}else if(state == 0 || c_id.equals(r_reqid)){
-			System.out.println("该教练已经向场馆发送签约请求");
+			// System.out.println("该教练已经向场馆发送签约请求");
 			return 3;
 		}else {
 			return requestDao.updateRequestState(r_reqid, r_resid, 0);

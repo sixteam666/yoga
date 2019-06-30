@@ -127,16 +127,20 @@
 			var r_resid = document.getElementById("r_resid").value
 			var isSign = document.getElementById("isSign")
 			$.ajax({
-				type:"get",
-				url:"/coach/signGym.do?r_resid="+r_resid,
+				type:"post",
+				url:"/coach/signGym.do?r_resid="+r_resid+"&r_state=1",
 				asycn:true,
 				success:function(re){
 					if (re == "hasGym") {
 						alert("你已有签约场馆")
-					}else if (re == "isRequest") {
-						isSign.innerHTML = "<span style='color:red;'>*你已与场馆存在签约申请，请前往个人中心查看！</span>"
+					}else if (re == "accept") {
+						isSign.innerHTML = "<span style='color:red;'>*签约成功！</span>"
 					}else if(re == "add"){
 						alert("已向场馆发出申请")
+					}else if(re == "false"){
+						alert("申请失败")
+					}else{
+						alert("已拒绝")
 					}
 					
 				}

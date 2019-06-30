@@ -1,5 +1,6 @@
 package com.project.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.project.bean.CoachBean;
 import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
+import com.project.bean.LessonBean;
 import com.project.bean.RequestBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
@@ -21,10 +23,12 @@ import com.project.dao.IBlogDao;
 import com.project.dao.ICoachDao;
 import com.project.dao.IFollowDao;
 import com.project.dao.IGymDao;
+import com.project.dao.ILessonDao;
 import com.project.dao.IRequestDao;
 import com.project.dao.IStudentDao;
 import com.project.dao.IWordDao;
 import com.project.service.ICoachService;
+import com.project.util.DateUtil;
 @Service
 public class CoachServiceImpl implements ICoachService {
 	@Autowired
@@ -44,6 +48,8 @@ public class CoachServiceImpl implements ICoachService {
 	private IBankCardDao bankDao;
 	@Autowired
 	private IWordDao wd;
+	@Autowired
+	private ILessonDao lessonDao;
 	
 	@Override
 	public Boolean register(CoachBean coach) {
@@ -92,7 +98,8 @@ public class CoachServiceImpl implements ICoachService {
 	}
 
 	@Override
-	public String addRequest(String r_reqid, String r_resid) {
+	@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED)
+	public String addRequest(String r_reqid, String r_resid,int r_state) {
 		int row = 0;
 		//先查询是否已经签约一个场馆
 		CoachBean co = dao.findIsGym(r_reqid);
@@ -101,18 +108,29 @@ public class CoachServiceImpl implements ICoachService {
 		//先查询两个对象之间是否有申请关系
 		Object obj = reDao.findIsRequest(r_reqid, r_resid);
 		if (obj == null) {
-			row = reDao.addRequest(r_reqid, r_resid);
+			String time = DateUtil.Date2String(new Date(), "yyyy-MM-dd HH-mm-ss");
+			row = reDao.addRequest(r_reqid, r_resid,time);
 		}else{
 			RequestBean rb = (RequestBean) obj;
 			//已有申请关系
-			if (rb.getR_state()==0) return "isRequest";
+			if (rb.getR_state()==0){
+				//自己已申请
+				if (rb.getR_reqid().equals(r_reqid))return "isRequest";
+				//对方申请
+				if (rb.getR_reqid().equals(r_resid) && updateRequest(r_resid,r_reqid,r_state) && r_state==1 && dao.updateCoachGymId(r_resid, r_reqid)>0) return "accept";
+				return "noaccept";
+			}else if(rb.getR_state()==2){
+				//存在数据（拒绝）,申请
+				if (updateRequest(r_reqid,r_resid,r_state))return "add";
+			}
+				
 		}
 		//申请成功
 		if(row>0)return "add";
 		//申请失败
 		return "false";
 	}
-
+	
 	@Override
 	public Boolean updateRequest(String r_reqid, String r_resid,int r_state) {
 		int row = reDao.updateRequestState(r_reqid, r_resid,r_state);
@@ -278,21 +296,48 @@ public class CoachServiceImpl implements ICoachService {
 			}
 			if(type == 2) {
 				//判断是否与我签约
-				
+				if(currentUserId.equals(c.getC_g_id())) {
+					return c;
+				}
 			}
 			if(type == 0) {
 				//判断是否是我的学员
+				/*if(stuDao.contract(currentUserId,coachId))) {
+					return c;
+				}*/
 			}
 		}
 		//如果是场馆或学员，则默认开放手机号，方便其约私教或与我签约
 		if(type == 0 || type == 2) {
-			c.setC_qq("****");
+			c.setC_qq("********");
 			return c;
 		}
 		//如果教练信息保密
-		c.setC_phone("****");
-		c.setC_qq("****");
+		c.setC_phone("********");
+		c.setC_qq("********");
 		return c;
 	}
+
+	/**
+	 * 返回场馆安排教练的所有课程
+	 */
+	@Override
+	public List<LessonBean> listLessons(String id) {
+		return lessonDao.findlessonbyCoachId(id);
+	}
+
+	@Override
+	public List<GymBean> findMyAdvise(String resid) {
+		List<GymBean> list = reDao.findOtherToMe(resid);
+		return list;
+	}
+
+	@Override
+	public List<StudentBean> findMyAdviseStu(String resid) {
+		List<StudentBean> list = reDao.findStuToMe(resid);
+		return list;
+	}
+
+	
 
 }
