@@ -5,7 +5,7 @@ function getGymTopElem(){
 		type:"post",
 		async:false,
 		success:function(mes){
-			console.info(mes);
+			// console.info(mes);
 			var topElem = "<div class='col-sm-4 col-xs-12'>"+
 								"<ul>"+
 									"<li><a href='/html/gym/index.html' class='fon'>首页</a></li>"+

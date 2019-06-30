@@ -459,7 +459,7 @@ public class GymController {
 	 * 
 	 * @param g_id 被申请的场馆id
 	 * @param c_id 提交申请的教练id
-	 * @param state 1:同意，2：拒绝
+	 * @param state 1:同意，2：拒绝 4:撤回签约请求
 	 * @return 影响行数
 	 */
 	@RequestMapping("/agreeSigingApplication.do")

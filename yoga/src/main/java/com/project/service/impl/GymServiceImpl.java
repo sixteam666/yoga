@@ -82,10 +82,11 @@ public class GymServiceImpl implements IGymService {
 	@Override
 	@Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
 	public int updateCoachBean(String g_id, String c_id) {
+		// String r_date = DateUtil.Date2String(new Date(), "yyyy年MM月dd日 HH:mm");
 		int number = 0;
 		if (g_id == "0") {
-			int sum = requestDao.updateRequestState(g_id, c_id, 2);
-			sum += requestDao.updateRequestState(c_id, g_id, 2);
+			int sum = requestDao.updateRequestState(g_id, c_id, 3);
+			sum += requestDao.updateRequestState(c_id, g_id, 3);
 			if (sum < 1) {
 				return 0;
 			}
@@ -117,9 +118,12 @@ public class GymServiceImpl implements IGymService {
 
 	@Override
 	public int agreeSigingApplication(String g_id, String c_id, int state) {
-		int num = coachDao.updateCoachGymId(g_id, c_id);
-		if (num == 1) {
-			return requestDao.updateRequestState(c_id, g_id, state);
+		if(state == 4) {
+			return requestDao.updateRequestState(g_id, c_id, state);
+		}
+		int num = requestDao.updateRequestState(c_id, g_id, state);
+		if (num == 1 && state == 1) {
+			return coachDao.updateCoachGymId(g_id, c_id);
 		}
 		return num;
 	}

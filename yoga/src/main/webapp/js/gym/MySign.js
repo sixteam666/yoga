@@ -12,14 +12,16 @@ function agreeSigingApplication(state,c_id,c_nickname){
 		async:true,
 		data:"c_id="+c_id+"&state="+state,
 		success:function(mes){
-			console.info("处理请求结果：" + mes);
+			// console.info("处理请求结果：" + mes);
 			if(mes == 0){
 				alert("失败");return;
 			}
 			if(state == 1){
 				alert("已经和   "+c_nickname+ "  签约");
-			}else{
+			}else if(state == 2){
 				alert("已拒绝  "+c_nickname+ "  的签约请求");
+			}else{
+				alert("已撤回签约请求");
 			}
 			var elem=document.getElementById(c_id);
 			elem.parentNode.removeChild(elem);
@@ -93,23 +95,22 @@ function findCoachByMyRequest(){
 		type:"post",
 		async:true,
 		success:function(mes){
-			console.info("场馆向教练发请求:" + mes);
+			// console.info("场馆向教练发请求:" + mes);
 			var elm = "";
 			for(var i=0;i<mes.length;i++){
 				if(mes[i].c_g_id != 0){continue;}
 				elm += "<tr id='"+ mes[i].c_id +"'><td>"+
-					"<div><img class='coach_headimg' src='/image/headImg/"+ mes[i].c_headimg +"' onclick=\"getCoachMessage('"+ mes[i].c_id +"')\" /></div>"+
+					"<div><img class='coach_headimg' src='/image/headImg/"+ mes[i].c_headimg +"' /></div>"+
 					"<div>&nbsp;&nbsp;&nbsp;"+
-						"<span class='coach_name'>"+ mes[i].c_nickname +"</span>"+
-						"<span class='coach_tips'>&nbsp;&nbsp;&nbsp;（点击头像查看教练个人信息）</span><br><br/>"+
-						"<span class='coach_sms'>&nbsp;&nbsp;&nbsp;&nbsp;对方对你的场馆很感兴趣，希望和您签约，赶快回复他</span>"+
+						"<span class='coach_name'>"+ mes[i].c_nickname +"</span><br><br/>"+
+						"<span class='coach_tips'>&nbsp;&nbsp;流派："+ mes[i].c_style +"</span><br><br/>"+
+						"<span class='coach_sms'>&nbsp;&nbsp;&nbsp;&nbsp;</span>"+
 					"</div>"+
 					"<div id='coach_controller'>"+
 						   "<span id='signTime'>"+ mes[i].c_password +"</span><br></br></br>";
 				if(mes[i].c_g_id == 0){
-					/*elm += "<input type='button' value='同意' onclick=\"agreeSigingApplication(1,'"+ mes[i].c_id +"','"+ mes[i].c_nickname +"')\" />&nbsp;&nbsp;&nbsp;&nbsp;"+
-						   "<input type='button' value='拒绝' onclick=\"agreeSigingApplication(2,'"+ mes[i].c_id +"','"+ mes[i].c_nickname +"')\" />";*/
-					elm += "<span>等待对方回复</span>";
+					elm += "<span>等待对方回复</span>&nbsp;&nbsp;&nbsp;&nbsp;"+
+						   "<input type='button' value='撤回请求' onclick=\"agreeSigingApplication(4,'"+ mes[i].c_id +"','"+ mes[i].c_nickname +"')\" />";
 				}else if(mes[i].c_g_id == 1){
 					elm += "<span>对方已同意</span>";
 				}else if(mes[i].c_g_id == 2){
@@ -127,6 +128,7 @@ function findCoachByMyRequest(){
 }
 findCoachByMyRequest();
 
+// 切换导航栏
 function changeTable(state) {
 	if (state == 0) {
 		$("#span_0").css("color","rgb(9,198,171)");
