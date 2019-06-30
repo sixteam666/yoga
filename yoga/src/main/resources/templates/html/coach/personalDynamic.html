@@ -51,15 +51,46 @@
 		  justify-content: center;
 		  overflow: hidden;
 		}
+		
+		.round_icon2{
+		  width: 40px;
+		  height: 40px;
+		  /* display: flex; */
+		  border-radius: 50%;
+		  align-items: center;
+		  justify-content: center;
+		  overflow: hidden;
+		  opacity: 0.8;
+		}
+		
+		/*九宫格显示图片*/
+	    ul { list-style: none outside none; margin:0; padding: 0; }
+	    body .mainmenu:after { clear: both; content: " "; display: block; }
+	
+	    body .mainmenu li{ 
+	        float:left;
+	        width: 30%;  
+	        border-radius:3px; 
+	        overflow:hidden;
+	    }
+	    
+	    body .mainmenu li img{ 
+	        margin: 0 9px 10px;
+	        width: 100px;
+	        height: 100px;
+	    }
 	</style>
 </head>
 <body>
+	<div class="gtco-loader"></div>
+	<div id="page"></div>
+	<div th:replace="/html/coach/showGym.html::coach_header"></div>
 	<div class="gtco-section border-bottom">
 		<div class="gtco-container">
 			<div class="row">
 				<div class="col-md-7 col-md-offset-5 text-left" style="padding:0 0 20px">
-					<img th:src=@{/image/headImg/}+${coach.c_headimg} class="round_icon"/>
-					<span th:text="${coach.c_nickname}" style="font-weight:bold"></span>
+					<img th:src=@{/image/headImg/}+${session.coach.c_headimg} class="round_icon"/>
+					<span th:text="${session.coach.c_nickname}" style="font-weight:bold"></span>
 				</div>
 				<div class="col-md-1 col-md-offset-4 text-center">
 					<a th:href="@{/dynamic/follow.do}">关注&nbsp;&nbsp;&nbsp;<span th:text="${follow}"></span></a>
@@ -70,11 +101,6 @@
 				<div class="col-md-1 text-center">
 					<a th:href="@{/dynamic/friends.do}">好友&nbsp;&nbsp;&nbsp;<span th:text="${friends}"></span></a>
 				</div>
-				<div class="col-md-11 text-center" style="padding:20px 0">
-					<!-- <button style="color:white;border:none">取消关注</button> -->
-					<button style="background-color:#2fddc3;color:white;border:none"
-					th:onclick="|addFollow(this)|">&nbsp;+&nbsp;&nbsp;关注</button>
-				</div>
 			</div>
 			<hr>
 			<div class="row">
@@ -82,7 +108,7 @@
 					<div class="row">
 						<div class="col-md-1">
 							<a href="#">
-								<img th:src="@{/image/headImg/}+${dynamic.d_headimg}" width="40px" >
+								<img th:src="@{/image/headImg/}+${dynamic.d_headimg}" class="round_icon2">
 							</a>
 						</div>
 						<div class="col-md-3">
@@ -93,8 +119,14 @@
 						</div>
 						<div class="col-md-12">
 							<p th:text="${dynamic.d_content}"></p>
-							<img th:if="${dynamic.d_img != '' && dynamic.d_img != null}" th:src="@{/image/dynamicImg/}+${dynamic.d_img}">
 						</div>
+						<div class="col-md-5" th:if="${dynamic.pictures != null}">
+							<ul class="mainmenu">
+						        <li th:each="picture : ${dynamic.pictures}">
+						        	<img th:src="|@{/image/dynamicImg/}${picture.dp_img}|" />
+						        </li>
+						    </ul>
+					    </div>
 					</div>
 					<hr>
 				</div>

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.project.bean.CoachBean;
 import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
+import com.project.bean.LessonBean;
 import com.project.bean.RequestBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
@@ -22,6 +23,7 @@ import com.project.dao.IBlogDao;
 import com.project.dao.ICoachDao;
 import com.project.dao.IFollowDao;
 import com.project.dao.IGymDao;
+import com.project.dao.ILessonDao;
 import com.project.dao.IRequestDao;
 import com.project.dao.IStudentDao;
 import com.project.dao.IWordDao;
@@ -46,6 +48,8 @@ public class CoachServiceImpl implements ICoachService {
 	private IBankCardDao bankDao;
 	@Autowired
 	private IWordDao wd;
+	@Autowired
+	private ILessonDao lessonDao;
 	
 	@Override
 	public Boolean register(CoachBean coach) {
@@ -292,21 +296,34 @@ public class CoachServiceImpl implements ICoachService {
 			}
 			if(type == 2) {
 				//判断是否与我签约
-				
+				if(currentUserId.equals(c.getC_g_id())) {
+					return c;
+				}
 			}
 			if(type == 0) {
 				//判断是否是我的学员
+				/*if(stuDao.contract(currentUserId,coachId))) {
+					return c;
+				}*/
 			}
 		}
 		//如果是场馆或学员，则默认开放手机号，方便其约私教或与我签约
 		if(type == 0 || type == 2) {
-			c.setC_qq("****");
+			c.setC_qq("********");
 			return c;
 		}
 		//如果教练信息保密
-		c.setC_phone("****");
-		c.setC_qq("****");
+		c.setC_phone("********");
+		c.setC_qq("********");
 		return c;
+	}
+
+	/**
+	 * 返回场馆安排教练的所有课程
+	 */
+	@Override
+	public List<LessonBean> listLessons(String id) {
+		return lessonDao.findlessonbyCoachId(id);
 	}
 
 	@Override

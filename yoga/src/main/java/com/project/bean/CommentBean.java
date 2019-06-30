@@ -12,6 +12,8 @@ public class CommentBean {
 	private String pl_c_id;
 	private String pl_s_id;
 	private String pl_time;
+	private String pl_s_nickname;
+	private String pl_s_headimg;
 	public int getPl_id() {
 		return pl_id;
 	}
@@ -48,11 +50,23 @@ public class CommentBean {
 	public void setPl_time(String pl_time) {
 		this.pl_time = pl_time;
 	}
+	public String getPl_s_nickname() {
+		return pl_s_nickname;
+	}
+	public void setPl_s_nickname(String pl_s_nickname) {
+		this.pl_s_nickname = pl_s_nickname;
+	}
+	public String getPl_s_headimg() {
+		return pl_s_headimg;
+	}
+	public void setPl_s_headimg(String pl_s_headimg) {
+		this.pl_s_headimg = pl_s_headimg;
+	}
 	@Override
 	public String toString() {
 		return "CommentBean [pl_id=" + pl_id + ", pl_content=" + pl_content + ", pl_level=" + pl_level + ", pl_c_id="
-				+ pl_c_id + ", pl_s_id=" + pl_s_id + ", pl_time=" + pl_time + "]";
+				+ pl_c_id + ", pl_s_id=" + pl_s_id + ", pl_time=" + pl_time + ", pl_s_nickname=" + pl_s_nickname
+				+ ", pl_s_headimg=" + pl_s_headimg + "]";
 	}
-	
 
 }

@@ -27,7 +27,6 @@ import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.PictureBean;
-import com.project.bean.RequestBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
 import com.project.service.IBankCardService;
@@ -130,7 +129,7 @@ public class CoachController {
 	@RequestMapping("updateInfo.do")
 	public String updateCoachDetailInfo(CoachBean coach) {
 		System.out.println("测试进入详情更新控制层方法>>>>>>>>>>>>>>>>>>>>>>>>");
-		boolean boo = service.updateCoachDetailInfo(coach);
+		service.updateCoachDetailInfo(coach);
 		//更新后的逻辑...
 		//更新后转发至进行查询业务
 		return "redirect:/coach/showCoach.do?id="+coach.getC_id();
@@ -396,8 +395,8 @@ public class CoachController {
 	 * @return
 	 */
 	@RequestMapping("showToOther.do")
-	@ResponseBody
-	public CoachBean showToOtherUser(String coachId) {
+	public String showToOtherUser(String coachId,ModelMap map) {
+		
 		 String currentUserId = "";
 		 Integer type = null;
 		 Session session = SecurityUtils.getSubject().getSession(false);
@@ -421,7 +420,10 @@ public class CoachController {
 			 type = 0;
 		 }
 		 CoachBean c = service.showToOtherUser(currentUserId,coachId,type);
-		 return c;
+		 map.put("coach", c);
+		 map.put("type", type);
+		 
+		 return "html/coach/coachIndex.html";
 	}
 	
 	
@@ -484,8 +486,14 @@ public class CoachController {
 	 * @return
 	 */
 	@RequestMapping("findSign.do")
-	public String findSign() {
-		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
+	public String findSign(ModelMap map) {
+		CoachBean coach = (CoachBean) SecurityUtils.getSubject().getSession().getAttribute("coach");
+		GymBean gym = gs.findGymById(coach.getC_g_id());
+		List<PictureBean> pictureList = gs.findAllPic(coach.getC_g_id(), 1);
+		List<LessonBean> lessonList = service.listLessons(coach.getC_id());
+		map.put("gym", gym);
+		map.put("lessonList", lessonList);
+		map.put("pictureList", pictureList);
 		return "html/coach/mySign.html";
 	}
 	

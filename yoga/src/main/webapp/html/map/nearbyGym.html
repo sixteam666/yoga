@@ -25,13 +25,14 @@
 	</div>
 	<div id="l-map"></div>
 </body>
+</html>
 <script src="../../js/jquery.min.js"></script>
 <script type="text/javascript">
 	// 百度地图API功能
 	var findbox = document.getElementById("findbox")
 	var findbtn = document.getElementById("find")
 	var myIcon = new BMap.Icon("../../img/1.jpg",new BMap.Size(50,50))
-	var coach_address = parent.document.getElementById("c_address").value;
+	var coach_address = parent.document.getElementById("s_address").value;
 	var map = new BMap.Map("l-map");
 	//map.centerAndZoom(coach_address, 12);
 	
@@ -46,7 +47,7 @@
 	function getStu(){
 		$.ajax({
 			type:"get",
-			url:"/coach/findAllStu.do",
+			url:"/gym/findAllGym.do",
 			asycn:true,
 			success:function(re){
 				for (var i = 0; i < re.length; i++) {
@@ -66,8 +67,8 @@
 	
 	function bdGEO(){
 		
-		var info = "姓名:"+adds[index].s_nickname+"</br>地址："+adds[index].s_address;
-		var addid = "<input id='stuId' type='hidden' value='"+adds[index].s_id+"'>";
+		var info = "场馆名:"+adds[index].g_name+"</br>地址："+adds[index].g_address;
+		var addid = "<input id='stuId' type='hidden' value='"+adds[index].g_id+"'>";
 		geocodeSearch(info,addid);
 		index++;
 	}
@@ -97,7 +98,7 @@
 		}
 		 marker.onclick = function(){
 			var stuId = document.getElementById("stuId").value;
-			parent.location.href = "/coach/showStuDetail.do?stuId="+stuId;
+			parent.location.href = "/gym/showMessage.do?stuId="+stuId;
 		} 
 		
 		marker.setLabel(label);
@@ -137,6 +138,5 @@
 			
 		}, "成都市");
 	}
-	initAddress();
+	initAddress()
 </script>
-</html>
