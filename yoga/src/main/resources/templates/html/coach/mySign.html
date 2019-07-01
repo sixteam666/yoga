@@ -82,10 +82,10 @@
 				<h5 th:text="| ${gym.g_name} >|" style="text-align:left;margin-top:180px;font-size:25px;color:white" class="pricing-plan">青脉健身馆  ></h5>
 			</div>
 		</div>
-		<div th:if="${lessonList==null}" class="col-md-7 text-center">
+		<div th:if="${#lists.isEmpty(lessonList) && gym.g_id!='0'}" class="col-md-7 text-center">
 			<p>场馆还未给你安排任何课程</p>
 		</div>
-		<div th:if="${lessonList!=null}" class="col-md-7 text-center">
+		<div th:if="${not #lists.isEmpty(lessonList)}" class="col-md-7 text-center">
 			<table class="table table-bordered">
 				<caption style="text-align:center"><span style="font-size:18px">我的课程</span></caption>
 				<tr>

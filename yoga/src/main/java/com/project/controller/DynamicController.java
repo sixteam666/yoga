@@ -178,6 +178,7 @@ public class DynamicController {
 				//跳转教练要展示的页面...
 				gymService.findGymById(id);
 			}
+			return "/student/hispage.do?id="+id;
 		}
 		
 		//如果查看的人是教练，先判断是不是自己查看自己
