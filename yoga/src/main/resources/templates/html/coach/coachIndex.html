@@ -135,7 +135,8 @@
 						<li>课程价格：<span th:text="${coach.c_price}">70.00</span> 元/节</li>
 					</ul>
 					<br><br>
-					<button style="background-color:#ccdfcd;color:white;border:none;font-size:25px">约私教</button>
+					<button th:if="${coach.c_access != 1}" style="background-color:#ccdfcd;color:white;border:none;font-size:25px">暂不接课</button>
+					<button th:if="${coach.c_access == 1}" style="background-color:#ccdfcd;color:white;border:none;font-size:25px">约私教</button>
 				</div>
 				<div class="col-md-8 col-md-offset-1" style="margin-top:30px">
 					<h2>他的评价</h2>
@@ -148,6 +149,20 @@
 						</ul>
 					</div>
 					<div id="commentContent" class="row">
+						<!-- <div class="col-md-1">
+							<img src="/image/headImg/11.jpg" class="round_icon2">
+						</div>
+						<div class="col-md-2 little">
+							<span>张三</span>
+						</div>
+						<div class="col-md-8 little text-right">
+							<span>2017-05-21 12:20</span>
+						</div>
+						<div class="col-md-10 little">
+							<p>这个老师教的真的可以，关键是人还长得帅！</p>
+						</div>
+						<div class="col-md-12"></div>
+						
 						<div class="col-md-1">
 							<img src="/image/headImg/11.jpg" class="round_icon2">
 						</div>
@@ -161,6 +176,7 @@
 							<p>这个老师教的真的可以，关键是人还长得帅！</p>
 						</div>
 						<div class="col-md-12"></div>
+						
 						<div class="col-md-1">
 							<img src="/image/headImg/11.jpg" class="round_icon2">
 						</div>
@@ -173,20 +189,7 @@
 						<div class="col-md-10 little">
 							<p>这个老师教的真的可以，关键是人还长得帅！</p>
 						</div>
-						<div class="col-md-12"></div>
-						<div class="col-md-1">
-							<img src="/image/headImg/11.jpg" class="round_icon2">
-						</div>
-						<div class="col-md-2 little">
-							<span>张三</span>
-						</div>
-						<div class="col-md-8 little text-right">
-							<span>2017-05-21 12:20</span>
-						</div>
-						<div class="col-md-10 little">
-							<p>这个老师教的真的可以，关键是人还长得帅！</p>
-						</div>
-						<div class="col-md-12"></div>
+						<div class="col-md-12"></div> -->
 					</div>
 				</div>
 			</div>
@@ -283,7 +286,6 @@
 	<script>
 		//教练id
 		var id = $("#coachId").val();
-		id = "1";
 		countComment();
 		countGreatComment();
 		countNormalComment();
