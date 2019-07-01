@@ -32,11 +32,11 @@ public interface IGymDao {
 	 * 
 	 * @return
 	 */
-	@Select("SELECT * FROM t_gym WHERE g_id != '0' and g_id != 'null'")
+	@Select("SELECT * FROM t_gym WHERE g_id != '0' OR g_id != 'null'")
 	List<GymBean> findAllGym();
 
 	/**
-	 * 查找所有会馆
+	 * 查找热门会馆
 	 * 
 	 * @return
 	 */
