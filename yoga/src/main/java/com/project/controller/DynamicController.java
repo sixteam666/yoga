@@ -56,7 +56,7 @@ public class DynamicController {
 		map.put("dynamicList", dynamicList);
 		//根据session判断当前登陆用户类型,分类转发
 		if (session.getAttribute("stu")!=null) {
-			return "/html/student/dynamic.html";
+			return "html/student/dynamic.html";
 		}else if (session.getAttribute("coach")!=null) {
 			return "/html/coach/dynamic.html";
 		}else if (session.getAttribute("gym")!=null) {
@@ -178,6 +178,7 @@ public class DynamicController {
 				//跳转教练要展示的页面...
 				gymService.findGymById(id);
 			}
+			return "/student/hispage.do?id="+id;
 		}
 		
 		//如果查看的人是教练，先判断是不是自己查看自己

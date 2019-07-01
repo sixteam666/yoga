@@ -195,10 +195,6 @@
 					var boo6 = inpPassWord[1].onblur();
 					var boo7 = inpRePassWord[1].onblur();
 					
-					alert(inpUserName.value);
-					alert(inpPassWord[0].value);
-					alert(inpRePassWord[0].value);
-					
 					
 					if ((boo1 && boo2 && boo3)||(boo4 && boo5 && boo6 && boo7)) {
 						
