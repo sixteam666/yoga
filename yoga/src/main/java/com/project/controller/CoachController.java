@@ -537,4 +537,20 @@ public class CoachController {
 		map.put("list", list);
 		return "/html/coach/addLesson.html";
 	}
+	
+	/**
+	 * 教练申请签约场馆
+	 * @param r_reqid 教练id
+	 * @param r_resid 场馆id
+	 * @return 
+	 */
+	@RequestMapping("/lessonDone.do")
+	public void lessonDone(String stuId){
+		int r_state = 5;
+		Object obj = getUser();
+		if (obj != null) {
+			CoachBean coach = (CoachBean)obj;
+			service.updateRequest(stuId,coach.getC_id(),r_state);
+		}
+	}
 }

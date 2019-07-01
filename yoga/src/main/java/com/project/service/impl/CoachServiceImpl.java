@@ -134,7 +134,7 @@ public class CoachServiceImpl implements ICoachService {
 	
 	@Override
 	public Boolean updateRequest(String r_reqid, String r_resid,int r_state) {
-		int row = reDao.updateRequestState(r_reqid, r_resid,r_state);
+		int row = reDao.updateRequestState(r_reqid,r_resid,r_state);
 		if(row>0)return true;
 		return false;
 	}
