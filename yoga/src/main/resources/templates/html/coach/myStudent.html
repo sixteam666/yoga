@@ -68,7 +68,7 @@
 						<li class="has-dropdown">
 							<a >欢迎您，用户名</a>
 							<ul class="dropdown">
-								<li><a href="/coach/showCoach.do?id=1">个人资料</a></li>
+								<li><a href="/coach/showCoach.do">个人资料</a></li>
 								<li><a href="/coach/myStudent.do">我的学员</a></li>
 								<li><a href="contract.html">我的签约</a></li>
 								<li><a href="/dynamic/showMy.do">我的动态</a></li>
@@ -102,6 +102,9 @@
 								<li th:text="| 签约时间: ${myStu.po_time}|">下单时间：xxx</li>
 							</ul>
 						</a>
+						<div>
+							<button th:value="${myStu.s_id}" class="btn" th:onclick="lessonDown(this)">我上完课了</button>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-9 text-left">
@@ -222,7 +225,20 @@
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-
+	<script>
+		//课已上完
+		function lessonDown(obj) {
+			var id = $(obj).attr("value");
+			$.ajax({
+				url: "/coach/lessonDown.do",
+				type: "post",
+				data: "stuId="+id,
+				success: function() {
+					$(obj).attr("disabled","disabled");
+				}
+			});
+		}
+	</script>
 	</body>
 </html>
 
