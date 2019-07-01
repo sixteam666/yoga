@@ -125,7 +125,7 @@
 						<input id="coachId" type="hidden" th:value="${coach.c_id}" />
 						<span th:text="${coach.c_nickname}"></span>
 					</div>
-					<p><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他的动态</a></p>
+					<p><a th:href="|/dynamic/showOther.do?id=${coach.c_id}|">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他的动态</a></p>
 					<ul class="personInfo">
 						<li>电话：<span th:text="${coach.c_phone}">15266872134</span></li>
 						<li>QQ：<span th:text="${coach.c_qq}">741422706</span></li>

@@ -104,6 +104,24 @@
 		.comment li:hover {
 			background-color:skyblue;
 		}
+		
+		/*九宫格显示图片*/
+	    ul { list-style: none outside none; margin:0; padding: 0; }
+	    body .mainmenu:after { clear: both; content: " "; display: block; }
+	
+	    body .mainmenu li{ 
+	        float:left;
+	        width: 30%;  
+	        border-radius:3px; 
+	        overflow:hidden;
+	    }
+	    
+	    body .mainmenu li img{ 
+	        margin: 0 9px 10px;
+	        width: 100px;
+	        height: 100px;
+	    }
+		
 	</style>
 </head>
 <body>
@@ -111,15 +129,16 @@
 	<div id="page"></div>
 	<div th:replace="/html/coach/showGym.html::coach_header"></div>
 	<div style="height:100px"></div>
+	
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2 ">
 			<div class="row">
 				<div class="col-md-3 text-left">
-					<img th:src=@{/image/headImg/}+${session.coach.c_headimg} class="round_icon"/>
+					<img th:src=@{/image/headImg/}+${coach.c_headimg} class="round_icon"/>
 					<div class="zhuanyou">
-						<span th:text="${session.coach.c_nickname}"></span>
+						<span th:text="${coach.c_nickname}"></span>
 					</div>
-					<p><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他的主页</a></p>
+					<p><a th:href="|/coach/showToOther.do?coachId=${coach.c_id}|">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他的主页</a></p>
 					<ul class="personInfo">
 						<li>
 							<a th:href="@{/dynamic/follow.do}">关注&nbsp;&nbsp;&nbsp;
@@ -163,7 +182,7 @@
 								<div class="col-md-12">
 									<p th:text="${dynamic.d_content}"></p>
 								</div>
-								<div class="col-md-5" th:if="${dynamic.pictures != null}">
+								<div class="col-md-7" th:if="${dynamic.pictures != null}">
 									<ul class="mainmenu">
 								        <li th:each="picture : ${dynamic.pictures}">
 								        	<img th:src="|@{/image/dynamicImg/}${picture.dp_img}|" />

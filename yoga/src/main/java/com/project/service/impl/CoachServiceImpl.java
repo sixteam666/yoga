@@ -345,6 +345,12 @@ public class CoachServiceImpl implements ICoachService {
 		return list;
 	}
 
+	@Override
+	public List<CoachBean> showHotCoach() {
+		List<CoachBean> list = dao.findHotCoach();
+		return list;
+	}
+
 	
 
 }

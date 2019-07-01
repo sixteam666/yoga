@@ -11,7 +11,7 @@ import com.project.bean.WordsBean;
 public interface IWordDao {
 	
 	//  查询我的留言
-	@Select("SELECT * FROM t_words WHERE w_showid = #{id};")
+	@Select("SELECT * FROM t_words WHERE w_showid = #{id} order by w_id DESC;")
 	public List<WordsBean> findWords(String id);
 	
 	/*//  删除我的留言

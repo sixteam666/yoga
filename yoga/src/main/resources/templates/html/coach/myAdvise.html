@@ -245,7 +245,6 @@
 			function deal_gym(obj){
 				var r_resid = $(obj).attr("value")
 				var r_state = $(obj).attr("idx")
-				alert(r_state)
 				$.ajax({
 					type:"post",
 					url:"/coach/signGym.do?r_resid="+r_resid+"&r_state="+r_state,
@@ -269,10 +268,8 @@
 			}
 			//处理学员请求
 			function deal_stu(obj){
-				alert()
 				var r_reqid = $(obj).attr("value")
 				var r_state = $(obj).attr("idx")
-				alert(r_state)
 				$.ajax({
 					type:"post",
 					url:"/coach/dealStuRequest.do?r_reqid="+r_reqid+"&r_state="+r_state,

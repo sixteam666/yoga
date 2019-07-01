@@ -1,13 +1,13 @@
 // 处理签约请求
 function agreeSigingApplication(state){
-	console.info("测试：" +c_id+","+c_nickname);
+	// console.info("测试：" +c_id+","+c_nickname);
 	$.ajax({
 		url:"/gym/agreeSigingApplication.do",
 		type:"post",
 		async:true,
 		data:"c_id="+c_id+"&state="+state,
 		success:function(mes){
-			console.info("处理请求结果：" + mes);
+			// console.info("处理请求结果：" + mes);
 			if(mes == 0){
 				alert("失败");return;
 			}
@@ -35,7 +35,7 @@ function addRequest(){
 		async:true,
 		data:"c_id="+c_id,
 		success:function(mes){
-			console.info("处理请求结果：" + mes);
+			// console.info("处理请求结果：" + mes);
 			if(mes == 1){
 				alert("已经向   "+c_nickname+ "  发送签约请求");
 			}else if(mes == 2){
@@ -57,7 +57,7 @@ function updateCoach(){
 		async:true,
 		data:'g_id=0&c_id='+c_id,
 		success:function(mes){
-			console.info("解约结果：" + mes);
+			// console.info("解约结果：" + mes);
 			if(mes > 0){
 				alert("已和   "+c_nickname+ "  解约");
 				history.back();

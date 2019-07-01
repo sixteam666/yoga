@@ -185,6 +185,8 @@ public class CoachController {
 	public String showCoachHome(ModelMap map){
 		List<GymBean> list = service.showHotGym();
 		map.put("gym", list);
+		List<CoachBean> list2 = service.showHotCoach();
+		map.put("coachList", list2);
 		return "/html/coach/coach.html";
 	}
 	
@@ -553,4 +555,5 @@ public class CoachController {
 			service.updateRequest(stuId,coach.getC_id(),r_state);
 		}
 	}
+	
 }
