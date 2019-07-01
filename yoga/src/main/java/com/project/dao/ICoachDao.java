@@ -131,8 +131,7 @@ public interface ICoachDao {
 	 * @param id 私教id
 	 * @return 学员集合
 	 */
-	@Select("select * from t_student where s_id "
-			+ "in(select po_s_id from t_porder where po_c_id = #{cid})")
+	@Select("select po.po_time,s.* from t_student s,t_porder po where s.s_id=po.po_s_id and po.po_c_id = #{cid}")
 	List<StudentBean> listStudentByCoachId(String id);
 	
 	/**

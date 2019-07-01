@@ -20,6 +20,7 @@ public class StudentBean {
 	private double s_money;
 	private String s_address;
 	private String privacy;
+	private String po_time;
 	
 	public String getPrivacy() {
 		return privacy;
@@ -80,6 +81,12 @@ public class StudentBean {
 	}
 	public void setS_address(String s_address) {
 		this.s_address = s_address;
+	}
+	public String getPo_time() {
+		return po_time;
+	}
+	public void setPo_time(String po_time) {
+		this.po_time = po_time;
 	}
 	@Override
 	public String toString() {
