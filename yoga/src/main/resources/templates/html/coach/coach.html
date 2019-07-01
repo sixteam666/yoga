@@ -65,6 +65,13 @@
 				<div class="col-xs-8 text-right">
 					<ul>
 						<li class="has-dropdown">
+							<span id="welcome" style="color: white;" >欢迎您，<span th:text="${session.coach.c_name}"></span></span>
+							<a href="/coach/loginOut.do">【注销】</a>
+							
+						</li>
+						<li class="has-dropdown">
+					<ul>
+						<li class="has-dropdown">
 							<a>
 								<span style="color: white;" >欢迎您，<span th:text="${session.coach.c_name}">用户名</span ></span>
 							</a>
@@ -152,18 +159,19 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-4 col-md-4 col-sm-6">
-					<span class="fh5co-card-item">
+				<div class="col-lg-4 col-md-4 col-sm-6" th:each="co,iterStat : ${coachList}">
+					<a th:href="@{/coach/showToOther.do?coachId=}+${co.c_id}" class="fh5co-card-item">
 						<figure style="text-align: center;top:50px">
 							<img src="../../images/imgs/39.jpg" alt="Image">
 						</figure>
 						<div class="fh5co-text">
-							<h2>瑜伽教练：a</h2>
-							<h2>流派：a</h2>
-							<h2>课时费标准：200元/节</h2>
-							<h2>电话：1111</h2>
+							<h2 th:text="${co.c_nickname}">瑜伽教练：a</h2>
+							<h2 th:text="${co.c_style}">流派：a</h2>
+							<h2 th:text="${co.c_price}">课时费标准：200元/节</h2>
+							<h2 th:text="${co.c_phone}">电话：1111</h2>
+							<span>点击查看教练信息</span>
 						</div>
-					</span>
+					</a>
 				</div>
 				
 			</div>

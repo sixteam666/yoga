@@ -252,5 +252,10 @@ public interface ICoachService {
 	 * @return
 	 */
 	public List<GymBean> showHotGym();
+	/**
+	 * 显示热门场馆
+	 * @return
+	 */
+	public List<CoachBean> showHotCoach();
 	
 }
