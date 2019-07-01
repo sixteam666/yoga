@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.bean.CoachBean;
@@ -463,11 +464,13 @@ public class StudentController {
 			 */
 			
 			@RequestMapping("/alipay.do")
+			//@ResponseBody
 			public String alipay(HttpServletRequest request){
-				String money = request.getParameter("money");
+				String money1 = request.getParameter("money");
+				Double money = Double.parseDouble(money1);
 				Session session = SecurityUtils.getSubject().getSession();
 				session.setAttribute("money", money);
-				return "html/student/index.html";
+				return "redirect:/jsp/index.jsp";
 			}
 			
 			/**
@@ -518,7 +521,20 @@ public class StudentController {
 			}
 			
 			/**
-			 * 查所有场馆
+			 * 充值成功后跳转
+			 * @param model
+			 * @return
+			 */
+			@RequestMapping("/investMoney.do")
+			public String  investMoney(Model model){
+				Session session = SecurityUtils.getSubject().getSession();
+				StudentBean stu=(StudentBean) session.getAttribute("stu");
+				Double money = (Double) session.getAttribute("money");
+				String id = stu.getS_id();
+				service.recharge(id, money);
+				return "redirect:/student/showStudent.do";
+			}
+			 /* 查所有场馆
 			 * @return
 			 */
 			@RequestMapping("/findAllGym.do")
@@ -542,3 +558,28 @@ public class StudentController {
 			
 			
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

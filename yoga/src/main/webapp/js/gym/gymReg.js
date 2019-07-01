@@ -29,7 +29,7 @@ function register(obj){
 		async:true,
 		data:"regName="+regName + "&g_password=" + g_password,
 		success:function(mes){
-			console.info(mes);
+			// console.info(mes);
 			if(mes == 1){
 				if(confirm("注册成功，点击确认登录，点击取消返回主页")){
 					window.location.href="/html/gym/gymLogin.html";
@@ -58,7 +58,7 @@ function emailVerfication(){
 		async:true,
 		data:"arg="+value,
 		success:function(mes){
-			console.info(mes);
+			// console.info(mes);
 			if(mes == true){
 				bo = false;
 				$(".col-md-12 .regPrompt.name_0").text("此邮箱已注册");
@@ -167,7 +167,6 @@ function pwdVerfication2(){
 
 // 失去焦点
 function inputFocus(obj){
-	console.info("test");
 	$(obj).prev().children(".regPrompt").text("");
 }
 	

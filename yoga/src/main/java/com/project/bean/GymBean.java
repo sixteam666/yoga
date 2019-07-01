@@ -1,5 +1,8 @@
 package com.project.bean;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 /**
  * 场馆对象
  * @author Administrator
@@ -7,7 +10,9 @@ package com.project.bean;
  */
 public class GymBean {
 	private String g_id;
+	@Email
 	private String g_email;
+	@NotBlank(message="密码不能为空")
 	private String g_password;
 	private String g_name;
 	private String g_phone;
