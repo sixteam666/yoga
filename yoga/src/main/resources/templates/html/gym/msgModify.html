@@ -298,6 +298,13 @@
 		
 	</script>
 	<script type="text/javascript">
+		var myIcon = { // 指定Marker的icon属性为Symbol
+			icon: new BMap.Symbol(BMap_Symbol_SHAPE_FORWARD_CLOSED_ARROW, {
+				scale: 1.5, //图标缩放大小
+				fillColor: "red", //填充颜色
+				fillOpacity: 0.8 //填充透明度
+			})
+		}
 		// 百度地图API功能
 		var map = new BMap.Map("allmap");
 		map.centerAndZoom(new BMap.Point(104.06792346,30.67994285), 14);
@@ -329,7 +336,7 @@
 		var geolocation = new BMap.Geolocation();
 		geolocation.getCurrentPosition(function(r){
 			if(this.getStatus() == BMAP_STATUS_SUCCESS){
-				var mk = new BMap.Marker(r.point);
+				var mk = new BMap.Marker(r.point,myIcon);
 				map.addOverlay(mk);
 				map.panTo(r.point);
 				//alert('您的位置：'+r.point.lng+','+r.point.lat);
@@ -367,7 +374,7 @@
 					//document.getElementById("result_").value = poi.point.lng + "," + poi.point.lat;
 					
 					map.centerAndZoom(poi.point, 18);
-					var marker = new BMap.Marker(new BMap.Point(poi.point.lng, poi.point.lat)); // 创建标注，为要查询的地方对应的经纬度
+					var marker = new BMap.Marker(new BMap.Point(poi.point.lng, poi.point.lat),myIcon); // 创建标注，为要查询的地方对应的经纬度
 					map.addOverlay(marker);
 					var content = document.getElementById("find_address").value + "<br/><br/>经度：" + poi.point.lng + "<br/>纬度：" + poi.point.lat;
 					var infoWindow = new BMap.InfoWindow("<p style='font-size:14px;'>" + content + "</p>");

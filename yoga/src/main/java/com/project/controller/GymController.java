@@ -62,7 +62,6 @@ public class GymController {
 	@RequestMapping("/getGymToSession.do")
 	@ResponseBody
 	public GymBean getGymToSession() {
-		// System.out.println("正在获取Session");
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession(false);
 		if (session == null) {
@@ -75,7 +74,6 @@ public class GymController {
 			return null;
 		}
 		GymBean gymBean = (GymBean) object;
-		// System.out.println(gymBean);
 		return gymBean;
 	}
 	
@@ -90,7 +88,6 @@ public class GymController {
 	@ResponseBody
 	public int login(String arg, String g_password) {
 		System.out.println("name" + arg +"=="+ g_password);
-		// Object obj = new SimpleHash("MD5", g_password,"42067398-8e42-4de4-a25d-14645a65b338",1024);
 		// 产生一个用户（门面对象）
 		Subject currentUser = SecurityUtils.getSubject();
 		if (!currentUser.isAuthenticated()) {
@@ -101,7 +98,6 @@ public class GymController {
 				GymBean gym = gymService.login(arg);
 				session.setAttribute("gym", gym); // 将gym用户放在Session中
 				session.setAttribute("id", gym.getG_id()); // 将gym用户id放在Session中
-				System.out.println("认证成功");
 				return 1; // 登录成功
 			}
 			// 父异常。认证失败异常
@@ -138,6 +134,7 @@ public class GymController {
 	@RequestMapping("/reg.do")
 	@ResponseBody
 	public int register(String regName, String g_password) {
+		System.out.println(regName+","+ g_password);
 		String emailTest = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";  // 邮箱正则表达式
 		String phoneTest = "^1[3|4|5|7|8][0-9]\\\\d{4,8}$"; // 电话正则表达式
 		if(gymService.login(regName) != null) {
@@ -156,7 +153,7 @@ public class GymController {
 		}else {
 			return -1; // 格式不符合要求
 		}
-		Object obj = new SimpleHash("MD5", gym.getG_password(),gymUUID,1024);
+		Object obj = new SimpleHash("MD5", g_password, gymUUID, 1024);
 		gym.setG_password(obj.toString());
 		
 		int result = gymService.register(gym);
@@ -172,7 +169,6 @@ public class GymController {
 	 */
 	@RequestMapping("/logout.do")
 	public String logout() {
-		System.out.println("正在注销");
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
 		return "redirect:/html/gym/gymLogin.html";
@@ -211,8 +207,8 @@ public class GymController {
 	 * @param gymBean
 	 */
 	@RequestMapping(value="/updateMsg.do",method = RequestMethod.POST)
-	//@ResponseBody
-	public String updateMessage(Model model,ModelMap map,@Validated GymBean gymBean,
+	//@ResponseBody//@Validated
+	public String updateMessage(Model model,ModelMap map, GymBean gymBean,
 			MultipartFile file,HttpServletRequest req,BindingResult result) {
 		model.addAttribute("gymBean", gymBean);
 		System.out.println(file);
@@ -359,9 +355,11 @@ public class GymController {
 		System.out.println(lessonBean);
 		List<LessonBean> list = gymService.findLesson(lessonBean);
 		if (list.isEmpty()) {
-			list.add(lessonBean);
+			list = null;
+			map.put("lessonBean", lessonBean);
 		}
 		map.put("list", list);
+		
 		return "/html/gym/lessonModify.html";
 	}
 	
@@ -457,21 +455,19 @@ public class GymController {
 		g_id = this.getGymToSession().getG_id();
 		return gymService.submitSigingApplication(g_id, c_id);
 	}
-	
 
 	/**
 	 * 同意或拒绝教练的签约申请
 	 * 
 	 * @param g_id 被申请的场馆id
 	 * @param c_id 提交申请的教练id
-	 * @param state 1:同意，2：拒绝
+	 * @param state 1:同意，2：拒绝 4:撤回签约请求
 	 * @return 影响行数
 	 */
 	@RequestMapping("/agreeSigingApplication.do")
 	@ResponseBody
 	public int agreeSigingApplication(String g_id, String c_id,Integer state) {
 		g_id = this.getGymToSession().getG_id();
-		System.out.println("测试：" + g_id);
 		return gymService.agreeSigingApplication(g_id, c_id, state);
 	}
 	
@@ -486,7 +482,6 @@ public class GymController {
 	public List<CoachBean> findCoachByMyResponse(String g_id) {
 		g_id = this.getGymToSession().getG_id();
 		List<CoachBean> coachList = gymService.findCoachByMyResponse(g_id);
-		System.out.println("测试：" + coachList);
 		return coachList;
 	}
 	
@@ -500,7 +495,8 @@ public class GymController {
 	@ResponseBody
 	public List<CoachBean> findCoachByMyRequest(String g_id) {
 		g_id = this.getGymToSession().getG_id();
-		return gymService.findCoachByMyRequest(g_id);
+		List<CoachBean> coachList = gymService.findCoachByMyRequest(g_id);
+		return coachList;
 	}
 	
 	/**
@@ -513,7 +509,6 @@ public class GymController {
 	 */
 	@RequestMapping("/findCoachById.do")
 	public String findCoachById(String c_id,Integer type, ModelMap map) {
-		System.out.println("测试：" + type + "，" + c_id);
 		CoachBean coach = coachService.getCoachById(c_id);
 		map.put("coach", coach);
 		map.put("type", type);
