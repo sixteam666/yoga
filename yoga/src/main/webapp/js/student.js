@@ -195,10 +195,6 @@
 					var boo6 = inpPassWord[1].onblur();
 					var boo7 = inpRePassWord[1].onblur();
 					
-<<<<<<< HEAD
-					
-=======
->>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 					if ((boo1 && boo2 && boo3)||(boo4 && boo5 && boo6 && boo7)) {
 						
 						$.ajax({

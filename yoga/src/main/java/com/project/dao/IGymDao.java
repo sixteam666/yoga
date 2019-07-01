@@ -29,7 +29,7 @@ public interface IGymDao {
 	 * 
 	 * @return
 	 */
-	@Select("SELECT * FROM t_gym WHERE g_id != '0' OR g_id != 'null'")
+	@Select("SELECT * FROM t_gym WHERE g_id != '0'")
 	List<GymBean> findAllGym();
 
 	/**
@@ -37,7 +37,7 @@ public interface IGymDao {
 	 * 
 	 * @return
 	 */
-	@Select("SELECT * FROM t_gym limit 0,6 WHERE g_id != '0' OR g_id != 'null'")
+	@Select("SELECT * FROM t_gym limit 0,6 WHERE g_id != '0'")
 	List<GymBean> findHotGym();
 	
 	

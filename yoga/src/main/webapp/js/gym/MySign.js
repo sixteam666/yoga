@@ -12,39 +12,22 @@ function agreeSigingApplication(state,c_id,c_nickname){
 		async:true,
 		data:"c_id="+c_id+"&state="+state,
 		success:function(mes){
-<<<<<<< HEAD
 			// console.info("处理请求结果：" + mes);
-=======
-			console.info("处理请求结果：" + mes);
->>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 			if(mes == 0){
 				alert("失败");return;
 			}
 			if(state == 1){
 				alert("已经和   "+c_nickname+ "  签约");
-<<<<<<< HEAD
 			}else if(state == 2){
 				alert("已拒绝  "+c_nickname+ "  的签约请求");
-=======
->>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
-			}else{
-<<<<<<< HEAD
-				alert("已撤回签约请求");
+			}else if(state == 4){
+				alert("已撤回请求");
 			}
 			var elem=document.getElementById(c_id);
 			elem.parentNode.removeChild(elem);
 			var tableElem = document.getElementById("MySign");
 			if(!$("#MySignResponse").is(":empty")){
 				$("#MySignResponse").html("<tr align='center'><td>暂无通知</td></tr>");
-=======
-				alert("已拒绝  "+c_nickname+ "  的签约请求");
-			}
-			var elem=document.getElementById(c_id);
-			elem.parentNode.removeChild(elem);
-			var tableElem = document.getElementById("MySign");
-			if(!$("#MySign").is(":empty")){
-				$("#MySign").html("<tr align='center'><td>暂无通知</td></tr>");
->>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 			}
 		}
 	});
@@ -70,11 +53,7 @@ function findCoachByMyResponse(){
 						"<span class='coach_sms'>&nbsp;&nbsp;&nbsp;&nbsp;对方对你的场馆很感兴趣，希望和您签约，赶快回复他</span>"+
 					"</div>"+
 					"<div id='coach_controller'>"+
-<<<<<<< HEAD
 						   "<span id='signTime'>"+ mes[i].c_password +"</span><br></br></br>";
-=======
-						   "<span id='signTime'>2019年2月2日</span><br></br></br>";
->>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 				if(mes[i].c_g_id == 0){
 					elm += "<input type='button' value='同意' onclick=\"agreeSigingApplication(1,'"+ mes[i].c_id +"','"+ mes[i].c_nickname +"')\" />&nbsp;&nbsp;&nbsp;&nbsp;"+
 						   "<input type='button' value='拒绝' onclick=\"agreeSigingApplication(2,'"+ mes[i].c_id +"','"+ mes[i].c_nickname +"')\" />";
@@ -86,15 +65,9 @@ function findCoachByMyResponse(){
 				elm += "</div></td></tr>";
 			}
 			if(elm == ""){
-<<<<<<< HEAD
 				$("#MySignResponse").html("<tr align='center' ><td>暂无通知</td></tr>");
 			}else{
 				$("#MySignResponse").html(elm);
-=======
-				$("#MySign").html("<tr align='center' ><td>暂无通知</td></tr>");
-			}else{
-				$("#MySign").html(elm);
->>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 			}
 		} 
 	});
