@@ -1,13 +1,10 @@
 package com.project.dao;
 
 import java.util.List;
-
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 
@@ -32,11 +29,11 @@ public interface IGymDao {
 	 * 
 	 * @return
 	 */
-	@Select("SELECT * FROM t_gym WHERE g_id != '0' and g_id != 'null'")
+	@Select("SELECT * FROM t_gym WHERE g_id != '0' OR g_id != 'null'")
 	List<GymBean> findAllGym();
 
 	/**
-	 * 查找所有会馆
+	 * 查找热门会馆
 	 * 
 	 * @return
 	 */
