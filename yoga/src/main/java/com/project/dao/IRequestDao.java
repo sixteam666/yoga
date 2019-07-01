@@ -36,7 +36,6 @@ public interface IRequestDao {
 	 * 修改申请
 	 * @param r_reqid 申请方  id
 	 * @param r_resid 被申请方 id
-	 * 都是删除数据
 	 * @return 影响行数
 	 */
 	@Update("update t_request set r_state = #{r_state} where r_reqid = #{r_reqid} and r_resid = #{r_resid}")
@@ -55,14 +54,14 @@ public interface IRequestDao {
 	 * @param resid 
 	 * @return
 	 */
-	@Select("select g.* from t_request r join t_gym g on g.g_id=r.r_reqid where r.r_resid=#{resid} and r.r_state=0")
+	@Select("select g_id,g_headimg,g_name,r_date as g_password from t_request r join t_gym g on g.g_id=r.r_reqid where r.r_resid=#{resid} and r.r_state=0")
 	public List<GymBean> findOtherToMe(String resid);
 	/**
 	 * 查看我的学员通知
 	 * @param resid
 	 * @return
 	 */
-	@Select("select s.* from t_request r join t_student s on s.s_id=r.r_reqid where r.r_resid=#{resid} and r.r_state=0")
+	@Select("select s_id,s_nickname,s_headimg,r_date as s_password from t_request r join t_student s on s.s_id=r.r_reqid where r.r_resid=#{resid} and r.r_state=0")
 	public List<StudentBean> findStuToMe(String resid);
 	
 
@@ -74,5 +73,6 @@ public interface IRequestDao {
 	 */
 	@Select("select * from t_request where r_resid = #{id}")
 	public List<RequestBean> listrequest(String id);
+	
 	
 }
