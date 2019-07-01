@@ -144,6 +144,79 @@
 			z-index: 1;
 		}
 	</style>
+	<style>
+		.nineImg{
+			margin-top: -4px;
+			margin-left: 10px;
+			z-index: 0;
+		}
+		.img_1{
+			position: relative;
+			float: left;
+			width: 70px;
+			height: 70px;
+			z-index: 2;
+		}
+		.span1{
+			color: black;
+			position: absolute;
+			top: -8px;
+			left: 53px;
+			z-index: 3;
+		}
+		
+		.img_add{
+			margin-top: -66px;
+			z-index: -2;
+		}
+		.nineImg img{
+			padding: 4px;
+			float: left;
+			width: 70px;
+			height: 70px;
+		}
+	</style>
+	<style>
+		.img9{
+			padding: 4px;
+			float: left;
+			width: 70px;
+			height: 70px;
+		}
+		.preview{
+			position: absolute;
+			z-index: 2;
+		}
+		.preview img{
+			/*margin-top: -70px;*/
+			width: 70px;
+			height: 70px;
+			/*z-index: 3;*/
+		}
+		
+		
+		#file {
+			position: relative;
+			display: block;
+			width: 62px;
+			height: 62px;
+			background: red;
+			overflow: hidden;
+			z-index: 1;
+			left: 5px;
+			opacity:0;/*透明度设置*/
+		}
+		#file input {
+			position: absolute;
+			font-size: 15pt;
+			width: 62px;
+			height: 62px;
+			right: 0;
+			top: 0;
+			opacity: 0
+			z-index: 1;
+		}
+	</style>
 </head>
 <body>
 	<div class="gtco-loader"></div>
@@ -190,9 +263,15 @@
 			<div id="publish" class="row" style="display:none;">
 				<div class="col-md-9 col-md-offset-1" align="left" >
 					<div class="row">
+<<<<<<< HEAD
 						<form action="/dynamic/addDynamic.do" method="post" enctype="multipart/form-data" onsubmit="return checkContent()">
 							<div class="" style="width:500px;height:200px;float: left;" >
 								<textarea id="dcontent" name="d_content" style="width:500px;height:200px;" placeholder="说点什么吧！（30字以内）"></textarea>
+=======
+						<form action="/dynamic/addDynamic.do" method="post" enctype="multipart/form-data">
+							<div class="" style="width:500px;height:200px;float: left;" >
+								<textarea name="d_content" style="width:500px;height:200px;" placeholder="说点什么吧！（30字以内）"></textarea>
+>>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 							</div> 
 							<div class="nineImg" style="float: left;width:230px;height:200px;">
 								
@@ -424,6 +503,7 @@
 				
 			}
 		}
+<<<<<<< HEAD
 		
 		//无内容时无法发表
 		function checkContent() {
@@ -434,6 +514,8 @@
 				return false;
 			}
 		}
+=======
+>>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 	</script>
 	</body>
 </html>

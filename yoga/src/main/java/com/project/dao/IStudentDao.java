@@ -3,12 +3,14 @@ package com.project.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.project.bean.CoachBean;
 import com.project.bean.OrderBean;
+import com.project.bean.POrderBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
 
@@ -50,20 +52,34 @@ public interface IStudentDao {
 	@Update("UPDATE t_student SET s_money=s_money-#{money} WHERE s_id=#{id}")
 	public int subMoney(@Param("id") String id, @Param("money") Double money );
 	
-	
-	
 	//  根据学员id查询教练
-	@Select(" SELECT * from t_coach WHERE c_id IN ( SELECT l_c_id from t_lesson where l_id IN (SELECT o_l_id from  t_order where o_s_id = 's001')) ")
-	public List<CoachBean> findCoachbyStudentId(String id);
+	@Select(" SELECT l_c_id from t_lesson where l_id IN (SELECT o_l_id from  t_order where o_s_id = #{id}) ")
+	public List<String> findCoachidbyStudentId(String id);
+
+	//  根据学员id查询私教教练
+	@Select(" SELECT po_c_id from t_porder where po_s_id = #{id} ")
+	public List<String> findpCoachidbyStudentId(String id);
 	
 	//    生成订单
-	@Insert("insert into t_order VALUES (null,#{o_status},#{o_time},#{o_s_id},#{o_l_id},#{o_price})")
+	@Insert("insert into t_order (o_time,o_s_id,o_l_id,o_price,code) VALUES (#{o_time},#{o_s_id},#{o_l_id},#{o_price},#{code})")
+	@Options(useGeneratedKeys = true,keyProperty= "o_id",keyColumn = "o_id")
 	public  int addorder(OrderBean order);
 	
+	// 根据订单id查订单
+	@Select("select * from t_order where o_id = #{id}")
+	public OrderBean findorderbyid(int id);
 	
-	//    查询订单
+	// 根据私教订单id查私教订单
+		@Select("select * from t_porder where po_id = #{id}")
+		public POrderBean findporderbyid(int id);
+	
+	//    查询学生所有订单
 	@Select("select * from t_order where o_s_id = #{id}")
-	public List<OrderBean> findorderbyid(String id);
+	public List<OrderBean> listorderbystuid(String id);
+	
+	//  查询学生所有私教订单
+	@Select("select * from t_porder where po_s_id = #{id}")
+	public List<POrderBean> listporderbystuid(String id);
 	
 	//    修改订单状态(包括确认订单以及取消订单)
 	
@@ -72,6 +88,7 @@ public interface IStudentDao {
 	
 	
 	//     通过地图查询学生员
+	
 	
 
 }

@@ -63,6 +63,7 @@
 				</div>
 			</div>
 			<div class="row">
+				<!-- 			公共课 -->
 				<div th:each="order : ${order} " class="col-md-4">
 					<div  class="price-box">
 						<h5 th:text="| ${order.gym.g_name} >|" align="left" class="pricing-plan">青脉健身馆  ></h5>
@@ -75,12 +76,27 @@
 							<li th:if="${order.o_status}==2">订单状态：已支付</li>
 							<li th:text="| 下单时间: ${order.o_time}|">下单时间：xxx</li>
 						</ul>
-						
-						<a th:if="${order.o_status}==1" href="#" class="btn btn-primary">去支付</a>
+						<a th:if="${order.o_status}==1" th:href="@{'/student/pay.do?orderid='+${order.o_id}}" class="btn btn-primary">去支付</a>
 						<a th:if="${order.o_status}==2" href="#" class="btn btn-primary">评价</a>
 					</div>
 				</div>
-		
+					<!-- 	私教课 -->
+				<div th:each="porder : ${porder} " class="col-md-4">
+					<div  class="price-box">
+						<h5 th:text="| ${porder.gym.g_name} >|" align="left" class="pricing-plan">青脉健身馆  ></h5>
+						<h2 class="pricing-plan">私教课程</h2>
+						<p th:text="| dsa : ${porder.code}|">订单编号：xxxxxx</p>
+						<div class="price" ><sup class="currency">￥</sup><span th:text="${porder.po_price}">500</span><small>元</small></div>
+						<hr>
+						<ul class="pricing-info">
+							<li th:if="${porder.po_status}==1">订单状态：未支付</li>
+							<li th:if="${porder.po_status}==2">订单状态：已支付</li>
+							<li th:text="| 下单时间: ${porder.po_time}|">下单时间：xxx</li>
+						</ul>
+						<a th:if="${porder.po_status}==1" th:href="@{'/student/payp.do?porderid='+${porder.po_id}}" class="btn btn-primary">去支付</a>
+						<a th:if="${porder.po_status}==2" href="#" class="btn btn-primary">评价</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

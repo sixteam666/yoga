@@ -44,15 +44,12 @@
 	</style>
 	<body>
 		
-	<div class="gtco-loader"></div>
-		<div th:replace="html/student/frag.html::common_head">
-	</div>
-	
+		<div th:replace="html/student/frag.html::common_head"></div>
 		<div class="gtco-section">
 		<div class="gtco-container">
 			<div class="row" style="border: 5px solid #09C6AB;border-radius: 50px;">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<br />
+					<br/>
 					<h2>个人资料</h2>
 				</div>
 				<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
@@ -68,7 +65,8 @@
 						</tr>
 						<tr align="center">
 							<td>昵称：</td>
-							<td th:text="${session.stu.s_nickname}">xxxxx</td>
+							<td th:if="${session.stu.s_nickname!=null&&session.stu.s_nickname!=''}" th:text="${session.stu.s_nickname}">xxxxx</td>
+							<td th:if="${session.stu.s_nickname == ''}" th:text="未设置">xxxxx</td>
 
 							<td>访问权限:</td>
 							<td th:if="${session.stu.s_privacy}==0" >私密</td>

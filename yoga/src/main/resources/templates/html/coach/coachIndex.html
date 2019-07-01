@@ -125,6 +125,7 @@
 						<input id="coachId" type="hidden" th:value="${coach.c_id}" />
 						<span th:text="${coach.c_nickname}"></span>
 					</div>
+<<<<<<< HEAD
 					<p><a th:href="|/dynamic/showOther.do?id=${coach.c_id}|">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他的动态</a></p>
 					<ul class="personInfo">
 						<li>电话：<span th:text="${coach.c_phone}">15266872134</span></li>
@@ -286,6 +287,167 @@
 	<script>
 		//教练id
 		var id = $("#coachId").val();
+=======
+					<p><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他的动态</a></p>
+					<ul class="personInfo">
+						<li>电话：<span th:text="${coach.c_phone}">15266872134</span></li>
+						<li>QQ：<span th:text="${coach.c_qq}">741422706</span></li>
+					</ul>
+					<ul class="personInfo">
+						<li>空闲时间：全天空闲</li>
+						<li>课程价格：<span th:text="${coach.c_price}">70.00</span> 元/节</li>
+					</ul>
+					<br><br>
+					<button style="background-color:#ccdfcd;color:white;border:none;font-size:25px">约私教</button>
+				</div>
+				<div class="col-md-8 col-md-offset-1" style="margin-top:30px">
+					<h2>他的评价</h2>
+					<div style="overflow:hidden;margin-bottom:30px">
+						<ul class="comment">
+							<li onclick="allComment()"><a id="allCount">全部(10)</a></li>
+							<li onclick="greatComment()"><a id="greatCount">好评(9)</a></li>
+							<li onclick="normalComment()"><a id="normalCount">中评(1)</a></li>
+							<li onclick="badComment()"><a id="badCount">差评(0)</a></li>
+						</ul>
+					</div>
+					<div id="commentContent" class="row">
+						<div class="col-md-1">
+							<img src="/image/headImg/11.jpg" class="round_icon2">
+						</div>
+						<div class="col-md-2 little">
+							<span>张三</span>
+						</div>
+						<div class="col-md-8 little text-right">
+							<span>2017-05-21 12:20</span>
+						</div>
+						<div class="col-md-10 little">
+							<p>这个老师教的真的可以，关键是人还长得帅！</p>
+						</div>
+						<div class="col-md-12"></div>
+						<div class="col-md-1">
+							<img src="/image/headImg/11.jpg" class="round_icon2">
+						</div>
+						<div class="col-md-2 little">
+							<span>张三</span>
+						</div>
+						<div class="col-md-8 little text-right">
+							<span>2017-05-21 12:20</span>
+						</div>
+						<div class="col-md-10 little">
+							<p>这个老师教的真的可以，关键是人还长得帅！</p>
+						</div>
+						<div class="col-md-12"></div>
+						<div class="col-md-1">
+							<img src="/image/headImg/11.jpg" class="round_icon2">
+						</div>
+						<div class="col-md-2 little">
+							<span>张三</span>
+						</div>
+						<div class="col-md-8 little text-right">
+							<span>2017-05-21 12:20</span>
+						</div>
+						<div class="col-md-10 little">
+							<p>这个老师教的真的可以，关键是人还长得帅！</p>
+						</div>
+						<div class="col-md-12"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<footer id="gtco-footer" role="contentinfo">
+		<div class="gtco-container">
+			<div class="row row-p b-md">
+
+				<div class="col-md-4">
+					<div class="gtco-widget">
+						<h3>关于我们</h3>
+						<p>蜗牛46期第六组项目，由项目负责人温攀，会长文然，技术负责人黄仁杰，产品经理滕伟，后台管理刘勇，前端张正宇负责</p>
+					</div>
+				</div>
+
+				<div class="col-md-2 col-md-push-1"></div>
+				
+				<div class="col-md-2 col-md-push-1">
+					<div class="gtco-widget">
+						<h3 class="fon">瑜伽平台</h3>
+						<ul class="gtco-footer-links">
+							<li><a href="coachLogin.html" class="fon">成为教练</a></li>
+							<li><a href="gymLogin.html" class="fon">场馆入驻</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="col-md-3 col-md-push-1">
+					<div class="gtco-widget">
+						<h3>联系方式</h3>
+						<ul class="gtco-quick-contact">
+							<li><a href="#"><i class="icon-phone"></i> 15002881866</a></li>
+							<li><a href="#"><i class="icon-mail2"></i> shinoda@live.cn</a></li>
+							<li><a href="#"><i class="icon-chat"></i> Zzy19951117</a></li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row copyright">
+				<div class="col-md-12">
+					<p class="pull-left">
+						<small class="block">&copy; 2019 在蜗牛46期写出来的.</small> 
+						<small class="block">模板都是网上找的，描述都是自己瞎BB的</small>
+					</p>
+					<p class="pull-right">
+						<ul class="gtco-social-icons pull-right">
+							<li><a href="#"><i class="icon-twitter"></i></a></li>
+							<li><a href="#"><i class="icon-facebook"></i></a></li>
+							<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							<li><a href="#"><i class="icon-dribbble"></i></a></li>
+						</ul>
+					</p>
+				</div>
+			</div>
+
+		</div>
+	</footer>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+	</div>
+	
+		<!-- jQuery -->
+	<script src="../../js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="../../js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="../../js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="../../js/jquery.waypoints.min.js"></script>
+	<!-- Carousel -->
+	<script src="../../js/owl.carousel.min.js"></script>
+	<!-- countTo -->
+	<script src="../../js/jquery.countTo.js"></script>
+
+	<!-- Stellar Parallax -->
+	<script src="../../js/jquery.stellar.min.js"></script>
+
+	<!-- Magnific Popup -->
+	<script src="../../js/jquery.magnific-popup.min.js"></script>
+	<script src="../../js/magnific-popup-options.js"></script>
+	
+	<!-- Datepicker -->
+	<script src="../../js/bootstrap-datepicker.min.js"></script>
+	
+
+	<!-- Main -->
+	<script src="../../js/main.js"></script>
+
+	<script>
+		//教练id
+		var id = $("#coachId").val();
+		id = "1";
+>>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 		countComment();
 		countGreatComment();
 		countNormalComment();

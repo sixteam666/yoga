@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>选购课程</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
+	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
+	<meta name="author" content="FreeHTML5.co" />
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="../../css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="../../css/icomoon.css">
+	<!-- Themify Icons-->
+	<link rel="stylesheet" href="../../css/themify-icons.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="../../css/bootstrap.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../../css/magnific-popup.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="../../css/bootstrap-datepicker.min.css">
+
+	<!-- Owl Carousel  -->
+	<link rel="stylesheet" href="../../css/owl.carousel.min.css">
+	<link rel="stylesheet" href="../../css/owl.theme.default.min.css">
+
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="../../css/style.css">
+
+	<!-- Modernizr JS -->
+	<script src="../../js/modernizr-2.6.2.min.js"></script>
+
+	</head>
+	<style type="text/css">
+		.fon{
+			font-family: "微软雅黑";
+		}
+		
+		.table_lesson{
+			width: 1000px!important;
+			margin-left: -140px;
+		}
+		th{
+			width: 80px!important;
+			height: 50px!important;
+		}
+		.add_lesson{
+			margin-top: 60px;
+			margin-left: 220px;
+		}
+		.coach_select{
+			width: 110px;
+			height: 30px;
+		}
+		img{
+			width: 50px;
+		}
+		
+		.active{
+			color: red;
+			
+		}
+	</style>
+	
+	<style type="text/css">
+    	.error_price,.error_number,.error_message{
+    		color: red;
+    		visibility: hidden;/*visible*/ 
+    	}
+    </style>
+	<body>
+		
+		<div th:replace="html/student/frag.html::common_head">
+	</div>
+	
+
+		<div class="gtco-section">
+		<div class="gtco-container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+					<h2>课程展示</h2>
+				</div>
+				<div class="col-md-8 col-md-offset-2 gtco-heading" style="font-size: 20px;">
+							
+					<table th:if="${list!=null}" border="1"  class="table_lesson">
+						<tr align="center" style="font-weight: 700;">
+							<td>课程教练</td>
+							<td>课程价格</td>
+							<td>可容纳学员人数</td>
+							<td>已有学员人数</td>
+							<td>课程描述</td>
+							<td>操作</td>
+						</tr>
+						
+						<tr align="center" class="gradeX" th:each="lesson,iterStat : ${list}">
+							<input type="hidden" id="hid" th:value="${lesson.l_id}">
+							<td th:if="${lesson.coachBean!=null}" th:text="${lesson.coachBean.c_nickname}">章教练</td>
+							<td th:unless="${lesson.coachBean!=null}" th:text="暂无课程教练">章教练</td>
+							<td>
+								<span th:text="${lesson.l_price}">200</span>￥/节
+							</td>
+							<td th:text="${lesson.l_size}">10</td>
+							<td th:text="${lesson.l_s_number}">0</td>
+							<td th:text="${lesson.l_descirbe}">瘦身</td>
+							<td> <button  class="btn btn-primary" data-toggle="modal" th:attr="data-target='#my'+${lesson.l_id }" ><font>
+							<font >
+                        	        生成订单
+                            </font></font></button></td>
+                            
+                            
+                            <!-- 模态板 -->
+                            <div class="modal fade" th:id="my+${lesson.l_id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><font ><font >×</font></font></button>
+                                            <h4 class="modal-title" id="myModalLabel"><font ><font >确认订单</font></font></h4>
+                                        </div>
+                                        <div class="modal-body"><font>
+
+												<h3>订单内容</h3>
+												<p th:text="|课程内容: ${lesson.l_descirbe} |">???</p>
+												<p th:if="${lesson.coachBean!=null}"  th:text="|课程教练: ${lesson.coachBean.c_nickname} |">???</p>
+												<p th:text="|价格: ${lesson.l_price}  元|">???</p>
+											<div>
+												<span  th:switch="${lesson.l_weekday}"> 
+													课程时间:
+													<span th:case="1">星期一</span>
+													<span th:case="2">星期二</span>
+													<span th:case="3">星期三</span>
+													<span th:case="4">星期四</span>
+													<span th:case="5">星期五</span>
+													<span th:case="6">星期六</span>
+													<span th:case="7">星期天</span>
+												</span>
+												<span  th:switch="${lesson.l_datetime}"> 
+												 /
+													<span th:case="1">早课( 08:00~12:00)</span>
+													<span th:case="2">中午( 11:00~18:00)</span>
+													<span th:case="3">晚课( 17:00~22:00)</span>
+												</span>
+											</div>
+
+                                       </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">取消</font></font></button>
+                                            <button th:value="${lesson.l_id}" th:attr="rest=${lesson.l_size}-${lesson.l_s_number}" type="button" onclick="pay(this)" class="btn btn-primary"><font ><font>确认并支付</font></font></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+						</tr>
+						
+					</table>
+						
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	
+	<footer id="gtco-footer" role="contentinfo">
+		<div class="gtco-container">
+			<div class="row row-p	b-md">
+
+				<div class="col-md-4">
+					<div class="gtco-widget">
+						<h3>关于我们</h3>
+						<p>蜗牛46期第六组项目，由项目负责人温攀，会长文然，技术负责人黄仁杰，产品经理滕伟，后台管理刘勇，前端张正宇负责</p>
+					</div>
+				</div>
+
+				<div class="col-md-2 col-md-push-1"></div>
+				
+				<div class="col-md-3 col-md-push-1">
+					<div class="gtco-widget">
+						<h3>联系方式</h3>
+						<ul class="gtco-quick-contact">
+							<li><a href="#"><i class="icon-phone"></i> 15002881866</a></li>
+							<li><a href="#"><i class="icon-mail2"></i> shinoda@live.cn</a></li>
+							<li><a href="#"><i class="icon-chat"></i> Zzy19951117</a></li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row copyright">
+				<div class="col-md-12">
+					<p class="pull-left">
+						<small class="block">&copy; 2019 在蜗牛46期写出来的.</small> 
+						<small class="block">模板都是网上找的，描述都是自己瞎BB的</small>
+					</p>
+					<p class="pull-right">
+						<ul class="gtco-social-icons pull-right">
+							<li><a href="/html/gym/index.html">场馆展示</a></li>
+							<li><a href="/gym/showMessage.do">场馆资料</a></li>
+							<li><a href="/html/gym/lesson.html">课程安排</a></li>
+							<li><a href="/html/gym/wallet.html">我的钱包</a></li>
+							<li><a href="/html/gym/myCoach.html">我的签约教练</a></li>
+						</ul>
+					</p>
+				</div>
+			</div>
+
+		</div>
+	</footer>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+	</div>
+	
+	<!-- jQuery -->
+	<script src="../../js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="../../js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="../../js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="../../js/jquery.waypoints.min.js"></script>
+	<!-- Carousel -->
+	<script src="../../js/owl.carousel.min.js"></script>
+	<!-- countTo -->
+	<script src="../../js/jquery.countTo.js"></script>
+
+	<!-- Stellar Parallax -->
+	<script src="../../js/jquery.stellar.min.js"></script>
+
+	<!-- Magnific Popup -->
+	<script src="../../js/jquery.magnific-popup.min.js"></script>
+	<script src="../../js/magnific-popup-options.js"></script>
+	
+	<!-- Datepicker -->
+	<script src="../../js/bootstrap-datepicker.min.js"></script>
+	
+
+	<!-- Main -->
+	<script src="../../js/main.js"></script>
+	</body>
+</html>
+
+<script type="text/javascript">
+
+    
+    
+   
+    function pay(obj){
+    	
+    var lessonid = $(obj).attr("value");
+    var rest  = $(obj).attr("rest");
+ 	if(rest>0){
+ 		 $.ajax({
+ 			type:"get",
+ 			async:false,
+ 			url:"/student/order.do",
+ 			data:"lessonid="+lessonid, 
+ 			success:function(mes){
+ 				if(mes!=0){
+ 					alert("订单生成成功");
+ 					window.location.href="/student/pay.do?orderid="+mes
+ 				}else{
+ 					alert("余额不足")
+ 				}
+ 			}
+ 		});  
+ 	}else{
+ 		alert("课程已满")
+ 		}
+    }
+    
+	
+</script>

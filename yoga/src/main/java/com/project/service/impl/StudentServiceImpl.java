@@ -9,6 +9,7 @@ import com.project.bean.CoachBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
+import com.project.bean.POrderBean;
 import com.project.bean.RequestBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
@@ -87,8 +88,10 @@ public class StudentServiceImpl implements IStudentService{
 	}
 
 	@Override
-	public List<CoachBean> findCoachbyStudentId(String id) {
-		List<CoachBean> list = dao.findCoachbyStudentId(id);
+	public List<String> findCoachidbyStudentId(String id) {
+		List<String> list = dao.findCoachidbyStudentId(id);
+		List<String> list2 = dao.findpCoachidbyStudentId(id);
+		list2.addAll(list2);
 		return list;
 	}
 
@@ -141,8 +144,21 @@ public class StudentServiceImpl implements IStudentService{
 	}
 
 	@Override
-	public List<OrderBean> findorderbyid(String id) {
-		List<OrderBean> list = dao.findorderbyid(id);
+	public OrderBean findorderbyid(int orderid) {
+		OrderBean orderBean = dao.findorderbyid(orderid);
+		int lessonid =orderBean.getO_l_id();
+		LessonBean lesson= lessondao.findlessonbyid(lessonid);
+		orderBean.setLessonname(lesson.getL_descirbe());
+		String gymid = lesson.getL_g_id();
+		GymBean gym= Gymdao.findGymById(gymid);
+		orderBean.setGym(gym);
+		return orderBean;
+	}
+	
+	
+	@Override
+	public List<OrderBean> listorderbystuid(String id) {
+		List<OrderBean> list = dao.listorderbystuid(id);
 		for (OrderBean orderBean : list) {
 			int lessonid =orderBean.getO_l_id();
 			LessonBean lesson= lessondao.findlessonbyid(lessonid);
@@ -248,4 +264,33 @@ public class StudentServiceImpl implements IStudentService{
 		int Result  = requestdao.addRequeststu(myid, itid, type, date);
 		return Result;
 	}
+
+	@Override
+	public LessonBean findlessonbyid(int id) {
+		 LessonBean findlessonbyid = lessondao.findlessonbyid(id);
+		return findlessonbyid;
+	}
+
+	@Override
+	public List<POrderBean> listporder(String id) {
+		List<POrderBean> listporderbystuid = dao.listporderbystuid(id);
+			for (POrderBean pOrderBean : listporderbystuid) {
+				       String coachid = pOrderBean.getPo_c_id();
+				     CoachBean coachBean = CoachDao.getCoachById(coachid);
+				     pOrderBean.setCoach(coachBean);
+				     pOrderBean.setGym(coachBean.getGym());
+			}
+		return listporderbystuid;
+	}
+
+	@Override
+	public POrderBean findPorderbyid(int porderid) {
+		POrderBean pOrderBean =  dao.findporderbyid(porderid);
+		 CoachBean coachBean =	CoachDao.getCoachById(pOrderBean.getPo_c_id());
+		 		pOrderBean.setCoach(coachBean);
+		 		pOrderBean.setGym(coachBean.getGym());
+		return pOrderBean;
+	}
+
+	
 }

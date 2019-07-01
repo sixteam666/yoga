@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -33,6 +32,7 @@ import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
+import com.project.bean.POrderBean;
 import com.project.bean.RequestBean;
 import com.project.bean.ShowWordsBean;
 import com.project.bean.StudentBean;
@@ -261,7 +261,12 @@ public class StudentController {
 				String id = stu.getS_id();
 				List<LessonBean> lessonlist = service.findcourse(id);
 				m.addAttribute("lesson", lessonlist);
-				List<CoachBean> coachlist =service.findCoachbyStudentId(id);
+				List<CoachBean> coachlist = new ArrayList<CoachBean>();
+				List<String> coachidlist =service.findCoachidbyStudentId(id);
+					for (String string : coachidlist) {
+						 CoachBean coach = coachService.getCoachById(string);
+						 		coachlist.add(coach);
+					}
 				m.addAttribute("coach", coachlist);
 				return "html/student/className.html";
 			}
@@ -400,16 +405,52 @@ public class StudentController {
 			}
 			
 			
+			
+			/**
+			 * 公共课支付订单
+			 * @return
+			 */
+			@RequestMapping("/pay.do")
+			public String pay(ModelMap m,int orderid){
+				OrderBean order = service.findorderbyid(orderid);
+				m.addAttribute("order",order);
+				return "/html/student/pay.html";
+			}
+			
+			
+			/**
+			 * 私教课支付订单
+			 * @return
+			 */
+			@RequestMapping("/payp.do")
+			public String payp(ModelMap m,int porderid){
+				POrderBean porder = service.findPorderbyid(porderid);
+				m.addAttribute("porder",porder);
+				return "/html/student/pay2.html";
+			}
+			
+			/**
+			 * 查询我的订单
+			 * @param m
+			 * @return
+			 */
 			@RequestMapping("/findorder.do")
 			public String findorder(ModelMap m){
 				Session session = SecurityUtils.getSubject().getSession();
 				StudentBean stu=(StudentBean) session.getAttribute("stu");
 				String id = stu.getS_id();
-				List<OrderBean> orderlist = service.findorderbyid(id);
+				List<OrderBean> orderlist = service.listorderbystuid(id);
 				m.addAttribute("order", orderlist);
+				List<POrderBean> listpo = service.listporder(id);
+				m.addAttribute("porder", listpo);
 				return "html/student/order.html";
 			}
 		
+			/**
+			 * 跳转个人主页
+			 * @param m
+			 * @return
+			 */
 			@RequestMapping("/mypage.do")
 			public String mypage(ModelMap m){
 				Session session = SecurityUtils.getSubject().getSession();
@@ -439,7 +480,7 @@ public class StudentController {
 				StudentBean studentBean = service.findStudentbyId(id);
 				if (studentBean == null) {
 					CoachBean coachBean = coachService.getCoachById(id);
-					//m.addAttribute("user",coachBean);
+					m.addAttribute("user",coachBean);
 					return "redirect:/dynamic/showOther.do?id="+id;
 				}
 				m.addAttribute("user",studentBean);
@@ -492,7 +533,7 @@ public class StudentController {
 			}
 			
 			/**
-			 * 认证教练
+			 * 查询认证教练
 			 */
 			@RequestMapping("/showCoach.do")
 			public String showCoach(Model model){
@@ -556,30 +597,89 @@ public class StudentController {
 				return "/html/student/hispage.html";
 			}
 			
+			@RequestMapping("gym.do")
+			public String findgym(HttpServletRequest request){
+				String gymid = request.getParameter("gymid");
+				 GymBean gymBean = gymService.findGymById(gymid);
+				 Session session = SecurityUtils.getSubject().getSession();
+				 session.setAttribute("gym", gymBean);
+				return "html/student/gymIndex.html";
+			}
 			
+			
+			
+			/**
+			 * 获取Session中的数据
+			 * 
+			 * @return
+			 */
+			@RequestMapping("/getGymToSession.do")
+			@ResponseBody
+			public GymBean getGymToSession() {
+				// System.out.println("正在获取Session");
+				Subject currentUser = SecurityUtils.getSubject();
+				Session session = currentUser.getSession(false);
+				if (session == null) {
+					System.out.println("Session:null");
+					return null;
+				}
+				Object object = session.getAttribute("gym");
+				if (object == null) {
+					System.out.println("gym:null");
+					return null;
+				}
+				GymBean gymBean = (GymBean) object;
+				// System.out.println(gymBean);
+				return gymBean;
+			}
+			
+			
+			/**
+			 * 选择课程
+			 */
+			@RequestMapping("/pickLesson.do")
+			//@ResponseBody
+			public String showLesson(LessonBean lessonBean,ModelMap map){
+				System.out.println(lessonBean);
+				String gymId = this.getGymToSession().getG_id();
+				lessonBean.setL_g_id(gymId); 
+				System.out.println(lessonBean);
+				List<LessonBean> list = gymService.findLesson(lessonBean);
+				if (list.isEmpty()) {
+					list.add(lessonBean);
+				}
+				map.put("list", list);
+				return "/html/student/addLesson.html";
+			}
+			
+			/**
+			 * 确认订单
+			 * @param lessonid
+			 * @return
+			 */
+			@RequestMapping("/order.do")
+			@ResponseBody
+			public int purchase(int lessonid){
+				Session session = SecurityUtils.getSubject().getSession();
+				StudentBean stu=(StudentBean) session.getAttribute("stu");
+				String stuid = stu.getS_id();
+				System.out.println(lessonid);
+				LessonBean lessonbean = service.findlessonbyid(lessonid);
+				if (stu.getS_money()>=lessonbean.getL_price()) {
+					String date2String = DateUtil.Date2String(new java.util.Date(), "yy-MM-dd HH:mm:ss");
+					OrderBean order =  new OrderBean();
+					order.setCode("订单号");
+					order.setO_l_id(lessonid);
+					order.setO_price(lessonbean.getL_price());
+					order.setO_s_id(stuid);
+					order.setO_time(date2String);
+					service.addorder(order);
+					return order.getO_id();
+				}
+				else {
+					
+					return 0;
+				}
+			}	
+				
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
