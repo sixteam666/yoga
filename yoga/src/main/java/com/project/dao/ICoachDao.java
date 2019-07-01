@@ -20,11 +20,10 @@ public interface ICoachDao {
 	 * @param coach coachBean对象
 	 * @return 影响行数
 	 */
-	@Insert("insert into t_coach(c_id,c_name,c_password,c_phone,c_privacy,"
-			+ "c_nickname,c_headimg,c_money,c_address,c_style,c_access,c_price,c_g_id)"
-			+ "values(#{c_id},#{c_name},#{c_password},#{c_phone},#{c_privacy},"
-			+ "#{c_name},#{c_headimg},#{c_money},#{c_address},#{c_style},"
-			+ "#{c_access},#{c_price},#{c_g_id})")
+	@Insert("insert into t_coach(c_id,c_name,c_password,"
+			+ "c_nickname)"
+			+ "values(#{c_id},#{c_name},#{c_password},"
+			+ "#{c_name})")
 	public int addCoach(CoachBean coach);
 	/**
 	 * 根据用户名或电话号码查询教练
@@ -131,8 +130,7 @@ public interface ICoachDao {
 	 * @param id 私教id
 	 * @return 学员集合
 	 */
-	@Select("select * from t_student where s_id "
-			+ "in(select po_s_id from t_porder where po_c_id = #{cid})")
+	@Select("select po.po_time,s.* from t_student s,t_porder po where s.s_id=po.po_s_id and po.po_c_id = #{cid}")
 	List<StudentBean> listStudentByCoachId(String id);
 	
 	/**

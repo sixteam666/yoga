@@ -205,7 +205,7 @@
 				<div th:each="dynamic : ${dynamicList}" class="col-md-10 col-md-offset-1">
 					<div class="row">
 						<div class="col-md-1">
-							<a href="#">
+							<a th:href="@{/dynamic/showOther.do?id=}+${dynamic.d_userid}">
 								<img th:src="@{/image/headImg/}+${dynamic.d_headimg}" class="round_icon" >
 							</a>
 						</div>
@@ -407,10 +407,8 @@
 		}
 		//无内容时无法发表
 		function checkContent() {
-			var dcontent = $("#dcontent").html();
-			alert(dcontent)
+			var dcontent = $("#dcontent").val();
 			if(dcontent == null || dcontent == "") {
-				alert(dcontent)
 				return false;
 			}
 		}

@@ -18,6 +18,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,7 +59,7 @@ public class CoachController {
 	 */
 	@RequestMapping("/login.do")
 	@ResponseBody
-	public String login(String c_name,String c_password,Integer remenber ){
+	public String login(@Validated String c_name,@Validated String c_password,Integer remenber ){
 		//产生一个用户（门面对象）
 		Subject currentUser = SecurityUtils.getSubject();
 		 if (!currentUser.isAuthenticated()) {
@@ -107,7 +108,7 @@ public class CoachController {
 	
 	@RequestMapping("/register.do")
 	@ResponseBody
-	public String register(CoachBean coach){
+	public String register(@Validated CoachBean coach){
 		String id = UUID.randomUUID().toString();
 		/**
 		 * 暂未加盐
@@ -182,7 +183,7 @@ public class CoachController {
 	 */
 	@RequestMapping("/showCoachHome.do")
 	public String showCoachHome(ModelMap map){
-		List<GymBean> list = service.showAllGym();
+		List<GymBean> list = service.showHotGym();
 		map.put("gym", list);
 		return "/html/coach/coach.html";
 	}
@@ -492,6 +493,7 @@ public class CoachController {
 		List<PictureBean> pictureList = gs.findAllPic(coach.getC_g_id(), 1);
 		List<LessonBean> lessonList = service.listLessons(coach.getC_id());
 		map.put("gym", gym);
+		System.out.println(gym);
 		map.put("lessonList", lessonList);
 		map.put("pictureList", pictureList);
 		return "html/coach/mySign.html";
@@ -534,5 +536,21 @@ public class CoachController {
 		}
 		map.put("list", list);
 		return "/html/coach/addLesson.html";
+	}
+	
+	/**
+	 * 教练申请签约场馆
+	 * @param r_reqid 教练id
+	 * @param r_resid 场馆id
+	 * @return 
+	 */
+	@RequestMapping("/lessonDone.do")
+	public void lessonDone(String stuId){
+		int r_state = 5;
+		Object obj = getUser();
+		if (obj != null) {
+			CoachBean coach = (CoachBean)obj;
+			service.updateRequest(stuId,coach.getC_id(),r_state);
+		}
 	}
 }
