@@ -77,13 +77,13 @@ public class StudentDaoTest extends BaseTest {
 		dao.subMoney(id, money);
 	}
 	
-	@Test 
+	/*@Test 
 	public void testfindcoach(){
 		String id ="s001";
 		List<CoachBean> coach = dao.findCoachbyStudentId(id);
 		System.out.println(coach);
 	}
-	
+	*/
 	
 	@Test
 	public void testaddorder(){

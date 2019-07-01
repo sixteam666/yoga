@@ -5,6 +5,7 @@ import java.util.List;
 import com.project.bean.CoachBean;
 import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
+import com.project.bean.POrderBean;
 import com.project.bean.RequestBean;
 import com.project.bean.StudentBean;
 import com.project.bean.WordsBean;
@@ -78,7 +79,7 @@ public interface IStudentService{
 	 * @param id
 	 * @return CoachBean
 	 */
-	public List<CoachBean> findCoachbyStudentId(String id);
+	public List<String> findCoachidbyStudentId(String id);
 	
 	/**
 	 * 充值到钱包
@@ -104,6 +105,20 @@ public interface IStudentService{
 	 */
 	public boolean addorder(OrderBean order); 
 	
+	/**
+	 * 通过订单id查询订单及相关信息
+	 * @param orderid
+	 * @return
+	 */
+	public OrderBean findorderbyid(int orderid);
+	
+	
+	/**
+	 * 通过私教订单id查询私教订单及相关信息
+	 * @param orderid
+	 * @return
+	 */
+	public POrderBean findPorderbyid(int porderid);
 	
 	
 	/**
@@ -111,7 +126,7 @@ public interface IStudentService{
 	 * @param id
 	 * @return
 	 */
-	public List<OrderBean> findorderbyid(String id);
+	public List<OrderBean> listorderbystuid(String id);
 	
 	/**
 	 * 修改订单状态
@@ -138,11 +153,21 @@ public interface IStudentService{
 	
 	
 	/**
-	 * 查询学生所有课程
+	 * 查询学生所有公共课程
 	 * @param id
 	 * @return
 	 */
 	public List<LessonBean> findcourse(String id);
+	
+	
+	
+	
+	/**
+	 * 查询私教订单
+	 * @param id
+	 * @return
+	 */
+	public List<POrderBean> listporder(String id);
 	
 	/**
 	 * 查询我的学员粉丝

@@ -12,6 +12,28 @@ public class POrderBean {
 	private String po_s_id;
 	private String po_c_id;
 	private double po_price;
+	private GymBean gym;
+	private CoachBean coach;
+	private String code;
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public GymBean getGym() {
+		return gym;
+	}
+	public void setGym(GymBean gym) {
+		this.gym = gym;
+	}
+	public CoachBean getCoach() {
+		return coach;
+	}
+	public void setCoach(CoachBean coach) {
+		this.coach = coach;
+	}
+	
 	public int getPo_id() {
 		return po_id;
 	}

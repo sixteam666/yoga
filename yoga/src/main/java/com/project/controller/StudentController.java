@@ -30,6 +30,7 @@ import com.project.bean.DynamicBean;
 import com.project.bean.GymBean;
 import com.project.bean.LessonBean;
 import com.project.bean.OrderBean;
+import com.project.bean.POrderBean;
 import com.project.bean.RequestBean;
 import com.project.bean.ShowWordsBean;
 import com.project.bean.StudentBean;
@@ -257,7 +258,12 @@ public class StudentController {
 				String id = stu.getS_id();
 				List<LessonBean> lessonlist = service.findcourse(id);
 				m.addAttribute("lesson", lessonlist);
-				List<CoachBean> coachlist =service.findCoachbyStudentId(id);
+				List<CoachBean> coachlist = new ArrayList<CoachBean>();
+				List<String> coachidlist =service.findCoachidbyStudentId(id);
+					for (String string : coachidlist) {
+						 CoachBean coach = coachService.getCoachById(string);
+						 		coachlist.add(coach);
+					}
 				m.addAttribute("coach", coachlist);
 				return "html/student/className.html";
 			}
@@ -396,8 +402,32 @@ public class StudentController {
 			}
 			
 			
+			
 			/**
-			 * 我的订单
+			 * 公共课支付订单
+			 * @return
+			 */
+			@RequestMapping("/pay.do")
+			public String pay(ModelMap m,int orderid){
+				OrderBean order = service.findorderbyid(orderid);
+				m.addAttribute("order",order);
+				return "/html/student/pay.html";
+			}
+			
+			
+			/**
+			 * 私教课支付订单
+			 * @return
+			 */
+			@RequestMapping("/payp.do")
+			public String payp(ModelMap m,int porderid){
+				POrderBean porder = service.findPorderbyid(porderid);
+				m.addAttribute("porder",porder);
+				return "/html/student/pay2.html";
+			}
+			
+			/**
+			 * 查询我的订单
 			 * @param m
 			 * @return
 			 */
@@ -406,8 +436,10 @@ public class StudentController {
 				Session session = SecurityUtils.getSubject().getSession();
 				StudentBean stu=(StudentBean) session.getAttribute("stu");
 				String id = stu.getS_id();
-				List<OrderBean> orderlist = service.findorderbyid(id);
+				List<OrderBean> orderlist = service.listorderbystuid(id);
 				m.addAttribute("order", orderlist);
+				List<POrderBean> listpo = service.listporder(id);
+				m.addAttribute("porder", listpo);
 				return "html/student/order.html";
 			}
 		
@@ -496,7 +528,7 @@ public class StudentController {
 			}
 			
 			/**
-			 * 认证教练
+			 * 查询认证教练
 			 */
 			@RequestMapping("/showCoach.do")
 			public String showCoach(Model model){
@@ -579,9 +611,14 @@ public class StudentController {
 				return "/html/student/addLesson.html";
 			}
 			
+			/**
+			 * 确认订单
+			 * @param lessonid
+			 * @return
+			 */
 			@RequestMapping("/order.do")
 			@ResponseBody
-			public boolean purchase(int lessonid){
+			public int purchase(int lessonid){
 				Session session = SecurityUtils.getSubject().getSession();
 				StudentBean stu=(StudentBean) session.getAttribute("stu");
 				String stuid = stu.getS_id();
@@ -596,11 +633,11 @@ public class StudentController {
 					order.setO_s_id(stuid);
 					order.setO_time(date2String);
 					service.addorder(order);
-					return true;
+					return order.getO_id();
 				}
 				else {
 					
-					return false;
+					return 0;
 				}
 			}	
 				
@@ -626,6 +663,6 @@ public class StudentController {
 				map.put("sb", sb);
 				return "/html/student/hispage.html";
 			}
-			
+		
 			
 }

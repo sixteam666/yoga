@@ -3,22 +3,11 @@
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>我的订单</title>
+	<title>充值中心</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
 	<meta name="author" content="FreeHTML5.co" />
-
-  	<!-- Facebook and Twitter integration -->
-	<meta property="og:title" content=""/>
-	<meta property="og:image" content=""/>
-	<meta property="og:url" content=""/>
-	<meta property="og:site_name" content=""/>
-	<meta property="og:description" content=""/>
-	<meta name="twitter:title" content="" />
-	<meta name="twitter:image" content="" />
-	<meta name="twitter:url" content="" />
-	<meta name="twitter:card" content="" />
 
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
 	
@@ -48,58 +37,85 @@
 	<script src="../../js/modernizr-2.6.2.min.js"></script>
 
 	</head>
+	<style type="text/css">
+		.fon{
+			font-family: "微软雅黑";
+		}
+	</style>
 	<body>
 		
 	<div class="gtco-loader"></div>
-		<div th:replace="html/student/frag.html::common_head">
-	</div>
 	
+	<div id="page">
+
+	
+	<nav class="gtco-nav" role="navigation">
+		<div class="gtco-container">
+			
+			<div class="row" style="background-color:#09C6AB ;">
+				<div class="col-sm-4 col-xs-12">
+					<ul>
+						<li><a href="student.html" class="fon">首页</a></li>
+						<li><a href="showGym.html" class="fon">所有场馆</a></li>
+						<li><a href="showCoach.html" class="fon">认证教练</a></li>
+						<li class="has-dropdown">
+							<a href="#">动态</a>
+							<ul class="dropdown">
+								<li><a href="showMessage.html">我的关注</a></li>
+								<li><a href="showMessage.html">附近的人</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="col-xs-8 text-right menu-1">
+					<ul>
+						<li class="has-dropdown">
+							<span style="color: white;">欢迎您，用户名</span>
+							<a href="#">注销</a>
+						</li>
+						<li class="has-dropdown">
+							<a href="#">个人中心</a>
+							<ul class="dropdown">
+								<li><a href="my.html">个人资料</a></li>
+								<li><a href="className.html">我的课程</a></li>
+								<li><a href="order.html">我的订单</a></li>
+								<li><a href="attention.html">我的关注</a></li>
+								<li><a href="inform.html">我的通知</a></li>
+							</ul>
+						</li>
+					</ul>	
+			</div>
+			</div>
+			
+		</div>
+	</nav>
 	
 	<div class="gtco-section border-bottom">
-		<div class="gtco-container">
+		<div class="gtco-container" align="center">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-					<h2>我的订单</h2>
+					<h2>充值中心</h2>
 				</div>
 			</div>
-			<div class="row">
-				<!-- 			公共课 -->
-				<div th:each="order : ${order} " class="col-md-4">
-					<div  class="price-box">
-						<h5 th:text="| ${order.gym.g_name} >|" align="left" class="pricing-plan">青脉健身馆  ></h5>
-						<h2 th:text="${order.lessonname}" class="pricing-plan">课程名称</h2>
-						<p th:text="| 订单编号 : ${order.code}|">订单编号：xxxxxx</p>
-						<div class="price" ><sup class="currency">￥</sup><span th:text="${order.o_price}">500</span><small>元</small></div>
+			<div align="center">
+				
+				<form action="/student/alipay.do">
+				<div>
+					<div>
+						<h2 class="pricing-plan">自定义充值</h2>
+						<div class="price"><sup class="currency">￥</sup>
+							<input style="width: 150px;height: 50px;font-size: 18px;" type="text" name="money" id="money" placeholder="请输入充值金额"/>
+							<small>元</small></div>
 						<hr>
-						<ul class="pricing-info">
-							<li th:if="${order.o_status}==1">订单状态：未支付</li>
-							<li th:if="${order.o_status}==2">订单状态：已支付</li>
-							<li th:text="| 下单时间: ${order.o_time}|">下单时间：xxx</li>
-						</ul>
-						<a th:if="${order.o_status}==1" th:href="@{'/student/pay.do?orderid='+${order.o_id}}" class="btn btn-primary">去支付</a>
-						<a th:if="${order.o_status}==2" href="#" class="btn btn-primary">评价</a>
+						<input type="submit" class="btn btn-primary" value="支付宝支付">
 					</div>
 				</div>
-					<!-- 	私教课 -->
-				<div th:each="porder : ${porder} " class="col-md-4">
-					<div  class="price-box">
-						<h5 th:text="| ${porder.gym.g_name} >|" align="left" class="pricing-plan">青脉健身馆  ></h5>
-						<h2 class="pricing-plan">私教课程</h2>
-						<p th:text="| dsa : ${porder.code}|">订单编号：xxxxxx</p>
-						<div class="price" ><sup class="currency">￥</sup><span th:text="${porder.po_price}">500</span><small>元</small></div>
-						<hr>
-						<ul class="pricing-info">
-							<li th:if="${porder.po_status}==1">订单状态：未支付</li>
-							<li th:if="${porder.po_status}==2">订单状态：已支付</li>
-							<li th:text="| 下单时间: ${porder.po_time}|">下单时间：xxx</li>
-						</ul>
-						<a th:if="${porder.po_status}==1" th:href="@{'/student/payp.do?porderid='+${porder.po_id}}" class="btn btn-primary">去支付</a>
-						<a th:if="${porder.po_status}==2" href="#" class="btn btn-primary">评价</a>
-					</div>
-				</div>
+				</form>
+				
 			</div>
 		</div>
 	</div>
+	
 	
 	<footer id="gtco-footer" role="contentinfo">
 		<div class="gtco-container">
@@ -180,3 +196,4 @@
 
 	</body>
 </html>
+

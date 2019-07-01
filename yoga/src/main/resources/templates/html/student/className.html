@@ -98,9 +98,9 @@
                  <!-- 私教课课表 -->
                 <div class="col-md-4  ">
                     <div class="panel panel-default">
-                        <div class="panel-heading"><font ><font  >
-                           			 私教课
-                        </font></font></div>
+                        <div class="panel-heading">
+                        	<font >私教课</font>
+                        </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="table-responsive">
@@ -141,7 +141,7 @@
                             <div class="table-responsive">
                                 <table class="table table-hover">
                                     <thead>
-                                        <tr>
+                                        <tr >
                                             <th><font ><font  >教练姓名</font></font></th>
                                             <th><font ><font  >教练qq</font></font></th>
                                             <th><font ><font  >教练电话</font></font></th>
@@ -150,10 +150,10 @@
                                     </thead>
                                     <tbody>
                                         <tr th:each="coach : ${coach}">
-                                            <td><font th:text="${coach.c_name}" ><font>王老师</font></font></td>
-                                            <td><font th:text="${coach.c_qq}"  ><font >标记</font></font></td>
-                                            <td><font th:text="${coach.c_phone}" ><font  >玫瑰油</font></font></td>
-                                            <td><font th:text="${coach.c_name}" ><font>@mdo</font></font></td>
+                                            <td><font th:text="${coach.c_name}" ><font>老师名字</font></font></td>
+                                            <td><font th:text="${coach.c_qq}"  ><font >qq</font></font></td>
+                                            <td><font th:text="${coach.c_phone}" ><font  >电话</font></font></td>
+                                            <td><font th:text="${coach.gym.g_name}" ><font>所属场馆</font></font></td>
                                         </tr>
                                        
                                     </tbody>

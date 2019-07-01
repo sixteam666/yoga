@@ -42,16 +42,16 @@
 		<img class="col-md-1 col-md-offset-1" src="/image/logo/logo.jpg">
 		<h4 style="margin-top:30px" class="col-md-1 col-md-offset-0  text-center ">收银台</h4>
 		<div  class="col-md-2 col-md-offset-1" >
-			<p th:text="|课程内容:${order.lessonname}|">课程信息:1234646</p>
-			<p th:text="|商家: ${order.gym.g_name} |">场馆名</p>
+			<p th:text="|私教课程-教练: ${porder.coach.c_name} |">教练名</p>
+			<p th:text="|商家: ${porder.gym.g_name} |">场馆名</p>
 		</div>
 		<div class="col-md-2 " >
-			<p th:text="|订单编号 : ${order.code}|">订单编号:123131231</p>
-			<p th:text="|下单时间: ${order.o_time}|">下单时间</p>
+			<p th:text="|订单编号 : ${porder.code}|">订单编号:123131231</p>
+			<p th:text="|下单时间: ${porder.po_time}|">下单时间</p>
 		</div>
 		<div class="col-md-3 col-md-offset-0 price" >
 			<sup class="currency">￥</sup>	
-			<span th:text="${order.o_price}" >500</span>
+			<span th:text="${porder.po_price}" >500</span>
 			<small>元</small>
 		</div>
 	</div>	

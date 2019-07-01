@@ -265,9 +265,9 @@
  			url:"/student/order.do",
  			data:"lessonid="+lessonid, 
  			success:function(mes){
- 				if(mes){
- 					alert("订单生成成功")
- 					window.location.reload()
+ 				if(mes!=0){
+ 					alert("订单生成成功");
+ 					window.location.href="/student/pay.do?orderid="+mes
  				}else{
  					alert("余额不足")
  				}
