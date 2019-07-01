@@ -54,9 +54,9 @@
 			border-radius: 10px;
 		}
 		
-		.table.coach tr:hover{
+		/* .table.coach tr:hover{
 			background-color: rgb(9,198,171);
-		}
+		} */
 		
 		.coach_name{
 			color: black;
@@ -70,7 +70,8 @@
 		#coach_controller{
 			float: right;
 			height: 80%;
-			margin-top: 60px;
+			margin-top: 10px;
+			margin-right:20px;
 		}
 	</style>
 	<body>
@@ -110,16 +111,17 @@
 					<table id="MySign" class="table coach table-striped MySign">
 						<tr th:each="gy,iterStat : ${gymList}">
 							<td>
-								<div><img class="gym_headimg" th:src="@{../../images/imgs/}+${gy.g_headimg}"></div>
+								<div><a th:href="@{/coach/showGymDetail.do?gymId=}+${gy.g_id}"><img class="gym_headimg" th:src="@{../../images/imgs/}+${gy.g_headimg}"></a></div>
 								<div>&nbsp;&nbsp;&nbsp;
 									<span class="gym_name" th:text="${gy.g_name}">null</span>
-									<a class="gym_tips" th:href="@{/coach/showGymDetail.do?gymId=}+${gy.g_id}">（点击头像查看场馆信息）</a><br><br/>
+									<a class="gym_tips" >（点击头像查看场馆信息）</a><br><br/>
 									<span class="gym_sms">&nbsp;&nbsp;&nbsp;&nbsp;该场馆很欣赏你，希望和您签约，赶快回复他</span></br>
+									
 								</div>
  								<div id="coach_controller">
- 									
-									<button  idx="1" th:value="${gy.g_id}" th:onclick="deal_gym(this)" th:text="同意"></button>&nbsp;&nbsp;&nbsp;&nbsp;
-									<button  idx="2" th:value="${gy.g_id}" th:onclick="deal_gym(this)" th:text="拒绝"></button>
+ 									<span th:text="${gy.g_password}">2019-06-01&nbsp;&nbsp;10:15:02</span><!-- 时间封装为密码字段 --></br></br>
+									<button class="btn-info" idx="1" th:value="${gy.g_id}" th:onclick="deal_gym(this)" th:text="同意"></button>&nbsp;&nbsp;&nbsp;&nbsp;
+									<button class="btn-danger" idx="2" th:value="${gy.g_id}" th:onclick="deal_gym(this)" th:text="拒绝"></button>
 								</div>
 							</td>
 						</tr>
@@ -140,10 +142,12 @@
 									<span class="student_name" th:text="${st.s_name}">null</span>
 									<a class="student_tips" th:href="@{/coach/showStuDetail.do?stuId=}+${st.s_id}">（点击头像查看学员个人信息）</a><br><br/>
 									<span class="student_sms">&nbsp;&nbsp;&nbsp;&nbsp;对方对你很感兴趣，希望选您的课程，赶快回复他</span>
+									<span th:text="${st.s_password}">2019-06-01&nbsp;&nbsp;10:15:02</span><!-- 时间封装为密码字段 -->
 								</div>
  								<div id="coach_controller">
- 									<button idx="1" th:value="${st.s_id}" th:onclick="deal_stu(this)" th:text="同意"></button>&nbsp;&nbsp;&nbsp;&nbsp;
-									<button idx="2" th:value="${st.s_id}" th:onclick="deal_stu(this)" th:text="拒绝"></button>
+ 									<span th:text="${st.s_password}">2019-06-01&nbsp;&nbsp;10:15:02</span><!-- 时间封装为密码字段 --></br></br>
+ 									<button class="btn-info" idx="1" th:value="${st.s_id}" th:onclick="deal_stu(this)" th:text="同意"></button>&nbsp;&nbsp;&nbsp;&nbsp;
+									<button class="btn-danger" idx="2" th:value="${st.s_id}" th:onclick="deal_stu(this)" th:text="拒绝"></button>
 								</div>
 							</td>
 						</tr>
@@ -232,7 +236,7 @@
 					$("#MySign").text("暂无申请通知")
 				}
 				if ($("#MySign2").children().html()==undefined) {
-					$("#MySign2").text("暂无申请通知")
+					$("#MySign2").text("暂无学员约课")
 				}
 				
 			}

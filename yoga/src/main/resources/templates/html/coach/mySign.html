@@ -74,8 +74,8 @@
 	<div th:replace="html/coach/showGym.html::coach_header"></div>	
 	
 	<div class="row" style="margin:130px 0 0">
-		<div th:if="${gym==null}"><p>你还未签约任何场馆，赶紧<a href="/coach/showAllGym.do">去签约</a>一个吧！</p></div>
-		<div th:if="${gym!=null}" class="col-md-3 col-md-offset-1 text-center">
+		<div th:if="${gym.g_id=='0'}" class="col-md-3 col-md-offset-1 text-center"><p>你还未签约任何场馆，赶紧<a href="/coach/showAllGym.do">去签约</a>一个吧！</p></div>
+		<div th:if="${gym.g_id!='0'}" class="col-md-3 col-md-offset-1 text-center">
 			<div class="price-box" style="z-index:-5">
 				<img style="z-index:-2;display:inline" th:src="@{/image/gymImg/}+${pictureList[0].p_imgname}">
 				<img th:id="|img${iterStat.index}|" th:each="picture,iterStat : ${pictureList}" th:src="@{/image/gymImg/}+${picture.p_imgname}">

@@ -89,8 +89,9 @@ public class CoachServiceImpl implements ICoachService {
 
 	@Override
 	public List<GymBean> showAllGym() {
-		return gymDao.findHotGym();
+		return gymDao.findAllGym();
 	}
+	
 
 	@Override
 	public List<StudentBean> showAllStu() {
@@ -108,7 +109,7 @@ public class CoachServiceImpl implements ICoachService {
 		//先查询两个对象之间是否有申请关系
 		Object obj = reDao.findIsRequest(r_reqid, r_resid);
 		if (obj == null) {
-			String time = DateUtil.Date2String(new Date(), "yyyy-MM-dd HH-mm-ss");
+			String time = DateUtil.Date2String(new Date(), "yyyy年MM月dd HH:mm");
 			row = reDao.addRequest(r_reqid, r_resid,time);
 		}else{
 			RequestBean rb = (RequestBean) obj;
@@ -335,6 +336,12 @@ public class CoachServiceImpl implements ICoachService {
 	@Override
 	public List<StudentBean> findMyAdviseStu(String resid) {
 		List<StudentBean> list = reDao.findStuToMe(resid);
+		return list;
+	}
+
+	@Override
+	public List<GymBean> showHotGym() {
+		List<GymBean> list = gymDao.findHotGym();
 		return list;
 	}
 
