@@ -89,8 +89,8 @@
 		<div class="gtco-container">
 			<div class="row">
 				<div class="col-md-7 col-md-offset-5 text-left" style="padding:0 0 20px">
-					<img th:src=@{/image/headImg/}+${session.coach.c_headimg} class="round_icon"/>
-					<span th:text="${session.coach.c_nickname}" style="font-weight:bold"></span>
+					<img th:src=@{/image/headImg/}+${coach.c_headimg} class="round_icon"/>
+					<span th:text="${coach.c_nickname}" style="font-weight:bold"></span>
 				</div>
 				<div class="col-md-1 col-md-offset-4 text-center">
 					<a th:href="@{/dynamic/follow.do}">关注&nbsp;&nbsp;&nbsp;<span th:text="${follow}"></span></a>
@@ -104,7 +104,10 @@
 			</div>
 			<hr>
 			<div class="row">
-				<div th:each="dynamic : ${dynamicList}" class="col-md-10 col-md-offset-1">
+				<div th:if="${#lists.isEmpty(dynamicList)}" class="col-md-10 col-md-offset-1">
+					你还未发表过任何动态
+				</div>
+				<div th:if="${not #lists.isEmpty(dynamicList)}" th:each="dynamic : ${dynamicList}" class="col-md-10 col-md-offset-1">
 					<div class="row">
 						<div class="col-md-1">
 							<a href="#">

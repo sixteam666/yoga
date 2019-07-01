@@ -92,6 +92,7 @@ public class StudentController {
 		 StudentBean student = service.findStudentbyName(arg1);
 		 Session session = currentUser.getSession(true);
 		 session.setAttribute("stu", student);
+		 session.setAttribute("id", student.getS_id());
 		 return "认证成功";
 	}
 	
@@ -438,8 +439,8 @@ public class StudentController {
 				StudentBean studentBean = service.findStudentbyId(id);
 				if (studentBean == null) {
 					CoachBean coachBean = coachService.getCoachById(id);
-					m.addAttribute("user",coachBean);
-					return "/coach/showToOther.do  ";
+					//m.addAttribute("user",coachBean);
+					return "redirect:/dynamic/showOther.do?id="+id;
 				}
 				m.addAttribute("user",studentBean);
 				return "html/student/hispage.html";

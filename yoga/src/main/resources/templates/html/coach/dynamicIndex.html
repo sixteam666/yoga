@@ -141,24 +141,26 @@
 					<p><a th:href="|/coach/showToOther.do?coachId=${coach.c_id}|">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他的主页</a></p>
 					<ul class="personInfo">
 						<li>
-							<a th:href="@{/dynamic/follow.do}">关注&nbsp;&nbsp;&nbsp;
+							<a href="#">关注&nbsp;&nbsp;&nbsp;
 								<span th:text="${follow}"></span>
 							</a>
 						</li>
 						<li>
-							<a th:href="@{/dynamic/following.do}">粉丝&nbsp;&nbsp;&nbsp;
+							<a href="#">粉丝&nbsp;&nbsp;&nbsp;
 								<span th:text="${following}"></span>
 							</a>
 						</li>
 						<li>
-							<a th:href="@{/dynamic/friends.do}">好友&nbsp;&nbsp;&nbsp;
+							<a href="#">好友&nbsp;&nbsp;&nbsp;
 								<span th:text="${friends}"></span>
 							</a>
 						</li>
 					</ul>
 					<br>
-					<button style="background-color:#2fddc3;color:white;border:none;margin-left:15px"
-					th:onclick="|addFollow(this)|">&nbsp;+&nbsp;&nbsp;关注</button>
+					<button th:if="${coach.c_privacy!=-1}" style="background-color:#2fddc3;color:white;border:none;margin-left:15px"
+					th:value="${coach.c_id}" th:onclick="|addFollow(this)|">&nbsp;+&nbsp;&nbsp;关注</button>
+					<button th:if="${coach.c_privacy==-1}" style="background-color:#2fddc3;color:white;border:none;margin-left:15px"
+					th:value="${coach.c_id}" th:onclick="|cancelFollow(this)|">取消关注</button>
 				</div>
 				
 				<div class="col-md-9">
@@ -166,12 +168,12 @@
 						<div th:each="dynamic : ${dynamicList}" class="col-md-12">
 							<div class="row">
 								<div class="col-md-1">
-									<a href="#">
+									<a>
 										<img th:src="@{/image/headImg/}+${dynamic.d_headimg}" class="round_icon2">
 									</a>
 								</div>
 								<div class="col-md-6 little">
-									<a href="#">
+									<a>
 										<span th:text="${dynamic.d_nickname}">猜猜我是谁</span>
 									</a>
 									<p th:text="${dynamic.d_time}">今天 13:20</p>
@@ -284,6 +286,33 @@
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-
+	<script>
+		//添加关注
+		function addFollow(obj) {
+			var followId = $(obj).attr("value");
+			$.ajax({
+				url: "/dynamic/addFollow.do",
+				type: "post",
+				data: "followId="+followId,
+				success: function() {
+					$(obj).html("取消关注");
+					$(obj).attr("onclick","cancelFollow(this)");
+				}
+			});
+		}
+		//取消关注
+		function cancelFollow(obj) {
+			var followId = $(obj).attr("value");
+			$.ajax({
+				url: "/dynamic/cancelFollow.do",
+				type: "post",
+				data: "followId="+followId,
+				success: function() {
+					$(obj).html("&nbsp;+&nbsp;&nbsp;关注");
+					$(obj).attr("onclick","addFollow(this)");
+				}
+			});
+		}
+	</script>
 	</body>
 </html>

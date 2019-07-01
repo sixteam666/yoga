@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -25,6 +24,7 @@ import com.project.bean.StudentBean;
 import com.project.service.IBlogService;
 import com.project.service.ICoachService;
 import com.project.service.IGymService;
+import com.project.service.IStudentService;
 import com.project.util.DateUtil;
 import com.project.util.FileUtil;
 import com.project.util.UploadPathConstant;
@@ -37,6 +37,8 @@ public class DynamicController {
 	private IBlogService blogService;
 	@Autowired
 	private ICoachService coachService;
+	@Autowired
+	private IStudentService stuService;
 	@Autowired
 	@Qualifier("gymService")
 	private IGymService gymService;
@@ -54,7 +56,7 @@ public class DynamicController {
 		map.put("dynamicList", dynamicList);
 		//根据session判断当前登陆用户类型,分类转发
 		if (session.getAttribute("stu")!=null) {
-			return "/html/student/dynamic.html";
+			return "html/student/dynamic.html";
 		}else if (session.getAttribute("coach")!=null) {
 			return "/html/coach/dynamic.html";
 		}else if (session.getAttribute("gym")!=null) {
@@ -112,18 +114,19 @@ public class DynamicController {
 	}
 	
 	/**
-	 * 显示自己所有动态
+	 * 显示教练自己所有动态
 	 * @param map
 	 * @return
 	 */
 	@RequestMapping("showMy.do")
 	public String showMyDynamics(ModelMap map) {
 		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		
+		CoachBean coach = coachService.getCoachById(id);
 		List<DynamicBean> myDynamicList = blogService.listDynamicsById(id);
 		Integer follow = blogService.countFollow(id);
 		Integer following = blogService.countFollowing(id);
 		Integer friends = blogService.countFriends(id);
+		map.put("coach", coach);
 		map.put("dynamicList", myDynamicList);
 		map.put("follow", follow);
 		map.put("following", following);
@@ -157,28 +160,35 @@ public class DynamicController {
 	@RequestMapping("showOther.do")
 	public String showMyDynamics(String id,ModelMap map) {
 		String currentId = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
-		if(id.equals(currentId)) {
-			return "redirect:/dynamic/showMy.do";
-		}
-		
-		//还可能是学员，或场馆
-		CoachBean coach = coachService.getCoachById(id);
-		
-		
-		if(blogService.isFollow(currentId, id)){
-			coach.setC_privacy(-1);
-		}
-		
-		
 		List<DynamicBean> myDynamicList = blogService.listDynamicsById(id);
 		Integer follow = blogService.countFollow(id);
 		Integer following = blogService.countFollowing(id);
 		Integer friends = blogService.countFriends(id);
-		map.put("coach", coach);
 		map.put("dynamicList", myDynamicList);
 		map.put("follow", follow);
 		map.put("following", following);
 		map.put("friends", friends);
+		
+		//还可能是学员，或场馆
+		CoachBean coach = coachService.getCoachById(id);
+		if(coach==null) {
+			StudentBean stu = stuService.findStudentbyId(id);
+			//跳转学生要在展示的页面...
+			if(stu==null) {
+				//跳转教练要展示的页面...
+				gymService.findGymById(id);
+			}
+			return "/student/hispage.do?id="+id;
+		}
+		
+		//如果查看的人是教练，先判断是不是自己查看自己
+		if(id.equals(currentId)) {
+			return "redirect:/dynamic/showMy.do";
+		}
+		map.put("coach", coach);
+		if(blogService.isFollow(currentId, id)){
+			coach.setC_privacy(-1);
+		}
 		return "/html/coach/dynamicIndex.html";
 	}
 	
@@ -366,6 +376,8 @@ public class DynamicController {
 	 * 取消关注
 	 * @param followId
 	 */
+	@RequestMapping("cancelFollow.do")
+	@ResponseBody
 	public void cancelFollow(String followId) {
 		blogService.cancelFollow(followId);
 	}
