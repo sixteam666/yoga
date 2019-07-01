@@ -74,5 +74,4 @@ public interface IRequestDao {
 	@Select("select * from t_request where r_resid = #{id}")
 	public List<RequestBean> listrequest(String id);
 	
-	
 }

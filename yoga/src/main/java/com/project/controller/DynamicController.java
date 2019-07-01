@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -122,6 +123,7 @@ public class DynamicController {
 	public String showMyDynamics(ModelMap map) {
 		String id = (String) SecurityUtils.getSubject().getSession().getAttribute("id");
 		CoachBean coach = coachService.getCoachById(id);
+		
 		List<DynamicBean> myDynamicList = blogService.listDynamicsById(id);
 		Integer follow = blogService.countFollow(id);
 		Integer following = blogService.countFollowing(id);

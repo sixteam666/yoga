@@ -104,6 +104,7 @@
 		.comment li:hover {
 			background-color:skyblue;
 		}
+<<<<<<< HEAD
 		
 		/*九宫格显示图片*/
 	    ul { list-style: none outside none; margin:0; padding: 0; }
@@ -122,6 +123,8 @@
 	        height: 100px;
 	    }
 		
+=======
+>>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 	</style>
 </head>
 <body>
@@ -129,11 +132,15 @@
 	<div id="page"></div>
 	<div th:replace="/html/coach/showGym.html::coach_header"></div>
 	<div style="height:100px"></div>
+<<<<<<< HEAD
 	
+=======
+>>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2 ">
 			<div class="row">
 				<div class="col-md-3 text-left">
+<<<<<<< HEAD
 					<img th:src=@{/image/headImg/}+${coach.c_headimg} class="round_icon"/>
 					<div class="zhuanyou">
 						<span th:text="${coach.c_nickname}"></span>
@@ -161,6 +168,33 @@
 					th:value="${coach.c_id}" th:onclick="|addFollow(this)|">&nbsp;+&nbsp;&nbsp;关注</button>
 					<button th:if="${coach.c_privacy==-1}" style="background-color:#2fddc3;color:white;border:none;margin-left:15px"
 					th:value="${coach.c_id}" th:onclick="|cancelFollow(this)|">取消关注</button>
+=======
+					<img th:src=@{/image/headImg/}+${session.coach.c_headimg} class="round_icon"/>
+					<div class="zhuanyou">
+						<span th:text="${session.coach.c_nickname}"></span>
+					</div>
+					<p><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他的主页</a></p>
+					<ul class="personInfo">
+						<li>
+							<a th:href="@{/dynamic/follow.do}">关注&nbsp;&nbsp;&nbsp;
+								<span th:text="${follow}"></span>
+							</a>
+						</li>
+						<li>
+							<a th:href="@{/dynamic/following.do}">粉丝&nbsp;&nbsp;&nbsp;
+								<span th:text="${following}"></span>
+							</a>
+						</li>
+						<li>
+							<a th:href="@{/dynamic/friends.do}">好友&nbsp;&nbsp;&nbsp;
+								<span th:text="${friends}"></span>
+							</a>
+						</li>
+					</ul>
+					<br>
+					<button style="background-color:#2fddc3;color:white;border:none;margin-left:15px"
+					th:onclick="|addFollow(this)|">&nbsp;+&nbsp;&nbsp;关注</button>
+>>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 				</div>
 				
 				<div class="col-md-9">
@@ -168,6 +202,7 @@
 						<div th:each="dynamic : ${dynamicList}" class="col-md-12">
 							<div class="row">
 								<div class="col-md-1">
+<<<<<<< HEAD
 									<a>
 										<img th:src="@{/image/headImg/}+${dynamic.d_headimg}" class="round_icon2">
 									</a>
@@ -185,6 +220,25 @@
 									<p th:text="${dynamic.d_content}"></p>
 								</div>
 								<div class="col-md-7" th:if="${dynamic.pictures != null}">
+=======
+									<a href="#">
+										<img th:src="@{/image/headImg/}+${dynamic.d_headimg}" class="round_icon2">
+									</a>
+								</div>
+								<div class="col-md-6 little">
+									<a href="#">
+										<span th:text="${dynamic.d_nickname}">猜猜我是谁</span>
+									</a>
+									<p th:text="${dynamic.d_time}">今天 13:20</p>
+								</div>
+								<!-- <div class="col-md-2 col-md-offset-2">
+									<button style="background-color:#2fddc3;color:white;border:none" th:onclick="| window.location.href = '/dynamic/delete.do?id=${dynamic.d_id}' |">删除</button>
+								</div> -->
+								<div class="col-md-12">
+									<p th:text="${dynamic.d_content}"></p>
+								</div>
+								<div class="col-md-5" th:if="${dynamic.pictures != null}">
+>>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 									<ul class="mainmenu">
 								        <li th:each="picture : ${dynamic.pictures}">
 								        	<img th:src="|@{/image/dynamicImg/}${picture.dp_img}|" />

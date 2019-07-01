@@ -86,6 +86,19 @@
 			<p>场馆还未给你安排任何课程</p>
 		</div>
 		<div th:if="${not #lists.isEmpty(lessonList)}" class="col-md-7 text-center">
+=======
+		<div th:if="${gym==null}"><p>你还未签约任何场馆，赶紧<a href="/coach/showAllGym.do">去签约</a>一个吧！</p></div>
+		<div th:if="${gym!=null}" class="col-md-3 col-md-offset-1 text-center">
+			<div class="price-box" style="z-index:-5">
+				<img style="z-index:-2;display:inline" th:src="@{/image/gymImg/}+${pictureList[0].p_imgname}">
+				<img th:id="|img${iterStat.index}|" th:each="picture,iterStat : ${pictureList}" th:src="@{/image/gymImg/}+${picture.p_imgname}">
+				<h5 th:text="| ${gym.g_name} >|" style="text-align:left;margin-top:180px;font-size:25px;color:white" class="pricing-plan">青脉健身馆  ></h5>
+			</div>
+		</div>
+		<div th:if="${lessonList==null}" class="col-md-7 text-center">
+			<p>场馆还未给你安排任何课程</p>
+		</div>
+		<div th:if="${lessonList!=null}" class="col-md-7 text-center">
 			<table class="table table-bordered">
 				<caption style="text-align:center"><span style="font-size:18px">我的课程</span></caption>
 				<tr>

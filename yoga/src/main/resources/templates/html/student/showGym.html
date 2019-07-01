@@ -58,7 +58,7 @@
 			</div>
 			<div class="row">
 				<div class="col-lg-4 col-md-4 col-sm-6" th:each="gym : ${Gym}">
-					<a href="#" class="fh5co-card-item">
+					<a th:href="@{'/student/gym.do?gymid='+ ${gym.g_id} }" class="fh5co-card-item">
 						<figure>
 							<div class="overlay"><i class="ti-plus"></i></div>
 							<img src="../../images/img_1.jpg" th:src="@{'../../images/imgs/'+${gym.g_headimg}}" alt="Image" class="img-responsive">

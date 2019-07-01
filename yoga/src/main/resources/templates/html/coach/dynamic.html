@@ -407,8 +407,15 @@
 		}
 		//无内容时无法发表
 		function checkContent() {
+<<<<<<< HEAD
 			var dcontent = $("#dcontent").val();
 			if(dcontent == null || dcontent == "") {
+=======
+			var dcontent = $("#dcontent").html();
+			alert(dcontent)
+			if(dcontent == null || dcontent == "") {
+				alert(dcontent)
+>>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 				return false;
 			}
 		}

@@ -109,7 +109,7 @@ public class CoachServiceImpl implements ICoachService {
 		//先查询两个对象之间是否有申请关系
 		Object obj = reDao.findIsRequest(r_reqid, r_resid);
 		if (obj == null) {
-			String time = DateUtil.Date2String(new Date(), "yyyy年MM月dd HH:mm");
+			String time = DateUtil.Date2String(new Date(), "yyyy-MM-dd HH-mm-ss");
 			row = reDao.addRequest(r_reqid, r_resid,time);
 		}else{
 			RequestBean rb = (RequestBean) obj;
@@ -350,7 +350,5 @@ public class CoachServiceImpl implements ICoachService {
 		List<CoachBean> list = dao.findHotCoach();
 		return list;
 	}
-
-	
 
 }

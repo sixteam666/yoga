@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html >
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -111,44 +111,10 @@
 	
 	<body>
 		
+			
 	<div class="gtco-loader"></div>
-	
-	<div id="page"></div>
-
-	<nav class="gtco-nav" role="navigation" th:replace="/html/coach/showGym.html::coach_header">
-		<div class="gtco-container">
-			
-			<div class="row" style="background-color:#09C6AB ;">
-				<div class="col-sm-4 col-xs-12">
-					<ul>
-						<li><a href="gym.html" class="fon">首页</a></li>
-						<li><a href="showCoach.html" class="fon">教练</a></li>
-						<li><a href="showStudent.html" class="fon">学员</a></li>
-					</ul>
-				</div>
-				<div class="col-xs-8 text-right">
-					<ul>
-						<li class="has-dropdown" id="gym_top"><span style="color: white">点击登录</span></li>
-						<li class="has-dropdown">
-							<a href="#">场馆中心</a>
-							<ul class="dropdown">
-								<li><a href="/html/gym/index.html">场馆展示</a></li>
-								<li><a href="/gym/showMessage.do">场馆资料</a></li>
-								<li><a href="/html/gym/lesson.html">课程安排</a></li>
-								<li><a href="/html/gym/wallet.html">我的钱包</a></li>
-								<li><a href="/html/gym/myCoach.html">我的签约教练</a></li>
-								<li><a href="/html/gym/SignTheSign.html">我的通知</a></li>
-							</ul>
-						</li>
-					</ul>	
-			</div>
-			</div>
-			
-		</div>
-	</nav>
-	
-	
-	
+		<div th:replace="html/student/frag.html::common_head">
+	</div>
 	<div class="gtco-section">
 		<form action="/gym/updatePictures.do" method="post" enctype="multipart/form-data">
 			<div class="gtco-container">
@@ -158,14 +124,7 @@
 					</div>
 				</div>
 				<div class="row showPicture">
-				
-				
-					<input type="hidden" id="gymId" th:value="${gymBean.g_id}">
-					
-					
-					
 					<div id="box">
-					  
 					</div>
 					
 				</div>
@@ -195,7 +154,7 @@
 		</div>
 	</div>		
 	
-	<div class="gtco-container">
+		<div class="gtco-container">
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
 					<h2>场馆课程</h2>
@@ -306,15 +265,14 @@
 								<img src="/image/lessonImg/21.jpg" />
 							</td>
 						</tr>
-					</table>	
+					</table>
+						
 				</div>
-				
 			</div>
-	</div>
-	<div id="sign_gym">
-		<button id="sign_btn" th:onclick="sign_gym(this)"  class="btn btn-info" th:value="${gymBean.g_id}">申请签约</button>>
+		</div>
 	</div>
 		
+	</div>
 	
 	<footer id="gtco-footer" role="contentinfo">
 		<div class="gtco-container">
@@ -391,43 +349,21 @@
 
 	<!-- Main -->
 	<script src="../../js/main.js"></script>
-	<script src="../../js/index.js" ></script>
-	<script src="../../js/Slider.js" ></script>
-	<script src="../../js/basic.js" ></script>
+	
 	<script>
-		function sign_gym(obj){
-			$.ajax({
-				type:"post",
-				url:"/coach/signGym.do?r_resid="+$("#sign_btn").val()+"&r_state=1",
-				asycn:true,
-				success:function(re){
-					if (re == "hasGym") {
-						alert("你已有签约场馆")
-					}else if (re == "accept") {
-						$(obj).parents("tr").remove()
-						alert("签约成功")
-					}else if(re == "add" || re == "isRequest"){
-						alert("已向场馆发出申请")
-					}else if(re == "false"){
-						alert("申请失败")
-					}else {
-						alert("已拒绝")
-					}
-					
-				}
-			})
-		}
 		function showPictures(p_type){
+		
 			$.ajax({
 				type:"get",
 				async:false,
-				url:"/coach/showPictures.do",
-				data:"p_type="+p_type+"&gymId="+$("#gymId").val(), 
+				url:"/gym/showPictures.do",
+				data:"p_type="+p_type,
 				success:function(mes){
+					console.info(mes);
 					str = "";
 					if (mes.length>0 && mes!="") {
 						for(var i=0;i<mes.length;i++){
-							str+="<img src='/image/dynamicImg/"+mes[i].p_imgname+"'>"
+							str+="<img src='/image/gymImg/"+mes[i].p_imgname+"'>"
 						}
 					}
 					
@@ -437,12 +373,29 @@
 		}
 		showPictures(1) 
 		
+		 function showMsg(){
+			$.ajax({
+				type:"get",
+				async:false,
+				url:"/gym/findGymById.do",
+				//data:"p_type="+p_type, 
+				success:function(mes){
+					console.info(mes);
+					str = "";
+					str+="<h4 style='line-height: 30px;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+					if (mes!=null && mes!="") {
+						if (mes.g_message!=null && mes.g_message!="") {
+							str+=mes.g_message+"</h4>"
+						}else{
+							str+="暂无场馆简介信息，去<a href='/gym/showMessage.do'>场馆资料</a>添加信息！</h4>"
+						}
+					}
+					$(".gym_message").html(str);
+				}
+			});
+		}
+		showMsg()  
 		
-		var gymId = document.getElementById("gymId").value
-<<<<<<< HEAD
-=======
-		alert(gymId)
->>>>>>> branch 'master' of https://github.com/sixteam666/yoga.git
 		var aLesson = document.getElementsByClassName("lesson");
 		for(var i=0;i<aLesson.length;i++){
 		
@@ -453,7 +406,7 @@
 	        	var l_weekday = idx%7+1;
 				var l_datetime = parseInt(idx/7)+1;
 	        	
-	            window.location.href = "/coach/showLesson.do?l_weekday="+l_weekday+"&l_datetime="+l_datetime+"&l_g_id="+gymId;
+	            window.location.href = "/student/pickLesson.do?l_weekday="+l_weekday+"&l_datetime="+l_datetime;
 	        };
 	    }  
 		
